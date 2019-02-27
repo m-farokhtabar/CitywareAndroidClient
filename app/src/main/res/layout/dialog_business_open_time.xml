@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:shrinkColumns="*"
+        android:stretchColumns="*"
+        tools:ignore="UselessParent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/BackgroundThemeColor"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            tools:ignore="UselessParent">
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
+                android:gravity="center"
+                android:text="@string/to_hours"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontWhiteColor"
+                tools:ignore="HardcodedText,SpUsage" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
+                android:gravity="center"
+                android:text="@string/from_hours"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontWhiteColor"
+                tools:ignore="HardcodedText,SpUsage" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_span="2"
+                android:gravity="right"
+                android:text="@string/day_of_week"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontWhiteColor"
+                tools:ignore="HardcodedText,SpUsage" />
+        </TableRow>
+    </TableLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        />
+
+</LinearLayout>

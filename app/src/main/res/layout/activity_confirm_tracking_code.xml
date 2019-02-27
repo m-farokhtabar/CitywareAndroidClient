@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.Login.ConfirmTrackingCodeActivity">
+
+    <include layout="@layout/view_title_bar_without_button"/>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="@string/tracking_code"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+            android:id="@+id/TrackingCodeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="right"
+            android:hint="@string/please_enter_tracking_code"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:maxLength="@integer/TrackingCodeSize"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorHint="@color/TextHintColor"
+            app:IsRequired="true"
+            app:Title="@string/tracking_code"
+            app:ValidationType="TrackingCode" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/ConfirmButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_button_theme_style"
+            android:text="@string/confirm"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="6dp"
+            android:text=""
+            android:id="@+id/TimerCounterTextView"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/ReSendMessageButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_button_theme_style"
+            android:text="@string/re_send_message"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+</android.support.v7.widget.LinearLayoutCompat>

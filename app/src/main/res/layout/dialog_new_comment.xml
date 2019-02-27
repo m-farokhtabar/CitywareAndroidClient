@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MasterContentLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:id="@+id/HeaderTextViewDialogBusinessComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BackgroundThemeColor"
+        android:gravity="center"
+        android:paddingBottom="13dp"
+        android:paddingTop="13dp"
+        android:text="@string/create_comment"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/FontWhiteColor"
+        tools:ignore="HardcodedText,SpUsage" />
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:id="@+id/ءثTextViewDialogBusinessComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/HeaderTextViewDialogBusinessComment"
+        android:layout_margin="8dp"
+        android:layout_marginLeft="8dp"
+        android:gravity="right"
+        android:text="@string/message_create_comment"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/FontSemiBlackColor"
+        tools:ignore="HardcodedText,SpUsage" />
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+        android:id="@+id/MessageCommentEditTextDialogBusinessComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ءثTextViewDialogBusinessComment"
+        android:layout_margin="8dp"
+        android:background="@color/BackgroundLightColor"
+        android:hint="@string/please_enter_comment"
+        android:inputType="textMultiLine"
+        android:maxLength="@integer/Comment"
+        android:paddingBottom="10dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/FontSemiBlackColor"
+        android:textColorHint="@color/TextHintColor"
+        app:IsRequired="true"
+        app:ValidationType="None" />
+
+    <LinearLayout
+        android:id="@+id/CounterLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/MessageCommentEditTextDialogBusinessComment"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="right"
+            android:text="@string/warning_create_comment"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontRedColor"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/ShowCharacterCommentTextViewDialogBusinessComment"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="right"
+            android:text="@string/character_validate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontRedColor"
+            tools:ignore="HardcodedText,SpUsage" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/CounterLinearLayout"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/CancelCommentButtonDialogBusinessComment"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/selector_button_theme_style"
+            android:gravity="center"
+            android:text="@string/not_now"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textColor="@color/FontWhiteColor" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/SaveCommentButtonDialogBusinessComment"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/selector_button_theme_style"
+            android:gravity="center"
+            android:text="@string/save_comment"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textColor="@color/FontWhiteColor" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/LoadingLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/LoadingProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:indeterminateDrawable="@drawable/view_loading_style" />
+    </LinearLayout>
+
+</RelativeLayout>

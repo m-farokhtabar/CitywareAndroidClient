@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundWhiteColor"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.Login.LoginRegisterActivity">
+
+    <LinearLayout
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_back_toolbar" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="@string/address"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+            android:id="@+id/PostalAddressEditTextUserAddressSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="right"
+            android:hint="@string/please_enter_address"
+            android:imeOptions="actionNext"
+            android:inputType="textMultiLine"
+            android:maxLength="@integer/TextLongSize"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorHint="@color/TextHintColor"
+            app:IsRequired="true"
+            app:ValidationType="None"
+            app:Title="@string/address" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="@string/postal_code"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+            android:id="@+id/PostalCodeEditTextUserAddressSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="right"
+            android:hint="@string/please_enter_postal_code"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="@integer/NationalCodeOrPostalCodeSize"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorHint="@color/TextHintColor"
+            app:IsRequired="false"
+            app:Title="@string/postal_code"
+            app:ValidationType="PostalCode" />
+
+        <LinearLayout
+            android:id="@+id/ShowMapLinearLayoutUserAddressSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@drawable/selector_button_white"
+            android:orientation="horizontal">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/SetAddressOnMapTextViewUserAddressSetActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginRight="6dp"
+                android:text="@string/set_Address_on_map"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/MapIconTextViewUserAddressSetActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/FontBlackColor" />
+
+        </LinearLayout>
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/SaveAddressButtonUserAddressSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_button_theme_style"
+            android:text="@string/save_information"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor" />
+
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+</LinearLayout>

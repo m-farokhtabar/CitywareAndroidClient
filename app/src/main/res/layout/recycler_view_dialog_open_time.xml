@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:shrinkColumns="*"
+        android:stretchColumns="*"
+        tools:ignore="UselessParent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            tools:ignore="UselessParent">
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/ToHoursTextViewBusinessOpenTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
+                android:gravity="center"
+                android:text="@string/to_hours"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiBlackColor"
+                tools:ignore="HardcodedText,SpUsage" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/FromHoursTextViewBusinessOpenTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
+                android:gravity="center"
+                android:text="@string/from_hours"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiBlackColor"
+                tools:ignore="HardcodedText,SpUsage" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/BusinessOpenTimeTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_span="2"
+                android:gravity="right"
+                android:text="@string/day_of_week"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiBlackColor"
+                tools:ignore="HardcodedText,SpUsage" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/LineTopColor"
+        android:orientation="vertical"
+        tools:ignore="Suspicious0dp"
+        />
+</LinearLayout>

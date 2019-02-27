@@ -1,0 +1,352 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/SwipeRefreshLayoutProductFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="6dp"
+                    android:text="@string/name"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                    android:id="@+id/ProductNameEditTextProductFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:gravity="right"
+                    android:hint="@string/please_enter_product_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="@integer/TextShortSize"
+                    android:nextFocusDown="@id/AbstractOfDescriptionEditTextProductFragment"
+                    android:singleLine="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColorHint="@color/TextHintColor"
+                    app:IsRequired="true"
+                    app:Title="@string/name"
+                    app:ValidationType="None" />
+
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="6dp"
+                    android:text="@string/description_abstract"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                    android:id="@+id/AbstractOfDescriptionEditTextProductFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:gravity="right"
+                    android:hint="@string/please_enter_abstract_of_description"
+                    android:imeOptions="actionNext"
+                    android:inputType="textMultiLine"
+                    android:maxLength="@integer/TextLongSize"
+                    android:nextFocusDown="@id/PriceEditTextProductFragment"
+                    android:singleLine="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColorHint="@color/TextHintColor"
+                    app:IsRequired="true"
+                    app:Title="@string/description_abstract"
+                    app:ValidationType="None" />
+
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="6dp"
+                    android:text="@string/price"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.EditMoney
+                    android:id="@+id/PriceEditTextProductFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:gravity="right"
+                    android:hint="@string/please_enter_price_toman"
+                    android:imeOptions="actionNext"
+                    android:maxLength="@integer/Price"
+                    android:nextFocusDown="@id/InventoryEditTextProductFragment"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColorHint="@color/TextHintColor"
+                    app:IsRequired="true"
+                    app:Title="@string/price" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/inventory"
+                    android:layout_margin="6dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="6dp"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/MinusInventoryTextViewUserProductFragment"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom|right"
+                        android:gravity="bottom|right"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/FontThemeColor" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                        android:id="@+id/InventoryEditTextProductFragment"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center_horizontal"
+                        android:hint="0.0"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:maxLength="@integer/Number8DigitSize"
+                        android:nextFocusDown="@id/OrderEditTextProductFragment"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColorHint="@color/TextHintColor"
+                        app:IsRequired="true"
+                        app:Title="@string/inventory"
+                        app:ValidationType="FloatNumber" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/PlusInventoryTextViewUserProductFragment"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom|left"
+                        android:layout_marginRight="8dp"
+                        android:gravity="bottom|left"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/FontThemeColor" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/IsAvailableSwitchProductFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right|center_vertical"
+                        android:theme="@style/SwitchCompatTheme"
+                        app:IsRequired="true"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        app:Title="@string/available"
+                        app:ValidationType="None"
+                        tools:ignore="MissingPrefix" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right|center_vertical"
+                        android:text="@string/available"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                </LinearLayout>
+
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/view_sort"
+                    android:layout_margin="6dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="6dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/MinusOrderTextViewUserProductFragment"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom|right"
+                        android:gravity="bottom|right"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/FontThemeColor" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                        android:id="@+id/OrderEditTextProductFragment"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center_horizontal"
+                        android:hint="0"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="@integer/Number4DigitSize"
+                        android:nextFocusDown="@id/ProductCommissionEditTextProductFragment"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColorHint="@color/TextHintColor"
+                        app:IsRequired="true"
+                        app:Title="@string/view_sort"
+                        app:ValidationType="IntegerNumber" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/PlusOrderTextViewUserProductFragment"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom|left"
+                        android:layout_marginRight="8dp"
+                        android:gravity="bottom|left"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/FontThemeColor" />
+
+                </LinearLayout>
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/product_commission"
+                    android:layout_margin="6dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="6dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/MinusCommissionTextViewUserProductFragment"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom|right"
+                        android:gravity="bottom|right"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/FontThemeColor" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                        android:id="@+id/ProductCommissionEditTextProductFragment"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center_horizontal"
+                        android:hint="0.0"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:maxLength="@integer/Number4DigitSize"
+                        android:nextFocusDown="@id/ProductDescriptionEditTextProductFragment"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColorHint="@color/TextHintColor"
+                        app:IsRequired="true"
+                        app:Title="@string/commission"
+                        app:ValidationType="FloatPercent" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/PlusCommissionTextViewUserProductFragment"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom|left"
+                        android:layout_marginRight="8dp"
+                        android:gravity="bottom|left"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/FontThemeColor" />
+
+
+                </LinearLayout>
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="6dp"
+                    android:text="@string/description"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                    android:id="@+id/ProductDescriptionEditTextProductFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:gravity="right"
+                    android:hint="@string/please_enter_product_description"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
+                    android:maxLength="@integer/MaxOfTextSize"
+                    android:singleLine="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColorHint="@color/TextHintColor"
+                    app:IsRequired="false"
+                    app:Title="@string/description"
+                    app:ValidationType="None" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                    android:id="@+id/SetButtonProductFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/selector_button_theme_style"
+                    android:text="@string/save_information"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontWhiteColor" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

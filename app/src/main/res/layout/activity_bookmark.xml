@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/MainDrawerLayout"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context="ir.rayas.app.citywareclient.View.Master.MainActivity"
+tools:openDrawer="right">
+
+<RelativeLayout
+    android:id="@+id/MasterContentLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/ToolBar"
+        layout="@layout/view_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ToolBar"
+        android:layout_above="@+id/MainMenuBottom"
+        android:background="@color/BackgroundWhiteColor">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/RefreshBookmarkSwipeRefreshLayoutBookmarkActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/BookmarkRecyclerViewBookmarkActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/ShowEmptyBookmarkListTextViewBookmarkActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="@color/FontSemiDarkThemeColor"
+            android:text="@string/no_bookmark_for_this_business_to_view"
+            android:textAppearance="?android:textAppearanceSmall" />
+
+        <ProgressBar
+            android:id="@+id/LoadMoreProgressBarBookmarkActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:background="#00000000"
+            android:indeterminateDrawable="@drawable/view_loading_style"
+            android:layout_gravity="center_horizontal"/>
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/MainMenuBottom"
+        layout="@layout/main_menu_bar_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
+
+<include
+    android:id="@+id/LoadingLinearLayout"
+    layout="@layout/view_loading"
+    android:visibility="gone" />
+
+<android.support.design.widget.NavigationView
+    android:id="@+id/DrawerNavigationView"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="right"
+    android:fitsSystemWindows="true"
+    app:headerLayout="@layout/view_header_menu_drawer"
+    app:menu="@menu/view_drawer" />
+
+</android.support.v4.widget.DrawerLayout>

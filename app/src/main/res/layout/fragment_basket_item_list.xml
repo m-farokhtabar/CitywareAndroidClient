@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.Basket.BasketItemListFragment">
+
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:id="@+id/BasketBusinessNameTextViewBasketItemListFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/FontSemiDarkThemeColor" />
+
+    <LinearLayout
+        android:id="@+id/LineLinearLayoutBasketItemListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/BasketBusinessNameTextViewBasketItemListFragment"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/BackgroundThemeLightColor"
+        android:orientation="vertical" />
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/RefreshBasketItemListSwipeRefreshLayoutBasketItemListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/LineLinearLayoutBasketItemListFragment"
+        android:layout_above="@+id/ReturnAndNextLinearLayoutBasketItemListFragment"
+        android:layout_marginTop="16dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/BasketItemListRecyclerViewBasketItemListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:id="@+id/ReturnAndNextLinearLayoutBasketItemListFragment"
+        android:weightSum="1">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginRight="4dp"
+            android:id="@+id/NextButtonBasketItemListFragment"
+            android:background="@drawable/selector_button_green_style"
+            android:text="@string/continue_shopping_process"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="bold"
+            android:textColor="@color/FontWhiteColor" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="4dp"
+            android:id="@+id/ReturnButtonBasketItemListFragment"
+            android:background="@drawable/selector_button_theme_style"
+            android:text="@string/back"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="bold"
+            android:textColor="@color/FontWhiteColor" />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

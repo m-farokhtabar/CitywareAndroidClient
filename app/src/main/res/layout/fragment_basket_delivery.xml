@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.Basket.BasketDeliveryFragment">
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/RefreshAddressSwipeRefreshLayoutBasketDeliveryFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ReturnAndNextLinearLayoutBasketDeliveryFragment">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/AddressRecyclerViewBasketDeliveryFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/NewAddressFloatingActionButtonBasketDeliveryFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ReturnAndNextLinearLayoutBasketDeliveryFragment"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/ic_add_white_24"
+        app:backgroundTint="@color/ButtonBackgroundThemeColor" />
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/ReturnAndNextLinearLayoutBasketDeliveryFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/NextButtonBasketDeliveryFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/selector_button_green_style"
+            android:text="@string/continue_shopping_process"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor"
+            android:textStyle="bold" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/ReturnButtonBasketDeliveryFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/selector_button_theme_style"
+            android:text="@string/back"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor"
+            android:textStyle="bold" />
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,45 @@
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.HowToSearchInAppGpsOrRegion.GpsDialogSearchFragment">
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:id="@+id/GpsFragmentTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_gravity="right"
+        android:layout_margin="5dp"
+        android:text="@string/select_your_search_type" />
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_margin="5dp"
+        android:text="@string/how_to_show_business_in_search" />
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+        android:id="@+id/SearchBaseOnGpsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/selector_button_theme_style"
+        android:text="@string/show_business_base_on_gps"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/FontWhiteColor" />
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+        android:id="@+id/SearchBaseOnRegionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/selector_button_theme_style"
+        android:text="@string/show_business_base_on_region"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/FontWhiteColor" />
+
+
+</android.support.v7.widget.LinearLayoutCompat>

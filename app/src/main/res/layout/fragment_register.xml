@@ -1,0 +1,128 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scrollbars="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="@string/cellphone"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+            android:id="@+id/CellPhoneEditText"
+            app:ValidationType="CellPhoneNumber"
+            app:IsRequired="true"
+            app:Title="@string/cellphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="right"
+            android:inputType="phone"
+            android:singleLine="true"
+            android:hint="@string/please_enter_cellphone"
+            android:maxLength="@integer/CellPhoneSize"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorHint="@color/TextHintColor"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@id/NickNameEditText" />
+
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="@string/nickname"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+            android:id="@+id/NickNameEditText"
+            app:ValidationType="None"
+            app:IsRequired="true"
+            app:Title="@string/nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="right"
+            android:singleLine="true"
+            android:hint="@string/please_enter_nickname"
+            android:maxLength="@integer/TextShortSize"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorHint="@color/TextHintColor"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@id/NameEditText"/>
+
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="@string/name"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+            android:id="@+id/NameEditText"
+            app:ValidationType="None"
+            app:IsRequired="true"
+            app:Title="@string/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="right"
+            android:singleLine="true"
+            android:hint="@string/please_enter_name"
+            android:maxLength="@integer/NameSize"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorHint="@color/TextHintColor"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@id/FamilyEditText"/>
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="@string/family"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+            android:id="@+id/FamilyEditText"
+            app:ValidationType="None"
+            app:IsRequired="true"
+            app:Title="@string/family"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="right"
+            android:singleLine="true"
+            android:hint="@string/please_enter_family"
+            android:maxLength="@integer/FamilySize"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorHint="@color/TextHintColor"
+            android:imeOptions="actionDone"/>
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/RegisterButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_button_theme_style"
+            android:text="@string/register"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor" />
+    </LinearLayout>
+
+</ScrollView>

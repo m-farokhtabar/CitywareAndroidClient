@@ -1,0 +1,136 @@
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/SwipeContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="6dp"
+                android:text="@string/cellphone"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                android:id="@+id/CellPhoneEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:gravity="right"
+                android:hint="@string/please_enter_cellphone"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="@integer/CellPhoneSize"
+                android:cursorVisible="false"
+                android:nextFocusDown="@id/NickNameEditText"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/TextHintColor"
+                android:textColorHint="@color/TextHintColor"
+                app:Title="@string/cellphone" />
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="6dp"
+                android:text="@string/nickname"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                android:id="@+id/NickNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:gravity="right"
+                android:hint="@string/please_enter_nickname"
+                android:imeOptions="actionNext"
+                android:maxLength="@integer/TextShortSize"
+                android:nextFocusDown="@id/NameEditText"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColorHint="@color/TextHintColor"
+                app:IsRequired="true"
+                app:Title="@string/nickname"
+                app:ValidationType="None" />
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="6dp"
+                android:text="@string/name"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                android:id="@+id/NameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:gravity="right"
+                android:hint="@string/please_enter_name"
+                android:imeOptions="actionNext"
+                android:maxLength="@integer/NameSize"
+                android:nextFocusDown="@id/FamilyEditText"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColorHint="@color/TextHintColor"
+                app:IsRequired="true"
+                app:Title="@string/name"
+                app:ValidationType="None" />
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="6dp"
+                android:text="@string/family"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                android:id="@+id/FamilyEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:gravity="right"
+                android:hint="@string/please_enter_family"
+                android:imeOptions="actionDone"
+                android:maxLength="@integer/FamilySize"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColorHint="@color/TextHintColor"
+                app:IsRequired="true"
+                app:Title="@string/family"
+                app:ValidationType="None" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/RegisterButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/selector_button_theme_style"
+                android:text="@string/save_information"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontWhiteColor" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

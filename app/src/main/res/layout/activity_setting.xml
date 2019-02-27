@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundWhiteColor"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.Initializer.IntroduceActivity">
+
+    <RelativeLayout
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <include  android:id="@+id/BackToolBar" layout="@layout/view_back_toolbar" />
+
+        <ScrollView
+            android:id="@+id/ScrollViewUserBusinessSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/BackToolBar"
+            android:scrollbars="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="6dp"
+                    android:gravity="left"
+                    android:orientation="horizontal">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                        android:id="@+id/SelectRegionButtonSettingActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/selector_button_theme_style"
+                        android:text="@string/region_select"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontWhiteColor" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/SelectRegionNameTextViewSettingActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/bottom_border_black"
+                        android:gravity="right"
+                        android:hint="@string/please_enter_region_name"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontBlackColor"
+                        android:textColorHint="@color/TextHintColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:orientation="horizontal">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                        android:id="@+id/SelectCategoryButtonSettingActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/selector_button_theme_style"
+                        android:text="@string/category_select"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontWhiteColor" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/SelectCategoryNameTextViewSettingActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/bottom_border_black"
+                        android:gravity="right"
+                        android:hint="@string/please_enter_category_name"
+                        android:singleLine="true"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontBlackColor"
+                        android:textColorHint="@color/TextHintColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/SearchLocationSwitchSettingActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="6dp"
+                        android:gravity="right|center_vertical"
+                        android:theme="@style/SwitchCompatTheme"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        tools:ignore="MissingPrefix" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right|center_vertical"
+                        android:text="@string/search_by_location"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                </LinearLayout>
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="6dp"
+                    android:text="@string/search_type"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/SearchTypeSpinnerSettingActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/bottom_border_black"
+                    android:gravity="right"
+                    android:layoutDirection="rtl"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    app:IsRequired="false"
+                    app:Title="@string/search_type"
+                    app:ValidationType="None" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="6dp"
+                    android:text="@string/delivery_state_in_search"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/SearchStateSpinnerSettingActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/bottom_border_black"
+                    android:gravity="right"
+                    android:layoutDirection="rtl"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    app:IsRequired="false"
+                    app:Title="@string/delivery_state_in_search"
+                    app:ValidationType="None" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/SaveButtonSettingActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_button_theme_style"
+            android:layout_alignParentBottom="true"
+            android:text="@string/save_information"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+
+</LinearLayout>

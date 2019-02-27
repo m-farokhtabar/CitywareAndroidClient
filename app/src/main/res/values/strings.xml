@@ -1,0 +1,418 @@
+<resources>
+    <string name="app_name">شهر افزار</string>
+    <string name="title_activity_introduce">معرفی نرم افزار</string>
+    <string name="retry">تلاش مجدد</string>
+    <string name="internet_is_not_connect">خطا در ارتباط</string>
+    <string name="enter_to_city_ware_app">ورود به برنامه شهر افزار</string>
+    <string name="login_or_register_in_app">ورود یا ثبت نام در برنامه</string>
+    <string name="to_exit_app_touch_back_again">برای خروج از برنامه دوباره دکمه بازگشت را لمس کنید</string>
+
+    <!--متن مربوط به ولیدیشن عبارات باقاعده-->
+    <string name="cellphone_format_is_not_correct">فرمت تلفن همراه وارد شده صحیح نمی باشد</string>
+    <string name="email_format_is_not_correct">فرمت پست الکترونیکی وارد شده صحیح نمی باشد</string>
+    <string name="website_format_is_not_correct">فرمت وب سایت وارد شده صحیح نمی باشد</string>
+    <string name="tracking_code_format_is_not_correct">فرمت کد رهگیری وارد شده صحیح نمی باشد</string>
+    <string name="postal_code_format_is_not_correct">فرمت کد پستی وارد شده صحیح نمی باشد</string>
+    <string name="date_format_is_not_correct">فرمت تاریخ وارد شده صحیح نمی باشد</string>
+    <string name="account_number_format_is_not_correct">فرمت شماره حساب وارد شده صحیح نمی باشد</string>
+    <string name="time_format_is_not_correct">فرمت زمان وارد شده صحیح نمی باشد</string>
+    <string name="phone_format_is_not_correct">فرمت تلفن وارد شده صحیح نمی باشد</string>
+    <string name="value_is_not_integer">فرمت وارد شده عددی(بدون اعشار) نمی باشد</string>
+    <string name="value_is_not_number">فرمت وارد شده عددی نمی باشد</string>
+    <string name="percent_format_is_not_correct">فرمت درصد وارد شده صحیح نمی باشد</string>
+    <string name="field_is_required">لطفا {0} را وارد نمایید</string>
+    <string name="value">مقدار</string>
+
+    <!--- متون مربوط به ثبت نام-->
+    <string name="login">ورود</string>
+    <string name="register">ثبت نام</string>
+    <string name="login_user">ورود کاربر</string>
+    <string name="register_user">ثبت نام کاربر</string>
+    <string name="cellphone">شماره تلفن همراه</string>
+    <string name="please_enter_cellphone">لطفا شماره تلفن همراه را وارد نمایید</string>
+
+    <string name="nickname">نام مستعار</string>
+    <string name="please_enter_nickname">لطفا نام مستعار را وارد نمایید</string>
+
+    <string name="name">نام</string>
+    <string name="please_enter_name">لطفا نام را وارد نمایید</string>
+
+    <string name="family">نام خانوادگی</string>
+    <string name="please_enter_family">لطفا نام خانوادگی را وارد نمایید</string>
+
+    <!-- متون مربوط به کد رهگیری-->
+    <string name="confirm">تایید</string>
+    <string name="re_send_message">ارسال مجدد پیام</string>
+    <string name="tracking_code">کد رهگیری</string>
+    <string name="please_enter_tracking_code">لطفا کد رهگیری را وارد نمایید</string>
+    <string name="re_send_request_successful">درخواست مجدد با موفقیت ارسال شد</string>
+
+
+    <!--متون مربوط به انتخاب ناحیه یا جی پی اس-->
+    <string name="how_to_show_business_in_search">تمایل دارید بنگاه های اقتصادی(مغازه، رستوران، دفتر شرکت، کارخانه و ...) بر اساس چه روشی به شما نمایش داده شود</string>
+    <string name="select_your_search_type">انتخاب نحوه ی جستجو</string>
+    <string name="show_business_base_on_gps">نمایش موارد با توجه به موقعیت جغرافیایی</string>
+    <string name="show_business_base_on_region">نمایش موارد با توجه به منطقه انتخابی</string>
+    <string name="TurnOnLocation">با روشن کردن مکان یاب گوشی؛ بنگاه های اقتصادی(مغازه، رستوران، دفتر شرکت، کارخانه و ...) اطراف خود را هوشمندانه تر انتخاب کنید</string>
+    <string name="yes">باشه</string>
+    <string name="no">نه</string>
+    <string name="not_now">فعلا نه</string>
+    <string name="enable_gps">فعال نمودن مکان یاب</string>
+    <string name="select_your_region">انتخاب منطقه جهت جستجو</string>
+    <string name="confirm_your_region">تایید منطقه انتخابی</string>
+    <string name="while_searching_sub_region_will_be_used">در زمان جستجو به صورت اتوماتیک زیر منطقه های منطقه انتخابی نیز لحاظ خواهد شد</string>
+    <string name="back_to_parent">بازگشت به قبل</string>
+    <string name="please_select_region">لطفا منطقه خود را انتخاب نمایید</string>
+
+    <!-- انتخاب صنف یا رسته -->
+    <string name="please_select_business_category">لطفا صنف یا رسته خود را انتخاب نمایید</string>
+    <string name="confirm_your_business_category">تایید صنف یا رسته انتخابی</string>
+    <string name="select_your_business_category">انتخاب صنف یا رسته جهت جستجو</string>
+    <string name="while_searching_sub_business_category_will_be_used">در زمان جستجو به صورت اتوماتیک زیر صنف یا رسته های، صنف یا رسته انتخابی نیز لحاظ خواهد شد</string>
+
+
+    <!--متون مربوط منوی اصلی پایین-->
+    <string name="home">خانه</string>
+    <string name="my_profile">پروفایل</string>
+    <string name="search">جستجو</string>
+    <string name="favourite">علاقمندی</string>
+    <string name="commission">پورسانت</string>
+    <string name="my_club">باشگاه</string>
+
+    <!--متون مربوط منوی اصلی-->
+    <string name="more">بیشتر</string>
+    <string name="sign_out">خروج از حساب کاربری</string>
+    <string name="buy_package">خرید پکیج</string>
+    <string name="buy_poster">خرید پوستر</string>
+    <string name="factor_business">سفارشات دریافتی کسب و کار</string>
+    <string name="notifications">پیام ها</string>
+    <string name="setting">تنظیمات</string>
+    <string name="favorite">علاقه مندی</string>
+    <string name="basket">سبد خرید</string>
+    <string name="factor">فاکتور خرید</string>
+    <string name="business_menu_part">گزینه های بنگاه های اقتصادی</string>
+
+    <!--متون مربوط به صفحه اصلی برنامه-->
+    <string name="search_in_city_ware">جستجو در شهر افزار</string>
+
+    <!--متون مرتبط با پروفایل کاربری-->
+    <string name="primary_information">اطلاعات اولیه</string>
+    <string name="save_information">ثبت اطلاعات</string>
+    <string name="address">آدرس</string>
+    <string name="extended_information">اطلاعات تکمیلی</string>
+    <string name="create_date_address">تاریخ ایجاد: </string>
+    <string name="postal_code">کد پستی</string>
+    <string name="delete">حذف</string>
+    <string name="edit_address">ویرایش</string>
+    <string name="please_enter_address">آدرس خود را وارد کنید</string>
+    <string name="please_enter_postal_code">کد پستی خود را وارد کنید</string>
+    <string name="set_Address_on_map">ثبت و مشاهده آدرس بر روی نقشه</string>
+    <string name="show_map_Address_on_map">نمایش آدرس بر روی نقشه</string>
+    <string name="email">ایمیل</string>
+    <string name="please_enter_email">لطفا ایمیل خود را وارد نمایید</string>
+    <string name="sex">جنسیت</string>
+    <string name="eye_color">رنگ چشم</string>
+    <string name="favorite_color">رنگ مورد علاقه</string>
+    <string name="skin_color">رنگ بدن</string>
+    <string name="height">قد</string>
+    <string name="weight">وزن</string>
+    <string name="about_me">بیوگرافی</string>
+    <string name="birth_date">تاریخ تولد</string>
+    <string name="married_date">تاریخ ازدواج</string>
+    <string name="account_number">شماره حساب</string>
+    <string name="bank">بانک</string>
+    <string name="degree_of_education">مدرک تحصیلی</string>
+    <string name="website_address">آدرس وب سایت</string>
+    <string name="favorite_food">غذای مورد علاقه</string>
+    <string name="favorite_sweet">شیرینی مورد علاقه</string>
+    <string name="favorite_city_to_travel">شهر مورد علاقه جهت مسافرت</string>
+    <string name="favorite_brand">برند مورد علاقه</string>
+    <string name="favorite_gift">هدیه مورد علاقه</string>
+    <string name="job_or_business">کار یا حرفه</string>
+    <string name="school_name">نام مدرسه</string>
+    <string name="mother_birthDay">تاریخ تولد مادر</string>
+    <string name="father_birthDay">تاریخ تولد پدر</string>
+    <string name="spouse_birthDay">تاریخ تولد همسر</string>
+    <string name="child_birthDay">تاریخ تولد بچه</string>
+    <string name="favorite_football_team">تیم فوتبال مورد علاقه</string>
+    <string name="telegram">تلگرام</string>
+    <string name="instagram">اینستاگرام</string>
+
+    <string name="please_enter_cm_height">لطفا قد خود را به سانتی متر وارد نمایید</string>
+    <string name="please_enter_weight">لطفا وزن خود را وارد نمایید</string>
+    <string name="please_enter_about_me">لطفا بیوگرافی خود را وارد نمایید</string>
+    <string name="please_enter_account_number">لطفا شماره حساب خود را وارد نمایید</string>
+    <string name="please_enter_bank_id">لطفا کد بانک خود را وارد نمایید</string>
+    <string name="please_enter_website_address">لطفا آدرس وب سایت خود را وارد نمایید</string>
+    <string name="please_enter_favorite_food">لطفا غذای مورد علاقه خود را وارد نمایید</string>
+    <string name="please_enter_favorite_sweet">لطفا شیرینی مورد علاقه خود را وارد نمایید</string>
+    <string name="please_enter_favorite_city_to_travel">لطفا شهر مورد علاقه جهت مسافرت خود را وارد نمایید</string>
+    <string name="please_enter_favorite_brand">لطفا برند مورد علاقه خود را وارد نمایید</string>
+    <string name="please_enter_favorite_gift">لطفا هدیه مورد علاقه خود را وارد نمایید</string>
+    <string name="please_enter_job_or_business">لطفا کار یا حرفه خود را وارد نمایید</string>
+    <string name="please_enter_school_name">لطفا نام مدرسه خود را وارد نمایید</string>
+    <string name="please_enter_birth_date">لطفا تاریخ تولد خود را وارد نمایید</string>
+    <string name="please_enter_married_date">لطفا تاریخ ازدواج خود را وارد نمایید</string>
+    <string name="please_enter_mother_birthDay">لطفا تاریخ تولد مادر خود را وارد نمایید</string>
+    <string name="please_enter_father_birthDay">لطفا تاریخ تولد پدر خود را وارد نمایید</string>
+    <string name="please_enter_spouse_birthDay">لطفا تاریخ تولد همسر خود را وارد نمایید</string>
+    <string name="please_enter_child_birthDay">لطفا تاریخ تولد بچه خود را وارد نمایید</string>
+    <string name="please_enter_favorite_football_team">لطفا تیم فوتبال مورد علاقه خود را وارد نمایید</string>
+    <string name="please_enter_telegram">لطفا تلگرام خود را وارد نمایید</string>
+    <string name="please_enter_instagram">لطفا اینستاگرام خود را وارد نمایید</string>
+
+
+    <!--متون مرتبط با نقشه-->
+    <string name="app_permission_denied">شما به برنامه مجوز مربوطه را نداده اید</string>
+    <string name="for_register_address_turn_on_gps">لطفا برای ثبت آدرس مکان یاب را روشن نمایید، دقت نمایید که حالت "دقت بالا" برای مکان یاب فعال باشد.</string>
+    <string name="turn_on_location_to_get_package_faster">با روشن کردن مکان یاب گوشی؛ ارسال سفارشات به محل درخواستی را سریع تر و ساده تر کنید</string>
+    <string name="to_use_map_turn_on_location">جهت استفاده از نقشه و سیستم مکان یابی لازم مکان یاب گوشی خود را روشن نمایید، دقت نمایید که حالت "دقت بالا" برای مکان یاب فعال باشد.</string>
+    <string name="at_first_please_touch_some_where_to_select">لطفا موقعیت خود را بر روی نقشه نشانه گذاری کنید</string>
+
+    <!--متون مرتبط با نوار ابزار-->
+    <string name="back">بازگشت</string>
+
+    <!--متون مرتبط با spinner-->
+    <string name="none">هیچکدام</string>
+
+    <!--متون مرتبط با تاریخ-->
+    <string name="add_time_to_date">-23:59</string>
+
+    <!--متون مرتبط با کسب و کار من-->
+    <string name="job_title">نوع فعالیت</string>
+    <string name="business_job_title">نوع فعالیت کسب و کار</string>
+    <string name="business_is_open">باز است</string>
+    <string name="business_has_delivery">پیک دارد</string>
+    <string name="keyword">کلمات کلیدی</string>
+    <string name="confirm_state">وضعیت تأیید</string>
+    <string name="business">کسب و کار</string>
+    <string name="region_name"> نام منطقه</string>
+    <string name="category_name"> نام صنف یا رسته</string>
+    <string name="business_title">عنوان کسب و کار</string>
+    <string name="title">عنوان</string>
+    <string name="count_of_employees">تعداد کارمندان</string>
+    <string name="establishment">تاریخ تاسیس</string>
+    <string name="business_description">توضیحات کسب و کار</string>
+    <string name="business_product_commission">پورسانت محصولات(درصد)</string>
+    <string name="product_commission">پورسانت محصول(درصد)</string>
+    <string name="confirm_comment">توضیحات وضعیت تایید</string>
+    <string name="region_select">انتخاب منطقه</string>
+    <string name="category_select">انتخاب صنف</string>
+    <string name="view_and_save_working_hours_per_week">مشاهده و ثبت ساعات کاری در هفته</string>
+    <string name="view_and_save_call_way">مشاهده و ثبت راه های تماس</string>
+    <string name="observe_and_edit">مشاهده و ویرایش</string>
+    <string name="business_delete">حذف کسب و کار</string>
+    <string name="description_business_delete">آیا مطمئن هستید که کسب و کار مورد نظر حذف شود؟</string>
+    <string name="warning_business_delete">با حذف کسب و کار تمامی فاکتورها، درخواست ها و اطلاعات مرتبط نیز حذف می گردد.</string>
+
+    <string name="working_hours">ساعات کاری</string>
+    <string name="call_way">راه های تماس</string>
+    <string name="contact">تماس</string>
+
+    <string name="please_enter_region_name">لطفا نام منطقه را انتخاب کنید</string>
+    <string name="please_enter_category_name">لطفا نام صنف یا رسته را انتخاب کنید</string>
+    <string name="please_enter_business_title">لطفا عنوان کسب و کار را وارد کنید</string>
+    <string name="please_enter_job_title">لطفا نوع فعالیت کسب و کار را وارد کنید</string>
+    <string name="please_enter_title">لطفا عنوان را وارد کنید</string>
+    <string name="please_enter_keyword">لطفا کلمات کلیدی را وارد کنید</string>
+    <string name="please_enter_count_of_employees">لطفا تعداد کارمندان را وارد کنید</string>
+    <string name="please_enter_establishment">لطفا تاریخ تاسیس را وارد کنید</string>
+    <string name="please_enter_business_description">لطفا توضیحات را وارد کنید</string>
+    <string name="please_select_your_business_Location_in_map">لطفا موقعیت کسب و کار خود را بر روی نقشه نشانه گذاری کنید</string>
+    <string name="set_business_address_on_map">ثبت و مشاهده آدرس کسب و کار روی نقشه</string>
+
+
+    <string name="product">محصول</string>
+    <string name="contact_title">عنوان تماس</string>
+    <string name="type_contact">نوع تماس</string>
+    <string name="value_contact">مقدار تماس</string>
+
+
+    <string name="please_enter_contact_title">لطفا عنوان تماس را وارد کنید</string>
+    <string name="please_enter_value_contact">لطفا مقدار تماس را وارد کنید</string>
+
+    <string name="day_of_week">روز هفته</string>
+    <string name="from_hours">از ساعت</string>
+    <string name="to_hours">تا ساعت</string>
+
+    <string name="please_enter_time_start_of_business">لطفا زمان شروع کسب و کار را وارد کنید</string>
+    <string name="please_enter_time_end_of_business">لطفا زمان پایان کسب و کار را وارد کنید</string>
+
+    <string name="description_abstract">خلاصه توضیحات</string>
+    <string name="inventory">موجودی</string>
+    <string name="price">قیمت(تومان)</string>
+    <string name="price_with_out_currency">قیمت</string>
+    <string name="available">موجود</string>
+    <string name="view_sort">ترتیب نمایش</string>
+    <string name="toman">تومان</string>
+    <string name="toman_hours">تومان/ساعت</string>
+    <string name="description">توضیحات</string>
+    <string name="product_delete">حذف محصول</string>
+    <string name="description_product_delete">آیا مطمئن هستید که محصول مورد نظر حذف شود؟</string>
+    <string name="warning_product_delete">با حذف محصول تمامی تصاویر، فروش ها و اطلاعات مرتبط نیز حذف می گردد.</string>
+    <string name="images">تصاویر</string>
+    <string name="please_submit_your_product_first">لطفا در ابتدا محصول خود را ثبت نمایید</string>
+    <string name="please_submit_your_business_first">لطفا در ابتدا کسب و کار خود را ثبت نمایید</string>
+
+    <string name="business_contact_delete">حذف اطلاعات تماس</string>
+    <string name="description_business_contact_delete">آیا مطمئن هستید که اطلاعات تماس مورد نظر حذف شود؟</string>
+    <string name="warning_business_contact_delete"> </string>
+
+    <string name="business_open_time_delete">حذف ساعت کاری</string>
+    <string name="description_business_open_time_delete">آیا مطمئن هستید که ساعت کاری مورد نظر حذف شود؟</string>
+    <string name="warning_business_open_time_delete"> </string>
+
+    <string name="please_enter_product_name">لطفا نام محصول را وارد کنید</string>
+    <string name="please_enter_abstract_of_description">لطفا خلاصه توضیحات وارد کنید</string>
+    <string name="please_enter_price_toman">لطفا قیمت را به تومان وارد کنید</string>
+    <string name="please_enter_inventory">لطفا میزان موجودی را وارد کنید</string>
+    <string name="please_enter_order">لطفا ترتیب نمایش را مشخص کنید</string>
+    <string name="please_enter_product_commission">لطفا پورسانت محصول را مشخص کنید</string>
+    <string name="please_enter_product_description">لطفا توضیحات محصول را وارد کنید</string>
+    <string name="order_must_be_greater_than_zero">ترتیب نمایش باید بزرگتر از صفر باشد</string>
+    <string name="commission_should_be_between_zero_to_hundred">پورسانت باید بین ۰ تا ۱۰۰ باشد</string>
+    <string name="select_image">انتخاب تصویر</string>
+
+
+    <!--متون مرتبط با روزهای هفته-->
+    <string name="saturday">شنبه</string>
+    <string name="monday">یکشنبه</string>
+    <string name="sunday">دوشنبه</string>
+    <string name="wednesday">سه شنبه</string>
+    <string name="tuesday">چهارشنبه</string>
+    <string name="thursday">پنجشنبه</string>
+    <string name="friday">جمعه</string>
+
+    <!--پکیج ها-->
+    <string name="packages">پکیج ها</string>
+    <!--پوسترها-->
+    <string name="posters">پوستر ها</string>
+
+    <!--متون مرتبط با تنظیمات-->
+    <string name="user_setting_form">فرم تنظیمات کاربر</string>
+    <string name="search_by_location">جستجو بر اساس موقعیت مکانی</string>
+    <string name="search_type">نوع جستجو</string>
+    <string name="delivery_state_in_search">وضعیت پیک در جستجو</string>
+    <string name="save">ثبت</string>
+    <string name="exit">خروج</string>
+
+    <string name="search_on_all_items">جستجو بر روی همه موارد</string>
+    <string name="search_on_business">جستجو بر روی کسب و کار</string>
+    <string name="search_on_product">جستجو بر روی محصولات</string>
+    <string name="search_on_business_has_delivery">جستجو بر روی کسب و کار دارای پیک</string>
+    <string name="please_select_region_or_location">لطفا منطقه یا موقعیت خود را انتخاب کنید</string>
+    <string name="please_select_your_image">لطفا تصویر مورد نظر خود را انتخاب نمایید</string>
+    <string name="your_image_more_than_100_kb">اندازه تصویر انتخابی از 100 کیلو بایت بیشتر می باشد</string>
+
+    <!--متون مرتبط با پوستر-->
+    <string name="poster_cost">هزینه پوستر</string>
+    <string name="type_poster">نوع پوستر</string>
+    <string name="priority">اولویت</string>
+    <string name="expire_date">تاریخ انقضا</string>
+    <string name="always_on_top">همیشه در بالا</string>
+    <string name="extended">تمدید</string>
+    <string name="my_posters">پوسترهای من</string>
+    <string name="expire">منقضی شده</string>
+
+    <!--متون مرتبط با پوستر-->
+    <string name="information_show_business">مشاهده اطلاعات کسب و کار</string>
+    <string name="activity_type">نوع فعالیت</string>
+    <string name="bookmark">علاقه مندی ها</string>
+    <string name="business_rating">امتیاز کسب و کار</string>
+    <string name="introducing_business_to_your_friends_to_receive_commission">معرفی کسب و کار به دوستان جهت دریافت پورسانت</string>
+    <string name="introducing_your_friends_to_receive_commission">معرفی به دوستان جهت دریافت پورسانت</string>
+
+    <!--متون مرتبط با پکیج ها-->
+    <string name="credit_price">مبلغ اعتبار</string>
+    <string name="expire_package">تاریخ انقضا</string>
+    <string name="paid_price">مبلغ پرداخت شده</string>
+    <string name="transaction_number">شماره تراکنش</string>
+    <string name="unlimited">نامحدود</string>
+
+    <!--متون مرتبط با مشاهده اطلاعات کسب و کار-->
+    <string name="show_business_info">مشاهده اطلاعات کسب و کار</string>
+    <string name="show_product">مشاهده محصولات</string>
+    <string name="show_poster_and_offer">مشاهده پوستر و پیشنهادات</string>
+    <string name="create_and_show_comment">ایجاد و مشاهده نظرات</string>
+
+    <string name="business_info">اطلاعات کسب و کار</string>
+    <string name="business_details">جزئیات کسب و کار</string>
+    <string name="product_details">جزئیات محصول</string>
+    <string name="products_list">لیست محصولات</string>
+    <string name="from_time_bigger_than_to_time">(تا ساعت) نمی تواند کوچکتر از (از ساعت) باشد.</string>
+
+    <!--متون مرتبط با مشاهده لیست محصولات-->
+    <string name="show_product_list">مشاهده لیست محصولات</string>
+    <string name="comment_user">نظرات کاربران</string>
+    <string name="show_poster">مشاهده پوسترها</string>
+    <string name="show_poster_details">مشاهده جزئیات پوستر</string>
+    <string name="add_to_shopping_cart">افزودن به سبد خرید</string>
+    <string name="rating_to_business">امتیاز دهی به کسب و کار</string>
+    <string name="save_rating">ثبت امتیاز</string>
+    <string name="save_comment">ثبت نظر</string>
+    <string name="create_comment">ایجاد نظر</string>
+    <string name="message_create_comment">نظر خود را درباره این کسب و کار بیان کنید.</string>
+    <string name="warning_create_comment">حداکثر طول مجاز 250 کاراکتر</string>
+    <string name="please_enter_comment">لطفا نظر خود را وارد کنید.</string>
+    <string name="character_validate">0/250</string>
+    <string name="save_comment_and">نظر شما ثبت شد و پس از بازبینی منتشر می شود.</string>
+    <string name="not_registered_hours_for_the_business">ساعات کاری برای این کسب و کار ثبت نشده است.</string>
+    <string name="not_registered_contacts_for_the_business">اطلاعات تماس برای این کسب و کار ثبت نشده است.</string>
+    <string name="image_product">تصویر محصول</string>
+    <string name="read_more">ادامه مطلب</string>
+
+    <string name="sending_email">در حال فرستادن ایمیل...</string>
+    <string name="not_email_address">آدرس ایمیل موجود نمی باشد</string>
+    <string name="not_valid_link">لینک مورد نظر معتبر نمی باشد</string>
+
+    <string name="there_is_no_product_or_service_to_view">محصول یا خدماتی جهت نمایش وجود ندارد</string>
+    <string name="no_posters_or_suggestions_to_view">پوستر یا پیشنهادی جهت مشاهده وجود ندارد</string>
+    <string name="no_comments_for_this_business">نظری برای این کسب و کار ثبت نشده است</string>
+    <string name="no_bookmark_for_this_business_to_view">کسب و کاری در لیست علاقه مندی ها وجود ندارد.</string>
+
+
+    <string name="complete_download">دانلود کامل شد.</string>
+    <string name="not_exit_file">فایل مورد نظر وجود ندارد.</string>
+    <string name="your_notification_list_is_empty">لیست پیام های شما خالی است.</string>
+
+
+    <!--متون مرتبط با سبد خرید-->
+    <string name="continue_shopping_process">ادامه فرآیند خرید</string>
+    <string name="price_payable">قیمت قابل پرداخت</string>
+    <string name="number_of_order_items">تعداد اقلام سفارش</string>
+    <string name="your_basket_is_empty">سبد خرید شما خالی است</string>
+    <string name="order_quantity">میزان سفارش</string>
+    <string name="order_quantity_product"> میزان سفارش محصول</string>
+    <string name="please_enter_order_quantity">لطفا میزان سفارش را مشخص کنید</string>
+    <string name="show_basket">مشاهده سبد خرید</string>
+    <string name="product_added_to_basket"> به سبد خرید اضافه شد.</string>
+    <string name="product_was_edited_in_the_basket"> در سبد خرید تغییر یافت.</string>
+    <string name="payable_price">قیمت قابل پرداخت</string>
+    <string name="products_price">قیمت محصولات</string>
+    <string name="total_product_price">قیمت کل محصول</string>
+    <string name="unit_price">قیمت واحد</string>
+    <string name="delivery_by_courier">تحویل سفارش توسط پیک درب منزل</string>
+    <string name="business_does_not_have_a_delivery_service">کسب و کار مورد نظر فاقد سرویس پیک می باشد</string>
+    <string name="basket_description">توضیحات سفارش</string>
+    <string name="basket_submit">ثبت سفارش</string>
+    <string name="price_delivery">هزینه پیک </string>
+    <string name="in_your_basket_there_are_products_that_are_not_priced">در سبد خرید شما محصولاتی وجود دارد که قیمت آن مشخص نمی باشد.</string>
+    <string name="unknown">نامشخص</string>
+    <string name="quick_items">سفارش سریع</string>
+    <string name="product_name">نام محصول</string>
+    <string name="add_to_product_list">افزودن به لیست محصولات</string>
+    <string name="please_enter_add_product_to_list">لطفا محصول خود را به لیست اضافه کنید</string>
+
+
+    <!--متون مرتبط با  فاکتور-->
+    <string name="factor_status">وضعیت سفارش</string>
+    <string name="factor_code">شماره فاکتور</string>
+    <string name="in_order_some_unknown_price_items_must_be_aligned_with_customer">در سفارش برخی اقلام قیمت نامشخص دارند بایستی با مشتری هماهنگ شود.</string>
+    <string name="in_your_factor_there_are_products_that_are_not_priced">در فاکتور شما محصولاتی وجود دارد که قیمت آن مشخص نمی باشد.</string>
+    <string name="no_factor_for_showing_to_view">فاکتوری برای نمایش وجود ندارد.</string>
+    <string name="no_factor_for_showing_to_view_business">سفارشی برای نمایش وجود ندارد.</string>
+    <string name="no_business_for_showing_to_view">کسب و کاری برای نمایش وجود ندارد.</string>
+    <string name="price_is_not_definitive">قیمت قطعی نمی باشد.</string>
+    <string name="description_user">توضیحات کاربر</string>
+
+</resources>

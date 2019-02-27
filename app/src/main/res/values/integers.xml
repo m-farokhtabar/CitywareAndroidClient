@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="CellPhoneSize">11</integer>
+    <integer name="NationalCodeOrPostalCodeSize">10</integer>
+    <integer name="MaxOfTextSize">100000</integer>
+    <integer name="DateSize">10</integer>
+    <integer name="AccountNumberSize">20</integer>
+    <integer name="NameSize">30</integer>
+    <integer name="FamilySize">40</integer>
+    <integer name="TextShortSize">50</integer>
+    <integer name="TextMediumSize">100</integer>
+    <integer name="TextLongSize">200</integer>
+    <integer name="InternetAddressSize">400</integer>
+    <integer name="TransactionOrCouponOrTicketSize">25</integer>
+    <integer name="TrackingCodeSize">8</integer>
+    <integer name="HeightSize">3</integer>
+    <integer name="KeyWordsLength">255</integer>
+    <integer name="TimeSize">5</integer>
+    <integer name="Number3DigitSize">3</integer>
+    <integer name="Number4DigitSize">4</integer>
+    <integer name="Number8DigitSize">8</integer>
+    <integer name="Price">12</integer>
+    <integer name="Comment">250</integer>
+    <integer name="OrderQuantity">8</integer>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/style_press_item_in_recycler_view" android:state_pressed="true" />
+    <item android:drawable="@drawable/style_normal_item_in_recycler_view" android:state_enabled="true" />
+</selector>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="4dp"
+    android:elevation="5dp">
+
+    <RelativeLayout
+        android:id="@+id/UserBusinessContainerRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/selector_item_in_recycler_view">
+
+        <RelativeLayout
+            android:id="@+id/HeaderUserBusinessRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/BackgroundColorHeaderAddressLayout">
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:id="@+id/DeleteAndEditLinearLayoutCompat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical|left"
+                android:orientation="horizontal">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/UserDeleteBusinessIconTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="3dp"
+                    android:singleLine="true"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/FontRedColor"
+                    android:visibility="visible" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                    android:id="@+id/UserEditBusinessIconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@drawable/selector_button_theme_style"
+                    android:gravity="center"
+                    android:text="@string/observe_and_edit"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/FontWhiteColor" />
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/UserBusinessTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:layout_toRightOf="@+id/DeleteAndEditLinearLayoutCompat"
+                android:layout_toEndOf="@+id/DeleteAndEditLinearLayoutCompat"
+                android:layout_marginLeft="8dp"
+                android:singleLine="true"
+                android:gravity="right"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiBlackColor" />
+        </RelativeLayout>
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/JobTitleTextViewUserBusiness"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/HeaderUserBusinessRelativeLayout"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:gravity="right"
+            android:text="@string/job_title"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontSemiBlackColor" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/JobTextViewUserBusiness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/HeaderUserBusinessRelativeLayout"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_toLeftOf="@+id/JobTitleTextViewUserBusiness"
+            android:layout_toStartOf="@+id/JobTitleTextViewUserBusiness"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontBlackColor" />
+
+        <LinearLayout
+            android:id="@+id/SwitchLinearLayoutUserBusiness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/JobTitleTextViewUserBusiness"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/IsOpenLinearLayoutUserBusiness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginRight="3dp"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/IsOpenSwitchUserBusiness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:gravity="right|center_vertical"
+                    android:theme="@style/SwitchCompatTheme" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/IsOpenTitleTextViewUserBusiness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:text="@string/business_is_open"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontSemiBlackColor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/HasDeliveryLinearLayoutUserBusiness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="3dp"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/HasDeliverySwitchUserBusiness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:gravity="right|center_vertical"
+                    android:theme="@style/SwitchCompatTheme" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/HasDeliveryTitleTextViewUserBusiness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:text="@string/business_has_delivery"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontSemiBlackColor" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/AddressTitleTextViewUserBusiness"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/SwitchLinearLayoutUserBusiness"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:text="@string/address"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontSemiBlackColor" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/AddressTextViewUserBusiness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/SwitchLinearLayoutUserBusiness"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@+id/KeyWordTitleTextViewUserBusiness"
+            android:layout_toStartOf="@+id/KeyWordTitleTextViewUserBusiness"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontBlackColor" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/KeyWordTitleTextViewUserBusiness"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/AddressTitleTextViewUserBusiness"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:text="@string/keyword"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontSemiBlackColor" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/KeyWordTextViewUserBusiness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/AddressTitleTextViewUserBusiness"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@+id/KeyWordTitleTextViewUserBusiness"
+            android:layout_toStartOf="@+id/KeyWordTitleTextViewUserBusiness"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontBlackColor" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/ConfirmStateTitleTextViewUserBusiness"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/KeyWordTitleTextViewUserBusiness"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:text="@string/confirm_state"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontSemiBlackColor" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/ConfirmStateTextViewUserBusiness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/KeyWordTitleTextViewUserBusiness"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@+id/ConfirmStateTitleTextViewUserBusiness"
+            android:layout_toStartOf="@+id/ConfirmStateTitleTextViewUserBusiness"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontBlackColor" />
+
+        <LinearLayout
+            android:id="@+id/ShowMapLinearLayoutUserBusiness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ConfirmStateTitleTextViewUserBusiness"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/ShowMapBusinessTextViewUserBusiness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:text="@string/show_map_Address_on_map"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiDarkThemeColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/ShowMapBusinessIconTextViewUserBusiness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="16dp"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/FontSemiDarkThemeColor"
+                android:visibility="visible" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundWhiteColor"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.Login.LoginRegisterActivity">
+
+    <LinearLayout
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_back_toolbar" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/type_contact"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/TypeContactSpinnerBusinessContactSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:background="@drawable/bottom_border_black"
+            android:gravity="right"
+            android:layoutDirection="rtl"
+            android:imeOptions="actionNext"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="@string/contact_title"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+            android:id="@+id/ContactTitleEditTextBusinessContactSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="right"
+            android:hint="@string/please_enter_contact_title"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@id/ContactEditTextBusinessContactSetActivity"
+            android:inputType="text"
+            android:maxLength="@integer/TextLongSize"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorHint="@color/TextHintColor"
+            app:IsRequired="true"
+            app:ValidationType="None"
+            app:Title="@string/contact_title" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:text="@string/value_contact"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+            android:id="@+id/ContactEditTextBusinessContactSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:gravity="right"
+            android:hint="@string/please_enter_value_contact"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLength="@integer/TextLongSize"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColorHint="@color/TextHintColor"
+            app:IsRequired="true"
+            app:ValidationType="None"
+            app:Title="@string/value_contact" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/SaveContactButtonBusinessContactSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/selector_button_theme_style"
+            android:text="@string/save_information"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor" />
+
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+</LinearLayout>

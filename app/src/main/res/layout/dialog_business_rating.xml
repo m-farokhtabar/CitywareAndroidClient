@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:id="@+id/HeaderTextViewDialogBusinessRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BackgroundThemeColor"
+        android:gravity="center"
+        android:paddingBottom="13dp"
+        android:paddingTop="13dp"
+        android:text="@string/rating_to_business"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/FontWhiteColor"
+        tools:ignore="HardcodedText,SpUsage" />
+
+    <RatingBar
+        android:id="@+id/RatingBusinessRatingBarDialogBusinessRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/HeaderTextViewDialogBusinessRating"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        android:numStars="5"
+        android:stepSize="0.01"
+        android:theme="@style/RatingBar"
+      />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@+id/RatingBusinessRatingBarDialogBusinessRating"
+        android:weightSum="1">
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+        android:id="@+id/CancelRatingButtonDialogBusinessRating"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_weight="0.5"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="4dp"
+        android:background="@drawable/selector_button_theme_style"
+        android:gravity="center"
+        android:text="@string/not_now"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+        android:textColor="@color/FontWhiteColor" />
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+        android:id="@+id/SaveRatingButtonDialogBusinessRating"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.5"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/selector_button_theme_style"
+        android:gravity="center"
+        android:text="@string/save_rating"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+        android:textColor="@color/FontWhiteColor" />
+
+    </LinearLayout>
+</RelativeLayout>

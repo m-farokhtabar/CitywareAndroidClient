@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<group android:checkableBehavior="single">-->
+        <!--<item-->
+            <!--android:id="@+id/HomeItemMenu"-->
+            <!--android:title="@string/home" />-->
+        <!--<item-->
+            <!--android:id="@+id/MyProfileItemMenu"-->
+            <!--android:title="@string/my_profile" />-->
+        <!--<item-->
+            <!--android:id="@+id/FavouriteItemMenu"-->
+            <!--android:title="@string/favourite" />-->
+        <!--<item-->
+            <!--android:id="@+id/CommissionItemMenu"-->
+            <!--android:title="@string/commission" />-->
+        <!--<item-->
+            <!--android:id="@+id/MyClubItemMenu"-->
+            <!--android:title="@string/my_club" />-->
+    <!--</group>-->
+    <group android:checkableBehavior="single" android:id="@+id/PublicGroupMenu">
+        <item
+            android:id="@+id/BasketItemMenu"
+            android:icon="@drawable/ic_basket"
+            android:title="@string/basket" />
+        <item
+            android:id="@+id/FactorItemMenu"
+            android:icon="@drawable/invoice"
+            android:title="@string/factor" />
+        <item
+            android:id="@+id/SettingItemMenu"
+            android:icon="@drawable/ic_setting"
+            android:title="@string/setting"
+            app:showAsAction="ifRoom|withText"/>
+        <item
+            android:id="@+id/NotificationsItemMenu"
+            android:icon="@drawable/ic_notification"
+            android:title="@string/notifications"
+            app:showAsAction="ifRoom|withText"/>
+        <item
+            android:id="@+id/FavoriteItemMenu"
+            android:icon="@drawable/ic_favorite_24dp"
+            android:title="@string/favorite"
+            app:showAsAction="ifRoom|withText"/>
+    </group>
+    <item
+        android:id="@+id/BusinessGroupMenu"
+        android:title="@string/business_menu_part">
+        <menu>
+            <item
+                android:id="@+id/BuyPackageItemMenu"
+                android:icon="@drawable/ic_package"
+                android:title="@string/buy_package" />
+            <item
+                android:id="@+id/BuyPosterItemMenu"
+                android:icon="@drawable/ic_poster"
+                android:title="@string/buy_poster" />
+            <item
+                android:id="@+id/FactorBusinessItemMenu"
+                android:icon="@drawable/ic_order"
+                android:title="@string/factor_business" />
+        </menu>
+    </item>
+</menu>

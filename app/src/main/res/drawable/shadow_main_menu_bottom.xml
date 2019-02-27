@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <item>
+        <shape>
+            <padding android:top="1dp"></padding>
+            <solid android:color="#041e1e1e"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:top="1dp"></padding>
+            <solid android:color="#101e1e1e"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:top="1dp"></padding>
+            <solid android:color="#161e1e1e"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:top="1dp"></padding>
+            <solid android:color="#221e1e1e"/>
+        </shape>
+    </item>
+    <item android:id="@+id/BackgroundOfShadowMainSnackBar" >
+        <shape >
+            <solid android:color="#FFFFFFFF"/>
+        </shape>
+    </item>
+
+</layer-list>

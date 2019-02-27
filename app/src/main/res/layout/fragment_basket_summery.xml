@@ -1,0 +1,521 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.Basket.BasketSummeryFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_above="@+id/TotalPriceCardViewBasketSummeryFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/BasketBusinessNameTextViewBasketSummeryFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/FontSemiDarkThemeColor" />
+
+            <LinearLayout
+                android:id="@+id/LineLinearLayoutBasketSummeryFragment"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/BasketBusinessNameTextViewBasketSummeryFragment"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/BackgroundThemeLightColor"
+                android:orientation="vertical" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/BasketItemCardViewBasketSummeryFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/LineLinearLayoutBasketSummeryFragment"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                android:elevation="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_item_in_recycler_view">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/HeaderBasketListRelativeLayout"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="0.3"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_weight="0.6"
+                                android:gravity="right|center_vertical"
+                                android:orientation="vertical">
+
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:id="@+id/CreateDateBasketTextViewBasketSummeryFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left"
+                                    android:layout_marginLeft="6dp"
+                                    android:layout_marginRight="8dp"
+                                    android:gravity="left"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textColor="@color/FontSemiDarkThemeColor" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="right"
+                                    android:orientation="horizontal">
+
+                                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                        android:id="@+id/NumberOfOrderItemsBasketTextViewBasketSummeryFragment"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="right"
+                                        android:layout_marginRight="8dp"
+                                        android:gravity="right"
+                                        android:singleLine="true"
+                                        android:textAppearance="?android:attr/textAppearanceSmall"
+                                        android:textColor="@color/FontSemiBlackColor" />
+
+                                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="right"
+                                        android:singleLine="true"
+                                        android:text="@string/number_of_order_items"
+                                        android:textAppearance="?android:attr/textAppearanceSmall"
+                                        android:textColor="@color/FontSemiBlackColor" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="right"
+                                    android:orientation="horizontal">
+
+                                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                        android:id="@+id/PricePayableBasketTextViewBasketSummeryFragment"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="right"
+                                        android:layout_marginRight="8dp"
+                                        android:gravity="right"
+                                        android:singleLine="true"
+                                        android:textAppearance="?android:attr/textAppearanceSmall"
+                                        android:textColor="@color/FontGreenColor" />
+
+                                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="right"
+                                        android:singleLine="true"
+                                        android:text="@string/products_price"
+                                        android:textAppearance="?android:attr/textAppearanceSmall"
+                                        android:textColor="@color/FontGreenColor" />
+                                </LinearLayout>
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:id="@+id/DescriptionBasketTextViewBasketSummeryFragment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_marginTop="3dp"
+                                    android:gravity="right"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textColor="@color/FontRedColor" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ImageBasketLinearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.7"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ImageBasketImageViewBasketSummeryFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitCenter" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/BasketDetailsCardViewBasketSummeryFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/BasketItemCardViewBasketSummeryFragment"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:elevation="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_item_in_recycler_view">
+
+                    <LinearLayout
+                        android:id="@+id/HasDeliveryLinearLayoutBasketSummeryFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:gravity="right|center_vertical"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/HasDeliverySwitchBasketSummeryFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="8dp"
+                            android:gravity="right|center_vertical"
+                            android:theme="@style/SwitchCompatTheme" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/HasDeliveryTitleTextViewBasketSummeryFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right|center_vertical"
+                            android:singleLine="true"
+                            android:text="@string/delivery_by_courier"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/FontSemiBlackColor" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/HasNotDeliveryTitleTextViewBasketSummeryFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right|center_vertical"
+                            android:singleLine="true"
+                            android:text="@string/business_does_not_have_a_delivery_service"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/FontSemiBlackColor"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/PriceDeliveryLinearLayoutBasketSummeryFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/HasDeliveryLinearLayoutBasketSummeryFragment"
+                        android:layout_marginBottom="8dp"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/PriceDeliveryTextViewBasketSummeryFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:gravity="right"
+                            android:singleLine="true"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/FontGreenColor" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:singleLine="true"
+                            android:text="@string/price_delivery"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/FontGreenColor" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/AddressLinearLayoutBasketSummeryFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/BasketDetailsCardViewBasketSummeryFragment"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_horizontal|center_vertical"
+                app:elevation="8dp"
+                tools:ignore="NestedWeights">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:gravity="right"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0.1dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_toLeftOf="@+id/AddressTitleTextViewBasketSummeryFragment"
+                            android:layout_toStartOf="@+id/AddressTitleTextViewBasketSummeryFragment"
+                            android:background="@color/LineTopColor"
+                            tools:ignore="Suspicious0dp" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/AddressTitleTextViewBasketSummeryFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/address"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontSemiDarkThemeColor" />
+
+                    </RelativeLayout>
+
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/AddressTextViewBasketSummeryFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColor="@color/FontSemiBlackColor" />
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/DescriptionLinearLayoutBasketSummeryFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/AddressLinearLayoutBasketSummeryFragment"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_horizontal|center_vertical"
+                app:elevation="8dp"
+                tools:ignore="NestedWeights">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:gravity="right"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0.1dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_toLeftOf="@+id/DescriptionTitleTextViewBasketSummeryFragment"
+                            android:layout_toStartOf="@+id/DescriptionTitleTextViewBasketSummeryFragment"
+                            android:background="@color/LineTopColor"
+                            tools:ignore="Suspicious0dp" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/DescriptionTitleTextViewBasketSummeryFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/description"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontSemiDarkThemeColor" />
+
+                    </RelativeLayout>
+
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/DescriptionTextViewBasketSummeryFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColor="@color/FontSemiBlackColor" />
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </ScrollView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/TotalPriceCardViewBasketSummeryFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ReturnAndNextLinearLayoutBasketSummeryFragment"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal|center_vertical"
+        app:elevation="8dp"
+        tools:ignore="NestedWeights">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/TotalPriceTitleTextViewBasketSummeryFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="@string/payable_price"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/FontGreenColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/TotalPriceTextViewBasketSummeryFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/TotalPriceTitleTextViewBasketSummeryFragment"
+                android:layout_toStartOf="@+id/TotalPriceTitleTextViewBasketSummeryFragment"
+                android:gravity="left"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/FontGreenColor" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/ReturnAndNextLinearLayoutBasketSummeryFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/SendBasketButtonBasketSummeryFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/selector_button_green_style"
+            android:text="@string/basket_submit"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor"
+            android:textStyle="bold" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/ReturnButtonBasketSummeryFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/selector_button_theme_style"
+            android:text="@string/back"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

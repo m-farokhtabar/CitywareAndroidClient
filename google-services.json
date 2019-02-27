@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "876485558723",
+    "firebase_url": "https://citywareclient.firebaseio.com",
+    "project_id": "citywareclient",
+    "storage_bucket": "citywareclient.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876485558723:android:e7701c77a79df916",
+        "android_client_info": {
+          "package_name": "ir.rayas.app.citywareclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876485558723-g9giehdugscuek1ecdlepbmi3jh14esl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ir.rayas.app.citywareclient",
+            "certificate_hash": "b4be881f10b48de84c813f4b293bccb54dea95d2"
+          }
+        },
+        {
+          "client_id": "876485558723-pu9aauqfrofclfemetbm71n56448cs4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCziqg4TwHZiWSHUgE5SCjApB3Mc8pkwD4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876485558723-pu9aauqfrofclfemetbm71n56448cs4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

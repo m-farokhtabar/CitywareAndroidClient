@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <!--*****************************************رنگ های عمومی*********************************************-->
+    <color name="BackgroundWhiteColor">#ffffffff</color>
+    <color name="BackgroundGrayColor">#ffcccccc</color>
+    <color name="BackgroundThemeColor">#ff102770</color>
+    <color name="BackgroundLightColor">#ffeeeeee</color>
+    <color name="BackgroundThemeLightColor">#991f96f2</color>
+    <color name="LoadingBarColor">#ff102770</color>
+    <color name="LoadingBarNotificationBackgroundColor">#ff1e003d</color>
+    <color name="TextHintColor">#cccccc</color>
+    <color name="BackgroundLightGray">#fbfbfb</color>
+    <color name="LineTopColor">#ffd5d5d5</color>
+    <color name="LineBottomColor">#ffe7e7e7</color>
+    <!--*****************************************رنگ های پنجره پیغام*********************************************-->
+    <color name="BackgroundToastThemeColor">#cc102770</color>
+    <!--*****************************************رنگ های قلم*********************************************-->
+    <color name="FontWhiteColor">#ffffffff</color>
+    <color name="FontYellowColor">#fffff200</color>
+    <color name="FontRedColor">#ffff0000</color>
+    <color name="FontBlackColor">#ff000000</color>
+    <color name="FontBlackColorShadow">#55000000</color>
+    <color name="FontSemiDarkThemeColor">#0b48a3</color>
+    <color name="FontSemiBlackColor">#ff666666</color>
+    <color name="FontThemeColor">#ff1f96f2</color>
+    <color name="FontGrayColor">#b49c9c</color>
+    <color name="FontGreenColor">#459925</color>
+
+    <!--*****************************************رنگ های دکمه*********************************************-->
+    <color name="ButtonBackgroundWhiteColor">#fafafa</color>
+    <color name="ButtonBackgroundPressWhiteColor">#99fafafa</color>
+
+
+    <color name="ButtonBackgroundThemeColor">#ff1f96f2</color>
+    <color name="ButtonBackgroundPressThemeColor">#991f96f2</color>
+    <color name="ButtonBorderThemeColor">#ff1f96f2</color>
+    <color name="ButtonBorderPressThemeColor">#991f96f2</color>
+
+    <color name="ButtonBackgroundRedColor">#ffff0000</color>
+    <color name="ButtonBackgroundPressRedColor">#99ff0000</color>
+    <color name="ButtonBorderRedColor">#ffff0000</color>
+    <color name="ButtonBorderPressRedColor">#99ff0000</color>
+
+    <color name="ButtonBackgroundGreenColor">#4b9b2b</color>
+    <color name="ButtonBackgroundPressGreenColor">#994b9b2b</color>
+    <color name="ButtonBorderGreenColor">#ff4b9b2b</color>
+    <color name="ButtonBorderPressGreenColor">#994b9b2b</color>
+
+    <color name="ButtonBackgroundDisableColor">#cccccc</color>
+    <color name="ButtonBorderDisableColor">#eeeeee</color>
+
+    <color name="BottomMenuItemBackgroundPressThemeColor">#111f96f2</color>
+
+    <!--*****************************************بک گراند صفحه*********************************************-->
+    <color name="BackgroundColorLayout">#ffffffff</color>
+
+    <!--*****************************************رنگ های آیتم مربوط به لیست و recycler*********************************************-->
+    <color name="ItemBackgroundPressGrayColor">#33cccccc</color>
+
+    <!--*****************************************رنگ های صفحه ورود*********************************************-->
+    <color name="SplashBackgroundColorLight">#ff102770</color>
+    <color name="SplashBackgroundColorDark">#ff1e003d</color>
+    <color name="BackgroundColorProgressBar">#4Dffffff</color>
+    //30% opacity color
+    <color name="ColorProgressBar">#ffff0000</color>
+
+    <!--*****************************************بک گراند هدر صفحه ادرس*********************************************-->
+    <color name="BackgroundColorHeaderAddressLayout">#0D000000</color>
+    <color name="BackgroundColorLightLayout">#0d4e4d4d</color>
+
+    <!--*****************************************رنگ زیر خط تاریخ و spinner*********************************************-->
+    <color name="underline">#878787</color>
+
+    <!--*****************************************سایه*********************************************-->
+    <color name="Shadow">#37000000</color>
+
+    <!--*****************************************رنگ های مرتبط با سوییچ در حالتی که دستی رنگ  می دهیم*********************************************-->
+    <color name="ThumbThemeColorDrawable">#2192e6</color>
+    <color name="TrackLightThemeColorDrawable">#b4dfff</color>
+</resources>

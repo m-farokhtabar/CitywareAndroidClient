@@ -1,0 +1,55 @@
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.HowToSearchInAppGpsOrRegion.SelectRegionFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/RegionFragmentTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:text="@string/select_your_region"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/RegionFragmentDescriptionRegionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RegionFragmentTitleTextView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
+            android:text="@string/while_searching_sub_region_will_be_used"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RegionFragmentRegionRecyclerView"
+            android:scrollbars="vertical"
+            android:layout_below="@+id/RegionFragmentDescriptionRegionTextView"
+            android:layout_above="@+id/RegionFragmentSelectRegionButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/RegionFragmentSelectRegionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/selector_button_theme_without_corner_and_shadow"
+            android:text="@string/confirm_your_region"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor" />
+    </RelativeLayout>
+
+</android.support.v7.widget.LinearLayoutCompat>
