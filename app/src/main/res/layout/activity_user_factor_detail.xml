@@ -243,6 +243,7 @@
                                 android:layout_gravity="right"
                                 android:layout_marginLeft="4dp"
                                 android:layout_marginRight="6dp"
+                                android:layout_marginTop="6dp"
                                 android:gravity="right"
                                 android:orientation="horizontal">
 
@@ -264,7 +265,7 @@
                                     android:layout_centerVertical="true"
                                     android:text="@string/business_description"
                                     android:textAppearance="?android:textAppearanceSmall"
-                                    android:textColor="@color/FontSemiBlackColor" />
+                                    android:textColor="@color/FontSemiDarkThemeColor" />
 
                             </RelativeLayout>
 
@@ -310,6 +311,7 @@
                                 android:layout_gravity="right"
                                 android:layout_marginLeft="4dp"
                                 android:layout_marginRight="6dp"
+                                android:layout_marginTop="6dp"
                                 android:gravity="right"
                                 android:orientation="horizontal">
 
@@ -331,7 +333,7 @@
                                     android:layout_centerVertical="true"
                                     android:text="@string/description_user"
                                     android:textAppearance="?android:textAppearanceSmall"
-                                    android:textColor="@color/FontSemiBlackColor" />
+                                    android:textColor="@color/FontSemiDarkThemeColor" />
 
                             </RelativeLayout>
 
@@ -418,7 +420,7 @@
                             tools:ignore="NestedWeights">
 
                             <RelativeLayout
-                                android:id="@+id/BusinessAddressRelativeLayoutUserFactorDetailActivity"
+                                android:id="@+id/OpenTimeRelativeLayoutUserFactorDetailActivity"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center_horizontal|center_vertical"
@@ -438,12 +440,12 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="8dp"
-                                        android:text="@string/address"
+                                        android:text="@string/working_hours"
                                         android:textAppearance="?android:attr/textAppearanceSmall"
                                         android:textColor="@color/FontSemiBlackColor" />
 
                                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                        android:id="@+id/AddressIconTextViewUserFactorDetailActivity"
+                                        android:id="@+id/OpenTimeIconTextViewUserFactorDetailActivity"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -487,7 +489,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="8dp"
-                                        android:text="@string/working_hours"
+                                        android:text="@string/call_way"
                                         android:textAppearance="?android:attr/textAppearanceSmall"
                                         android:textColor="@color/FontSemiBlackColor" />
 
@@ -503,6 +505,107 @@
 
                         </android.support.v7.widget.CardView>
                     </LinearLayout>
+
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center_horizontal|center_vertical"
+                        app:elevation="8dp"
+                        tools:ignore="NestedWeights">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:orientation="vertical"
+                            android:paddingBottom="16dp"
+                            android:paddingTop="8dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginLeft="4dp"
+                                android:layout_marginRight="6dp"
+                                android:layout_marginTop="6dp"
+                                android:gravity="right"
+                                android:orientation="horizontal">
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.1dp"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="16dp"
+                                    android:layout_marginRight="16dp"
+                                    android:layout_toLeftOf="@+id/BusinessAddressTitleTextViewUserFactorDetailActivity"
+                                    android:background="@color/LineTopColor"
+                                    tools:ignore="Suspicious0dp" />
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:id="@+id/BusinessAddressTitleTextViewUserFactorDetailActivity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:text="@string/address"
+                                    android:textAppearance="?android:textAppearanceSmall"
+                                    android:textColor="@color/FontSemiDarkThemeColor" />
+
+                            </RelativeLayout>
+
+
+                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                android:id="@+id/BusinessAddressTextViewUserFactorDetailActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginTop="8dp"
+                                android:singleLine="false"
+                                android:textAppearance="?android:textAppearanceSmall"
+                                android:textColor="@color/FontSemiBlackColor" />
+
+                            <LinearLayout
+                                android:id="@+id/ShowMapLinearLayoutUserFactorDetailActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_gravity="left"
+                                android:gravity="center_vertical|left"
+                                android:orientation="horizontal">
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:id="@+id/ShowMapBusinessTextViewUserFactorDetailActivity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:gravity="center_vertical|right"
+                                    android:text="@string/show_map_Address_on_map"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textColor="@color/FontSemiDarkThemeColor" />
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:id="@+id/ShowMapBusinessIconTextViewUserFactorDetailActivity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:layout_marginLeft="6dp"
+                                    android:gravity="right|center_vertical"
+                                    android:singleLine="true"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textColor="@color/FontSemiDarkThemeColor"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
                 </LinearLayout>
             </ScrollView>

@@ -191,10 +191,31 @@
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".View.Share.UserFactorListActivity" />
-        <activity android:name=".View.Share.BusinessFactorListActivity" />
-        <activity android:name=".View.Share.BusinessListForFactorActivity" />
-        <activity android:name=".View.Share.UserFactorDetailActivity"></activity>
+        <activity
+            android:name=".View.Share.UserFactorListActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Share.BusinessFactorListActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Share.BusinessListForFactorActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Share.UserFactorDetailActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Share.UserFactorProductDetailActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
