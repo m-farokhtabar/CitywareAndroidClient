@@ -18,6 +18,7 @@ import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Factor.UserFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Share.Enum.FactorStatus;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -28,6 +29,7 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Share.UserFactorDetailActivity;
 import ir.rayas.app.citywareclient.View.Share.UserFactorListActivity;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorItemViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 
 /**
@@ -47,17 +49,19 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     private int totalItemCount;
 
     private int Position;
+    private List<FactorStatusViewModel> FactorStatusViewModel = null;
 
     public void setLoading(boolean loading) {
         isLoading = loading;
     }
 
 
-    public UserFactorListRecyclerViewAdapter(UserFactorListActivity Context, List<FactorViewModel> FactorList, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
+    public UserFactorListRecyclerViewAdapter(UserFactorListActivity Context, List<FactorViewModel> FactorList, List<FactorStatusViewModel> FactorStatusViewModel, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
         this.ViewModelList = FactorList;
         this.Context = Context;
         this.Container = Container;
         this.onLoadMoreListener = mOnLoadMoreListener;
+        this.FactorStatusViewModel = FactorStatusViewModel;
         CreateLayout();
     }
 
@@ -101,8 +105,16 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         viewHolder.UserFactorCodeTextView.setText(String.valueOf(ViewModelList.get(position).getId()));
 
         boolean IsZeroPrice = false;
+        int IdFactorStatus = 0;
 
-        List<FactorItemViewModel> ItemList =   ViewModelList.get(position).getItemList();
+        for (int i = 0; i < FactorStatusViewModel.size(); i++) {
+            if (ViewModelList.get(position).getFactorStatusId() == FactorStatusViewModel.get(i).getId()) {
+                viewHolder.StatusUserFactorTextView.setText(FactorStatusViewModel.get(i).getTitle());
+                IdFactorStatus = FactorStatusViewModel.get(i).getStatus();
+            }
+        }
+
+            List<FactorItemViewModel> ItemList =   ViewModelList.get(position).getItemList();
         for (int i = 0; i<ItemList.size(); i++){
             if (ItemList.get(i).getPrice() == 0){
                 IsZeroPrice = true;
@@ -161,6 +173,13 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
                 Context.startActivity(UserFactorDetailIntent);
             }
         });
+
+
+        if (IdFactorStatus == FactorStatus.Received.getId() || IdFactorStatus == FactorStatus.CanceledByBusiness.getId() || IdFactorStatus == FactorStatus.CanceledByUser.getId() || IdFactorStatus == FactorStatus.Delivered.getId()){
+            viewHolder.UserFactorDeleteIconTextView.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.UserFactorDeleteIconTextView.setVisibility(View.GONE);
+        }
 
 
     }
@@ -233,6 +252,7 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         public TextViewPersian DescriptionUserFactorTextView;
         public TextViewPersian NumberOfOrderItemsUserFactorTextView;
         public TextViewPersian UserFactorCodeTextView;
+        public TextViewPersian StatusUserFactorTextView;
         public LinearLayout UserFactorListLinearLayout;
 
         public FactorListViewHolder(View v) {
@@ -246,6 +266,7 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             NumberOfOrderItemsUserFactorTextView = v.findViewById(R.id.NumberOfOrderItemsUserFactorTextView);
             UserFactorCodeTextView = v.findViewById(R.id.UserFactorCodeTextView);
             UserFactorListLinearLayout = v.findViewById(R.id.UserFactorListLinearLayout);
+            StatusUserFactorTextView = v.findViewById(R.id.StatusUserFactorTextView);
 
         }
     }

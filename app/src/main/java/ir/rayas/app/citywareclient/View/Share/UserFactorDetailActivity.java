@@ -8,21 +8,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserFactorBusinessContactRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserFactorBusinessOpenTimeRecyclerViewAdapter;
+import ir.rayas.app.citywareclient.Adapter.Spinner.FactorStatusSpinnerAdapter;
+import ir.rayas.app.citywareclient.Adapter.ViewModel.FactorStatusAdapterViewModel;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Business.BusinessContactService;
 import ir.rayas.app.citywareclient.Service.Business.BusinessOpenTimeService;
+import ir.rayas.app.citywareclient.Service.Factor.FactorStatusService;
 import ir.rayas.app.citywareclient.Service.Factor.UserFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Share.Enum.FactorStatus;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -37,12 +47,14 @@ import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessContactViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessOpenTimeViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Factor.DescriptionFactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorItemViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Factor.StatusAndDescriptionFactorInViewModel;
 
-public class UserFactorDetailActivity extends BaseActivity implements IResponseService {
+public class UserFactorDetailActivity extends BaseActivity implements IResponseService, AdapterView.OnItemSelectedListener {
 
-    private int FactorId = 0;
     private TextViewPersian BusinessNameTextViewUserFactorDetailActivity = null;
     private TextViewPersian CreateDateUserFactorTextViewUserFactorDetailActivity = null;
     private TextViewPersian UserFactorCodeTextViewUserFactorDetailActivity = null;
@@ -54,17 +66,29 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private TextViewPersian ShowMapBusinessIconTextViewUserFactorDetailActivity = null;
     private TextViewPersian ContactIconTextViewUserFactorDetailActivity = null;
     private TextViewPersian BusinessAddressTextViewUserFactorDetailActivity = null;
+    private TextViewPersian StatusFactorTextViewUserFactorDetailActivity = null;
     private CardView BusinessDescriptionCardViewUserFactorDetailActivity = null;
     private RelativeLayout UserDescriptionRelativeLayoutUserFactorDetailActivity = null;
     private LinearLayout ShowMapLinearLayoutUserFactorDetailActivity = null;
+    private Spinner StatusFactorSpinnerUserFactorDetailActivity = null;
 
 
     private int BusinessId = 0;
     private double Latitude = 0;
     private double Longitude = 0;
+    private Integer StatusFactor = 0;
+    private int FactorId = 0;
+    private String Description = "";
+    private int FactorStatusId = 0;
+    private String FactorStatusTitle = "";
+    private boolean IsChangeDescription = false;
 
     private UserFactorBusinessOpenTimeRecyclerViewAdapter userFactorBusinessOpenTimeRecyclerViewAdapter = null;
     private UserFactorBusinessContactRecyclerViewAdapter userFactorBusinessContactRecyclerViewAdapter = null;
+
+    private List<FactorItemViewModel> ItemList = new ArrayList<>();
+    private List<FactorStatusViewModel> FactorStatusViewModels = new ArrayList<>();
+    private List<FactorStatusAdapterViewModel> FactorStatusAdapterViewModel = new ArrayList<>();
 
 
     @Override
@@ -87,7 +111,6 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
         //ایجاد طرحبندی صفحه
         CreateLayout();
-
         LoadData();
     }
 
@@ -105,8 +128,8 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private void LoadData() {
         ShowLoadingProgressBar();
 
-        UserFactorService UserFactorService = new UserFactorService(this);
-        UserFactorService.Get(FactorId);
+        FactorStatusService factorStatusService = new FactorStatusService(this);
+        factorStatusService.GetAll();
     }
 
     /**
@@ -131,8 +154,11 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         ContactIconTextViewUserFactorDetailActivity = findViewById(R.id.ContactIconTextViewUserFactorDetailActivity);
         BusinessAddressTextViewUserFactorDetailActivity = findViewById(R.id.BusinessAddressTextViewUserFactorDetailActivity);
         TextViewPersian OpenTimeIconTextViewUserFactorDetailActivity = findViewById(R.id.OpenTimeIconTextViewUserFactorDetailActivity);
+        StatusFactorSpinnerUserFactorDetailActivity = findViewById(R.id.StatusFactorSpinnerUserFactorDetailActivity);
+        StatusFactorTextViewUserFactorDetailActivity = findViewById(R.id.StatusFactorTextViewUserFactorDetailActivity);
 
         ButtonPersianView ShowProductButtonUserFactorDetailActivity = findViewById(R.id.ShowProductButtonUserFactorDetailActivity);
+        ButtonPersianView EditButtonUserFactorDetailActivity = findViewById(R.id.EditButtonUserFactorDetailActivity);
 
         ContactIconTextViewUserFactorDetailActivity.setTypeface(Font.MasterIcon);
         ContactIconTextViewUserFactorDetailActivity.setText("\uf095");
@@ -159,7 +185,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
             public void onClick(View view) {
                 Intent MapIntent = NewIntent(MapActivity.class);
                 MapIntent.putExtra("Latitude", Latitude);
-                MapIntent.putExtra("Longitude",Longitude);
+                MapIntent.putExtra("Longitude", Longitude);
                 MapIntent.putExtra("Going", 2);
                 startActivity(MapIntent);
             }
@@ -170,7 +196,8 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
             public void onClick(View view) {
 
                 Intent ProductDetailIntent = NewIntent(UserFactorProductDetailActivity.class);
-                ProductDetailIntent.putExtra("Latitude", Latitude);
+                String ArrayAsString = new Gson().toJson(ItemList);
+                ProductDetailIntent.putExtra("ArrayAsString", ArrayAsString);
                 startActivity(ProductDetailIntent);
 
             }
@@ -184,6 +211,16 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                 businessOpenTimeService.GetAll(BusinessId);
             }
         });
+
+        EditButtonUserFactorDetailActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChangeFactorStatus();
+            }
+        });
+
+        StatusFactorSpinnerUserFactorDetailActivity.setOnItemSelectedListener(this);
+
     }
 
     /**
@@ -193,9 +230,10 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
      */
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        HideLoading();
+
         try {
             if (ServiceMethod == ServiceMethodType.UserFactorGet) {
+                HideLoading();
                 Feedback<FactorViewModel> FeedBack = (Feedback<FactorViewModel>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
@@ -203,6 +241,8 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
                     final FactorViewModel ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
+                        FactorStatusId = ViewModelList.getFactorStatusId();
+                        SetInformationToSpinner(FactorStatusViewModels);
                         SetInformationToView(ViewModelList);
                     }
                 } else {
@@ -214,6 +254,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                     }
                 }
             } else if (ServiceMethod == ServiceMethodType.BusinessOpenTimeGetAll) {
+                HideLoading();
                 Feedback<List<BusinessOpenTimeViewModel>> FeedBack = (Feedback<List<BusinessOpenTimeViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
@@ -234,6 +275,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                     }
                 }
             } else if (ServiceMethod == ServiceMethodType.BusinessContactGetAll) {
+                HideLoading();
                 Feedback<List<BusinessContactViewModel>> FeedBack = (Feedback<List<BusinessContactViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
@@ -254,11 +296,133 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                         ShowErrorInConnectDialog();
                     }
                 }
+            } else if (ServiceMethod == ServiceMethodType.FactorStatusGetAll) {
+                Feedback<List<FactorStatusViewModel>> FeedBack = (Feedback<List<FactorStatusViewModel>>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    UserFactorService UserFactorService = new UserFactorService(this);
+                    UserFactorService.Get(FactorId);
+
+                    List<FactorStatusViewModel> ViewModel = FeedBack.getValue();
+                    if (ViewModel != null) {
+                        //تنظیمات مربوط به recycle کسب و کار
+                        if (ViewModel.size() > 0)
+                            FactorStatusViewModels = ViewModel;
+                    }
+
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        //ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.UserStatusAndDescriptionSet) {
+                HideLoading();
+                Feedback<Boolean> FeedBack = (Feedback<Boolean>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.UpdatedSuccessful.getId()) {
+                    ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    if (FeedBack.getValue()) {
+                        StatusFactorTextViewUserFactorDetailActivity.setText(StatusFactorTextViewUserFactorDetailActivity.getText().toString());
+                        if (IsChangeDescription) {
+                            UserDescriptionEditTextUserFactorDetailActivity.setText(UserDescriptionEditTextUserFactorDetailActivity.getText().toString());
+                        } else {
+                            UserDescriptionEditTextUserFactorDetailActivity.setText(Description);
+                        }
+                    } else {
+                        StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusTitle);
+                        UserDescriptionEditTextUserFactorDetailActivity.setText(Description);
+                    }
+                } else {
+                    StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusTitle);
+                    UserDescriptionEditTextUserFactorDetailActivity.setText(Description);
+
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.UserDescriptionSet) {
+                HideLoading();
+                Feedback<Boolean> FeedBack = (Feedback<Boolean>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.UpdatedSuccessful.getId()) {
+                    ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    if (FeedBack.getValue()) {
+                        UserDescriptionEditTextUserFactorDetailActivity.setText(UserDescriptionEditTextUserFactorDetailActivity.getText().toString());
+                    } else {
+                        UserDescriptionEditTextUserFactorDetailActivity.setText(Description);
+                    }
+                } else {
+                    UserDescriptionEditTextUserFactorDetailActivity.setText(Description);
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
             }
         } catch (Exception e) {
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+        switch (adapterView.getId()) {
+            case R.id.StatusFactorSpinnerUserFactorDetailActivity: {
+
+                StatusFactor = FactorStatusAdapterViewModel.get(i).getId();
+                StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
+
+                //نمایش ایکون کنار spinner تنها در انتخاب یک position خاص یا اولین position
+                ImageView ArrowDropDownImageView = view.findViewById(R.id.ArrowDropDownImageView);
+                int Position = (int) ArrowDropDownImageView.getTag();
+
+                if (Position == i) {
+                    ArrowDropDownImageView.setVisibility(View.VISIBLE);
+                } else {
+                    ArrowDropDownImageView.setVisibility(View.GONE);
+                }
+                //--------------------------------------------------------------------------
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private StatusAndDescriptionFactorInViewModel MadeViewModel() {
+
+        StatusAndDescriptionFactorInViewModel ViewModel = new StatusAndDescriptionFactorInViewModel();
+        ViewModel.setFactorId(FactorId);
+        if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString())) {
+            ViewModel.setDescription(null);
+            IsChangeDescription = false;
+        } else {
+            ViewModel.setDescription(UserDescriptionEditTextUserFactorDetailActivity.getText().toString());
+            IsChangeDescription = true;
+        }
+        ViewModel.setFactorStatusId(StatusFactor);
+
+        return ViewModel;
+    }
+
+    private DescriptionFactorInViewModel MadeViewModels() {
+
+        DescriptionFactorInViewModel ViewModel = new DescriptionFactorInViewModel();
+        ViewModel.setFactorId(FactorId);
+        ViewModel.setDescription(UserDescriptionEditTextUserFactorDetailActivity.getText().toString());
+
+        return ViewModel;
     }
 
     private void SetInformationToView(FactorViewModel ViewModelList) {
@@ -272,21 +436,23 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         BusinessId = ViewModelList.getBusinessId();
         Latitude = ViewModelList.getBusinessLatitude();
         Longitude = ViewModelList.getBusinessLongitude();
+        Description = ViewModelList.getUserDescription();
 
-        if (Longitude > 0){
+        if (Longitude > 0) {
             ShowMapLinearLayoutUserFactorDetailActivity.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             ShowMapLinearLayoutUserFactorDetailActivity.setVisibility(View.GONE);
         }
 
         boolean IsZeroPrice = false;
 
-        List<FactorItemViewModel> ItemList = ViewModelList.getItemList();
+        ItemList = ViewModelList.getItemList();
         for (int i = 0; i < ItemList.size(); i++) {
             if (ItemList.get(i).getPrice() == 0) {
                 IsZeroPrice = true;
             }
         }
+
 
         if (ViewModelList.getTotalPrice() < 0) {
             PricePayableUserFactorTextViewUserFactorDetailActivity.setText(getResources().getString(R.string.unknown));
@@ -326,16 +492,61 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
             BusinessDescriptionTextViewUserFactorDetailActivity.setText(ViewModelList.getBusinessDescription());
         }
 
-        if (ViewModelList.getUserDescription() == null || ViewModelList.getUserDescription().equals("")) {
-            UserDescriptionEditTextUserFactorDetailActivity.setVisibility(View.GONE);
-            UserDescriptionRelativeLayoutUserFactorDetailActivity.setVisibility(View.GONE);
-        } else {
-            UserDescriptionRelativeLayoutUserFactorDetailActivity.setVisibility(View.VISIBLE);
-            UserDescriptionEditTextUserFactorDetailActivity.setVisibility(View.VISIBLE);
+        if (ViewModelList.getUserDescription() != null || !ViewModelList.getUserDescription().equals("")) {
             UserDescriptionEditTextUserFactorDetailActivity.setText(ViewModelList.getUserDescription());
         }
 
 
+        if (ViewModelList.getFactorStatusId() >= 0)
+            StatusFactorSpinnerUserFactorDetailActivity.setSelection(SetPositionToSpinnerUserFactorStatus(ViewModelList.getFactorStatusId(), FactorStatusAdapterViewModel));
+
+
+    }
+
+    private void SetInformationToSpinner(List<FactorStatusViewModel> ViewModel) {
+
+        FactorStatusAdapterViewModel = new ArrayList<>();
+
+        for (int i = 0; i < ViewModel.size(); i++) {
+
+            if (FactorStatusId == ViewModel.get(i).getId()) {
+                StatusFactor = ViewModel.get(i).getId();
+                StatusFactorTextViewUserFactorDetailActivity.setText(ViewModel.get(i).getTitle());
+                FactorStatusTitle = ViewModel.get(i).getTitle();
+            }
+
+            if (StatusFactor == FactorStatus.Received.getId() || StatusFactor == FactorStatus.CanceledByUser.getId() || StatusFactor == FactorStatus.CanceledByBusiness.getId() || StatusFactor == FactorStatus.Delivered.getId()) {
+                StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.GONE);
+            }else {
+                StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.VISIBLE);
+            }
+
+            if (ViewModel.get(i).getStatus() == FactorStatus.Received.getId())
+                FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+            else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByUser.getId())
+                FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+            else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
+                FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+        }
+
+        FactorStatusSpinnerAdapter factorStatusSpinnerAdapter = new FactorStatusSpinnerAdapter(UserFactorDetailActivity.this, FactorStatusAdapterViewModel);
+        StatusFactorSpinnerUserFactorDetailActivity.setAdapter(factorStatusSpinnerAdapter);
+
+    }
+
+    private int SetPositionToSpinnerUserFactorStatus(int SelectId, List<FactorStatusAdapterViewModel> ViewModel) {
+        int Position = 0;
+
+        if (ViewModel != null) {
+            for (int i = 0; i < ViewModel.size(); i++) {
+                if (SelectId == ViewModel.get(i).getId()) {
+                    Position = i;
+                }
+            }
+        } else {
+            Position = 0;
+        }
+        return Position;
     }
 
     private void ShowDialogBusinessOpenTime(List<BusinessOpenTimeViewModel> ViewModel) {
@@ -372,6 +583,23 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         ShowBusinessDetailsDialog.show();
     }
 
+    private void ChangeFactorStatus() {
+
+
+        UserFactorService Service = new UserFactorService(this);
+
+        if (StatusFactor == FactorStatusId) {
+            if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString())) {
+                ShowToast(getResources().getString(R.string.no_change_description_status_factor), Toast.LENGTH_LONG, MessageType.Warning);
+            } else {
+                ShowLoadingProgressBar();
+                Service.SetDescription(MadeViewModels());
+            }
+        } else {
+            ShowLoadingProgressBar();
+            Service.SetStatusAndDescription(MadeViewModel());
+        }
+    }
 
     @Override
     protected void onDestroy() {

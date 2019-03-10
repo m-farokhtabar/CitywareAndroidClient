@@ -384,12 +384,12 @@
     <string name="order_quantity">میزان سفارش</string>
     <string name="order_quantity_product"> میزان سفارش محصول</string>
     <string name="please_enter_order_quantity">لطفا میزان سفارش را مشخص کنید</string>
-    <string name="show_basket">مشاهده سبد خرید</string>
+    <string name="show_basket"> سبد خرید</string>
     <string name="product_added_to_basket"> به سبد خرید اضافه شد.</string>
     <string name="product_was_edited_in_the_basket"> در سبد خرید تغییر یافت.</string>
     <string name="payable_price">قیمت قابل پرداخت</string>
     <string name="products_price">قیمت محصولات</string>
-    <string name="total_product_price">قیمت کل محصول</string>
+    <string name="total_product_price">قیمت کل</string>
     <string name="unit_price">قیمت واحد</string>
     <string name="delivery_by_courier">تحویل سفارش توسط پیک درب منزل</string>
     <string name="business_does_not_have_a_delivery_service">کسب و کار مورد نظر فاقد سرویس پیک می باشد</string>
@@ -414,5 +414,18 @@
     <string name="no_business_for_showing_to_view">کسب و کاری برای نمایش وجود ندارد.</string>
     <string name="price_is_not_definitive">قیمت قطعی نمی باشد.</string>
     <string name="description_user">توضیحات کاربر</string>
+    <string name="factor_products">محصولات فاکتور خرید</string>
+    <string name="no_change_description_status_factor">شما تغییری ایجاد نکرده اید...</string>
+    <string name="contact_us">اطلاعات تماس</string>
+    <string name="zero">0</string>
+    <string name="customer_order_will_be_delivered_to_the_business_address">سفارش مشتری در آدرس کسب و کار تحویل گرفته خواهد شد</string>
+
+
+    <!--متون مرتبط با  پکیج-->
+    <string name="your_business_list_is_empty">لیست کسب و کار شما خالی است</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

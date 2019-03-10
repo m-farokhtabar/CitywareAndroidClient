@@ -154,7 +154,7 @@
                                         android:layout_height="wrap_content"
                                         android:gravity="right"
                                         android:singleLine="true"
-                                        android:text="@string/products_price"
+                                        android:text="@string/price_with_out_currency"
                                         android:textAppearance="?android:attr/textAppearanceSmall"
                                         android:textColor="@color/FontGreenColor" />
                                 </LinearLayout>

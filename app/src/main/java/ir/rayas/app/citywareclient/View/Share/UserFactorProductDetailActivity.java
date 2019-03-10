@@ -4,9 +4,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserFactorProductDetailRecyclerViewAdapter;
+import ir.rayas.app.citywareclient.Adapter.ViewModel.FactorStatusAdapterViewModel;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
@@ -31,8 +37,12 @@ public class UserFactorProductDetailActivity extends BaseActivity {
             public void call() {
 
             }
-        }, R.string.factor);
+        }, R.string.factor_products);
 
+        String ArrayAsString = getIntent().getExtras().getString("ArrayAsString");
+        Type listType = new TypeToken<List<FactorItemViewModel>>() {
+        }.getType();
+        FactorItemViewModel = new Gson().fromJson(ArrayAsString, listType);
 
         //طرحبندی ویو
         CreateLayout();
@@ -50,6 +60,8 @@ public class UserFactorProductDetailActivity extends BaseActivity {
         ProductListRecyclerViewUserFactorProductDetailActivity.setAdapter(userFactorProductDetailRecyclerViewAdapter);
         userFactorProductDetailRecyclerViewAdapter.notifyDataSetChanged();
         ProductListRecyclerViewUserFactorProductDetailActivity.invalidate();
+
+
     }
 
     @Override

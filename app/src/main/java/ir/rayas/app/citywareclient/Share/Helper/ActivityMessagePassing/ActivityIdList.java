@@ -42,4 +42,6 @@ public class ActivityIdList {
     public  static final int BUSINESS_LIST_FOR_FACTOR_ACTIVITY  = 29;
     public  static final int USER_FACTOR_DETAIL_ACTIVITY  = 30;
     public  static final int USER_FACTOR_PRODUCT_DETAIL_ACTIVITY  = 31;
+    public  static final int BUSINESS_FACTOR_DETAIL_ACTIVITY  = 32;
+    public  static final int PACKAGE_ACTIVITY  = 33;
 }

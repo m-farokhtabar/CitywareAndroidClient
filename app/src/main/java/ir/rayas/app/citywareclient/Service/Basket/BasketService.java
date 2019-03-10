@@ -83,11 +83,26 @@ public class BasketService implements IService {
         }.getType());
     }
 
+    public void EditQuantityByItemId(int ItemId, double Quantity) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionItem  + "/" + ItemId + "/" + Quantity;
+        String JsonViewModel = "";
+        Current.PutService(this, Url, JsonViewModel, ServiceMethodType.BasketEditQuantityByItemId, StandardOrderItemViewModel.class, new TypeToken<Feedback<BasketItemViewModel>>() {
+        }.getType());
+    }
+
 
     public void DeleteItemByItemId(int ItemId) {
         BaseService Current = new BaseService();
         String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionItem + "/" + ItemId;
         Current.DeleteService(this, Url, ServiceMethodType.BasketDeleteItemByItemId, BasketItemViewModel.class, new TypeToken<Feedback<BasketItemViewModel>>() {
+        }.getType());
+    }
+
+    public void DeleteBasket(int ItemId) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/"  + ItemId;
+        Current.DeleteService(this, Url, ServiceMethodType.BasketDelete, BasketViewModel.class, new TypeToken<Feedback<BasketViewModel>>() {
         }.getType());
     }
 

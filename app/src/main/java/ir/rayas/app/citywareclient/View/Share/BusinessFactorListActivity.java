@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessFactorListRecyclerViewAdapter;
@@ -15,6 +16,7 @@ import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
+import ir.rayas.app.citywareclient.Service.Factor.FactorStatusService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
@@ -24,6 +26,7 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 
 public class BusinessFactorListActivity extends BaseActivity implements IResponseService {
@@ -37,6 +40,8 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
     private int PageNumber = 1;
     private boolean IsSwipe = false;
     private int BusinessId = 0;
+
+    private List<FactorStatusViewModel> FactorStatusViewModel = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +82,19 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
             if (PageNumber == 1)
                 ShowLoadingProgressBar();
 
+
+        FactorStatusService factorStatusService = new FactorStatusService(this);
+        factorStatusService.GetAll();
+    }
+
+    private void LoadDataFactor() {
+        if (!IsSwipe)
+            if (PageNumber == 1)
+                ShowLoadingProgressBar();
+
         BusinessFactorService BusinessFactorService = new BusinessFactorService(this);
         BusinessFactorService.GetAll(BusinessId, PageNumber);
+
     }
 
     /**
@@ -93,7 +109,7 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
 
         FactorListRecyclerViewBusinessFactorListActivity = findViewById(R.id.FactorListRecyclerViewBusinessFactorListActivity);
         FactorListRecyclerViewBusinessFactorListActivity.setLayoutManager(new LinearLayoutManager(this));
-        BusinessFactorListRecyclerViewAdapter = new BusinessFactorListRecyclerViewAdapter(this, null, FactorListRecyclerViewBusinessFactorListActivity, new OnLoadMoreListener() {
+        BusinessFactorListRecyclerViewAdapter = new BusinessFactorListRecyclerViewAdapter(this, null,FactorStatusViewModel, FactorListRecyclerViewBusinessFactorListActivity, new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 PageNumber = PageNumber + 1;
@@ -122,12 +138,13 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
      */
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        HideLoading();
+
         LoadMoreProgressBar.setVisibility(View.GONE);
         RefreshFactorListSwipeRefreshLayoutBusinessFactorListActivity.setRefreshing(false);
         IsSwipe = false;
         try {
             if (ServiceMethod == ServiceMethodType.BusinessFactorGetAll) {
+                HideLoading();
                 Feedback<List<FactorViewModel>> FeedBack = (Feedback<List<FactorViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
@@ -154,6 +171,37 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
                             ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
 
                         }
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
+            }  else if (ServiceMethod == ServiceMethodType.FactorStatusGetAll) {
+                Feedback<List<FactorStatusViewModel>> FeedBack = (Feedback<List<FactorStatusViewModel>>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    BusinessFactorService BusinessFactorService = new BusinessFactorService(this);
+                    BusinessFactorService.GetAll(BusinessId, PageNumber);
+
+                    FactorStatusViewModel =  new ArrayList<>();
+                    FactorStatusViewModel = FeedBack.getValue();
+
+                    FactorListRecyclerViewBusinessFactorListActivity = findViewById(R.id.FactorListRecyclerViewBusinessFactorListActivity);
+                    FactorListRecyclerViewBusinessFactorListActivity.setLayoutManager(new LinearLayoutManager(this));
+                    BusinessFactorListRecyclerViewAdapter = new BusinessFactorListRecyclerViewAdapter(this, null,FactorStatusViewModel, FactorListRecyclerViewBusinessFactorListActivity, new OnLoadMoreListener() {
+                        @Override
+                        public void onLoadMore() {
+                            PageNumber = PageNumber + 1;
+                            LoadMoreProgressBar.setVisibility(View.VISIBLE);
+                            LoadDataFactor();
+                        }
+                    });
+                    FactorListRecyclerViewBusinessFactorListActivity.setAdapter(BusinessFactorListRecyclerViewAdapter);
+
+                } else {
+                    HideLoading();
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         ShowErrorInConnectDialog();
                     }

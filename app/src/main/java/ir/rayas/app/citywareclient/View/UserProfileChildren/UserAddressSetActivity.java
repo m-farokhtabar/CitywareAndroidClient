@@ -1,5 +1,6 @@
 package ir.rayas.app.citywareclient.View.UserProfileChildren;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -138,7 +139,12 @@ public class UserAddressSetActivity extends BaseActivity implements IResponseSer
             if (IsSet.equals("Edit")) {
                 Service.Set(MadeViewModel(), AddressId);
             } else {
-                Service.Add(MadeViewModel());
+                if (Latitude > 0 && Longitude > 0) {
+                    Service.Add(MadeViewModel());
+                }  else {
+                    ShowToast(getResources().getString(R.string.at_first_please_touch_some_where_to_select), Toast.LENGTH_LONG, MessageType.Warning);
+                }
+
             }
         }
     }

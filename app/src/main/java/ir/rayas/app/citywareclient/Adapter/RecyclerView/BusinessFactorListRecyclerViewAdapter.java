@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,8 +19,9 @@ import java.util.List;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
-import ir.rayas.app.citywareclient.Service.Factor.UserFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Share.Enum.ContactType;
+import ir.rayas.app.citywareclient.Share.Enum.FactorStatus;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -26,11 +29,11 @@ import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.View.Master.BookmarkActivity;
+import ir.rayas.app.citywareclient.View.Share.BusinessFactorDetailsActivity;
 import ir.rayas.app.citywareclient.View.Share.BusinessFactorListActivity;
 import ir.rayas.app.citywareclient.View.Share.MapActivity;
-import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorItemViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 
 /**
@@ -51,16 +54,19 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
 
     private int Position;
 
+    private List<FactorStatusViewModel> FactorStatusViewModel = null;
+
     public void setLoading(boolean loading) {
         isLoading = loading;
     }
 
 
-    public BusinessFactorListRecyclerViewAdapter(BusinessFactorListActivity Context, List<FactorViewModel> FactorList, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
+    public BusinessFactorListRecyclerViewAdapter(BusinessFactorListActivity Context, List<FactorViewModel> FactorList, List<FactorStatusViewModel> FactorStatusViewModel, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
         this.ViewModelList = FactorList;
         this.Context = Context;
         this.Container = Container;
         this.onLoadMoreListener = mOnLoadMoreListener;
+        this.FactorStatusViewModel = FactorStatusViewModel;
         CreateLayout();
     }
 
@@ -96,20 +102,29 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
-        FactorListViewHolder viewHolder = (FactorListViewHolder) holder;
+        final FactorListViewHolder viewHolder = (FactorListViewHolder) holder;
 
         viewHolder.UserNameTitleTextView.setText(ViewModelList.get(position).getUserFullName());
         viewHolder.CreateDateBusinessFactorTextView.setText(ViewModelList.get(position).getCreate());
         viewHolder.NumberOfOrderItemsBusinessFactorTextView.setText(String.valueOf(ViewModelList.get(position).getItemList().size()));
         viewHolder.FactorCodeTextView.setText(String.valueOf(ViewModelList.get(position).getId()));
-        viewHolder.UserCellPhoneTextView.setText(String.valueOf(ViewModelList.get(position).getUserCellPhone()));
+        viewHolder.UserCellPhoneTextView.setText(Context.getResources().getString(R.string.zero) + String.valueOf(ViewModelList.get(position).getUserCellPhone()));
 
+        final String PhoneNumber = viewHolder.UserCellPhoneTextView.getText().toString();
 
         boolean IsZeroPrice = false;
+        int IdFactorStatus = 0;
 
-        List<FactorItemViewModel> ItemList =   ViewModelList.get(position).getItemList();
-        for (int i = 0; i<ItemList.size(); i++){
-            if (ItemList.get(i).getPrice() == 0){
+        for (int i = 0; i < FactorStatusViewModel.size(); i++) {
+            if (ViewModelList.get(position).getFactorStatusId() == FactorStatusViewModel.get(i).getId()) {
+                viewHolder.StatusBusinessFactorTextView.setText(FactorStatusViewModel.get(i).getTitle());
+                IdFactorStatus = FactorStatusViewModel.get(i).getStatus();
+            }
+        }
+
+        List<FactorItemViewModel> ItemList = ViewModelList.get(position).getItemList();
+        for (int i = 0; i < ItemList.size(); i++) {
+            if (ItemList.get(i).getPrice() == 0) {
                 IsZeroPrice = true;
             }
         }
@@ -120,31 +135,31 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
 
             double DeliveryCost = ViewModelList.get(position).getDeliveryCost();
             Double PayablePrice;
-            if (DeliveryCost <= 0){
-                PayablePrice =   ViewModelList.get(position).getTotalPrice();
-            }  else {
+            if (DeliveryCost <= 0) {
+                PayablePrice = ViewModelList.get(position).getTotalPrice();
+            } else {
                 PayablePrice = ViewModelList.get(position).getTotalPrice() + DeliveryCost;
             }
 
-            if (ViewModelList.get(position).isHasQuickOrder()){
+            if (ViewModelList.get(position).isHasQuickOrder()) {
 
-                viewHolder.PricePayableBusinessFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman)+ " - " + Context.getResources().getString(R.string.price_is_not_definitive));
+                viewHolder.PricePayableBusinessFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman) + " - " + Context.getResources().getString(R.string.price_is_not_definitive));
 
                 viewHolder.DescriptionBusinessFactorTextView.setVisibility(View.VISIBLE);
                 viewHolder.DescriptionBusinessFactorTextView.setText(Context.getResources().getString(R.string.in_order_some_unknown_price_items_must_be_aligned_with_customer));
-            }else {
+            } else {
                 if (IsZeroPrice) {
                     viewHolder.PricePayableBusinessFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman) + " - " + Context.getResources().getString(R.string.price_is_not_definitive));
 
                     viewHolder.DescriptionBusinessFactorTextView.setVisibility(View.VISIBLE);
                     viewHolder.DescriptionBusinessFactorTextView.setText(Context.getResources().getString(R.string.in_order_some_unknown_price_items_must_be_aligned_with_customer));
-                }else {
+                } else {
                     viewHolder.DescriptionBusinessFactorTextView.setVisibility(View.GONE);
                     viewHolder.PricePayableBusinessFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman));
                 }
             }
         }
-        
+
 
         viewHolder.BusinessFactorDeleteIconTextView.setTypeface(Font.MasterIcon);
         viewHolder.BusinessFactorDeleteIconTextView.setText("\uf014");
@@ -161,8 +176,6 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
         });
 
 
-        viewHolder.UserAddressTextView.setText(ViewModelList.get(position).getUserAddress());
-
         viewHolder.ShowMapUserAddressIconTextView.setTypeface(Font.MasterIcon);
         viewHolder.ShowMapUserAddressIconTextView.setText("\uf041");
 
@@ -177,6 +190,38 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
             }
         });
 
+        viewHolder.BusinessFactorListRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent UserFactorDetailIntent = Context.NewIntent(BusinessFactorDetailsActivity.class);
+                UserFactorDetailIntent.putExtra("FactorId", ViewModelList.get(position).getId());
+                Context.startActivity(UserFactorDetailIntent);
+            }
+        });
+
+        viewHolder.UserCellPhoneTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "tel:" + PhoneNumber;
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
+                Context.startActivity(intent);
+            }
+        });
+
+        if (ViewModelList.get(position).getUserAddress() == null || ViewModelList.get(position).getUserAddress().equals("")) {
+            viewHolder.UserAddressTextView.setText(Context.getResources().getString(R.string.customer_order_will_be_delivered_to_the_business_address));
+            viewHolder.ShowMapUserAddressLinearLayout.setVisibility(View.GONE);
+        } else {
+            viewHolder.ShowMapUserAddressLinearLayout.setVisibility(View.VISIBLE);
+            viewHolder.UserAddressTextView.setText(ViewModelList.get(position).getUserAddress());
+        }
+
+
+        if (IdFactorStatus == FactorStatus.Received.getId() || IdFactorStatus == FactorStatus.CanceledByBusiness.getId() || IdFactorStatus == FactorStatus.CanceledByUser.getId() || IdFactorStatus == FactorStatus.Delivered.getId()){
+            viewHolder.BusinessFactorDeleteIconTextView.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.BusinessFactorDeleteIconTextView.setVisibility(View.GONE);
+        }
 
     }
 
@@ -253,6 +298,7 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
         public LinearLayout ShowMapUserAddressLinearLayout;
         public TextViewPersian ShowMapUserAddressIconTextView;
         public TextViewPersian StatusBusinessFactorTextView;
+        public RelativeLayout BusinessFactorListRelativeLayout;
 
         public FactorListViewHolder(View v) {
             super(v);
@@ -269,12 +315,10 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
             ShowMapUserAddressLinearLayout = v.findViewById(R.id.ShowMapUserAddressLinearLayout);
             ShowMapUserAddressIconTextView = v.findViewById(R.id.ShowMapUserAddressIconTextView);
             StatusBusinessFactorTextView = v.findViewById(R.id.StatusBusinessFactorTextView);
+            BusinessFactorListRelativeLayout = v.findViewById(R.id.BusinessFactorListRelativeLayout);
 
         }
     }
-
-
-
 
 
 }

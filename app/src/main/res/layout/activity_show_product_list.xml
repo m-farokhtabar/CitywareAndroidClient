@@ -16,13 +16,13 @@
         android:visibility="visible">
 
         <include
-            android:id="@+id/BackToolBar"
-            layout="@layout/view_back_toolbar" />
+            android:id="@+id/BasketAndBackToolBar"
+            layout="@layout/view_back_basket_toolbar" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/BackToolBar"
+            android:layout_below="@+id/BasketAndBackToolBar"
             android:background="@color/BackgroundWhiteColor">
 
             <android.support.v4.widget.SwipeRefreshLayout

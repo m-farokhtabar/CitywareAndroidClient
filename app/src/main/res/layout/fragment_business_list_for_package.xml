@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.Package.BusinessListForPackageFragment">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/RefreshBusinessListSwipeRefreshLayoutBusinessListForPackageFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/BusinessListRecyclerViewBusinessListForPackageFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:id="@+id/ShowEmptyBusinessListTextViewBusinessListForPackageFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/FontSemiDarkThemeColor"
+        android:text="@string/your_business_list_is_empty"
+        android:textAppearance="?android:textAppearanceSmall" />
+
+</RelativeLayout>

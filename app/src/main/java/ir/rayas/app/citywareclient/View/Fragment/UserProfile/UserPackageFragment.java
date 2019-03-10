@@ -1,7 +1,9 @@
 package ir.rayas.app.citywareclient.View.Fragment.UserProfile;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,12 +25,12 @@ import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
+import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 
 public class UserPackageFragment extends Fragment implements IResponseService, ILoadData {
 
     private UserProfileActivity Context = null;
-    private RecyclerView PackageRecyclerViewUserPackageFragment = null;
     private SwipeRefreshLayout RefreshPackageSwipeRefreshLayoutUserPackageFragment;
     private ProgressBar LoadMoreProgressBar = null;
     private boolean IsSwipe = false;
@@ -56,10 +58,10 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
 
         LoadMoreProgressBar = CurrentView.findViewById(R.id.LoadMoreProgressPackageFragment);
         RefreshPackageSwipeRefreshLayoutUserPackageFragment = CurrentView.findViewById(R.id.RefreshPackageSwipeRefreshLayoutUserPackageFragment);
-        PackageRecyclerViewUserPackageFragment = CurrentView.findViewById(R.id.PackageRecyclerViewUserPackageFragment);
+        RecyclerView packageRecyclerViewUserPackageFragment = CurrentView.findViewById(R.id.PackageRecyclerViewUserPackageFragment);
 
-        PackageRecyclerViewUserPackageFragment.setLayoutManager(new LinearLayoutManager(Context));
-        packageRecyclerViewAdapter = new PackageRecyclerViewAdapter(Context, null, PackageRecyclerViewUserPackageFragment, new OnLoadMoreListener() {
+        packageRecyclerViewUserPackageFragment.setLayoutManager(new LinearLayoutManager(Context));
+        packageRecyclerViewAdapter = new PackageRecyclerViewAdapter(Context, null, packageRecyclerViewUserPackageFragment, new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 PageNumber = PageNumber + 1;
@@ -67,7 +69,16 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                 LoadData();
             }
         });
-        PackageRecyclerViewUserPackageFragment.setAdapter(packageRecyclerViewAdapter);
+        packageRecyclerViewUserPackageFragment.setAdapter(packageRecyclerViewAdapter);
+
+        FloatingActionButton NewPackageFloatingActionButtonUserPackageFragment = CurrentView.findViewById(R.id.NewPackageFloatingActionButtonUserPackageFragment);
+        NewPackageFloatingActionButtonUserPackageFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent NewPackageIntent = Context.NewIntent(PackageActivity.class);
+                Context.startActivity(NewPackageIntent);
+            }
+        });
 
 
         RefreshPackageSwipeRefreshLayoutUserPackageFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

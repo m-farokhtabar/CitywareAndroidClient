@@ -59,13 +59,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginBottom="13dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
                 android:layout_marginTop="13dp"
                 android:background="@drawable/view_button_normal_theme_style"
                 android:gravity="center"
+                android:textAppearance="?android:textAppearanceSmall"
                 android:text="@string/continue_shopping_process"
                 android:textColor="@color/FontWhiteColor" />
 
@@ -74,12 +75,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginRight="13dp"
-                android:layout_marginEnd="13dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/selector_button_green_style"
                 android:text="@string/show_basket"
+                android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/FontWhiteColor" />
         </LinearLayout>
 

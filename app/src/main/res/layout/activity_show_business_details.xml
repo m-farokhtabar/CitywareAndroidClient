@@ -16,14 +16,14 @@
         android:visibility="visible">
 
         <include
-            android:id="@+id/BackToolBar"
-            layout="@layout/view_back_toolbar" />
+            android:id="@+id/BasketAndBackToolBar"
+            layout="@layout/view_back_basket_toolbar" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/RefreshShowBusinessDetailsSwipeRefreshLayoutShowBusinessDetailsActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/BackToolBar">
+            android:layout_below="@+id/BasketAndBackToolBar">
 
             <ScrollView
                 android:layout_width="match_parent"

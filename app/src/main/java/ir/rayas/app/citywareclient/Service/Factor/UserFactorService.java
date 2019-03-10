@@ -14,13 +14,11 @@ import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.ViewModel.Basket.BasketDeliveryAndUserDescriptionViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Basket.StandardOrderItemViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Factor.DescriptionFactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Factor.StatusAndDescriptionFactorInViewModel;
 
 /**
  * Created by Hajar on 2/17/2019.
@@ -33,6 +31,8 @@ public class UserFactorService implements IService {
     private String ActionUser = "User";
     private String ActionAll = "All";
     private String ActionPage = "Page";
+    private String ActionStatusAndDescription = "StatusAndDescription";
+    private String ActionDescription = "Description";
 
     private IResponseService ResponseService;
 
@@ -76,6 +76,24 @@ public class UserFactorService implements IService {
         BaseService Current = new BaseService();
         String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionUser + "/" + FactorId;
         Current.GetService(this, Url, ServiceMethodType.UserFactorGet, FactorViewModel.class, new TypeToken<Feedback<FactorViewModel>>() {
+        }.getType());
+    }
+
+    public void SetStatusAndDescription(StatusAndDescriptionFactorInViewModel ViewModel) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionUser + "/" + ActionStatusAndDescription;
+        Gson gson = new Gson();
+        String JsonViewModel = gson.toJson(ViewModel);
+        Current.PutService(this, Url, JsonViewModel, ServiceMethodType.UserStatusAndDescriptionSet, StatusAndDescriptionFactorInViewModel.class, new TypeToken<Feedback<Boolean>>() {
+        }.getType());
+    }
+
+    public void SetDescription(DescriptionFactorInViewModel ViewModel) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionUser + "/" + ActionDescription;
+        Gson gson = new Gson();
+        String JsonViewModel = gson.toJson(ViewModel);
+        Current.PutService(this, Url, JsonViewModel, ServiceMethodType.UserDescriptionSet, DescriptionFactorInViewModel.class, new TypeToken<Feedback<Boolean>>() {
         }.getType());
     }
 

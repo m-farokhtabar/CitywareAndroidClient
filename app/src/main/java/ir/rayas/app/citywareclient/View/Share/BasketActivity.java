@@ -42,9 +42,7 @@ public class BasketActivity extends BaseActivity  {
         FragmentIndex = fragmentIndex;
     }
     
-    public BasketSummeryViewModel basketSummeryViewModel = new BasketSummeryViewModel();
-
-
+    public static BasketSummeryViewModel basketSummeryViewModel = new BasketSummeryViewModel();
 
 
     @Override

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/BackgroundLightColor"
     android:orientation="vertical"
-    tools:context="ir.rayas.app.citywareclient.View.Share.UserFactorDetailActivity">
+    tools:context="ir.rayas.app.citywareclient.View.Share.BusinessFactorDetailsActivity">
 
     <RelativeLayout
         android:id="@+id/MasterContentLinearLayout"
@@ -31,7 +31,7 @@
                 android:orientation="vertical">
 
                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:id="@+id/BusinessNameTextViewUserFactorDetailActivity"
+                    android:id="@+id/UserNameTextViewBusinessFactorDetailActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -44,7 +44,7 @@
                     android:textColor="@color/FontSemiDarkThemeColor" />
 
                 <LinearLayout
-                    android:id="@+id/LineLinearLayoutUserFactorDetailActivity"
+                    android:id="@+id/LineLinearLayoutBusinessFactorDetailActivity"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginBottom="16dp"
@@ -85,7 +85,7 @@
                                 android:layout_marginTop="6dp">
 
                                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:id="@+id/CreateDateUserFactorTextViewUserFactorDetailActivity"
+                                    android:id="@+id/CreateDateUserFactorTextViewBusinessFactorDetailActivity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentLeft="true"
@@ -95,7 +95,7 @@
                                     android:textColor="@color/FontSemiBlackColor" />
 
                                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:id="@+id/UserFactorCodeTitleTextViewUserFactorDetailActivity"
+                                    android:id="@+id/BusinessFactorCodeTextViewBusinessFactorDetailActivity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
@@ -105,13 +105,13 @@
                                     android:textColor="@color/FontSemiBlackColor" />
 
                                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:id="@+id/UserFactorCodeTextViewUserFactorDetailActivity"
+                                    android:id="@+id/UserFactorCodeTextViewBusinessFactorDetailActivity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_toEndOf="@+id/CreateDateUserFactorTextViewUserFactorDetailActivity"
-                                    android:layout_toLeftOf="@+id/UserFactorCodeTitleTextViewUserFactorDetailActivity"
-                                    android:layout_toRightOf="@+id/CreateDateUserFactorTextViewUserFactorDetailActivity"
-                                    android:layout_toStartOf="@+id/UserFactorCodeTitleTextViewUserFactorDetailActivity"
+                                    android:layout_toEndOf="@+id/CreateDateUserFactorTextViewBusinessFactorDetailActivity"
+                                    android:layout_toLeftOf="@+id/BusinessFactorCodeTextViewBusinessFactorDetailActivity"
+                                    android:layout_toRightOf="@+id/CreateDateUserFactorTextViewBusinessFactorDetailActivity"
+                                    android:layout_toStartOf="@+id/BusinessFactorCodeTextViewBusinessFactorDetailActivity"
                                     android:gravity="right"
                                     android:textAppearance="?android:attr/textAppearanceSmall"
                                     android:textColor="@color/FontBlackColor" />
@@ -128,7 +128,7 @@
                                 android:orientation="horizontal">
 
                                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:id="@+id/NumberOfOrderItemsUserFactorTextViewUserFactorDetailActivity"
+                                    android:id="@+id/NumberOfOrderItemsUserFactorTextViewBusinessFactorDetailActivity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
@@ -157,21 +157,21 @@
                                 android:gravity="right">
 
                                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:id="@+id/PricePayableUserFactorTextViewUserFactorDetailActivity"
+                                    android:id="@+id/PricePayableUserFactorTextViewBusinessFactorDetailActivity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
                                     android:layout_gravity="right"
                                     android:layout_marginRight="8dp"
-                                    android:layout_toLeftOf="@+id/PricePayableUserFactorTitleTextViewUserFactorDetailActivity"
-                                    android:layout_toStartOf="@+id/PricePayableUserFactorTitleTextViewUserFactorDetailActivity"
+                                    android:layout_toLeftOf="@+id/PricePayableUserFactorTitleTextViewBusinessFactorDetailActivity"
+                                    android:layout_toStartOf="@+id/PricePayableUserFactorTitleTextViewBusinessFactorDetailActivity"
                                     android:gravity="right|center_vertical"
                                     android:singleLine="false"
                                     android:textAppearance="?android:attr/textAppearanceSmall"
                                     android:textColor="@color/FontGreenColor" />
 
                                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:id="@+id/PricePayableUserFactorTitleTextViewUserFactorDetailActivity"
+                                    android:id="@+id/PricePayableUserFactorTitleTextViewBusinessFactorDetailActivity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
@@ -183,7 +183,7 @@
                             </RelativeLayout>
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/DescriptionUserFactorTextViewUserFactorDetailActivity"
+                                android:id="@+id/DescriptionUserFactorTextViewBusinessFactorDetailActivity"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
@@ -200,7 +200,7 @@
                 </android.support.v7.widget.CardView>
 
                 <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
-                    android:id="@+id/ShowProductButtonUserFactorDetailActivity"
+                    android:id="@+id/ShowProductButtonBusinessFactorDetailActivity"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginBottom="4dp"
@@ -213,7 +213,7 @@
                     android:textColor="@color/FontWhiteColor" />
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/BusinessDescriptionCardViewUserFactorDetailActivity"
+                    android:id="@+id/UserDescriptionCardViewBusinessFactorDetailActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -249,17 +249,17 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="16dp"
                                 android:layout_marginRight="16dp"
-                                android:layout_toLeftOf="@+id/BusinessDescriptionTitleTextViewUserFactorDetailActivity"
+                                android:layout_toLeftOf="@+id/UserDescriptionTitleTextViewBusinessFactorDetailActivity"
                                 android:background="@color/LineTopColor"
                                 tools:ignore="Suspicious0dp" />
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/BusinessDescriptionTitleTextViewUserFactorDetailActivity"
+                                android:id="@+id/UserDescriptionTitleTextViewBusinessFactorDetailActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
-                                android:text="@string/business_description"
+                                android:text="@string/description_user"
                                 android:textAppearance="?android:textAppearanceSmall"
                                 android:textColor="@color/FontSemiDarkThemeColor" />
 
@@ -267,7 +267,7 @@
 
 
                         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                            android:id="@+id/BusinessDescriptionTextViewUserFactorDetailActivity"
+                            android:id="@+id/UserDescriptionTextViewBusinessFactorDetailActivity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="8dp"
@@ -280,7 +280,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/UserDescriptionCardViewUserFactorDetailActivity"
+                    android:id="@+id/BusinessDescriptionCardViewBusinessFactorDetailActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -301,7 +301,7 @@
                         android:paddingTop="8dp">
 
                         <RelativeLayout
-                            android:id="@+id/UserDescriptionRelativeLayoutUserFactorDetailActivity"
+                            android:id="@+id/BusinessDescriptionRelativeLayoutBusinessFactorDetailActivity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
@@ -317,17 +317,17 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="16dp"
                                 android:layout_marginRight="16dp"
-                                android:layout_toLeftOf="@+id/UserDescriptionTitleTextViewUserFactorDetailActivity"
+                                android:layout_toLeftOf="@+id/BusinessDescriptionTitleTextViewBusinessFactorDetailActivity"
                                 android:background="@color/LineTopColor"
                                 tools:ignore="Suspicious0dp" />
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/UserDescriptionTitleTextViewUserFactorDetailActivity"
+                                android:id="@+id/BusinessDescriptionTitleTextViewBusinessFactorDetailActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
-                                android:text="@string/description_user"
+                                android:text="@string/business_description"
                                 android:textAppearance="?android:textAppearanceSmall"
                                 android:textColor="@color/FontSemiDarkThemeColor" />
 
@@ -335,13 +335,13 @@
 
 
                         <EditText
-                            android:id="@+id/UserDescriptionEditTextUserFactorDetailActivity"
+                            android:id="@+id/BusinessDescriptionEditTextBusinessFactorDetailActivity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:layout_marginTop="8dp"
-                            android:hint="@string/description_user"
+                            android:hint="@string/business_description"
                             android:singleLine="true"
                             android:textAppearance="?android:textAppearanceSmall"
                             android:textColor="@color/FontSemiBlackColor" />
@@ -357,7 +357,7 @@
                             android:orientation="horizontal">
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/StatusFactorTitleTextViewUserFactorDetailActivity"
+                                android:id="@+id/StatusFactorTitleTextViewBusinessFactorDetailActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
@@ -367,14 +367,14 @@
                                 android:textColor="@color/FontSemiBlackColor" />
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/StatusFactorTextViewUserFactorDetailActivity"
+                                android:id="@+id/StatusFactorTextViewBusinessFactorDetailActivity"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="8dp"
                                 android:layout_marginRight="8dp"
-                                android:layout_toLeftOf="@+id/StatusFactorTitleTextViewUserFactorDetailActivity"
-                                android:layout_toStartOf="@+id/StatusFactorTitleTextViewUserFactorDetailActivity"
+                                android:layout_toLeftOf="@+id/StatusFactorTitleTextViewBusinessFactorDetailActivity"
+                                android:layout_toStartOf="@+id/StatusFactorTitleTextViewBusinessFactorDetailActivity"
                                 android:textAppearance="?android:textAppearanceSmall"
                                 android:textColor="@color/FontSemiDarkThemeColor" />
 
@@ -382,7 +382,7 @@
                         </RelativeLayout>
 
                         <android.support.v7.widget.AppCompatSpinner
-                            android:id="@+id/StatusFactorSpinnerUserFactorDetailActivity"
+                            android:id="@+id/StatusFactorSpinnerBusinessFactorDetailActivity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
@@ -393,7 +393,7 @@
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
-                            android:id="@+id/EditButtonUserFactorDetailActivity"
+                            android:id="@+id/EditButtonBusinessFactorDetailActivity"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_gravity="left"
@@ -405,116 +405,9 @@
                             android:text="@string/save_information"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/FontWhiteColor" />
+
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginRight="13dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    tools:ignore="DisableBaselineAlignment">
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="3dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="0.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        app:elevation="8dp"
-                        tools:ignore="NestedWeights">
-
-                        <RelativeLayout
-                            android:id="@+id/OpenTimeRelativeLayoutUserFactorDetailActivity"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            android:gravity="center_horizontal|center_vertical"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
-                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="8dp"
-                                    android:text="@string/working_hours"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:textColor="@color/FontSemiBlackColor" />
-
-                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:id="@+id/OpenTimeIconTextViewUserFactorDetailActivity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/FontSemiDarkThemeColor" />
-                            </LinearLayout>
-
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="3dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="0.5"
-                        android:gravity="center_horizontal|center_vertical"
-                        app:elevation="8dp"
-                        tools:ignore="NestedWeights">
-
-                        <RelativeLayout
-                            android:id="@+id/ContactRelativeLayoutUserFactorDetailActivity"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_horizontal|center_vertical"
-                            android:gravity="center_horizontal|center_vertical"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
-                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="8dp"
-                                    android:text="@string/call_way"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:textColor="@color/FontSemiBlackColor" />
-
-                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:id="@+id/ContactIconTextViewUserFactorDetailActivity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
-                                    android:textColor="@color/FontSemiDarkThemeColor" />
-                            </LinearLayout>
-
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
-                </LinearLayout>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -552,12 +445,12 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="16dp"
                                 android:layout_marginRight="16dp"
-                                android:layout_toLeftOf="@+id/BusinessAddressTitleTextViewUserFactorDetailActivity"
+                                android:layout_toLeftOf="@+id/UserAddressTitleTextViewBusinessFactorDetailActivity"
                                 android:background="@color/LineTopColor"
                                 tools:ignore="Suspicious0dp" />
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/BusinessAddressTitleTextViewUserFactorDetailActivity"
+                                android:id="@+id/UserAddressTitleTextViewBusinessFactorDetailActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
@@ -568,9 +461,8 @@
 
                         </RelativeLayout>
 
-
                         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                            android:id="@+id/BusinessAddressTextViewUserFactorDetailActivity"
+                            android:id="@+id/UserAddressTextViewBusinessFactorDetailActivity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="8dp"
@@ -580,18 +472,18 @@
                             android:textColor="@color/FontSemiBlackColor" />
 
                         <LinearLayout
-                            android:id="@+id/ShowMapLinearLayoutUserFactorDetailActivity"
+                            android:id="@+id/ShowMapLinearLayoutBusinessFactorDetailActivity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:layout_marginTop="6dp"
-                            android:gravity="center_vertical|left"
+                            android:gravity="left"
                             android:orientation="horizontal">
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/ShowMapBusinessTextViewUserFactorDetailActivity"
+                                android:id="@+id/ShowMapBusinessTextViewBusinessFactorDetailActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical|right"
@@ -601,7 +493,7 @@
                                 android:textColor="@color/FontSemiDarkThemeColor" />
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/ShowMapBusinessIconTextViewUserFactorDetailActivity"
+                                android:id="@+id/ShowMapBusinessIconTextViewBusinessFactorDetailActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical|right"
@@ -613,12 +505,42 @@
                                 android:visibility="visible" />
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/UserCellPhoneLinearLayoutBusinessFactorDetailActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_marginTop="8dp"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                android:id="@+id/UserCellPhoneTextViewBusinessFactorDetailActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="8dp"
+                                android:gravity="right"
+                                android:singleLine="true"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/FontSemiDarkThemeColor" />
+
+                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:singleLine="true"
+                                android:text="@string/contact_us"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/FontSemiBlackColor" />
+                        </LinearLayout>
+
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
-
+                
             </LinearLayout>
         </ScrollView>
-
 
     </RelativeLayout>
 

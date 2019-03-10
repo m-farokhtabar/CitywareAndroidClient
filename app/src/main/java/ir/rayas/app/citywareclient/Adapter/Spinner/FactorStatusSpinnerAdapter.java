@@ -10,20 +10,20 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import ir.rayas.app.citywareclient.Adapter.ViewModel.FactorStatusAdapterViewModel;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.ViewModel.Definition.ColorTypeViewModel;
 
 /**
  * Created by Hajar on 3/2/2019.
  */
 
-public class UserFactorStatusSpinnerAdapter extends BaseAdapter {
+public class FactorStatusSpinnerAdapter extends BaseAdapter {
 
     Context context;
-    List<ColorTypeViewModel> ColorTypeViewModels;
+    List<FactorStatusAdapterViewModel> ColorTypeViewModels;
     LayoutInflater inflter;
 
-    public UserFactorStatusSpinnerAdapter(Context applicationContext,  List<ColorTypeViewModel> colorTypeViewModels) {
+    public FactorStatusSpinnerAdapter(Context applicationContext, List<FactorStatusAdapterViewModel> colorTypeViewModels) {
         this.context = applicationContext;
         this.ColorTypeViewModels = colorTypeViewModels;
         inflter = (LayoutInflater.from(applicationContext));

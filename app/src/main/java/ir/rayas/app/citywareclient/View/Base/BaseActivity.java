@@ -145,6 +145,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         // انجام تنظیمات نوار ابزار بازگشت
         ConfigBackToolBar(TitleBackToolBarResourceStringId);
 
+        // انجام تنظیمات نوار ابزار بازگشت و سبد خرید
+        ConfigBasketAndBackToolBar(TitleBackToolBarResourceStringId);
+
         //انجام تنظیمات منوی کشویی
         ConfigDrawerMenu();
 
@@ -219,6 +222,30 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 TitleBackToolbar.setText(TitleBackToolBarResourceStringId);
             else
                 TitleBackToolbar.setText("");
+        }
+    }
+
+
+    /**
+     * تنظیمات نوار ابزار
+     */
+    private void ConfigBasketAndBackToolBar(int TitleBackToolBarResourceStringId) {
+        //تنظیم نوار ابزار
+        Toolbar BasketAndBackToolbar = findViewById(R.id.BasketAndBackToolBar);
+        if (BasketAndBackToolbar != null) {
+            setSupportActionBar(BasketAndBackToolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            ImageButton BackImageButtonBackAndBasketToolbar = findViewById(R.id.BackImageButtonBackAndBasketToolbar);
+            BackImageButtonBackAndBasketToolbar.setTag(new WhichViewClicked(4, 0));
+            BackImageButtonBackAndBasketToolbar.setOnClickListener(this);
+            ImageButton BasketImageButtonBackAndBasketToolbar = findViewById(R.id.BasketImageButtonBackAndBasketToolbar);
+            BasketImageButtonBackAndBasketToolbar.setTag(new WhichViewClicked(5, 0));
+            BasketImageButtonBackAndBasketToolbar.setOnClickListener(this);
+            TextViewPersian TitleTextViewBackAndBasketToolbar = findViewById(R.id.TitleTextViewBackAndBasketToolbar);
+            if (TitleBackToolBarResourceStringId != 0)
+                TitleTextViewBackAndBasketToolbar.setText(TitleBackToolBarResourceStringId);
+            else
+                TitleTextViewBackAndBasketToolbar.setText("");
         }
     }
 
@@ -538,6 +565,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         if (CurrentViewClicked.getViewId() == 3) {
             OnDrawerSingOutButton();
         }
+
+        if (CurrentViewClicked.getViewId() == 4) {
+            BackImageButtonBackToolbarClick();
+        }
+
+        if (CurrentViewClicked.getViewId() == 5) {
+            BasketImageButtonBackAndBasketToolbarClick();
+        }
     }
 
     private void ToolbarOnItemClick(int ViewId) {
@@ -569,6 +604,15 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         if (IsMasterActivity(ParentActivity))
             GoToMasterActivity(ParentActivity);
         this.finish();
+    }
+
+    /**
+     * بسته شدن اکتیویتی فعلی این رویداد مربوط به نوار ابزار ساده است که فقط دکمه بازگشت دارد
+     */
+    private void BasketImageButtonBackAndBasketToolbarClick() {
+        Intent BasketIntent = new Intent(this, BasketActivity.class);
+        BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
+        startActivity(BasketIntent);
     }
 
     /**

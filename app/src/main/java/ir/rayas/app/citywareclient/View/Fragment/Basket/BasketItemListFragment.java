@@ -146,7 +146,7 @@ public class BasketItemListFragment extends Fragment implements IResponseService
                         UserDescription = ViewModel.getUserDescription();
 
                         //تنظیمات مربوط به recycle سبد خرید
-                        basketItemListRecyclerViewAdapter = new BasketItemListRecyclerViewAdapter(Context, ViewModel.getItemList(), BasketItemListRecyclerViewBasketItemListFragment);
+                        basketItemListRecyclerViewAdapter = new BasketItemListRecyclerViewAdapter(Context, ViewModel.getItemList(), BasketItemListRecyclerViewBasketItemListFragment, ViewModel.getId());
                         BasketItemListRecyclerViewBasketItemListFragment.setAdapter(basketItemListRecyclerViewAdapter);
                         basketItemListRecyclerViewAdapter.notifyDataSetChanged();
                         BasketItemListRecyclerViewBasketItemListFragment.invalidate();

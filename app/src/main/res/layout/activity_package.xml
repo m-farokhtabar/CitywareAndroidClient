@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/BackgroundWhiteColor"
     android:orientation="vertical"
-    tools:context="ir.rayas.app.citywareclient.View.Share.UserFactorProductDetailActivity">
+    tools:context="ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity">
 
     <RelativeLayout
         android:id="@+id/MasterContentLinearLayout"
@@ -19,16 +18,18 @@
             layout="@layout/view_back_toolbar" />
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ProductListRecyclerViewUserFactorProductDetailActivity"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/BackToolBar"
-            android:divider="@null"
-            android:dividerHeight="0dp" />
+            android:id="@+id/PackageFrameLayoutPackageActivity"
+            android:layout_below="@+id/BackToolBar"/>
 
 
     </RelativeLayout>
 
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
 
 </LinearLayout>

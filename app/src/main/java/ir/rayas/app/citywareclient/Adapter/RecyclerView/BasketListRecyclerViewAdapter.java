@@ -1,5 +1,6 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,13 +48,13 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
-        public TextViewPersian BasketDeleteIconTextView;
-        public TextViewPersian BusinessTitleTextView;
-        public TextViewPersian CreateDateBasketTextView;
-        public TextViewPersian PricePayableBasketTextView;
-        public TextViewPersian DescriptionBasketTextView;
-        public TextViewPersian NumberOfOrderItemsBasketTextView;
-        public ImageView ImageBasketImageView;
+         TextViewPersian BasketDeleteIconTextView;
+         TextViewPersian BusinessTitleTextView;
+         TextViewPersian CreateDateBasketTextView;
+         TextViewPersian PricePayableBasketTextView;
+         TextViewPersian DescriptionBasketTextView;
+         TextViewPersian NumberOfOrderItemsBasketTextView;
+         ImageView ImageBasketImageView;
 
 
         public ViewHolder(View v) {
@@ -80,12 +81,11 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_basket_list, parent, false);
-        ViewHolder CurrentViewHolder = new ViewHolder(CurrentView);
-        return CurrentViewHolder;
+        return  new ViewHolder(CurrentView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         holder.BusinessTitleTextView.setText(ViewModelList.get(position).getBusinessName());
         holder.CreateDateBasketTextView.setText(ViewModelList.get(position).getModified());
@@ -127,11 +127,9 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
                 Context.ShowLoadingProgressBar();
                 Context.setRetryType(1);
                 BasketService basketService = new BasketService(BasketListRecyclerViewAdapter.this);
-                basketService.DeleteItemByItemId(ViewModelList.get(position).getId());
+                basketService.DeleteBasket(ViewModelList.get(position).getId());
             }
         });
-
-
     }
 
     @Override
@@ -153,13 +151,18 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         Context.HideLoading();
         try {
-            if (ServiceMethod == ServiceMethodType.BasketDeleteItemByItemId) {
+            if (ServiceMethod == ServiceMethodType.BasketDelete) {
                 Feedback<BasketItemViewModel> FeedBack = (Feedback<BasketItemViewModel>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.DeletedSuccessful.getId()) {
-                    ViewModelList.remove(Position);
-                    notifyDataSetChanged();
-                    Container.invalidate();
+
+                    if (ViewModelList.size() > 1) {
+                        ViewModelList.remove(Position);
+                        notifyDataSetChanged();
+                        Container.invalidate();
+                    } else {
+                        Context.finish();
+                    }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);

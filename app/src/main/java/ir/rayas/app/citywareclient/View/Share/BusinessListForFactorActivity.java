@@ -7,11 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessListForFactorRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessListRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Business.BusinessService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -24,6 +23,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 
 public class BusinessListForFactorActivity extends BaseActivity implements IResponseService {
 
@@ -33,6 +33,8 @@ public class BusinessListForFactorActivity extends BaseActivity implements IResp
     private BusinessListForFactorRecyclerViewAdapter BusinessListForFactorRecyclerViewAdapter = null;
 
     private boolean IsSwipe = false;
+    private List<FactorStatusViewModel> FactorStatusViewModel = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +71,13 @@ public class BusinessListForFactorActivity extends BaseActivity implements IResp
      */
     private void LoadData() {
         if (!IsSwipe)
-            ShowLoadingProgressBar();
+                ShowLoadingProgressBar();
 
         BusinessService businessService = new BusinessService(this);
         businessService.GetAll();
     }
+
+
 
     /**
      * تنظیمات مربوط به رابط کاربری این فرم

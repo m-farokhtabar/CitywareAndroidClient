@@ -1,9 +1,14 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -16,10 +21,12 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowProductDetailsActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
 
@@ -33,11 +40,13 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
     private RecyclerView Container = null;
     private BasketActivity Context;
     private int Position;
+    private int BasketId;
 
-    public BasketItemListRecyclerViewAdapter(BasketActivity context, List<BasketItemViewModel> ViewModel, RecyclerView Container) {
+    public BasketItemListRecyclerViewAdapter(BasketActivity context, List<BasketItemViewModel> ViewModel, RecyclerView Container, int BasketId) {
         this.Context = context;
         this.Container = Container;
         this.ViewModelList = ViewModel;
+        this.BasketId = BasketId;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,6 +59,7 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
         public TextViewPersian BasketItemPriceTomanTextView;
         public ButtonPersianView OrderItemDeleteButton;
         public ImageView ImageBasketItemImageView;
+        public CardView AddOrMinBasketItemQuantityImageView;
 
 
         public ViewHolder(View v) {
@@ -62,6 +72,7 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
             ImageBasketItemImageView = v.findViewById(R.id.ImageBasketItemImageView);
             BasketItemPriceTomanTextView = v.findViewById(R.id.BasketItemPriceTomanTextView);
             BasketItemTotalPriceTomanTextView = v.findViewById(R.id.BasketItemTotalPriceTomanTextView);
+            AddOrMinBasketItemQuantityImageView = v.findViewById(R.id.AddOrMinBasketItemQuantityImageView);
         }
 
 
@@ -78,21 +89,22 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
+
         holder.BasketItemQuantityTextView.setText(String.valueOf((int) ViewModelList.get(position).getValue()));
         holder.BasketItemProductNameTextView.setText(ViewModelList.get(position).getProductName());
 
 
-        if (ViewModelList.get(position).getPrice() <= 0 ) {
+        if (ViewModelList.get(position).getPrice() <= 0) {
 
-            holder.BasketItemPriceTomanTextView .setVisibility(View.GONE);
-            holder.BasketItemTotalPriceTomanTextView .setVisibility(View.GONE);
+            holder.BasketItemPriceTomanTextView.setVisibility(View.GONE);
+            holder.BasketItemTotalPriceTomanTextView.setVisibility(View.GONE);
             holder.BasketItemPriceTextView.setText(Context.getResources().getString(R.string.unknown));
             holder.BasketItemTotalPriceTextView.setText(Context.getResources().getString(R.string.unknown));
 
         } else {
 
-            holder.BasketItemPriceTomanTextView .setVisibility(View.VISIBLE);
-            holder.BasketItemTotalPriceTomanTextView .setVisibility(View.VISIBLE);
+            holder.BasketItemPriceTomanTextView.setVisibility(View.VISIBLE);
+            holder.BasketItemTotalPriceTomanTextView.setVisibility(View.VISIBLE);
             holder.BasketItemPriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPrice()));
             double TotalPrice = ViewModelList.get(position).getPrice() * ViewModelList.get(position).getValue();
             holder.BasketItemTotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
@@ -112,10 +124,25 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
                 Position = position;
                 Context.ShowLoadingProgressBar();
                 Context.setRetryType(1);
-                BasketService basketService = new BasketService(BasketItemListRecyclerViewAdapter.this);
-                basketService.DeleteItemByItemId(ViewModelList.get(position).getId());
+
+                if (ViewModelList.size() > 1) {
+                    BasketService basketService = new BasketService(BasketItemListRecyclerViewAdapter.this);
+                    basketService.DeleteItemByItemId(ViewModelList.get(position).getId());
+                } else {
+                    BasketService basketService = new BasketService(BasketItemListRecyclerViewAdapter.this);
+                    basketService.DeleteBasket(BasketId);
+                }
             }
         });
+
+        holder.AddOrMinBasketItemQuantityImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Position = position;
+                ShowDialogBasketOrder(ViewModelList.get(position).getValue(), ViewModelList.get(position).getId());
+            }
+        });
+
 
     }
 
@@ -138,9 +165,66 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
                 Feedback<BasketItemViewModel> FeedBack = (Feedback<BasketItemViewModel>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.DeletedSuccessful.getId()) {
+
+                    double Quantity = ViewModelList.get(Position).getValue();
+                    double Price = ViewModelList.get(Position).getPrice();
+                    double TotalPrice = Quantity * Price;
+
+                    Context.basketSummeryViewModel.setTotalPrice(Context.basketSummeryViewModel.getTotalPrice() - TotalPrice);
+
                     ViewModelList.remove(Position);
                     notifyDataSetChanged();
                     Container.invalidate();
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        Context.ShowErrorInConnectDialog();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.BasketEditQuantityByItemId) {
+                Feedback<BasketItemViewModel> FeedBack = (Feedback<BasketItemViewModel>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.UpdatedSuccessful.getId()) {
+                    if (FeedBack.getValue() != null) {
+
+                        double Quantity = ViewModelList.get(Position).getValue();
+                        double Price = ViewModelList.get(Position).getPrice();
+
+                        double NewQuantity = FeedBack.getValue().getValue();
+                        double FinalPrice = 0;
+
+                        if (NewQuantity > Quantity) {
+                            FinalPrice = (NewQuantity - Quantity) * Price;
+                            Context.basketSummeryViewModel.setTotalPrice(Context.basketSummeryViewModel.getTotalPrice() + FinalPrice);
+                        } else if (NewQuantity == Quantity) {
+                            Context.basketSummeryViewModel.setTotalPrice(Context.basketSummeryViewModel.getTotalPrice());
+                        } else {
+                            FinalPrice = (Quantity - NewQuantity) * Price;
+                            Context.basketSummeryViewModel.setTotalPrice(Context.basketSummeryViewModel.getTotalPrice() - FinalPrice);
+                        }
+
+                        BasketItemViewModel basketItemViewModel = ViewModelList.get(Position);
+                        basketItemViewModel.setValue(FeedBack.getValue().getValue());
+                        ViewModelList.remove(Position);
+                        ViewModelList.add(Position, basketItemViewModel);
+                        notifyDataSetChanged();
+                        Container.invalidate();
+                    } else {
+                        Context.ShowToast(Context.getResources().getString(R.string.retry), Toast.LENGTH_LONG, MessageType.Warning);
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        Context.ShowErrorInConnectDialog();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.BasketDelete) {
+                Feedback<BasketItemViewModel> FeedBack = (Feedback<BasketItemViewModel>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.DeletedSuccessful.getId()) {
+                    Context.finish();
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
@@ -153,4 +237,74 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
             Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
     }
+
+
+    private void ShowDialogBasketOrder(final double ItemQuantity, final int ItemId) {
+        final Dialog DialogOrder = new Dialog(Context);
+        DialogOrder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        DialogOrder.setContentView(R.layout.dialog_order);
+        DialogOrder.setCanceledOnTouchOutside(true);
+
+        final EditText DialogCustomerQuantityEditText = DialogOrder.findViewById(R.id.CustomerQuantityEditText);
+        ButtonPersianView DialogCustomerQuantityAcceptButton = DialogOrder.findViewById(R.id.CustomerQuantityAcceptButton);
+        if (ItemQuantity > 0)
+            DialogCustomerQuantityEditText.setText(String.valueOf(ItemQuantity));
+        ImageView DialogCustomerQuantityAddImage = DialogOrder.findViewById(R.id.CustomerQuantityAddImage);
+        ImageView DialogCustomerQuantitySubtractImage = DialogOrder.findViewById(R.id.CustomerQuantitySubtractImage);
+
+        DialogCustomerQuantityAddImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((DialogCustomerQuantityEditText.getText() == null) || ("".equals(DialogCustomerQuantityEditText.getText().toString())) || (1 > Double.valueOf(DialogCustomerQuantityEditText.getText().toString()))) {
+                    DialogCustomerQuantityEditText.setText("1");
+                } else {
+                    double TempCount = Double.valueOf(DialogCustomerQuantityEditText.getText().toString());
+                    if (TempCount == 999) {
+
+                    } else {
+                        TempCount++;
+                        DialogCustomerQuantityEditText.setText(String.valueOf(TempCount));
+                    }
+
+                }
+            }
+        });
+
+        DialogCustomerQuantitySubtractImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((DialogCustomerQuantityEditText.getText() == null) || ("".equals(DialogCustomerQuantityEditText.getText().toString())) || (1 > Double.valueOf(DialogCustomerQuantityEditText.getText().toString()))) {
+                    DialogCustomerQuantityEditText.setText("1");
+                } else {
+                    double TempCount = Double.valueOf(DialogCustomerQuantityEditText.getText().toString());
+                    TempCount--;
+                    if (TempCount < 1) {
+
+                    } else {
+                        DialogCustomerQuantityEditText.setText(String.valueOf(TempCount));
+                    }
+                }
+            }
+        });
+
+
+        DialogCustomerQuantityAcceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if ((DialogCustomerQuantityEditText.getText() == null) || ("".equals(DialogCustomerQuantityEditText.getText().toString())) || (1 > Double.valueOf(DialogCustomerQuantityEditText.getText().toString()))) {
+                    Context.ShowToast(Context.getResources().getString(R.string.please_enter_order_quantity), Toast.LENGTH_LONG, MessageType.Error);
+
+                } else {
+                    Context.ShowLoadingProgressBar();
+                    BasketService BasketService = new BasketService(BasketItemListRecyclerViewAdapter.this);
+                    BasketService.EditQuantityByItemId(ItemId, Double.valueOf(DialogCustomerQuantityEditText.getText().toString()));
+                    DialogOrder.dismiss();
+
+                }
+            }
+        });
+        DialogOrder.show();
+    }
+
 }
