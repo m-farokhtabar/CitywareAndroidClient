@@ -91,6 +91,9 @@ public enum ServiceMethodType {
     UserDescriptionSet,
     BusinessUserFactorGet,
     BusinessStatusAndDescriptionSet,
-    BusinessDescriptionSet
+    BusinessDescriptionSet,
+    PackageListGetAll,
+    UserPointGet,
+    PackageDetailsGet
 
 }

@@ -13,7 +13,9 @@ import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.ViewModel.Package.OutPackageViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Package.PackageDetailsViewModel;
 
 /**
  * Created by Hajar on 11/3/2018.
@@ -22,7 +24,10 @@ import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionVie
 public class PackageService implements IService {
 
     private String ControllerName = "Package/Purchased";
+    private String ActionPackage = "Package";
     private String ActionGetAll = "All/Page";
+    private String ActionAll = "All";
+    private String ActionBusiness = "Business";
     private IResponseService ResponseService;
 
     public PackageService(IResponseService ResponseService) {
@@ -33,6 +38,20 @@ public class PackageService implements IService {
         BaseService Current = new BaseService();
         String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAll + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.UserPackageGetAll, OutputPackageTransactionViewModel.class, new TypeToken<Feedback<List<OutputPackageTransactionViewModel>>>() {
+        }.getType());
+    }
+
+    public void Get(int PackageId) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage  + "/" + PackageId;
+        Current.GetService(this, Url, ServiceMethodType.PackageDetailsGet, PackageDetailsViewModel.class, new TypeToken<Feedback<PackageDetailsViewModel>>() {
+        }.getType());
+    }
+
+    public void GetAllPackageList(int BusinessId) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + ActionAll + "/" + ActionBusiness + "/" +BusinessId;
+        Current.GetService(this, Url, ServiceMethodType.PackageListGetAll, OutPackageViewModel.class, new TypeToken<Feedback<List<OutPackageViewModel>>>() {
         }.getType());
     }
 

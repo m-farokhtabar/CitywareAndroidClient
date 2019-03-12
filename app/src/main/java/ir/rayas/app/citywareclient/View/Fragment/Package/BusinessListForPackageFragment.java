@@ -113,11 +113,16 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
                             @Override
                             public void onItemClick(int position, View v) {
 
-                                BasketItemListFragment basketItemListFragment = new BasketItemListFragment();
-                                FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
-                                BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketItemListFragment);
-                                BasketListTransaction.addToBackStack(null);
-                                BasketListTransaction.commit();
+
+                                Bundle BusinessIdBundle = new Bundle();
+                                BusinessIdBundle.putInt("BusinessId",ViewModel.get(position).getId());
+                                PackageListFragment packageListFragment = new PackageListFragment();
+                                packageListFragment.setArguments(BusinessIdBundle);
+                                
+                                FragmentTransaction PackageListTransaction = Context.getSupportFragmentManager().beginTransaction();
+                                PackageListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageListFragment);
+                                PackageListTransaction.addToBackStack(null);
+                                PackageListTransaction.commit();
                             }
                         });
                     } else {

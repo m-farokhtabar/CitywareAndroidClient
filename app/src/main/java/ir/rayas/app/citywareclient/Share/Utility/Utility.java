@@ -283,4 +283,12 @@ public class Utility {
         return Output;
     }
 
+
+    public static String GetIntegerNumberWithComma(int IntegerNumber) {
+        String Output;
+        DecimalFormat CommaSeparatorFormatter = new DecimalFormat("#,###,###");
+        Output = CommaSeparatorFormatter.format(IntegerNumber);
+        return Output;
+    }
+
 }

@@ -78,6 +78,10 @@ public class BasketSummeryFragment extends Fragment implements IResponseService,
         TextViewPersian DescriptionBasketTextViewBasketSummeryFragment = CurrentView.findViewById(R.id.DescriptionBasketTextViewBasketSummeryFragment);
         TotalPriceTextViewBasketSummeryFragment = CurrentView.findViewById(R.id.TotalPriceTextViewBasketSummeryFragment);
 
+
+        CardView BasketDetailsCardViewBasketSummeryFragment = CurrentView.findViewById(R.id.BasketDetailsCardViewBasketSummeryFragment);
+        BasketDetailsCardViewBasketSummeryFragment.setVisibility(View.GONE);
+
         if (Context.basketSummeryViewModel.getPath().equals("")) {
             ImageBasketImageViewBasketSummeryFragment.setImageResource(R.drawable.image_default);
         } else {
@@ -152,14 +156,18 @@ public class BasketSummeryFragment extends Fragment implements IResponseService,
     @Override
     public void LoadData() {
 
-        if (Context.basketSummeryViewModel.isDelivery()) {
-            Context.ShowLoadingProgressBar();
-            UserFactorService userFactorService = new UserFactorService(this);
-            userFactorService.GetDeliveryPrice(Context.basketSummeryViewModel.getUserLatitude(), Context.basketSummeryViewModel.getUserLongitude(), Context.basketSummeryViewModel.getBasketLatitude(), Context.basketSummeryViewModel.getBasketLongitude());
+//        if (Context.basketSummeryViewModel.isDelivery()) {
+//            Context.ShowLoadingProgressBar();
+//            UserFactorService userFactorService = new UserFactorService(this);
+//            userFactorService.GetDeliveryPrice(Context.basketSummeryViewModel.getUserLatitude(), Context.basketSummeryViewModel.getUserLongitude(), Context.basketSummeryViewModel.getBasketLatitude(), Context.basketSummeryViewModel.getBasketLongitude());
+//        } else {
+        if (Context.basketSummeryViewModel.getTotalPrice() < 0) {
+            TotalPriceTextViewBasketSummeryFragment.setText(Context.getResources().getString(R.string.unknown));
         } else {
             PriceDeliveryLinearLayoutBasketSummeryFragment.setVisibility(View.GONE);
             TotalPriceTextViewBasketSummeryFragment.setText(Utility.GetIntegerNumberWithComma(Context.basketSummeryViewModel.getTotalPrice()) + " " + Context.getResources().getString(R.string.toman));
         }
+        //}
     }
 
     private FactorInViewModel MadeViewModel() {
@@ -216,13 +224,13 @@ public class BasketSummeryFragment extends Fragment implements IResponseService,
                         Context.ShowErrorInConnectDialog();
                     }
                 }
-            } else  if (ServiceMethod == ServiceMethodType.FactorAdd) {
+            } else if (ServiceMethod == ServiceMethodType.FactorAdd) {
                 Feedback<FactorViewModel> FeedBack = (Feedback<FactorViewModel>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
 
                     if (FeedBack.getValue() != null) {
-                            Context.finish();
+                        Context.finish();
                     } else {
                         Context.ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
                     }

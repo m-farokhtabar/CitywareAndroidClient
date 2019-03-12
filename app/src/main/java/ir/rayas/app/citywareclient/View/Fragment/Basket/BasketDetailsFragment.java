@@ -71,13 +71,13 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
 
 
         if ( Context.basketSummeryViewModel.isBusinessIsDelivery()) {
-            HasDeliverySwitchBasketDetailsFragment.setVisibility(View.VISIBLE);
-            HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.VISIBLE);
+            HasDeliverySwitchBasketDetailsFragment.setVisibility(View.GONE);
+            HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
             HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
         } else {
             HasDeliverySwitchBasketDetailsFragment.setVisibility(View.GONE);
             HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
-            HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.VISIBLE);
+            HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
         }
 
         ReturnButtonBasketDetailsFragment.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +105,8 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
         try {
             ViewModel.setUserDescription(DescriptionEditTextBasketDetailsFragment.getText().toString());
             if (HasDeliverySwitchBasketDetailsFragment.getVisibility() == View.GONE){
-                ViewModel.setDelivery(false);
+                ViewModel.setDelivery(true);
+
             } else {
                 ViewModel.setDelivery(HasDeliverySwitchBasketDetailsFragment.isChecked());
             }
@@ -127,7 +128,7 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
                     BasketViewModel ViewModel = FeedBack.getValue();
                     if (ViewModel != null) {
 
-                        Context.basketSummeryViewModel.setDelivery(ViewModel.isDelivery());
+                        Context.basketSummeryViewModel.setDelivery(true);
                         Context.basketSummeryViewModel.setUserDescription(ViewModel.getUserDescription());
 
                         if ( Context.basketSummeryViewModel.isDelivery()){

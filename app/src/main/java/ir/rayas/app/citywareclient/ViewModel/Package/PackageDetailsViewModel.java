@@ -1,10 +1,10 @@
 package ir.rayas.app.citywareclient.ViewModel.Package;
 
 /**
- * Created by Programmer on 10/14/2018.
+ * Created by Hajar on 3/12/2019.
  */
 
-public class OutPackageViewModel {
+public class PackageDetailsViewModel {
     /// <summary>
     /// کد پکیج
     /// </summary>
@@ -22,16 +22,16 @@ public class OutPackageViewModel {
     /// </summary>
     public double CreditPrice;
     /// <summary>
-    /// خلاصه توضیحات 
+    /// خلاصه توضیحات
     /// </summary>
     public String AbstractOfDescription;
     /// <summary>
     /// تا تاریخ معرفی
-    /// </summary>        
+    /// </summary>
     public String IntroduceFrom;
     /// <summary>
     /// از تاریخ معرفی
-    /// </summary>        
+    /// </summary>
     public String IntroduceTo;
     /// <summary>
     /// همیشه می توان این پکیج را برای مشتریان معرفی نمود
@@ -39,7 +39,7 @@ public class OutPackageViewModel {
     public boolean AlwaysIntroduce;
     /// <summary>
     /// میزان اعتبار پکیج برای کاربر به روز
-    /// </summary>        
+    /// </summary>
     public int CreditInDays;
     /// <summary>
     /// همیشه می توانند این پکیج را کاربران استفاده کنند
@@ -54,7 +54,7 @@ public class OutPackageViewModel {
     /// </summary>
     public double Point;
     /// <summary>
-    /// توضیحات 
+    /// توضیحات
     /// </summary>
     public String Description;
     /// <summary>
@@ -63,11 +63,11 @@ public class OutPackageViewModel {
     public String Create;
     /// <summary>
     /// تاریخ ویرایش
-    /// </summary>        
+    /// </summary>
     public String Modified;
     /// <summary>
-    /// قابلیت نمایش جهت انتخاب پکیج 
-    /// </summary>         
+    /// قابلیت نمایش جهت انتخاب پکیج
+    /// </summary>
     public boolean IsActive;
 
     //قابل خرید با امتیاز کاربر
@@ -220,3 +220,4 @@ public class OutPackageViewModel {
         PointForPurchasing = pointForPurchasing;
     }
 }
+

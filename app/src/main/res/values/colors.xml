@@ -80,4 +80,5 @@
     <!--*****************************************رنگ های مرتبط با سوییچ در حالتی که دستی رنگ  می دهیم*********************************************-->
     <color name="ThumbThemeColorDrawable">#2192e6</color>
     <color name="TrackLightThemeColorDrawable">#b4dfff</color>
+    <color name="LightThemeColorDrawable">#55b4dfff</color>
 </resources>

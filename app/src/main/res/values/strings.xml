@@ -323,7 +323,7 @@
     <string name="introducing_your_friends_to_receive_commission">معرفی به دوستان جهت دریافت پورسانت</string>
 
     <!--متون مرتبط با پکیج ها-->
-    <string name="credit_price">مبلغ اعتبار</string>
+    <string name="credit_price">اعتبار دریافتی</string>
     <string name="expire_package">تاریخ انقضا</string>
     <string name="paid_price">مبلغ پرداخت شده</string>
     <string name="transaction_number">شماره تراکنش</string>
@@ -423,6 +423,16 @@
 
     <!--متون مرتبط با  پکیج-->
     <string name="your_business_list_is_empty">لیست کسب و کار شما خالی است</string>
+    <string name="package_list_is_empty">لیست پکیج ها خالی است</string>
+    <string name="validity_duration">مدت اعتبار</string>
+    <string name="day">روز</string>
+    <string name="rate">امتیاز</string>
+    <string name="or">یا</string>
+    <string name="point_toman">تومان</string>
+    <string name="buy_package_online">خرید آنلاین پکیج</string>
+    <string name="buy_package_by_point">خرید پکیج با امتیاز</string>
+    <string name="buy_online_this_package">با خرید آنلاین این پکیج</string>
+    <string name="get_points">امتیاز دریافت کنید</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
