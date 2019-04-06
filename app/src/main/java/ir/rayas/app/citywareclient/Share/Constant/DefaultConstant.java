@@ -47,4 +47,6 @@ public class DefaultConstant {
      * کلید اکانت جهت نگهداری تمامی پیام ها در حافظه داخلی
      */
     public static String NotificationKey = "NotificationList";
+    public static String RegionKey = "RegionKey";
+    public static String BusinessCategoryKey = "BusinessCategoryKey";
 }

@@ -1,5 +1,6 @@
 package ir.rayas.app.citywareclient.View.Share;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.Spinner.FactorStatusSpinnerAdapter;
+import ir.rayas.app.citywareclient.Adapter.Spinner.SexTypeSpinnerAdapter;
 import ir.rayas.app.citywareclient.Adapter.ViewModel.FactorStatusAdapterViewModel;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
@@ -36,6 +38,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.ViewModel.Definition.SexTypeViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.DescriptionFactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
@@ -442,6 +445,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
     private void SetInformationToSpinner(List<FactorStatusViewModel> ViewModel) {
 
         FactorStatusAdapterViewModel = new ArrayList<>();
+        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(-1, getResources().getString(R.string.please_select)));
 
         for (int i = 0; i < ViewModel.size(); i++) {
 
@@ -495,8 +499,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
 
         BusinessFactorService Service = new BusinessFactorService(this);
-
-        if (StatusFactor == FactorStatusId) {
+        if (StatusFactor == -1) {
             if (Description.equals(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString())) {
                 ShowToast(getResources().getString(R.string.no_change_description_status_factor), Toast.LENGTH_LONG, MessageType.Warning);
             } else {
@@ -504,9 +507,20 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                 Service.SetDescription(MadeViewModels());
             }
         } else {
-            ShowLoadingProgressBar();
-            Service.SetStatusAndDescription(MadeViewModel());
+            if (StatusFactor == FactorStatusId) {
+                if (Description.equals(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString())) {
+                    ShowToast(getResources().getString(R.string.no_change_description_status_factor), Toast.LENGTH_LONG, MessageType.Warning);
+                } else {
+                    ShowLoadingProgressBar();
+                    Service.SetDescription(MadeViewModels());
+                }
+            } else {
+                ShowLoadingProgressBar();
+                Service.SetStatusAndDescription(MadeViewModel());
+
+            }
         }
+
     }
 
     @Override

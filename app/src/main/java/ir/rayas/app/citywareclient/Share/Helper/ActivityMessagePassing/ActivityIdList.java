@@ -44,4 +44,9 @@ public class ActivityIdList {
     public  static final int USER_FACTOR_PRODUCT_DETAIL_ACTIVITY  = 31;
     public  static final int BUSINESS_FACTOR_DETAIL_ACTIVITY  = 32;
     public  static final int PACKAGE_ACTIVITY  = 33;
+    public  static final int CLUB_USERS_ACTIVITY  = 34;
+    public  static final int PRIZE_ALL_ACTIVITY  = 35;
+    public  static final int USER_PRIZE_ACTIVITY  = 36;
+    public  static final int ACTION_POINT_ALL_ACTIVITY  = 37;
+    public  static final int USER_ACTION_POINT_ACTIVITY  = 38;
 }

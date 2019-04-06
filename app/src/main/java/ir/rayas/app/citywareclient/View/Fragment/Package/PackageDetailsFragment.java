@@ -1,24 +1,29 @@
 package ir.rayas.app.citywareclient.View.Fragment.Package;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
+import ir.rayas.app.citywareclient.Service.User.PointService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
@@ -47,6 +52,12 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
     private TextViewPersian ValidateTextViewPackageDetailsFragment = null;
     private CardView AddPointToUserCardViewPackageDetailsFragment = null;
     private CardView DescriptionCardViewPackageDetailsFragment = null;
+    private RelativeLayout BuyPackageByPointRelativeLayoutPackageDetailsFragment = null;
+    private RelativeLayout BuyPackageByCashRelativeLayoutPackageDetailsFragment = null;
+
+
+    private String PackageName = "";
+    private int Point = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +95,8 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         DescriptionCardViewPackageDetailsFragment = CurrentView.findViewById(R.id.DescriptionCardViewPackageDetailsFragment);
         DescriptionTextViewPackageDetailsFragment = CurrentView.findViewById(R.id.DescriptionTextViewPackageDetailsFragment);
         ValidateTextViewPackageDetailsFragment = CurrentView.findViewById(R.id.ValidateTextViewPackageDetailsFragment);
+        BuyPackageByPointRelativeLayoutPackageDetailsFragment = CurrentView.findViewById(R.id.BuyPackageByPointRelativeLayoutPackageDetailsFragment);
+        BuyPackageByCashRelativeLayoutPackageDetailsFragment = CurrentView.findViewById(R.id.BuyPackageByCashRelativeLayoutPackageDetailsFragment);
         TextViewPersian BuyPackageByPointTextViewPackageDetailsFragment = CurrentView.findViewById(R.id.BuyPackageByPointTextViewPackageDetailsFragment);
         TextViewPersian BuyPackageByCashTextViewPackageDetailsFragment = CurrentView.findViewById(R.id.BuyPackageByCashTextViewPackageDetailsFragment);
 
@@ -108,8 +121,6 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
 
         PackageService packageService = new PackageService(this);
         packageService.Get(PackageId);
-
-
     }
 
     @Override
@@ -136,6 +147,25 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
                         Context.ShowErrorInConnectDialog();
                     }
                 }
+            } else if (ServiceMethod == ServiceMethodType.UserPointGet) {
+                Feedback<Double> FeedBack = (Feedback<Double>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    Double DeliveryPrice = FeedBack.getValue();
+
+                    if (DeliveryPrice != null) {
+                        ShowBuyPackageWithPointDialog(DeliveryPrice.toString(),Point , PackageName);
+                    } else {
+                        ShowBuyPackageWithPointDialog(Context.getResources().getString(R.string.zero),Point , PackageName);
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        Context.ShowErrorInConnectDialog();
+                    }
+                }
             }
         } catch (Exception e) {
             Context.HideLoading();
@@ -144,7 +174,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
     }
 
 
-    private void SetView(PackageDetailsViewModel ViewModel) {
+    private void SetView(final PackageDetailsViewModel ViewModel) {
 
         if (ViewModel.getImagePathUrl().equals("") || ViewModel.getImagePathUrl() == null) {
             PackageImageImageViewPackageDetailsFragment.setImageResource(R.drawable.image_default_banner);
@@ -162,7 +192,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
             PointValueTextViewPackageDetailsFragment.setVisibility(View.VISIBLE);
             TagImageViewPackageDetailsFragment.setVisibility(View.VISIBLE);
             PaidPriceTextViewPackageDetailsFragment.setText(Utility.GetIntegerNumberWithComma((int) ViewModel.getPayablePrice()) + " " + Context.getResources().getString(R.string.toman));
-            PointValueTextViewPackageDetailsFragment.setText(Utility.GetIntegerNumberWithComma((int) ViewModel.getPointForPurchasing()) + " " + Context.getResources().getString(R.string.point_toman));
+            PointValueTextViewPackageDetailsFragment.setText(Utility.GetIntegerNumberWithComma((int) ViewModel.getPointForPurchasing()));
         } else {
             PaidPriceTextViewPackageDetailsFragment.setText(Utility.GetIntegerNumberWithComma((int) ViewModel.getPayablePrice()) + " " + Context.getResources().getString(R.string.toman));
             PointTextViewPackageDetailsFragment.setVisibility(View.GONE);
@@ -188,9 +218,114 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
 
         if (ViewModel.isAlwaysCredit()) {
             ValidateTextViewPackageDetailsFragment.setText(Context.getResources().getString(R.string.unlimited));
-        }else {
+        } else {
             ValidateTextViewPackageDetailsFragment.setText(String.valueOf(ViewModel.getCreditInDays()) + " " + Context.getResources().getString(R.string.day));
         }
+
+        PackageName = ViewModel.getTitle();
+        Point = (int) ViewModel.getPointForPurchasing();
+
+        BuyPackageByCashRelativeLayoutPackageDetailsFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowBuyPackageOnlineDialog((int) ViewModel.getPayablePrice(), ViewModel.getTitle());
+            }
+        });
+
+        BuyPackageByPointRelativeLayoutPackageDetailsFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context.ShowLoadingProgressBar();
+                PointService pointService = new PointService(PackageDetailsFragment.this);
+                pointService.Get();
+            }
+        });
+    }
+
+    private void ShowBuyPackageOnlineDialog(int Price, String PackageName) {
+
+        final Dialog BuyPackageDialog = new Dialog(Context);
+        BuyPackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        BuyPackageDialog.setContentView(R.layout.dialog_buy_package_online);
+
+        ButtonPersianView DialogBuyPackageOnlineOkButton = BuyPackageDialog.findViewById(R.id.DialogBuyPackageOnlineOkButton);
+        ButtonPersianView DialogBuyPackageOnlineCancelButton = BuyPackageDialog.findViewById(R.id.DialogBuyPackageOnlineCancelButton);
+
+        String Rial = Price + Context.getResources().getString(R.string.zero);
+        String Message = "";
+
+        if (PackageName.contains(Context.getResources().getString(R.string.packag))) {
+            Message = Context.getResources().getString(R.string.amount) + " " + Price + " " + Context.getResources().getString(R.string.toman) + " " + Context.getResources().getString(R.string.equivalent) + " " + Rial + " " +
+                    Context.getResources().getString(R.string.rial) + " " + Context.getResources().getString(R.string.for_buy) + " " + PackageName;
+        } else {
+            Message = Context.getResources().getString(R.string.amount) + " " + Price + " " + Context.getResources().getString(R.string.price_with_out_currency) + " " + Context.getResources().getString(R.string.equivalent) + " " + Rial + " " +
+                    Context.getResources().getString(R.string.rial) + " " + Context.getResources().getString(R.string.for_buy_the_package) + " " + PackageName;
+        }
+
+
+        TextViewPersian DialogBuyPackageOnlineDescriptionTextView = BuyPackageDialog.findViewById(R.id.DialogBuyPackageOnlineDescriptionTextView);
+        DialogBuyPackageOnlineDescriptionTextView.setText(Message);
+
+
+        DialogBuyPackageOnlineOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BuyPackageDialog.dismiss();
+
+            }
+        });
+
+        DialogBuyPackageOnlineCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BuyPackageDialog.dismiss();
+            }
+        });
+
+        BuyPackageDialog.show();
+    }
+
+
+    private void ShowBuyPackageWithPointDialog(String YourPoint, int Point, String PackageName) {
+
+        final Dialog BuyPackageDialog = new Dialog(Context);
+        BuyPackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        BuyPackageDialog.setContentView(R.layout.dialog_buy_package_with_point);
+
+        ButtonPersianView DialogBuyPackageWithPointOkButton = BuyPackageDialog.findViewById(R.id.DialogBuyPackageWithPointOkButton);
+        ButtonPersianView DialogBuyPackageWithPointCancelButton = BuyPackageDialog.findViewById(R.id.DialogBuyPackageWithPointCancelButton);
+
+        String Message = "";
+
+        if (PackageName.contains(Context.getResources().getString(R.string.packag))) {
+            Message = Context.getResources().getString(R.string.rate) + " " + Point + " " + Context.getResources().getString(R.string.for_buy) + " " + PackageName;
+        } else {
+            Message = Context.getResources().getString(R.string.rate) + " " + Point + " " + Context.getResources().getString(R.string.for_buy_the_package) + " " + PackageName;
+        }
+
+
+        TextViewPersian DialogBuyPackageWithPointDescriptionTextView = BuyPackageDialog.findViewById(R.id.DialogBuyPackageWithPointDescriptionTextView);
+        TextViewPersian YourPointTextView = BuyPackageDialog.findViewById(R.id.YourPointTextView);
+        YourPointTextView.setText(YourPoint);
+        DialogBuyPackageWithPointDescriptionTextView.setText(Message);
+
+
+        DialogBuyPackageWithPointOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BuyPackageDialog.dismiss();
+
+            }
+        });
+
+        DialogBuyPackageWithPointCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BuyPackageDialog.dismiss();
+            }
+        });
+
+        BuyPackageDialog.show();
     }
 
 }

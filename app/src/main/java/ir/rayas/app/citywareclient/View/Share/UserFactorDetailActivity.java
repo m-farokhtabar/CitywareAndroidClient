@@ -506,6 +506,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private void SetInformationToSpinner(List<FactorStatusViewModel> ViewModel) {
 
         FactorStatusAdapterViewModel = new ArrayList<>();
+        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(-1, getResources().getString(R.string.please_select)));
 
         for (int i = 0; i < ViewModel.size(); i++) {
 
@@ -517,7 +518,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
             if (StatusFactor == FactorStatus.Received.getId() || StatusFactor == FactorStatus.CanceledByUser.getId() || StatusFactor == FactorStatus.CanceledByBusiness.getId() || StatusFactor == FactorStatus.Delivered.getId()) {
                 StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.GONE);
-            }else {
+            } else {
                 StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.VISIBLE);
             }
 
@@ -588,7 +589,8 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
         UserFactorService Service = new UserFactorService(this);
 
-        if (StatusFactor == FactorStatusId) {
+
+        if (StatusFactor == -1) {
             if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString())) {
                 ShowToast(getResources().getString(R.string.no_change_description_status_factor), Toast.LENGTH_LONG, MessageType.Warning);
             } else {
@@ -596,9 +598,21 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                 Service.SetDescription(MadeViewModels());
             }
         } else {
-            ShowLoadingProgressBar();
-            Service.SetStatusAndDescription(MadeViewModel());
+            if (StatusFactor == FactorStatusId) {
+                if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString())) {
+                    ShowToast(getResources().getString(R.string.no_change_description_status_factor), Toast.LENGTH_LONG, MessageType.Warning);
+                } else {
+                    ShowLoadingProgressBar();
+                    Service.SetDescription(MadeViewModels());
+                }
+            } else {
+                ShowLoadingProgressBar();
+                Service.SetStatusAndDescription(MadeViewModel());
+
+            }
         }
+
+
     }
 
     @Override

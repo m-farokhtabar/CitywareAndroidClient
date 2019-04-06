@@ -41,6 +41,7 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
     private BasketActivity Context;
     private int Position;
     private int BasketId;
+    private int CountQuickItem = 0;
 
     public BasketItemListRecyclerViewAdapter(BasketActivity context, List<BasketItemViewModel> ViewModel, RecyclerView Container, int BasketId) {
         this.Context = context;
@@ -100,6 +101,8 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
             holder.BasketItemTotalPriceTomanTextView.setVisibility(View.GONE);
             holder.BasketItemPriceTextView.setText(Context.getResources().getString(R.string.unknown));
             holder.BasketItemTotalPriceTextView.setText(Context.getResources().getString(R.string.unknown));
+
+            CountQuickItem = CountQuickItem + 1;
 
         } else {
 
@@ -171,10 +174,25 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
                     double TotalPrice = Quantity * Price;
 
                     Context.basketSummeryViewModel.setTotalPrice(Context.basketSummeryViewModel.getTotalPrice() - TotalPrice);
+                    Context.basketSummeryViewModel.setBasketCount(Context.basketSummeryViewModel.getBasketCount() - 1);
 
                     ViewModelList.remove(Position);
                     notifyDataSetChanged();
                     Container.invalidate();
+
+
+                    BasketItemViewModel basketItemViewModel = FeedBack.getValue();
+                    if (basketItemViewModel.getPrice() > 0) {
+                        Context.basketSummeryViewModel.setQuickItem(true);
+                    } else {
+                        CountQuickItem = CountQuickItem - 1;
+                        if (CountQuickItem == 0) {
+                            Context.basketSummeryViewModel.setQuickItem(false);
+                        } else {
+                            Context.basketSummeryViewModel.setQuickItem(true);
+                        }
+                    }
+
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);

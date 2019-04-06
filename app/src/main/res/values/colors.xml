@@ -23,6 +23,7 @@
     <color name="FontRedColor">#ffff0000</color>
     <color name="FontBlackColor">#ff000000</color>
     <color name="FontBlackColorShadow">#55000000</color>
+    <color name="FontDarkThemeColor">#ff1e003d</color>
     <color name="FontSemiDarkThemeColor">#0b48a3</color>
     <color name="FontSemiBlackColor">#ff666666</color>
     <color name="FontThemeColor">#ff1f96f2</color>
@@ -81,4 +82,16 @@
     <color name="ThumbThemeColorDrawable">#2192e6</color>
     <color name="TrackLightThemeColorDrawable">#b4dfff</color>
     <color name="LightThemeColorDrawable">#55b4dfff</color>
+
+
+
+    <color name="BackgroundRedGrayColorPrize">#a81616</color>
+    <color name="BackgroundRedLightColorPrize">#e70a0a</color>
+    <color name="BackgroundRedColorPrize">#f9e0e0</color>
+    <color name="BackgroundYellowColorPrize">#FEF5E7</color>
+    <color name="BackgroundProgressLightPrize">#bc51aebc</color>
+    <color name="BackgroundProgressDarkPrize">#005662</color>
+    <color name="BackgroundGreenColorPrize">#e6f2e1</color>
+    <color name="BackgroundBlueColorPrize">#d8ebf9</color>
+
 </resources>

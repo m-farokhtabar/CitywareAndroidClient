@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
+import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Etc.EventOrNewsService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Setting.SettingService;
@@ -30,6 +32,8 @@ import ir.rayas.app.citywareclient.View.Login.DescriptionAppActivity;
 import ir.rayas.app.citywareclient.View.Login.HowToSearchInAppGpsOrRegionActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
+import ir.rayas.app.citywareclient.ViewModel.Definition.BusinessCategoryViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Definition.RegionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Etc.EventOrNewsViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 

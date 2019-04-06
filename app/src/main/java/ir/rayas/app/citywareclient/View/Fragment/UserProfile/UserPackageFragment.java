@@ -76,6 +76,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
             @Override
             public void onClick(View view) {
                 Intent NewPackageIntent = Context.NewIntent(PackageActivity.class);
+                NewPackageIntent.putExtra("New","New");
                 Context.startActivity(NewPackageIntent);
             }
         });

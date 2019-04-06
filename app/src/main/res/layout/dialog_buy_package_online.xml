@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/HeaderColorDialogBuyPackageOnline"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/BackgroundThemeColor" />
+
+        <LinearLayout
+            android:id="@+id/LinearTitleDialogBuyPackageOnline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|right"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/HeaderColorDialogBuyPackageOnline"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/DialogBuyPackageOnlineTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="@string/buy_package"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </LinearLayout>
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/DialogBuyPackageOnlineDescriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/LinearTitleDialogBuyPackageOnline"
+            android:layout_alignRight="@+id/LinearTitleDialogBuyPackageOnline"
+            android:layout_below="@+id/LinearTitleDialogBuyPackageOnline"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="right"
+            android:text="@string/description_business_delete"
+            tools:ignore="RtlHardcoded" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/DialogBuyPackageOnlineDescriptionTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@color/BackgroundColorHeaderAddressLayout"
+            android:orientation="horizontal">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/DialogBuyPackageOnlineCancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="13dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/view_button_normal_theme_style"
+                android:gravity="center"
+                android:text="@string/not_now"
+                android:textColor="@color/FontWhiteColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/DialogBuyPackageOnlineOkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginEnd="13dp"
+                android:background="@drawable/view_button_normal_green_style"
+                android:text="@string/payment"
+                android:textColor="@color/FontWhiteColor" />
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

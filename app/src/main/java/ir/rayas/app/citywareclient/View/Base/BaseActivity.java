@@ -49,6 +49,7 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.View.Initializer.IntroduceActivity;
 import ir.rayas.app.citywareclient.View.Master.BookmarkActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.View.Master.ClubUsersActivity;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
 import ir.rayas.app.citywareclient.View.Master.NotificationActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.SettingActivity;
@@ -640,6 +641,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             //MyClub
             case R.id.ItemMenu5:
+                if (CurrentActivityId != ActivityIdList.CLUB_USERS_ACTIVITY)
+                    GoToMasterActivity(ActivityIdList.CLUB_USERS_ACTIVITY);
                 break;
         }
     }
@@ -688,8 +691,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 BusinessListForFactorIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(BusinessListForFactorIntent);
                 break;
-//            case R.id.ItemMenu5:
-//                break;
+            case ActivityIdList.CLUB_USERS_ACTIVITY:
+                Intent ClubUsersIntent = new Intent(this, ClubUsersActivity.class);
+                ClubUsersIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
+                startActivity(ClubUsersIntent);
+                break;
         }
     }
 

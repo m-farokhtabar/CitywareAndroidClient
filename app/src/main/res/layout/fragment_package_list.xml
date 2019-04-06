@@ -1,94 +1,66 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ir.rayas.app.citywareclient.View.Fragment.Package.PackageListFragment">
 
-    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-        android:id="@+id/UserRatingTitleTextViewPackageListFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="center"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/rate"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/FontSemiDarkThemeColor" />
-
-    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-        android:id="@+id/UserPointTextViewPackageListFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/UserRatingTitleTextViewPackageListFragment"
-        android:layout_toStartOf="@+id/UserRatingTitleTextViewPackageListFragment"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/FontSemiDarkThemeColor" />
-
-    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-        android:id="@+id/UserCreditTitleTextViewPackageListFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/UserRatingTitleTextViewPackageListFragment"
-        android:layout_gravity="center"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/credit_price"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/FontSemiDarkThemeColor" />
-
-    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-        android:id="@+id/UserCreditTextViewPackageListFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/UserCreditTitleTextViewPackageListFragment"
-        android:layout_toStartOf="@+id/UserCreditTitleTextViewPackageListFragment"
-        android:layout_below="@+id/UserRatingTitleTextViewPackageListFragment"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/FontSemiDarkThemeColor" />
-
-    <LinearLayout
-        android:id="@+id/LineLinearLayoutPackageListFragment"
+    <android.support.v7.widget.CardView
+        android:id="@+id/PointCardViewPackageListFragment"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/UserCreditTextViewPackageListFragment"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/BackgroundThemeLightColor"
-        android:orientation="vertical" />
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center_horizontal|center_vertical"
+        app:elevation="8dp"
+        tools:ignore="NestedWeights">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/UserRatingTitleTextViewPackageListFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/rate"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/UserPointTextViewPackageListFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_toLeftOf="@+id/UserRatingTitleTextViewPackageListFragment"
+                android:layout_toStartOf="@+id/UserRatingTitleTextViewPackageListFragment"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/FontSemiDarkThemeColor" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/RefreshPackageListSwipeRefreshLayoutPackageListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/LineLinearLayoutPackageListFragment"
-        android:layout_marginTop="16dp">
+        android:layout_below="@+id/PointCardViewPackageListFragment">
 
 
         <android.support.v7.widget.RecyclerView

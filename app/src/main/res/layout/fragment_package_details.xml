@@ -155,7 +155,7 @@
                                 android:layout_marginRight="8dp"
                                 android:layout_marginStart="8dp"
                                 android:gravity="left"
-                                android:text="@string/price_with_out_currency"
+                                android:text="@string/credit_price"
                                 android:textAppearance="?android:textAppearanceSmall"
                                 android:textColor="@color/FontSemiBlackColor" />
                         </LinearLayout>

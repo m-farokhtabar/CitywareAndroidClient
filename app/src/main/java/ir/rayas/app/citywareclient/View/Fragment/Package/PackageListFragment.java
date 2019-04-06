@@ -162,9 +162,9 @@ public class PackageListFragment extends Fragment implements IResponseService {
                     Double DeliveryPrice = FeedBack.getValue();
                     if (DeliveryPrice != null) {
 
-                        UserPointTextViewPackageListFragment.setText(Utility.GetIntegerNumberWithComma(DeliveryPrice)+" " + Context.getResources().getString(R.string.point_toman));
+                        UserPointTextViewPackageListFragment.setText(Utility.GetIntegerNumberWithComma(DeliveryPrice));
                     } else {
-                        UserPointTextViewPackageListFragment.setText( Context.getResources().getString(R.string.zero) + " " +  Context.getResources().getString(R.string.point_toman));
+                        UserPointTextViewPackageListFragment.setText( Context.getResources().getString(R.string.zero));
 
                     }
                 } else {

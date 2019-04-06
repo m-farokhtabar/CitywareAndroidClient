@@ -433,6 +433,39 @@
     <string name="buy_package_by_point">خرید پکیج با امتیاز</string>
     <string name="buy_online_this_package">با خرید آنلاین این پکیج</string>
     <string name="get_points">امتیاز دریافت کنید</string>
+    <string name="payment">پرداخت</string>
+    <string name="amount">مبلغ</string>
+    <string name="equivalent">معادل</string>
+    <string name="rial">ریال</string>
+    <string name="for_buy_the_package">بابت خرید پکیج</string>
+    <string name="for_buy">جهت خرید</string>
+    <string name="packag">پکیج</string>
+    <string name="your_point">امتیاز فعلی شما</string>
+    <string name="please_select">لطفا انتخاب کنید</string>
+
+
+    <string name="scoring">امتیاز گیری</string>
+    <string name="report_scores">امتیازات دریافتی</string>
+    <string name="gift">جایزه</string>
+    <string name="my_gifts">جوایز دریافتی</string>
+    <string name="show_all_gift">مشاهده همه جوایز</string>
+    <string name="percent">%</string>
+    <string name="welcome_to_user_club">به باشگاه مشتریان خوش آمدید.</string>
+    <string name="no_prizes_to_view">جوایزی جهت مشاهده وجود ندارد</string>
+    <string name="you_did_not_receive_any_prize">شما جوایزی دریافت نکردید</string>
+    <string name="you_did_not_receive_any_point">شما امتیازی دریافت نکردید</string>
+    <string name="date">تاریخ</string>
+    <string name="points_spent">امتیاز مصرف شده</string>
+    <string name="enabled">فعال بودن</string>
+    <string name="receive">دریافت</string>
+    <string name="receive_prize">دریافت جایزه</string>
+    <string name="variable_point">امتیاز متغیر</string>
+    <string name="need_to">نیاز به</string>
+    <string name="are_you_sure_you_want_to_purchase_the_package_you_are_looking_for">دارید آیا از خرید پکیج مورد نظر اطمینان دارید ؟</string>
+    <string name="statistics_your_score">آمار امتیاز شما</string>
+    <string name="total_points_earned">کل امتیازات اخذ شده</string>
+    <string name="remaining_point">امتیاز باقی مانده</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

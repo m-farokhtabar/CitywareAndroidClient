@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,9 +27,7 @@ import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketViewModel;
 
-/**
- * Created by Hajar on 1/25/2019.
- */
+
 
 public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketListRecyclerViewAdapter.ViewHolder> implements IResponseService {
 
@@ -40,6 +37,8 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
     private int Position;
     private MyClickListener myClickListener;
 
+
+
     public BasketListRecyclerViewAdapter(BasketActivity context, List<BasketViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
         this.Container = Container;
@@ -48,13 +47,13 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
-         TextViewPersian BasketDeleteIconTextView;
-         TextViewPersian BusinessTitleTextView;
-         TextViewPersian CreateDateBasketTextView;
-         TextViewPersian PricePayableBasketTextView;
-         TextViewPersian DescriptionBasketTextView;
-         TextViewPersian NumberOfOrderItemsBasketTextView;
-         ImageView ImageBasketImageView;
+        TextViewPersian BasketDeleteIconTextView;
+        TextViewPersian BusinessTitleTextView;
+        TextViewPersian CreateDateBasketTextView;
+        TextViewPersian PricePayableBasketTextView;
+        TextViewPersian DescriptionBasketTextView;
+        TextViewPersian NumberOfOrderItemsBasketTextView;
+        ImageView ImageBasketImageView;
 
 
         public ViewHolder(View v) {
@@ -81,7 +80,7 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_basket_list, parent, false);
-        return  new ViewHolder(CurrentView);
+        return new ViewHolder(CurrentView);
     }
 
     @Override
@@ -160,6 +159,7 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
                         ViewModelList.remove(Position);
                         notifyDataSetChanged();
                         Container.invalidate();
+
                     } else {
                         Context.finish();
                     }

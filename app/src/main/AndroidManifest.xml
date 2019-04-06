@@ -226,6 +226,15 @@
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Master.ClubUsersActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".View.MasterChildren.PrizeAllActivity" />
+        <activity android:name=".View.MasterChildren.UserPrizeActivity" />
+        <activity android:name=".View.MasterChildren.ActionPointAllActivity" />
+        <activity android:name=".View.MasterChildren.UserActionPointActivity"></activity>
     </application>
 
 </manifest>
