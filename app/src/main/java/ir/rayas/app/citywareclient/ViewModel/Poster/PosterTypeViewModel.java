@@ -47,6 +47,9 @@ public class PosterTypeViewModel {
     /// فعال بود یا نبودن
     /// </summary>
     public boolean IsActive;
+    //مبلغ هزینه پوستر به ازای هر ساعت
+//    اگر قیمت نال بود پوستر نمایش داده نشود
+    public double Price;
 
     public int getId() {
         return Id;
@@ -126,5 +129,13 @@ public class PosterTypeViewModel {
 
     public void setActive(boolean active) {
         IsActive = active;
+    }
+
+    public double getPrice() {
+        return Price;
+    }
+
+    public void setPrice(double price) {
+        Price = price;
     }
 }

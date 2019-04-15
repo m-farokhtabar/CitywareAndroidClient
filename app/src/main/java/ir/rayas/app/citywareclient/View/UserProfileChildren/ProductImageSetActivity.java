@@ -72,7 +72,6 @@ public class ProductImageSetActivity extends BaseActivity implements IResponseSe
 
     private ExternalStorage CurrentExternalStorage = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -28,6 +28,9 @@ public class PackageService implements IService {
     private String ActionGetAll = "All/Page";
     private String ActionAll = "All";
     private String ActionBusiness = "Business";
+    private String ActionUser = "User/Credit";
+    private String ActionOpen = "Open";
+    private String ActionClose = "Close";
     private IResponseService ResponseService;
 
     public PackageService(IResponseService ResponseService) {
@@ -41,16 +44,37 @@ public class PackageService implements IService {
         }.getType());
     }
 
+    public void GetAllOpen(int PageNumber) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionOpen + "/" + ActionGetAll + "/" + PageNumber;
+        Current.GetService(this, Url, ServiceMethodType.UserPackageOpenGetAll, OutputPackageTransactionViewModel.class, new TypeToken<Feedback<List<OutputPackageTransactionViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetAllClose(int PageNumber) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionClose + "/" + ActionGetAll + "/" + PageNumber;
+        Current.GetService(this, Url, ServiceMethodType.UserPackageCloseGetAll, OutputPackageTransactionViewModel.class, new TypeToken<Feedback<List<OutputPackageTransactionViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetUserCredit() {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + ActionUser;
+        Current.GetService(this, Url, ServiceMethodType.UserCreditGet, OutputPackageTransactionViewModel.class, new TypeToken<Feedback<Double>>() {
+        }.getType());
+    }
+
     public void Get(int PackageId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage  + "/" + PackageId;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + PackageId;
         Current.GetService(this, Url, ServiceMethodType.PackageDetailsGet, PackageDetailsViewModel.class, new TypeToken<Feedback<PackageDetailsViewModel>>() {
         }.getType());
     }
 
     public void GetAllPackageList(int BusinessId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + ActionAll + "/" + ActionBusiness + "/" +BusinessId;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + ActionAll + "/" + ActionBusiness + "/" + BusinessId;
         Current.GetService(this, Url, ServiceMethodType.PackageListGetAll, OutPackageViewModel.class, new TypeToken<Feedback<List<OutPackageViewModel>>>() {
         }.getType());
     }

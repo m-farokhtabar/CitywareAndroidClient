@@ -12,7 +12,7 @@ import java.util.List;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserPrizeRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Service.Club.Prize.PrizeService;
+import ir.rayas.app.citywareclient.Service.Prize.PrizeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;

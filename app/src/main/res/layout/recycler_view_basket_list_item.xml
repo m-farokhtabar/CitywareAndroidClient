@@ -170,7 +170,7 @@
                 android:layout_alignRight="@+id/BasketItemQuantityRelativeLayout"
                 android:layout_below="@+id/ItemPriceFrameLayout"
                 android:layout_marginTop="10dp"
-                android:text="@string/total_product_price"
+                android:text="@string/total_price"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/FontGreenColor" />
 

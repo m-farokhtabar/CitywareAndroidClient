@@ -49,4 +49,8 @@ public class ActivityIdList {
     public  static final int USER_PRIZE_ACTIVITY  = 36;
     public  static final int ACTION_POINT_ALL_ACTIVITY  = 37;
     public  static final int USER_ACTION_POINT_ACTIVITY  = 38;
+    public  static final int BUY_POSTER_SET_ACTIVITY  = 39;
+    public  static final int POSTER_TYPE_ACTIVITY  = 40;
+    public  static final int POSTER_TYPE_DETAILS_ACTIVITY  = 41;
+    public  static final int BUY_POSTER_TYPE_ACTIVITY  = 42;
 }

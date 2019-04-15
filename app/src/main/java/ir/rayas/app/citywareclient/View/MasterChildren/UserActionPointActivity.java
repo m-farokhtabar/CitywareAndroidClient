@@ -12,7 +12,7 @@ import java.util.List;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserActionRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Service.Club.Prize.PrizeService;
+import ir.rayas.app.citywareclient.Service.Prize.PrizeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
@@ -145,8 +145,8 @@ public class UserActionPointActivity extends BaseActivity implements IResponseSe
                             Point = Point + ViewModelList.get(i).getPoint();
                         }
 
-                        PointsSpentTextViewUserActionPointActivity.setText(Utility.GetIntegerNumberWithComma(Point));
-                        MyPointTextViewUserActionPointActivity.setText(Utility.GetIntegerNumberWithComma(Point + MyPoint));
+                        PointsSpentTextViewUserActionPointActivity.setText(Utility.GetIntegerNumberWithComma(Point - MyPoint));
+                        MyPointTextViewUserActionPointActivity.setText(Utility.GetIntegerNumberWithComma(Point));
 
 
                     } else {

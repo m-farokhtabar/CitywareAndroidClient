@@ -99,5 +99,20 @@ public enum ServiceMethodType {
     PrizeUserGetAll,
     ActionPointGetAll,
     UserActionPointGet,
+    PrizeRequestAdd,
+    PrizeRequestPackageAdd,
+    UserPackageOpenGetAll,
+    UserPackageCloseGetAll,
+    UserCreditGet,
+    UserPosterValidGet,
+    UserPosterExpiredGet,
+    PurchasedPosterEdit,
+    PosterTypeGetAll,
+    PosterTypeGet,
+    ExtendPosterEdit,
+    PurchasedPosterAdd ,
+    BusinessCommissionAndDiscountGet,
+    MarketerSuggestionAdd ,
+    SearchGet
 
 }

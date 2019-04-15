@@ -234,7 +234,11 @@
         <activity android:name=".View.MasterChildren.PrizeAllActivity" />
         <activity android:name=".View.MasterChildren.UserPrizeActivity" />
         <activity android:name=".View.MasterChildren.ActionPointAllActivity" />
-        <activity android:name=".View.MasterChildren.UserActionPointActivity"></activity>
+        <activity android:name=".View.MasterChildren.UserActionPointActivity" />
+        <activity android:name=".View.UserProfileChildren.BuyPosterSetActivity" />
+        <activity android:name=".View.UserProfileChildren.PosterTypeActivity" />
+        <activity android:name=".View.UserProfileChildren.PosterTypeDetailsActivity" />
+        <activity android:name=".View.UserProfileChildren.BuyPosterTypeActivity"></activity>
     </application>
 
 </manifest>

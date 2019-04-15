@@ -40,7 +40,7 @@ public class SplashActivity extends BaseActivity implements IResponseService {
         //ایجاد طرحبندی صفحه
         CreateLayout();
         //تایمر جهت نمایش صفحه splash
-        //   GoToIntroducePage();
+//           GoToIntroducePage();
 
         LoadData();
     }
@@ -107,33 +107,32 @@ public class SplashActivity extends BaseActivity implements IResponseService {
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         if (ServiceMethod == ServiceMethodType.RegionAllTreeGet) {
 
-
             Intent IntroduceIntent = new Intent(getApplicationContext(), IntroduceActivity.class);
             startActivity(IntroduceIntent);
             finish();
 
 
-            Feedback<RegionViewModel> FeedBack = (Feedback<RegionViewModel>) Data;
-            if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-
-                if (FeedBack.getValue() != null) {
-                    RegionRepository regionRepository = new RegionRepository();
-                    regionRepository.setAllRegion(FeedBack.getValue());
-
-                    BusinessCategoryService Service = new BusinessCategoryService(this);
-                    Service.GetAllTree();
-
-                } else {
-                    ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
-                    ShowErrorInConnectDialog();
-                }
-            } else {
-                if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                    ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                } else {
-                    ShowErrorInConnectDialog();
-                }
-            }
+//            Feedback<RegionViewModel> FeedBack = (Feedback<RegionViewModel>) Data;
+//            if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+//
+//                if (FeedBack.getValue() != null) {
+//                    RegionRepository regionRepository = new RegionRepository();
+//                    regionRepository.setAllRegion(FeedBack.getValue());
+//
+//                    BusinessCategoryService Service = new BusinessCategoryService(this);
+//                    Service.GetAllTree();
+//
+//                } else {
+//                    ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
+//                    ShowErrorInConnectDialog();
+//                }
+//            } else {
+//                if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+//                    ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+//                } else {
+//                    ShowErrorInConnectDialog();
+//                }
+//            }
         } else if (ServiceMethod == ServiceMethodType.BusinessCategoryTreeGet) {
 
             Feedback<BusinessCategoryViewModel> FeedBack = (Feedback<BusinessCategoryViewModel>) Data;

@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.Poster.BusinessListForPosterFragment">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/RefreshBusinessListSwipeRefreshLayoutBusinessListForPosterFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/BusinessListRecyclerViewBusinessListForPosterFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/ReturnAndNextLinearLayoutBusinessListForPosterFragment"
+                android:divider="@null"
+                android:dividerHeight="0dp" />
+
+            <LinearLayout
+                android:id="@+id/ReturnAndNextLinearLayoutBusinessListForPosterFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="8dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                    android:id="@+id/BuyPosterButtonBusinessListForPosterFragment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/selector_button_green_style"
+                    android:text="@string/basket_submit"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/FontWhiteColor"
+                    android:textStyle="bold" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                    android:id="@+id/ReturnButtonBusinessListForPosterFragment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/selector_button_theme_style"
+                    android:text="@string/back"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/FontWhiteColor"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:id="@+id/ShowEmptyBusinessListTextViewBusinessListForPosterFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:text="@string/your_business_list_is_empty"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/FontSemiDarkThemeColor"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,32 +1,38 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
-import android.graphics.PorterDuff;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
+import ir.rayas.app.citywareclient.Service.Prize.PrizeService;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
-import ir.rayas.app.citywareclient.ViewModel.Package.OutPackageViewModel;
+import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 
-/**
- * Created by Hajar on 11/3/2018.
- */
 
 public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -109,70 +115,49 @@ public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         PackageViewHolder viewHolder = (PackageViewHolder) holder;
-        boolean IsExpire = false;
 
-        OutPackageViewModel outPackageViewModel = ViewModelList.get(position).getPackage();
 
-        viewHolder.PackageTitleTextView.setText(outPackageViewModel.getTitle());
-        viewHolder.ExpireTextView.setText(ViewModelList.get(position).getExpire());
+        viewHolder.PackageTitleTextView.setText(ViewModelList.get(position).getPackageName());
 
-        List<Long> Date = Utility.CalculateTimeDifference(ViewModelList.get(position).getCurrentDate(), ViewModelList.get(position).getExpire());
-
-        if (ViewModelList.get(position).getExpire().equals("")) {
+        if (ViewModelList.get(position).getExpireDate().equals("") || ViewModelList.get(position).getExpireDate() == null)
             viewHolder.ExpireTextView.setText(Context.getResources().getString(R.string.unlimited));
-        } else {
-            if (Date.get(0) > 0) {
-                viewHolder.ExpireTextView.setText(ViewModelList.get(position).getExpire());
-                IsExpire = false;
-            } else {
-                if (Date.get(1) > 0) {
-                    viewHolder.ExpireTextView.setText(ViewModelList.get(position).getExpire());
-                    IsExpire = false;
-                } else {
-                    if (Date.get(2) > 0) {
-                        viewHolder.ExpireTextView.setText(ViewModelList.get(position).getExpire());
-                        IsExpire = false;
-                    } else {
-                        viewHolder.ExpireTextView.setText(Context.getResources().getString(R.string.expire));
-                        IsExpire = true;
-                    }
-                }
+        else
+            viewHolder.ExpireTextView.setText(ViewModelList.get(position).getExpireDate());
 
-            }
+        viewHolder.CreditPriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPackageCredit()));
+        viewHolder.ConsumerCreditTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getConsumePackageCredit()));
+        viewHolder.CreateDateTextView.setText(ViewModelList.get(position).getCreate());
+
+
+        Double Percent;
+        if (ViewModelList.get(position).getPackageCredit() > 0 && ViewModelList.get(position).getPackageCredit() != null) {
+            Percent = (ViewModelList.get(position).getConsumePackageCredit() * 100) / ViewModelList.get(position).getPackageCredit();
+        } else {
+            Percent = 0.0;
         }
 
-        if (IsExpire) {
-            viewHolder.ExpireTextView.setTextColor(Context.getResources().getColor(R.color.FontRedColor));
-        } else {
-            if (ViewModelList.get(position).getExpire().equals("")) {
-                viewHolder.ExpireTextView.setTextColor(Context.getResources().getColor(R.color.FontSemiDarkThemeColor));
-            } else {
-                viewHolder.ExpireTextView.setTextColor(Context.getResources().getColor(R.color.FontBlackColor));
-            }
-        }
+        int PercentProgress = (int) Double.parseDouble(Percent.toString());
+        viewHolder.PercentTextView.setText(String.valueOf(PercentProgress) + " " + Context.getResources().getString(R.string.percent));
 
-        viewHolder.TransactionNumberTextView.setText(ViewModelList.get(position).getTransactionNumber());
-        viewHolder.CreditPriceTextView.setText(String.valueOf((int) outPackageViewModel.getCreditPrice()));
-        viewHolder.PaidPriceTextView.setText(String.valueOf((int) ViewModelList.get(position).getPaidPrice()));
+        Drawable drawable = Context.getResources().getDrawable(R.drawable.circular_percent_progress_bar_yellow);
+        viewHolder.PercentProgressBar.setProgress(PercentProgress);   // Main Progress
+        viewHolder.PercentProgressBar.setSecondaryProgress(100); // Secondary Progress
+        viewHolder.PercentProgressBar.setMax(100); // Maximum Progress
+        viewHolder.PercentProgressBar.setProgressDrawable(drawable);
 
-        if (outPackageViewModel.getImagePathUrl() == null) {
-            viewHolder.PackageImageLinearLayout.setVisibility(View.GONE);
-        } else if (outPackageViewModel.getImagePathUrl().equals("")) {
-            viewHolder.PackageImageLinearLayout.setVisibility(View.GONE);
-        } else {
-            viewHolder.PackageImageLinearLayout.setVisibility(View.VISIBLE);
-            String ImageUrl = "";
-            if (outPackageViewModel.getImagePathUrl().contains("~")) {
-                ImageUrl = outPackageViewModel.getImagePathUrl().replace("~", DefaultConstant.BaseUrlWebService);
-            } else {
-                ImageUrl = outPackageViewModel.getImagePathUrl();
+
+        viewHolder.DetailsBuyPackageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowDetailsPackageBuyDialog(ViewModelList.get(position));
             }
-            LayoutUtility.LoadImageWithGlide(Context, ImageUrl, viewHolder.PackageImageView);
-        }
+        });
+
     }
 
     @Override
@@ -183,25 +168,80 @@ public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private class PackageViewHolder extends RecyclerView.ViewHolder {
 
-        public TextViewPersian PackageTitleTextView;
-        public TextViewPersian CreditPriceTextView;
-        public TextViewPersian PaidPriceTextView;
-        public TextViewPersian ExpireTextView;
-        public TextViewPersian TransactionNumberTextView;
-        public ImageView PackageImageView;
-        public LinearLayout PackageImageLinearLayout;
+        TextViewPersian PackageTitleTextView;
+        TextViewPersian CreditPriceTextView;
+        TextViewPersian ExpireTextView;
+        TextViewPersian ConsumerCreditTextView;
+        TextViewPersian PercentTextView;
+        LinearLayout PackageLinearLayout;
+        ProgressBar PercentProgressBar;
+        RelativeLayout PercentRelativeLayout;
+        ButtonPersianView DetailsBuyPackageButton;
+        TextViewPersian CreateDateTextView;
 
 
-        public PackageViewHolder(View v) {
+        PackageViewHolder(View v) {
             super(v);
             PackageTitleTextView = v.findViewById(R.id.PackageTitleTextView);
             CreditPriceTextView = v.findViewById(R.id.CreditPriceTextView);
-            PaidPriceTextView = v.findViewById(R.id.PaidPriceTextView);
             ExpireTextView = v.findViewById(R.id.ExpireTextView);
-            TransactionNumberTextView = v.findViewById(R.id.TransactionNumberTextView);
-            PackageImageView = v.findViewById(R.id.PackageImageView);
-            PackageImageLinearLayout = v.findViewById(R.id.PackageImageLinearLayout);
+            ConsumerCreditTextView = v.findViewById(R.id.ConsumerCreditTextView);
+            PackageLinearLayout = v.findViewById(R.id.PackageLinearLayout);
+            PercentProgressBar = v.findViewById(R.id.PercentProgressBar);
+            PercentTextView = v.findViewById(R.id.PercentTextView);
+            PercentRelativeLayout = v.findViewById(R.id.PercentRelativeLayout);
+            DetailsBuyPackageButton = v.findViewById(R.id.DetailsBuyPackageButton);
+            CreateDateTextView = v.findViewById(R.id.CreateDateTextView);
 
         }
     }
+
+
+    private void ShowDetailsPackageBuyDialog(OutputPackageTransactionViewModel ViewModel) {
+
+        final Dialog DetailsBuyPackageDialog = new Dialog(Context);
+        DetailsBuyPackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        DetailsBuyPackageDialog.setContentView(R.layout.dialog_details_buy_package);
+
+
+        ButtonPersianView DialogOkButton = DetailsBuyPackageDialog.findViewById(R.id.DialogOkButton);
+        TextViewPersian PaidTypeTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidTypeTextView);
+        TextViewPersian PaidPriceTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidPriceTextView);
+        TextViewPersian TransactionNumberTextView = DetailsBuyPackageDialog.findViewById(R.id.TransactionNumberTextView);
+        TextViewPersian CreateDateTextView = DetailsBuyPackageDialog.findViewById(R.id.CreateDateTextView);
+        TextViewPersian PaidPriceTomanTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidPriceTomanTextView);
+        TextViewPersian PaidPriceTitleTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidPriceTitleTextView);
+        LinearLayout TransactionNumberLinearLayout = DetailsBuyPackageDialog.findViewById(R.id.TransactionNumberLinearLayout);
+
+        if (ViewModel.BuyWithClubPoint > 0) {
+
+            PaidTypeTextView.setText(Context.getResources().getString(R.string.club_point));
+            TransactionNumberLinearLayout.setVisibility(View.GONE);
+            PaidPriceTomanTextView.setVisibility(View.GONE);
+            PaidPriceTitleTextView.setText(Context.getResources().getString(R.string.points_spent));
+            PaidPriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModel.getBuyWithClubPoint()));
+
+        }else {
+
+            PaidTypeTextView.setText(Context.getResources().getString(R.string.cash));
+            TransactionNumberLinearLayout.setVisibility(View.VISIBLE);
+            PaidPriceTomanTextView.setVisibility(View.VISIBLE);
+            PaidPriceTitleTextView.setText(Context.getResources().getString(R.string.paid_price));
+            PaidPriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModel.getPaidPrice()));
+        }
+
+        TransactionNumberTextView.setText(ViewModel.getTransactionNumber());
+        CreateDateTextView.setText(ViewModel.getCreate());
+
+
+        DialogOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DetailsBuyPackageDialog.dismiss();
+            }
+        });
+
+        DetailsBuyPackageDialog.show();
+    }
+
 }

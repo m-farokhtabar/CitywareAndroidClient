@@ -121,7 +121,7 @@
                             android:background="@drawable/background_layer_blue">
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/MyPointTitleTextViewUserPrizeActivity"
+                                android:id="@+id/PointsSpentTitleTextViewUserPrizeActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -129,12 +129,12 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="16dp"
                                 android:layout_marginRight="16dp"
-                                android:text="@string/total_points_earned"
+                                android:text="@string/points_spent"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/FontBlackColor" />
 
                             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/MyPointTextViewUserPrizeActivity"
+                                android:id="@+id/PointsSpentTextViewUserPrizeActivity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
@@ -144,8 +144,8 @@
                                 android:layout_marginLeft="16dp"
                                 android:layout_marginRight="16dp"
                                 android:layout_marginStart="16dp"
-                                android:layout_toLeftOf="@+id/MyPointTitleTextViewUserPrizeActivity"
-                                android:layout_toStartOf="@+id/MyPointTitleTextViewUserPrizeActivity"
+                                android:layout_toLeftOf="@+id/PointsSpentTitleTextViewUserPrizeActivity"
+                                android:layout_toStartOf="@+id/PointsSpentTitleTextViewUserPrizeActivity"
                                 android:gravity="left"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/FontBlackColor"
@@ -193,7 +193,7 @@
                                 tools:ignore="UselessParent">
 
                                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                    android:id="@+id/PointsSpentTextViewUserPrizeActivity"
+                                    android:id="@+id/MyPointTextViewUserPrizeActivity"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -208,7 +208,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginBottom="3dp"
-                                    android:text="@string/points_spent"
+                                    android:text="@string/points_earned"
                                     android:textAppearance="?android:textAppearanceSmall"
                                     android:textColor="@color/FontBlackColor"
                                     tools:ignore="HardcodedText" />
@@ -262,7 +262,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginBottom="3dp"
-                                    android:text="@string/remaining_point"
+                                    android:text="@string/your_point"
                                     android:textAppearance="?android:textAppearanceSmall"
                                     android:textColor="@color/FontBlackColor"
                                     tools:ignore="HardcodedText" />

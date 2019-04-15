@@ -2,6 +2,7 @@ package ir.rayas.app.citywareclient.View.Fragment.Package;
 
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -14,9 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.PrizeAllClubRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
+import ir.rayas.app.citywareclient.Service.Prize.PrizeService;
 import ir.rayas.app.citywareclient.Service.User.PointService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
@@ -27,7 +30,10 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.View.Master.ClubUsersActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
+import ir.rayas.app.citywareclient.ViewModel.Club.RequestPrizeViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Club.UserConsumePointViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.PackageDetailsViewModel;
 
 public class PackageDetailsFragment extends Fragment implements IResponseService {
@@ -123,6 +129,16 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         packageService.Get(PackageId);
     }
 
+    private RequestPrizeViewModel MadeViewModel(int Id) {
+        RequestPrizeViewModel ViewModel = new RequestPrizeViewModel();
+        try {
+            ViewModel.setId(Id);
+
+        } catch (Exception Ex) {
+        }
+        return ViewModel;
+    }
+
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         Context.HideLoading();
@@ -162,6 +178,23 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        Context.ShowErrorInConnectDialog();
+                    }
+                }
+            }  else   if (ServiceMethod == ServiceMethodType.PrizeRequestPackageAdd) {
+                Feedback<UserConsumePointViewModel> FeedBack = (Feedback<UserConsumePointViewModel>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
+
+                    UserConsumePointViewModel ViewModelList = FeedBack.getValue();
+                    if (ViewModelList != null) {
+                        ShowMessageBuyPrizeDialog();
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())
+                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }
@@ -313,6 +346,11 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         DialogBuyPackageWithPointOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                
+                Context.ShowLoadingProgressBar();
+                PrizeService prizeService = new PrizeService(PackageDetailsFragment.this);
+                prizeService.AddPrizeRequestPackage(MadeViewModel(PackageId));
+
                 BuyPackageDialog.dismiss();
 
             }
@@ -326,6 +364,28 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         });
 
         BuyPackageDialog.show();
+    }
+
+
+    private void ShowMessageBuyPrizeDialog() {
+
+        final Dialog OkBuyPrizePackageDialog = new Dialog(Context);
+        OkBuyPrizePackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        OkBuyPrizePackageDialog.setContentView(R.layout.dialog_ok_buy_prize);
+
+        ButtonPersianView DialogOkButton = OkBuyPrizePackageDialog.findViewById(R.id.DialogOkButton);
+        TextViewPersian DialogMessageTextView = OkBuyPrizePackageDialog.findViewById(R.id.DialogMessageTextView);
+
+        DialogMessageTextView.setText(Context.getResources().getString(R.string.message_show_get_package));
+
+        DialogOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OkBuyPrizePackageDialog.dismiss();
+            }
+        });
+
+        OkBuyPrizePackageDialog.show();
     }
 
 }

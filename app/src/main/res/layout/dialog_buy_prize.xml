@@ -69,7 +69,7 @@
         </LinearLayout>
 
 
-        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        <TextView
             android:id="@+id/DialogPointTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,8 +82,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/FontSemiBlackColor" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
         <LinearLayout
@@ -111,7 +110,7 @@
                 android:layout_marginTop="13dp"
                 android:background="@drawable/view_button_normal_theme_style"
                 android:gravity="center"
-                android:text="@string/no"
+                android:text="@string/non"
                 android:textColor="@color/FontWhiteColor" />
 
             <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView

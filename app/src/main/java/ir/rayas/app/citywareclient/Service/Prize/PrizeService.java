@@ -1,6 +1,7 @@
-package ir.rayas.app.citywareclient.Service.Club.Prize;
+package ir.rayas.app.citywareclient.Service.Prize;
 
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -14,14 +15,14 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 
+
 import ir.rayas.app.citywareclient.ViewModel.Club.ActionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Club.PrizeViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Club.RequestPrizeViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Club.UserActionPointViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Club.UserConsumePointViewModel;
 
-/**
- * Created by Hajar on 3/28/2019.
- */
+
 
 public class PrizeService implements IService {
 
@@ -29,6 +30,8 @@ public class PrizeService implements IService {
     private String ActionGetAll = "All";
     private String ActionUser = "User";
     private String Action = "Action";
+    private String ActionRequest = "Request";
+    private String ActionRequestPackage = "RequestPackage";
 
     private IResponseService ResponseService;
 
@@ -66,6 +69,23 @@ public class PrizeService implements IService {
         }.getType());
     }
 
+    public void AddPrizeRequest(RequestPrizeViewModel ViewModel) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService  + "/" + ControllerName +"/" + ActionRequest;
+        Gson gson = new Gson();
+        String JsonViewModel = gson.toJson(ViewModel);
+        Current.PostService(this, Url, JsonViewModel, ServiceMethodType.PrizeRequestAdd, RequestPrizeViewModel.class, new TypeToken<Feedback<UserConsumePointViewModel>>() {
+        }.getType());
+    }
+
+    public void AddPrizeRequestPackage(RequestPrizeViewModel ViewModel) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService  + "/" + ControllerName +"/" + ActionRequestPackage;
+        Gson gson = new Gson();
+        String JsonViewModel = gson.toJson(ViewModel);
+        Current.PostService(this, Url, JsonViewModel, ServiceMethodType.PrizeRequestPackageAdd, RequestPrizeViewModel.class, new TypeToken<Feedback<UserConsumePointViewModel>>() {
+        }.getType());
+    }
 
     @Override
     public <T> void OnSuccess(String Response, ServiceMethodType ServiceMethod, Class<T> OutputClass, Type OutputClassType) {

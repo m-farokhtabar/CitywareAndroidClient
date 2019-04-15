@@ -12,6 +12,7 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
+import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Club.UserConsumePointViewModel;
 
 
@@ -52,8 +53,7 @@ public class UserPrizeRecyclerViewAdapter extends RecyclerView.Adapter<UserPrize
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        int Point = (int) Double.parseDouble(ViewModelList.get(position).getPoint().toString());
-        holder.PrizePointTextView.setText(String.valueOf(Point));
+        holder.PrizePointTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPoint()));
         holder.PrizeNameTextView.setText(ViewModelList.get(position).getPrizeTitle());
         holder.PrizeDateTextView.setText(ViewModelList.get(position).getCreate());
 

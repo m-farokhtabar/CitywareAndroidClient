@@ -5,16 +5,16 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.PrizeAllClubRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Service.Club.Prize.PrizeService;
+import ir.rayas.app.citywareclient.Service.Prize.PrizeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.User.PointService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -22,16 +22,21 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserAddressFragment;
+import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserBusinessFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.MasterChildren.ActionPointAllActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.PrizeAllActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.UserActionPointActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.UserPrizeActivity;
+import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Club.PrizeViewModel;
+import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
 public class ClubUsersActivity extends BaseActivity implements IResponseService {
 
@@ -42,6 +47,9 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
     private RecyclerView GiftRecyclerViewClubUsersActivity = null;
 
     private Double MyPoint = 0.0;
+    private int CurrentPage = 0;
+    private int TotalPages = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +72,6 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
         CreateLayout();
 
         LoadData();
-
     }
 
     /**
@@ -83,7 +90,6 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
         ShowLoadingProgressBar();
         PointService pointService = new PointService(this);
         pointService.Get();
-
 
     }
 
@@ -105,11 +111,13 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
         CardView MyGiftCardViewClubUsersActivity = findViewById(R.id.MyGiftCardViewClubUsersActivity);
         CardView ShowAllGiftCardViewClubUsersActivity = findViewById(R.id.ShowAllGiftCardViewClubUsersActivity);
 
+        PreviousTextViewClubUsersActivity.setClickable(false);
+        NextTextViewClubUsersActivity.setClickable(true);
+        PreviousTextViewClubUsersActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        NextTextViewClubUsersActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
 
         GiftRecyclerViewClubUsersActivity = findViewById(R.id.GiftRecyclerViewClubUsersActivity);
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL);
-        GiftRecyclerViewClubUsersActivity.setLayoutManager(staggeredGridLayoutManager);
-        staggeredGridLayoutManager.setReverseLayout(true);
+        GiftRecyclerViewClubUsersActivity.setLayoutManager(new LinearLayoutManager(this));
 
         ReportScoresIconTextViewClubUsersActivity.setTypeface(Font.MasterIcon);
         ReportScoresIconTextViewClubUsersActivity.setText("\uf15c");
@@ -170,6 +178,8 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
                 startActivity(PrizeAllIntent);
             }
         });
+
+
     }
 
     /**
@@ -191,9 +201,34 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
                     final List<PrizeViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
 
-                        PrizeAllClubRecyclerViewAdapter prizeAllRecyclerViewAdapter = new PrizeAllClubRecyclerViewAdapter(ClubUsersActivity.this,ViewModelList,MyPoint );
+                        PrizeAllClubRecyclerViewAdapter prizeAllRecyclerViewAdapter = new PrizeAllClubRecyclerViewAdapter(ClubUsersActivity.this, GeneratePage(CurrentPage, ViewModelList), MyPoint);
                         GiftRecyclerViewClubUsersActivity.setAdapter(prizeAllRecyclerViewAdapter);
 
+                        if (ViewModelList.size() > 10)
+                            TotalPages = 10;
+                        else
+                            TotalPages = ViewModelList.size()-1;
+
+
+                        NextTextViewClubUsersActivity.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                CurrentPage += 1;
+                                PrizeAllClubRecyclerViewAdapter prizeAllRecyclerViewAdapter = new PrizeAllClubRecyclerViewAdapter(ClubUsersActivity.this, GeneratePage(CurrentPage, ViewModelList), MyPoint);
+                                GiftRecyclerViewClubUsersActivity.setAdapter(prizeAllRecyclerViewAdapter);
+                                toggleButtons();
+                            }
+                        });
+
+                        PreviousTextViewClubUsersActivity.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                CurrentPage -= 1;
+                                PrizeAllClubRecyclerViewAdapter prizeAllRecyclerViewAdapter = new PrizeAllClubRecyclerViewAdapter(ClubUsersActivity.this, GeneratePage(CurrentPage, ViewModelList), MyPoint);
+                                GiftRecyclerViewClubUsersActivity.setAdapter(prizeAllRecyclerViewAdapter);
+                                toggleButtons();
+                            }
+                        });
                     } else {
 
                     }
@@ -236,6 +271,57 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
         }
     }
 
+    private void toggleButtons() {
+
+        if (CurrentPage == TotalPages) {
+
+            NextTextViewClubUsersActivity.setClickable(false);
+            PreviousTextViewClubUsersActivity.setClickable(true);
+
+            NextTextViewClubUsersActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+            PreviousTextViewClubUsersActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+
+        } else if (CurrentPage == 0) {
+
+            PreviousTextViewClubUsersActivity.setClickable(false);
+            NextTextViewClubUsersActivity.setClickable(true);
+
+            PreviousTextViewClubUsersActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+            NextTextViewClubUsersActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+
+        } else if (CurrentPage >= 1 && CurrentPage < TotalPages) {
+
+            NextTextViewClubUsersActivity.setClickable(true);
+            PreviousTextViewClubUsersActivity.setClickable(true);
+
+            NextTextViewClubUsersActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+            PreviousTextViewClubUsersActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+        }
+    }
+
+    public List<PrizeViewModel> GeneratePage(int currentPage, List<PrizeViewModel> ViewModel) {
+
+        List<PrizeViewModel> pageData = new ArrayList<>();
+        pageData.add(ViewModel.get(currentPage));
+
+        return pageData;
+    }
+
+    @Override
+    protected void onGetResult(ActivityResult Result) {
+        if (Result.getFromActivityId() == getCurrentActivityId()) {
+            switch (Result.getToActivityId()) {
+                case ActivityIdList.PRIZE_ALL_ACTIVITY:
+
+                    finish();
+                    Intent ClubUsersIntent = new Intent(ClubUsersActivity.this, ClubUsersActivity.class);
+                    startActivity(ClubUsersIntent);
+                    
+                    break;
+            }
+        }
+        super.onGetResult(Result);
+    }
 
     @Override
     protected void onDestroy() {

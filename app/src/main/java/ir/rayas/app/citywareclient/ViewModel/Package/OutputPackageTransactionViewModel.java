@@ -5,6 +5,7 @@ package ir.rayas.app.citywareclient.ViewModel.Package;
  */
 
 public class OutputPackageTransactionViewModel {
+
     /// <summary>
     /// کد تراکنش
     /// </summary>        
@@ -13,30 +14,34 @@ public class OutputPackageTransactionViewModel {
     /// کد کاربر
     /// </summary>        
     public int UserId;
+    //نام پکیج جهت آرشیو
+    public String PackageName;
+    //خلاصه توضیحات پکیج جهت آرشیو
+    public String PackageAbstractOfDescription;
     /// <summary>
     /// کد پکیج تبلیغاتی
     /// </summary>
     public int PackageId;
     /// <summary>
-    /// اطلاعات پکیج
-    /// </summary>
-    public OutPackageViewModel Package;
-    /// <summary>
-    /// کد کپن
-    /// </summary>
-    public Integer CouponId;
-    /// <summary>
-    /// مبلغ پرداخت شده
-    /// </summary>     
-    public double PaidPrice;
-    /// <summary>
-    /// مبلغ تخفیف کپن
-    /// </summary>
-    public double DiscountCouponPrice;
-    /// <summary>
-    /// مبلغ اصلی همان مبلغ اعتبار
+    // مبلغی که باید برای خرید پکیج پرداخت شود
     /// </summary>
     public double Price;
+    /// <summary>
+    /// منقضی شده است یا خیر
+    /// </summary>
+    public boolean IsExpired;
+    /// <summary>
+    /// تاریخ ایجاد
+    /// </summary>
+    public String Create;
+    /// <summary>
+    /// تاریخ ویرایش
+    /// </summary>
+    public String Modified;
+    /// <summary>
+    /// فعال بود یا نبودن
+    /// </summary>
+    public boolean IsActive;
     /// <summary>
     /// شماره تراکنش
     /// </summary>
@@ -45,31 +50,36 @@ public class OutputPackageTransactionViewModel {
     /// توضیحات تراکنش
     /// </summary>
     public String Description;
+    //تاریخ انقضاء پکیج
+    // اگر تاریخ خالی بود یعنی انقضاء ندارد
+    public String ExpireDate;
     /// <summary>
-    /// تاریخ انقضاء پکیج
-    /// اگر تاریخ خالی بود یعنی انقضاء ندارد
+    /// کد کپن
     /// </summary>
-    public String Expire;
+    public Integer CouponId;
     /// <summary>
-    /// منقضی شده است یا خیر
+    /// مبلغ پرداخت شده
     /// </summary>
-    public boolean IsExpired;
+    public double PaidPrice;
     /// <summary>
-    /// تاریخ فعلی
+    /// مبلغ تخفیف کپن
     /// </summary>
-    public String CurrentDate;
-    /// <summary>
-    /// تاریخ ایجاد
-    /// </summary>        
-    public String Create;
-    /// <summary>
-    /// تاریخ ویرایش
-    /// </summary>        
-    public String Modified;
-    /// <summary>
-    /// فعال بود یا نبودن
-    /// </summary>        
-    public boolean IsActive;
+    public double DiscountCouponPrice;
+    // اگر این فیلد بیشتر از صفر باشد پس نیاز به مبالغ پرداخت شده و شماره تراکنش ندارد
+    //    یعنی از طریق امتیاز باشگاه خریداری شده است
+    public double BuyWithClubPoint;
+    //  میزان اعتبار مصرف شده
+    public double ConsumePackageCredit;
+    //  میزان اعتبار پکیج
+    public Double PackageCredit;
+    //همیشه می توانند این پکیج را کاربران استفاده کنند
+    public boolean AlwaysCredit;
+    //تعداد روزهای باقیمانده از اعتبار این بسته
+//    اگر نال بود یعنی تعداد روز نامحدود است
+    public int RemainedCreditInDays;
+    // میزان اعتبار پکیج برای کاربر به روز
+    public int CreditInDays;
+
 
     public int getId() {
         return Id;
@@ -87,6 +97,22 @@ public class OutputPackageTransactionViewModel {
         UserId = userId;
     }
 
+    public String getPackageName() {
+        return PackageName;
+    }
+
+    public void setPackageName(String packageName) {
+        PackageName = packageName;
+    }
+
+    public String getPackageAbstractOfDescription() {
+        return PackageAbstractOfDescription;
+    }
+
+    public void setPackageAbstractOfDescription(String packageAbstractOfDescription) {
+        PackageAbstractOfDescription = packageAbstractOfDescription;
+    }
+
     public int getPackageId() {
         return PackageId;
     }
@@ -95,12 +121,68 @@ public class OutputPackageTransactionViewModel {
         PackageId = packageId;
     }
 
-    public OutPackageViewModel getPackage() {
-        return Package;
+    public double getPrice() {
+        return Price;
     }
 
-    public void setPackage(OutPackageViewModel aPackage) {
-        Package = aPackage;
+    public void setPrice(double price) {
+        Price = price;
+    }
+
+    public boolean isExpired() {
+        return IsExpired;
+    }
+
+    public void setExpired(boolean expired) {
+        IsExpired = expired;
+    }
+
+    public String getCreate() {
+        return Create;
+    }
+
+    public void setCreate(String create) {
+        Create = create;
+    }
+
+    public String getModified() {
+        return Modified;
+    }
+
+    public void setModified(String modified) {
+        Modified = modified;
+    }
+
+    public boolean isActive() {
+        return IsActive;
+    }
+
+    public void setActive(boolean active) {
+        IsActive = active;
+    }
+
+    public String getTransactionNumber() {
+        return TransactionNumber;
+    }
+
+    public void setTransactionNumber(String transactionNumber) {
+        TransactionNumber = transactionNumber;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public String getExpireDate() {
+        return ExpireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        ExpireDate = expireDate;
     }
 
     public Integer getCouponId() {
@@ -127,75 +209,51 @@ public class OutputPackageTransactionViewModel {
         DiscountCouponPrice = discountCouponPrice;
     }
 
-    public double getPrice() {
-        return Price;
+    public double getBuyWithClubPoint() {
+        return BuyWithClubPoint;
     }
 
-    public void setPrice(double price) {
-        Price = price;
+    public void setBuyWithClubPoint(double buyWithClubPoint) {
+        BuyWithClubPoint = buyWithClubPoint;
     }
 
-    public String getTransactionNumber() {
-        return TransactionNumber;
+    public double getConsumePackageCredit() {
+        return ConsumePackageCredit;
     }
 
-    public void setTransactionNumber(String transactionNumber) {
-        TransactionNumber = transactionNumber;
+    public void setConsumePackageCredit(double consumePackageCredit) {
+        ConsumePackageCredit = consumePackageCredit;
     }
 
-    public String getDescription() {
-        return Description;
+    public Double getPackageCredit() {
+        return PackageCredit;
     }
 
-    public void setDescription(String description) {
-        Description = description;
+    public void setPackageCredit(Double packageCredit) {
+        PackageCredit = packageCredit;
     }
 
-    public String getExpire() {
-        return Expire;
+    public boolean isAlwaysCredit() {
+        return AlwaysCredit;
     }
 
-    public void setExpire(String expire) {
-        Expire = expire;
+    public void setAlwaysCredit(boolean alwaysCredit) {
+        AlwaysCredit = alwaysCredit;
     }
 
-    public boolean isExpired() {
-        return IsExpired;
+    public int getRemainedCreditInDays() {
+        return RemainedCreditInDays;
     }
 
-    public void setExpired(boolean expired) {
-        IsExpired = expired;
+    public void setRemainedCreditInDays(int remainedCreditInDays) {
+        RemainedCreditInDays = remainedCreditInDays;
     }
 
-    public String getCurrentDate() {
-        return CurrentDate;
+    public int getCreditInDays() {
+        return CreditInDays;
     }
 
-    public void setCurrentDate(String currentDate) {
-        CurrentDate = currentDate;
-    }
-
-    public String getCreate() {
-        return Create;
-    }
-
-    public void setCreate(String create) {
-        Create = create;
-    }
-
-    public String getModified() {
-        return Modified;
-    }
-
-    public void setModified(String modified) {
-        Modified = modified;
-    }
-
-    public boolean isActive() {
-        return IsActive;
-    }
-
-    public void setActive(boolean active) {
-        IsActive = active;
+    public void setCreditInDays(int creditInDays) {
+        CreditInDays = creditInDays;
     }
 }

@@ -54,7 +54,7 @@
     <string name="show_business_base_on_gps">نمایش موارد با توجه به موقعیت جغرافیایی</string>
     <string name="show_business_base_on_region">نمایش موارد با توجه به منطقه انتخابی</string>
     <string name="TurnOnLocation">با روشن کردن مکان یاب گوشی؛ بنگاه های اقتصادی(مغازه، رستوران، دفتر شرکت، کارخانه و ...) اطراف خود را هوشمندانه تر انتخاب کنید</string>
-    <string name="yes">باشه</string>
+    <string name="ok">باشه</string>
     <string name="no">نه</string>
     <string name="not_now">فعلا نه</string>
     <string name="enable_gps">فعال نمودن مکان یاب</string>
@@ -313,6 +313,16 @@
     <string name="extended">تمدید</string>
     <string name="my_posters">پوسترهای من</string>
     <string name="expire">منقضی شده</string>
+    <string name="edit">ویرایش</string>
+    <string name="dimensions">ابعاد</string>
+    <string name="please_enter_poster_title">نام پوستر را وارد کنید</string>
+    <string name="poster_profile">مشخصات پوستر</string>
+    <string name="poster_type">انواع پوستر</string>
+    <string name="poster_type_details">جزئیات نوع پوستر</string>
+    <string name="buy">خرید</string>
+    <string name="hours">ساعت</string>
+    <string name="are_you_sure_you_want_to_extended_a_poster">آیا از تمدید پوستر مطمئن هستید؟</string>
+    <string name="choose_one_of_your_businesses">یکی از کسب و کارهای خود را انتخاب کنید</string>
 
     <!--متون مرتبط با پوستر-->
     <string name="information_show_business">مشاهده اطلاعات کسب و کار</string>
@@ -321,6 +331,11 @@
     <string name="business_rating">امتیاز کسب و کار</string>
     <string name="introducing_business_to_your_friends_to_receive_commission">معرفی کسب و کار به دوستان جهت دریافت پورسانت</string>
     <string name="introducing_your_friends_to_receive_commission">معرفی به دوستان جهت دریافت پورسانت</string>
+    <string name="poster_validate">پوستر های معتبر</string>
+    <string name="poster_expire">پوستر های منقضی شده</string>
+    <string name="star">*</string>
+    <string name="required_credit">اعتبار مورد نیاز</string>
+    <string name="payment_credit">اعتبار قابل پرداخت</string>
 
     <!--متون مرتبط با پکیج ها-->
     <string name="credit_price">اعتبار دریافتی</string>
@@ -389,7 +404,7 @@
     <string name="product_was_edited_in_the_basket"> در سبد خرید تغییر یافت.</string>
     <string name="payable_price">قیمت قابل پرداخت</string>
     <string name="products_price">قیمت محصولات</string>
-    <string name="total_product_price">قیمت کل</string>
+    <string name="total_price">قیمت کل</string>
     <string name="unit_price">قیمت واحد</string>
     <string name="delivery_by_courier">تحویل سفارش توسط پیک درب منزل</string>
     <string name="business_does_not_have_a_delivery_service">کسب و کار مورد نظر فاقد سرویس پیک می باشد</string>
@@ -442,8 +457,20 @@
     <string name="packag">پکیج</string>
     <string name="your_point">امتیاز فعلی شما</string>
     <string name="please_select">لطفا انتخاب کنید</string>
+    <string name="package_validate">پکیج های معتبر</string>
+    <string name="package_expire">پکیج های منقضی شده</string>
+    <string name="consumer_credit">میزان اعتبار مصرف شده</string>
+    <string name="there_is_no_valid_package">پکیج معتبری وجود ندارد.</string>
+    <string name="there_is_no_expire_package">پکیج منقضی شده وجود ندارد.</string>
+    <string name="credit_now">اعتبار فعلی</string>
+    <string name="details_buy">جزئیات  خرید</string>
+    <string name="paid_type">نحوه پرداخت</string>
+    <string name="cash">نقدی</string>
+    <string name="club_point">امتیاز باشگاه</string>
+    <string name="buy_date">تاریخ خرید </string>
 
 
+    <!--متون مرتبط با  باشگاه مشتریان-->
     <string name="scoring">امتیاز گیری</string>
     <string name="report_scores">امتیازات دریافتی</string>
     <string name="gift">جایزه</string>
@@ -461,11 +488,15 @@
     <string name="receive_prize">دریافت جایزه</string>
     <string name="variable_point">امتیاز متغیر</string>
     <string name="need_to">نیاز به</string>
-    <string name="are_you_sure_you_want_to_purchase_the_package_you_are_looking_for">دارید آیا از خرید پکیج مورد نظر اطمینان دارید ؟</string>
+    <string name="are_you_sure_you_want_to_purchase_the_package_you_are_looking_for">امتیاز دارید آیا از خرید پکیج مورد نظر اطمینان دارید ؟</string>
+    <string name="are_you_sure_you_want_to_purchase_the_point_you_are_looking_for">امتیاز دارید آیا از خرید امتیاز مورد نظر اطمینان دارید ؟</string>
     <string name="statistics_your_score">آمار امتیاز شما</string>
-    <string name="total_points_earned">کل امتیازات اخذ شده</string>
+    <string name="points_earned">امتیازات اخذ شده</string>
     <string name="remaining_point">امتیاز باقی مانده</string>
-
+    <string name="yes">بله</string>
+    <string name="non">خیر</string>
+    <string name="message_show_get_prize">جایزه شما با موفقیت ثبت شد. \n برای مشاهده جایزه خود به صفحه جوایز دریافتی بروید.</string>
+    <string name="message_show_get_package">پکیج شما با موفقیت ثبت شد. </string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

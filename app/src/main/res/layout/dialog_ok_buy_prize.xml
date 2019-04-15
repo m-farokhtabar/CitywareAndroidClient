@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/HeaderColorDialog"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:background="@color/BackgroundThemeColor" />
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/DialogMessageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:text="@string/message_show_get_prize"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/FontSemiBlackColor" />
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/DialogOkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginEnd="13dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/view_button_normal_green_style"
+            android:text="@string/ok"
+            android:textColor="@color/FontWhiteColor" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

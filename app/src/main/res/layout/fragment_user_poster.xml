@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/GetAllAddressRelativeLayoutUserAddressFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,29 +10,126 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/PosterRecyclerViewUserPostersFragment"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            />
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/UserCreditCardViewUserPostersFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="right"
+                        android:text="@string/toman"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/FontSemiDarkThemeColor"
+                        tools:ignore="RtlHardcoded" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/UserCreditTextViewUserPostersFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="16dp"
+                        android:gravity="center"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textColor="@color/FontSemiDarkThemeColor"
+                        android:textStyle="bold" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/credit_now"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/FontSemiBlackColor" />
 
 
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/SwitchLinearLayoutUserPostersFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/UserCreditCardViewUserPostersFragment"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/ExpireAndValidatePosterSwitchUserPostersFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:gravity="right|center_vertical"
+                    android:theme="@style/SwitchCompatTheme" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/ExpireAndValidatePosterTitleTextViewUserPostersFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/poster_validate"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/FontSemiDarkThemeColor" />
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/PosterValidRecyclerViewUserPostersFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:layout_below="@+id/SwitchLinearLayoutUserPostersFragment"
+                android:dividerHeight="0dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/PosterExpiredRecyclerViewUserPackageFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:layout_below="@+id/SwitchLinearLayoutUserPostersFragment"
+                android:dividerHeight="0dp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/LoadMoreProgressPosterFragment"
+        style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_gravity="center_horizontal"
         android:background="#00000000"
         android:indeterminateDrawable="@drawable/view_loading_style"
-        android:layout_gravity="center_horizontal"/>
+        android:visibility="gone" />
 
 
     <android.support.design.widget.FloatingActionButton

@@ -52,8 +52,6 @@ public class PackageActivity extends BaseActivity {
      */
     private void CreateLayout() {
 
-
-
         if (ValueIntent.equals("New")) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction BusinessListTransaction = fragmentManager.beginTransaction();
@@ -70,8 +68,6 @@ public class PackageActivity extends BaseActivity {
             BasketListTransaction.addToBackStack(null);
             BasketListTransaction.commit();
         }
-
-
     }
 
     /**

@@ -12,7 +12,7 @@ import java.util.List;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.PrizeAllRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Service.Club.Prize.PrizeService;
+import ir.rayas.app.citywareclient.Service.Prize.PrizeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
@@ -33,6 +33,12 @@ public class PrizeAllActivity extends BaseActivity implements IResponseService, 
 
     private boolean IsSwipe = false;
     private Double MyPoint = 0.0;
+
+    private boolean IsBuyPrize = false;
+
+    public void setBuyPrize(boolean buyPrize) {
+        IsBuyPrize = buyPrize;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +170,11 @@ public class PrizeAllActivity extends BaseActivity implements IResponseService, 
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
+        if (IsBuyPrize)
+            FinishCurrentActivity();
+        else
+            super.onBackPressed();
     }
 }
 

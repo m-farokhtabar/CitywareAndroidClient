@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/HeaderColorDialogBuyPosterType"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/BackgroundThemeColor" />
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/CardViewYourCreditDialogBuyPosterType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:elevation="8dp">
+
+            <LinearLayout
+                android:id="@+id/LinearYourCreditDialogBuyPosterType"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/DialogBuyPosterTitleTextView"
+                android:layout_gravity="center"
+                android:gravity="center|right"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="right"
+                    android:text="@string/toman"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/FontSemiDarkThemeColor"
+                    tools:ignore="RtlHardcoded" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/YourCreditTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/FontSemiDarkThemeColor" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/credit_now"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/LinearPosterTypeDialogBuyPosterType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/CardViewYourCreditDialogBuyPosterType"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/PosterTypeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/FontSemiDarkThemeColor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearPriceDialogBuyPosterType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/LinearPosterTypeDialogBuyPosterType"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/toman_hours"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiDarkThemeColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/priceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/FontSemiDarkThemeColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/required_credit"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayoutDayHoursPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/LinearPriceDialogBuyPosterType"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            tools:ignore="DisableBaselineAlignment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical|right"
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
+
+                <NumberPicker
+                    android:id="@+id/HoursNumberPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="16dp" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/hours"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical|right"
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
+
+                <NumberPicker
+                    android:id="@+id/DayNumberPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="16dp" />
+
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/day"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/LinearTotalPriceDialogBuyPosterType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/LinearLayoutDayHoursPicker"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical|right"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/toman"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiDarkThemeColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/TotalPriceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/FontSemiDarkThemeColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/payment_credit"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/DialogBuyPosterDescriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/LinearTotalPriceDialogBuyPosterType"
+            android:layout_alignRight="@+id/LinearTotalPriceDialogBuyPosterType"
+            android:layout_below="@+id/LinearTotalPriceDialogBuyPosterType"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/are_you_sure_you_want_to_extended_a_poster"
+            android:gravity="right"
+            android:textAppearance="?android:textAppearanceSmall"
+            tools:ignore="RtlHardcoded" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/DialogBuyPosterDescriptionTextView"
+            android:layout_centerHorizontal="true"
+            android:background="@color/BackgroundColorHeaderAddressLayout"
+            android:orientation="horizontal">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/DialogExtendedPosterCancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="13dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/view_button_normal_theme_style"
+                android:gravity="center"
+                android:text="@string/non"
+                android:textColor="@color/FontWhiteColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/DialogExtendedPosterOkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginEnd="13dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/view_button_normal_green_style"
+                android:text="@string/yes"
+                android:textColor="@color/FontWhiteColor" />
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundWhiteColor"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.UserProfileChildren.PosterTypeActivity">
+
+    <LinearLayout
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_back_toolbar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/BackgroundWhiteColor">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/UserCreditCardViewPosterTypeActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:gravity="right"
+                                android:text="@string/toman"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textColor="@color/FontSemiDarkThemeColor"
+                                tools:ignore="RtlHardcoded" />
+
+                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                android:id="@+id/UserCreditTextViewPosterTypeActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="16dp"
+                                android:gravity="center"
+                                android:textAppearance="?android:textAppearanceLarge"
+                                android:textColor="@color/FontSemiDarkThemeColor"
+                                android:textStyle="bold" />
+
+                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/credit_now"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                android:textColor="@color/FontSemiBlackColor" />
+
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/PosterTypeRecyclerViewPosterTypeActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@null"
+                        android:dividerHeight="0dp" />
+
+                </LinearLayout>
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <ProgressBar
+                android:id="@+id/LoadMoreProgressBarPosterTypeActivity"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:background="#00000000"
+                android:indeterminateDrawable="@drawable/view_loading_style"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+</RelativeLayout>

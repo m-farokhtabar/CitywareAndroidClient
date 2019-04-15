@@ -1,8 +1,7 @@
 package ir.rayas.app.citywareclient.ViewModel.Poster;
 
-/**
- * Created by Programmer on 10/11/2018.
- */
+import java.util.List;
+
 
 public class PurchasedPosterViewModel {
 
@@ -31,11 +30,36 @@ public class PurchasedPosterViewModel {
     /// </summary>
     ///اجباری انتخابی
     private int PosterTypeId;
+    //عنوان نوع پوستر
+    private String PosterTypeTitle;
+    //    آرشیو
+    //    همیشه پوستر در بالا نمایش داده شود
+    //    در صورتی همیشه بالا است که کاربر در منطقه مورد نظر باشد
+    //    با فیلد اولویت تفاوت دارد
+    private boolean IsTop;
+    //    آرشیو
+    // اندازه تعداد سطر
+    private int Rows;
+    //    آرشیو
+    // اندازه تعداد ستون
+    private int Cols;
+    //   آرشیو
+    //    اگر اولیت 0 باشد پوستر معمولی است در غیر این صورت به ترتیب عدد اولویت در قسمت پوسترها نمایش داده می شود بدون اینکه مکان کاربر را در نظر بگیرد
+    private int Priority;
+    //قیمت پوستر به ساعت
+    //  هزینه یک ساعت پوستر
+    //    به این دلیل لیست چون به ازای هر تمدید ممکنه قیمت واحد تغییر کنه
+    private List<Double> PriceList;
     /// <summary>
-    /// اطلاعات تکمیلی نوع پوستر
+    /// تاریخ انقضای پوستر به ساعت
     /// </summary>
-    ///فقط جهت نمایش استفاده می شود
-    private PosterTypeViewModel PosterType;
+    ///اجباری
+    private int ExpireHourTime;
+    //  هزینه پرداختی برای پوستر
+    // هزینه یک ساعت * تعداد ساعات خریداری شده
+    private double PosterPrice;
+    // منقضی شده است یا خیر
+    private boolean IsExpired;
     /// <summary>
     /// خلاصه توضیحات پوستر
     /// </summary>
@@ -48,25 +72,11 @@ public class PurchasedPosterViewModel {
     ///تصویر اجباری است
     private String ImagePathUrl;
     /// <summary>
-    /// تاریخ انقضای پوستر به ساعت
-    /// </summary>
-    ///اجباری
-    private int ExpireHourTime;
-    /// <summary>
     /// تاریخ انقضاء
     /// </summary>
     ///فقط جهت نمایش
-    private String Expire;
-    /// <summary>
-    /// تاریخ فعلی
-    /// </summary>
-    ///تاریخ جاری سرور فقط جهت نمایش  و مقایسه برای اینکه با تاریخ انقضاء مقایسه کنیم ببینیم منقضی شده یا خیر
-    private String CurrentDate;
-    /// <summary>
-    ///قیمت پوستر به ساعت
-    /// </summary>
-    ///فقط جهت نمایش
-    private double Price;
+    private String ExpireDate;
+
     /// <summary>
     /// توضیحات محصول
     /// </summary>
@@ -93,6 +103,7 @@ public class PurchasedPosterViewModel {
     /// </summary>
     ///جهت نمایش در صورت غیر فعال بودن در لیست غیر فعال شود
     private boolean IsActive;
+
 
     public int getId() {
         return Id;
@@ -134,12 +145,76 @@ public class PurchasedPosterViewModel {
         PosterTypeId = posterTypeId;
     }
 
-    public PosterTypeViewModel getPosterType() {
-        return PosterType;
+    public String getPosterTypeTitle() {
+        return PosterTypeTitle;
     }
 
-    public void setPosterType(PosterTypeViewModel posterType) {
-        PosterType = posterType;
+    public void setPosterTypeTitle(String posterTypeTitle) {
+        PosterTypeTitle = posterTypeTitle;
+    }
+
+    public boolean isTop() {
+        return IsTop;
+    }
+
+    public void setTop(boolean top) {
+        IsTop = top;
+    }
+
+    public int getRows() {
+        return Rows;
+    }
+
+    public void setRows(int rows) {
+        Rows = rows;
+    }
+
+    public int getCols() {
+        return Cols;
+    }
+
+    public void setCols(int cols) {
+        Cols = cols;
+    }
+
+    public int getPriority() {
+        return Priority;
+    }
+
+    public void setPriority(int priority) {
+        Priority = priority;
+    }
+
+    public List<Double> getPriceList() {
+        return PriceList;
+    }
+
+    public void setPriceList(List<Double> priceList) {
+        PriceList = priceList;
+    }
+
+    public int getExpireHourTime() {
+        return ExpireHourTime;
+    }
+
+    public void setExpireHourTime(int expireHourTime) {
+        ExpireHourTime = expireHourTime;
+    }
+
+    public double getPosterPrice() {
+        return PosterPrice;
+    }
+
+    public void setPosterPrice(double posterPrice) {
+        PosterPrice = posterPrice;
+    }
+
+    public boolean isExpired() {
+        return IsExpired;
+    }
+
+    public void setExpired(boolean expired) {
+        IsExpired = expired;
     }
 
     public String getAbstractOfDescription() {
@@ -158,36 +233,12 @@ public class PurchasedPosterViewModel {
         ImagePathUrl = imagePathUrl;
     }
 
-    public int getExpireHourTime() {
-        return ExpireHourTime;
+    public String getExpireDate() {
+        return ExpireDate;
     }
 
-    public void setExpireHourTime(int expireHourTime) {
-        ExpireHourTime = expireHourTime;
-    }
-
-    public String getExpire() {
-        return Expire;
-    }
-
-    public void setExpire(String expire) {
-        Expire = expire;
-    }
-
-    public String getCurrentDate() {
-        return CurrentDate;
-    }
-
-    public void setCurrentDate(String currentDate) {
-        CurrentDate = currentDate;
-    }
-
-    public double getPrice() {
-        return Price;
-    }
-
-    public void setPrice(double price) {
-        Price = price;
+    public void setExpireDate(String expireDate) {
+        ExpireDate = expireDate;
     }
 
     public String getDescription() {
