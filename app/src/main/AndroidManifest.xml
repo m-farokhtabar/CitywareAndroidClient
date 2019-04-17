@@ -238,7 +238,9 @@
         <activity android:name=".View.UserProfileChildren.BuyPosterSetActivity" />
         <activity android:name=".View.UserProfileChildren.PosterTypeActivity" />
         <activity android:name=".View.UserProfileChildren.PosterTypeDetailsActivity" />
-        <activity android:name=".View.UserProfileChildren.BuyPosterTypeActivity"></activity>
+        <activity android:name=".View.UserProfileChildren.BuyPosterTypeActivity" />
+        <activity android:name=".View.Share.CommissionActivity" />
+        <activity android:name=".View.Share.UserSearchActivity"></activity>
     </application>
 
 </manifest>

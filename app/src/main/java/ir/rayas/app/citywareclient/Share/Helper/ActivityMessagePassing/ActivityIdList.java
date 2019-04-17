@@ -53,4 +53,6 @@ public class ActivityIdList {
     public  static final int POSTER_TYPE_ACTIVITY  = 40;
     public  static final int POSTER_TYPE_DETAILS_ACTIVITY  = 41;
     public  static final int BUY_POSTER_TYPE_ACTIVITY  = 42;
+    public  static final int COMMISSION_ACTIVITY  = 43;
+    public  static final int USER_SEARCH_ACTIVITY  = 44;
 }

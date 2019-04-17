@@ -1,6 +1,5 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -11,8 +10,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.EditText;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -22,34 +20,24 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Repository.AccountRepository;
-import ir.rayas.app.citywareclient.Service.Basket.BasketService;
 import ir.rayas.app.citywareclient.Service.Business.BookmarkService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Master.BookmarkActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessInfoActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowProductDetailsActivity;
 import ir.rayas.app.citywareclient.View.Share.AddQuickBasketActivity;
-import ir.rayas.app.citywareclient.View.Share.BasketActivity;
+import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
 import ir.rayas.app.citywareclient.View.Share.MapActivity;
-import ir.rayas.app.citywareclient.ViewModel.Basket.QuickOrderItemViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Basket.QuickOrderViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Basket.StandardOrderItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
-import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
-/**
- * Created by Hajar on 10/12/2018.
- */
+
 
 public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
 
@@ -208,6 +196,8 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         });
 
 
+
+
         if (ViewModelList.get(position).isActive()) {
             viewHolder.IntroducingBusinessButton.setEnabled(true);
             viewHolder.InformationShowButton.setEnabled(true);
@@ -222,6 +212,16 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     Intent ShowBusinessInfoIntent = Context.NewIntent(ShowBusinessInfoActivity.class);
                     ShowBusinessInfoIntent.putExtra("BusinessId", ViewModelList.get(position).getBusinessId());
                     Context.startActivity(ShowBusinessInfoIntent);
+                }
+            });
+
+            viewHolder.IntroducingBusinessButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent CommissionIntent = Context.NewIntent(CommissionActivity.class);
+                    CommissionIntent.putExtra("BusinessId", ViewModelList.get(position).getBusinessId());
+                    CommissionIntent.putExtra("BusinessName", ViewModelList.get(position).getBusinessTitle());
+                    Context.startActivity(CommissionIntent);
                 }
             });
 
@@ -270,23 +270,23 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private class BookmarkViewHolder extends RecyclerView.ViewHolder {
 
-        public TextViewPersian UserDeleteBookmarkIconTextView;
-        public TextViewPersian UserBusinessTitleTextView;
-        public SwitchCompat HasDeliverySwitch;
-        public SwitchCompat IsOpenSwitch;
-        public TextViewPersian JobTitleTextView;
-        public AppCompatRatingBar RatingBusinessRatingBar;
-        public ImageView ImageBookmarkImageView;
-        public TextViewPersian AddressTextView;
-        public LinearLayout ShowMapLinearLayout;
-        public LinearLayout ImageBookmarkLinearLayout;
-        public LinearLayout QuickItemsLinearLayout;
-        public ButtonPersianView InformationShowButton;
-        public ButtonPersianView IntroducingBusinessButton;
-        public TextViewPersian ShowMapBusinessIconTextView;
-        public TextViewPersian ShowMapBusinessTextView;
+         TextViewPersian UserDeleteBookmarkIconTextView;
+         TextViewPersian UserBusinessTitleTextView;
+         SwitchCompat HasDeliverySwitch;
+         SwitchCompat IsOpenSwitch;
+         TextViewPersian JobTitleTextView;
+         AppCompatRatingBar RatingBusinessRatingBar;
+         ImageView ImageBookmarkImageView;
+         TextViewPersian AddressTextView;
+         LinearLayout ShowMapLinearLayout;
+         LinearLayout ImageBookmarkLinearLayout;
+         LinearLayout QuickItemsLinearLayout;
+         ButtonPersianView InformationShowButton;
+         ButtonPersianView IntroducingBusinessButton;
+         TextViewPersian ShowMapBusinessIconTextView;
+         TextViewPersian ShowMapBusinessTextView;
 
-        public BookmarkViewHolder(View v) {
+         BookmarkViewHolder(View v) {
             super(v);
             UserDeleteBookmarkIconTextView = v.findViewById(R.id.UserDeleteBookmarkIconTextView);
             UserBusinessTitleTextView = v.findViewById(R.id.UserBusinessTitleTextView);

@@ -499,6 +499,22 @@
     <string name="message_show_get_package">پکیج شما با موفقیت ثبت شد. </string>
 
 
+    <!--متون مرتبط با  معرفی کسب و کار-->
+    <string name="marketer_commission">پورسانت بازاریاب</string>
+    <string name="discount_customer">تخفیف مشتری</string>
+    <string name="other_products_not_listed">سایر محصولات و خدماتی که در لیست وجود ندارد</string>
+    <string name="introducing_to_friends">معرفی به دوستان</string>
+    <string name="user_selection">انتخاب کاربر</string>
+    <string name="introducing_to">معرفی به</string>
+    <string name="please_enter_user_selection">لطفا یک کاربر انتخاب کنید.</string>
+    <string name="you_business">شما کسب و کار</string>
+    <string name="to">را به</string>
+    <string name="do_you_introduce">معرفی می کنید؟</string>
+    <string name="ticket_number">شماره تیکت</string>
+    <string name="share">اشتراک گذاری</string>
+    <string name="please_refer_to_the_business_menu_for_additional_information">لطفا جهت دریافت اطلاعات تکمیلی به منوی کسب و کار های معرفی شده مراجعه فرمایید</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

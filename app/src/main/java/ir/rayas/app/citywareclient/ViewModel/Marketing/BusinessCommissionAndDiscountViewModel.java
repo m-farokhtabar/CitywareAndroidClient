@@ -6,6 +6,7 @@ public class BusinessCommissionAndDiscountViewModel {
 
     private int BusinessId;
     private String BusinessName;
+    private String BusinessAddress;
     private double MarketerPercent;
     private double CustomerPercent;
     private double ApplicationPercent;
@@ -26,6 +27,14 @@ public class BusinessCommissionAndDiscountViewModel {
 
     public void setBusinessName(String businessName) {
         BusinessName = businessName;
+    }
+
+    public String getBusinessAddress() {
+        return BusinessAddress;
+    }
+
+    public void setBusinessAddress(String businessAddress) {
+        BusinessAddress = businessAddress;
     }
 
     public double getMarketerPercent() {

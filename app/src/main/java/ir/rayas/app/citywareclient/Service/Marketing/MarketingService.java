@@ -44,7 +44,7 @@ public class MarketingService implements IService {
         String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionMarketerSuggestion ;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
-        Current.PostService(this, Url, JsonViewModel, ServiceMethodType.MarketerSuggestionAdd, MarketerSuggestionViewModel.class, new TypeToken<Feedback<SuggestionInfoViewModel>>() {
+        Current.PostService(this, Url, JsonViewModel, ServiceMethodType.MarketerSuggestionAdd, MarketerSuggestionViewModel.class, new TypeToken<Feedback<	SuggestionInfoViewModel>>() {
         }.getType());
     }
 
