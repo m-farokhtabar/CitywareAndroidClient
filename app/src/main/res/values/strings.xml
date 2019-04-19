@@ -166,6 +166,7 @@
     <string name="app_permission_denied">شما به برنامه مجوز مربوطه را نداده اید</string>
     <string name="for_register_address_turn_on_gps">لطفا برای ثبت آدرس مکان یاب را روشن نمایید، دقت نمایید که حالت "دقت بالا" برای مکان یاب فعال باشد.</string>
     <string name="turn_on_location_to_get_package_faster">با روشن کردن مکان یاب گوشی؛ ارسال سفارشات به محل درخواستی را سریع تر و ساده تر کنید</string>
+    <string name="turn_on_location_show_business_inside">با روشن کردن مکان یاب گوشی؛ کسب و کارهای اطراف خود را مشاهده کنید.</string>
     <string name="to_use_map_turn_on_location">جهت استفاده از نقشه و سیستم مکان یابی لازم مکان یاب گوشی خود را روشن نمایید، دقت نمایید که حالت "دقت بالا" برای مکان یاب فعال باشد.</string>
     <string name="at_first_please_touch_some_where_to_select">لطفا موقعیت خود را بر روی نقشه نشانه گذاری کنید</string>
 
@@ -513,6 +514,18 @@
     <string name="ticket_number">شماره تیکت</string>
     <string name="share">اشتراک گذاری</string>
     <string name="please_refer_to_the_business_menu_for_additional_information">لطفا جهت دریافت اطلاعات تکمیلی به منوی کسب و کار های معرفی شده مراجعه فرمایید</string>
+
+
+    <!--متون مرتبط با  صفحه اصلی-->
+    <string name="most_visited">پربازدید</string>
+    <string name="newest">جدیدترین</string>
+    <string name="starred">ستاره دار</string>
+    <string name="all">همه</string>
+    <string name="delivery">پیک</string>
+    <string name="open">باز</string>
+    <string name="define_your_business_scope">محدوده ای  کسب و کار خود را مشخص کنید.</string>
+    <string name="specify_the_scope_for_the_business_to_be_displayed">محدوده ای که می خواهید کسب و کار در آن نمایش داده شود را مشخص کنید.</string>
+    <string name="km">کیلومتر</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

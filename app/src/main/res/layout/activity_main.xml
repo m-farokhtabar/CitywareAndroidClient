@@ -19,6 +19,7 @@
             layout="@layout/view_toolbar" />
 
         <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/SearchLinearLayoutMainActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ToolBar"
@@ -32,27 +33,278 @@
                     android:id="@+id/MainSearchIconTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="test"
-                    android:layout_marginRight="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
+                    android:text="test"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:layout_alignParentRight="true"
                     android:textColor="@color/FontWhiteColor" />
 
                 <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/MainSearchIconTextView"
                     android:hint="@string/search_in_city_ware"
                     android:imeOptions="actionSearch"
-                    android:layout_toLeftOf="@id/MainSearchIconTextView"
                     android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColorHint="@color/TextHintColor" />
 
             </RelativeLayout>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/IsTopPosterRecyclerViewMainActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/SearchLinearLayoutMainActivity"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/BusinessPosterInfoRecyclerViewMainActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/IsTopPosterRecyclerViewMainActivity"
+            android:divider="@null"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:dividerHeight="0dp" />
+
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/MainMenuBottomNewAndStarAndVisitLinearLayoutMainActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_main_menu_bottom"
+            android:layout_above="@+id/MainMenuBottomCategoryAndRegionLinearLayoutMainActivity"
+            android:weightSum="3">
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:id="@+id/MostVisitedLinearLayoutMainActivity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_bottom_menu"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/MostVisitedImageViewMainActivity"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/ic_visibility_theme_24dp"/>
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/MostVisitedTextViewMainActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/most_visited"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/FontSemiDarkThemeColor" />
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:id="@+id/StarredLinearLayoutMainActivity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_bottom_menu"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/StarredImageViewMainActivity"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/ic_stars_theme_24dp"/>
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/StarredTextViewMainActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/starred"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/FontSemiDarkThemeColor" />
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:id="@+id/NewestLinearLayoutMainActivity"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_bottom_menu"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/NewestImageViewMainActivity"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/ic_fiber_new_white_24dp"/>
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/NewestTextViewMainActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/newest"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/FontWhiteColor" />
+            </android.support.v7.widget.LinearLayoutCompat>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/MainMenuBottomCategoryAndRegionLinearLayoutMainActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_main_menu_bottom"
+            android:layout_above="@+id/MainMenuBottom"
+            android:weightSum="2">
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_bottom_menu"
+                android:clickable="true"
+                android:padding="8dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:checkedButton="@+id/offer"
+                    android:id="@+id/CategoryToggleRadioGroupMainActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/toggle_out_line"
+                    android:weightSum="1"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginLeft="1dp"
+                        android:id="@+id/CategoryAllRadioButtonMainActivity"
+                        android:background="@drawable/selector_toggle_radio_button"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/all"
+                        android:textColor="#fff" />
+
+                    <RadioButton
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:id="@+id/CategoryRadioButtonMainActivity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:background="@drawable/selector_toggle_radio_button"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/category_name"
+                        android:textColor="#fff" />
+                </RadioGroup>
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_item_bottom_menu"
+                android:clickable="true"
+                android:padding="8dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:checkedButton="@+id/offer"
+                    android:id="@+id/RegionToggleRadioGroupMainActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:weightSum="1"
+                    android:background="@drawable/toggle_out_line"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginLeft="1dp"
+                        android:id="@+id/RegionAllRadioButtonMainActivity"
+                        android:background="@drawable/selector_toggle_radio_button"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/all"
+                        android:textColor="#fff" />
+
+                    <RadioButton
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:id="@+id/RegionRadioButtonMainActivity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:background="@drawable/selector_toggle_radio_button"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/region_name"
+                        android:textColor="#fff" />
+                </RadioGroup>
+            </android.support.v7.widget.LinearLayoutCompat>
+
 
         </android.support.v7.widget.LinearLayoutCompat>
 
@@ -66,8 +318,8 @@
             android:id="@+id/LoadingLinearLayout"
             layout="@layout/view_loading"
             android:visibility="gone" />
-    </RelativeLayout>
 
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/DrawerNavigationView"

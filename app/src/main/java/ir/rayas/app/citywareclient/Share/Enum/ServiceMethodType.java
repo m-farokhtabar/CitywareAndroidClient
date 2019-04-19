@@ -110,9 +110,11 @@ public enum ServiceMethodType {
     PosterTypeGetAll,
     PosterTypeGet,
     ExtendPosterEdit,
-    PurchasedPosterAdd ,
+    PurchasedPosterAdd,
     BusinessCommissionAndDiscountGet,
-    MarketerSuggestionAdd ,
-    SearchGet
+    MarketerSuggestionAdd,
+    SearchGet,
+    BusinessPosterInfoGetAll,
+    BusinessPosterInfoTopGetAll
 
 }

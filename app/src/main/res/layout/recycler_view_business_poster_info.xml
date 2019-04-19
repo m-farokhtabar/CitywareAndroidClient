@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="4dp"
+    android:elevation="5dp"
+    tools:ignore="UnusedAttribute">
+
+    <RelativeLayout
+        android:id="@+id/BusinessPosterInfoContainerLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_item_in_recycler_view">
+
+        <RelativeLayout
+            android:id="@+id/HeaderBusinessPosterInfoRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/BackgroundColorHeaderAddressLayout">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/BusinessTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/RatingLinearLayout"
+                android:layout_toRightOf="@+id/RatingLinearLayout"
+                android:gravity="right"
+                android:padding="6dp"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/FontSemiDarkThemeColor"
+                tools:ignore="RtlHardcoded" />
+
+            <LinearLayout
+                android:id="@+id/RatingLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="6dp">
+
+                <RatingBar
+                    android:id="@+id/RatingBusinessRatingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:layout_gravity="center_vertical"
+                    android:isIndicator="true"
+                    android:progressTint="@color/BackgroundThemeColor"
+                    android:stepSize="0.01"
+                    android:secondaryProgressTint="@color/BackgroundThemeLightColor"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ImagePosterInfoImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/HeaderBusinessPosterInfoRelativeLayout"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            tools:ignore="ContentDescription" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/PosterTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ImagePosterInfoImageView"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/BookmarkImageView"
+            android:layout_toRightOf="@+id/BookmarkImageView"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/FontBlackColor"
+            tools:ignore="RtlHardcoded" />
+
+        <ImageView
+            android:id="@+id/BookmarkImageView"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ImagePosterInfoImageView"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="-14dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/ic_bookmark_empty_24dp"
+            android:scaleType="fitCenter"
+            tools:ignore="ContentDescription" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/AbstractPosterTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/PosterTitleTextView"
+            android:layout_margin="8dp"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontBlackColor"
+            tools:ignore="RtlHardcoded" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/AbstractPosterTextView"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            tools:ignore="DisableBaselineAlignment,RtlHardcoded">
+
+            <LinearLayout
+                android:id="@+id/IsDeliveryLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
+
+                <ImageView
+                    android:id="@+id/IsDeliveryImageView"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/ic_is_delivery_24dp"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter"
+                    tools:ignore="ContentDescription" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/delivery"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontBlackColor"
+                    tools:ignore="RtlHardcoded" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/IsOpenLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/IsOpenImageView"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/ic_open_24dp"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter"
+                    tools:ignore="ContentDescription" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|center_vertical"
+                    android:text="@string/open"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontBlackColor"
+                    tools:ignore="RtlHardcoded" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
