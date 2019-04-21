@@ -11,7 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessPosterInfoRecyclerViewAdapter;
+import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.AccountRepository;
+import ir.rayas.app.citywareclient.Service.Business.BookmarkService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Poster.PosterService;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
@@ -20,17 +25,23 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
+import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkOutViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
+import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 public class ShowBusinessPosterDetailsActivity extends BaseActivity implements IResponseService, ILoadData {
 
     private SwipeRefreshLayout RefreshShowBusinessPosterDetailsSwipeRefreshLayoutShowBusinessPosterDetailsActivity;
     private ImageView BusinessImagePosterImageViewShowBusinessPosterDetailsActivity = null;
+    private ImageView BookmarkImageViewShowBusinessPosterActivity = null;
     private TextViewPersian TitleBusinessPosterTextViewShowBusinessPosterActivity = null;
     private TextViewPersian AbstractBusinessPosterTextViewShowBusinessPosterActivity = null;
     private TextViewPersian ReadMoreDescriptionPosterTextViewShowBusinessPosterDetailsActivity = null;
@@ -41,6 +52,9 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
     private boolean IsSwipe = false;
     private String PosterImage = "";
     private boolean IsFullScreen = false;
+    private int BusinessId = 0;
+    private String BusinessName = "";
+    private boolean IsBookmark = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +98,37 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
         DescriptionWebViewShowBusinessPosterDetailsActivity = findViewById(R.id.DescriptionWebViewShowBusinessPosterDetailsActivity);
         ReadMoreDescriptionPosterTextViewShowBusinessPosterDetailsActivity = findViewById(R.id.ReadMoreDescriptionPosterTextViewShowBusinessPosterDetailsActivity);
         FullScreenFloatingActionButtonShowBusinessPosterActivity = findViewById(R.id.FullScreenFloatingActionButtonShowBusinessPosterActivity);
-       final LinearLayout LineTopLinearLayoutShowBusinessPosterDetailsActivity = findViewById(R.id.LineTopLinearLayoutShowBusinessPosterDetailsActivity);
-       final LinearLayout LineBottomLinearLayoutShowBusinessPosterDetailsActivity = findViewById(R.id.LineBottomLinearLayoutShowBusinessPosterDetailsActivity);
-       final RelativeLayout TitleAndAbstractRelativeLayoutShowBusinessPosterDetailsActivity = findViewById(R.id.TitleAndAbstractRelativeLayoutShowBusinessPosterDetailsActivity);
-       final CardView DescriptionCardViewShowBusinessPosterDetailsActivity = findViewById(R.id.DescriptionCardViewShowBusinessPosterDetailsActivity);
-
+        final LinearLayout LineTopLinearLayoutShowBusinessPosterDetailsActivity = findViewById(R.id.LineTopLinearLayoutShowBusinessPosterDetailsActivity);
+        final LinearLayout LineBottomLinearLayoutShowBusinessPosterDetailsActivity = findViewById(R.id.LineBottomLinearLayoutShowBusinessPosterDetailsActivity);
+        final RelativeLayout TitleAndAbstractRelativeLayoutShowBusinessPosterDetailsActivity = findViewById(R.id.TitleAndAbstractRelativeLayoutShowBusinessPosterDetailsActivity);
+        final CardView DescriptionCardViewShowBusinessPosterDetailsActivity = findViewById(R.id.DescriptionCardViewShowBusinessPosterDetailsActivity);
+        ButtonPersianView InformationShowButtonShowBusinessPosterDetailsActivity = findViewById(R.id.InformationShowButtonShowBusinessPosterDetailsActivity);
+        ButtonPersianView IntroducingBusinessButtonShowBusinessPosterDetailsActivity = findViewById(R.id.IntroducingBusinessButtonShowBusinessPosterDetailsActivity);
+        BookmarkImageViewShowBusinessPosterActivity = findViewById(R.id.BookmarkImageViewShowBusinessPosterActivity);
 
 
         BusinessImagePosterImageViewShowBusinessPosterDetailsActivity.getLayoutParams().height = LayoutUtility.GetWidthAccordingToScreen(this, 2);
         BusinessImagePosterImageViewShowBusinessPosterDetailsActivity.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(this, 1);
+
+
+        BookmarkImageViewShowBusinessPosterActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowLoadingProgressBar();
+                BookmarkService BookmarkService = new BookmarkService(ShowBusinessPosterDetailsActivity.this);
+
+                if (IsBookmark) {
+                    BookmarkService.Delete(BusinessId);
+                } else {
+                    AccountRepository AccountRepository = new AccountRepository(null);
+                    AccountViewModel AccountModel = AccountRepository.getAccount();
+                    BookmarkOutViewModel BookmarkOutViewModel = new BookmarkOutViewModel();
+                    BookmarkOutViewModel.setUserId(AccountModel.getUser().getId());
+                    BookmarkOutViewModel.setBusinessId(BusinessId);
+                    BookmarkService.Add(BookmarkOutViewModel);
+                }
+            }
+        });
 
 
         RefreshShowBusinessPosterDetailsSwipeRefreshLayoutShowBusinessPosterDetailsActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -122,7 +158,7 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
                         LayoutUtility.LoadImageWithGlide(ShowBusinessPosterDetailsActivity.this, PosterImage, BusinessImagePosterImageViewShowBusinessPosterDetailsActivity, LayoutUtility.GetWidthAccordingToScreen(ShowBusinessPosterDetailsActivity.this, 1), LayoutUtility.GetHeightAccordingToScreen(ShowBusinessPosterDetailsActivity.this, 1));
 
                     }
-                }else {
+                } else {
                     FullScreenFloatingActionButtonShowBusinessPosterActivity.setImageResource(R.drawable.ic_fullscreen_24dp);
                     LineTopLinearLayoutShowBusinessPosterDetailsActivity.setVisibility(View.VISIBLE);
                     TitleAndAbstractRelativeLayoutShowBusinessPosterDetailsActivity.setVisibility(View.VISIBLE);
@@ -134,11 +170,29 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
                     if (PosterImage.equals("")) {
                         BusinessImagePosterImageViewShowBusinessPosterDetailsActivity.setImageResource(R.drawable.image_default);
                     } else {
-                        LayoutUtility.LoadImageWithGlide(ShowBusinessPosterDetailsActivity.this, PosterImage, BusinessImagePosterImageViewShowBusinessPosterDetailsActivity, LayoutUtility.GetWidthAccordingToScreen(ShowBusinessPosterDetailsActivity.this, 1),LayoutUtility.GetWidthAccordingToScreen(ShowBusinessPosterDetailsActivity.this, 2));
+                        LayoutUtility.LoadImageWithGlide(ShowBusinessPosterDetailsActivity.this, PosterImage, BusinessImagePosterImageViewShowBusinessPosterDetailsActivity, LayoutUtility.GetWidthAccordingToScreen(ShowBusinessPosterDetailsActivity.this, 1), LayoutUtility.GetWidthAccordingToScreen(ShowBusinessPosterDetailsActivity.this, 2));
 
                     }
                 }
+            }
+        });
 
+        InformationShowButtonShowBusinessPosterDetailsActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ShowBusinessInfoIntent = NewIntent(ShowBusinessInfoActivity.class);
+                ShowBusinessInfoIntent.putExtra("BusinessId", BusinessId);
+                startActivity(ShowBusinessInfoIntent);
+            }
+        });
+
+        IntroducingBusinessButtonShowBusinessPosterDetailsActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent CommissionIntent = NewIntent(CommissionActivity.class);
+                CommissionIntent.putExtra("BusinessId", BusinessId);
+                CommissionIntent.putExtra("BusinessName", BusinessName);
+                startActivity(CommissionIntent);
             }
         });
 
@@ -174,11 +228,49 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
 
                     PurchasedPosterViewModel ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
-                        SetInformationToView(ViewModelList) ;
+                        SetInformationToView(ViewModelList);
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
 
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
+            }  else if (ServiceMethod == ServiceMethodType.BookmarkDelete) {
+                Feedback<BookmarkViewModel> FeedBack = (Feedback<BookmarkViewModel>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.DeletedSuccessful.getId()) {
+                    Static.IsRefreshBookmark = true;
+                    BookmarkViewModel ViewModel = FeedBack.getValue();
+                    if (ViewModel != null) {
+                        IsBookmark = false;
+                        BookmarkImageViewShowBusinessPosterActivity.setImageResource(R.drawable.ic_bookmark_empty_24dp);
+                    } else {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.BookmarkAdd) {
+                Feedback<BookmarkViewModel> FeedBack = (Feedback<BookmarkViewModel>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
+                    Static.IsRefreshBookmark = true;
+                    BookmarkViewModel ViewModel = FeedBack.getValue();
+                    if (ViewModel != null) {
+                        IsBookmark = true;
+                        BookmarkImageViewShowBusinessPosterActivity.setImageResource(R.drawable.ic_bookmark_full_24dp);
+                    } else {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         ShowErrorInConnectDialog();
@@ -192,9 +284,12 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
 
     }
 
-    private void SetInformationToView(final PurchasedPosterViewModel ViewModel){
+    private void SetInformationToView(final PurchasedPosterViewModel ViewModel) {
         TitleBusinessPosterTextViewShowBusinessPosterActivity.setText(ViewModel.getTitle());
         AbstractBusinessPosterTextViewShowBusinessPosterActivity.setText(ViewModel.getAbstractOfDescription());
+
+        BusinessId = ViewModel.getBusinessId();
+        BusinessName = ViewModel.getBusinessName();
 
         if (!ViewModel.getImagePathUrl().equals("")) {
             if (ViewModel.getImagePathUrl().contains("~")) {
@@ -206,6 +301,13 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
         } else {
             BusinessImagePosterImageViewShowBusinessPosterDetailsActivity.setImageResource(R.drawable.image_default);
         }
+
+        //IsBookmark = ViewModel.
+
+        if (IsBookmark)
+            BookmarkImageViewShowBusinessPosterActivity.setImageResource(R.drawable.ic_bookmark_full_24dp);
+        else
+            BookmarkImageViewShowBusinessPosterActivity.setImageResource(R.drawable.ic_bookmark_empty_24dp);
 
         ReadMoreDescriptionPosterTextViewShowBusinessPosterDetailsActivity.setOnClickListener(new View.OnClickListener() {
             @Override

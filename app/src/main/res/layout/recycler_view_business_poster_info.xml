@@ -82,6 +82,8 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_toEndOf="@+id/BookmarkImageView"
             android:layout_toRightOf="@+id/BookmarkImageView"
             android:gravity="right"
@@ -91,19 +93,34 @@
 
         <ImageView
             android:id="@+id/BookmarkImageView"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+           android:layout_toRightOf="@+id/BusinessTextView"
+            android:layout_toEndOf="@+id/BusinessTextView"
             android:layout_below="@+id/ImagePosterInfoImageView"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="-14dp"
+            android:layout_marginTop="4dp"
             android:adjustViewBounds="true"
             android:background="@drawable/ic_bookmark_empty_24dp"
             android:scaleType="fitCenter"
             tools:ignore="ContentDescription" />
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/BusinessTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ImagePosterInfoImageView"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/business"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontBlackColor"
+            tools:ignore="RtlHardcoded" />
 
         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
             android:id="@+id/AbstractPosterTextView"
@@ -118,6 +135,7 @@
             tools:ignore="RtlHardcoded" />
 
         <LinearLayout
+            android:id="@+id/IsDeliveryAndIsOpenLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -143,10 +161,10 @@
 
                 <ImageView
                     android:id="@+id/IsDeliveryImageView"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/ic_is_delivery_24dp"
                     android:gravity="center_vertical"
@@ -173,10 +191,12 @@
 
                 <ImageView
                     android:id="@+id/IsOpenImageView"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/ic_open_24dp"
                     android:gravity="center_vertical"
@@ -194,6 +214,21 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/IntroducingBusinessButton"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@+id/IsDeliveryAndIsOpenLinearLayout"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/selector_button_green_style"
+            android:gravity="center"
+            android:text="@string/introducing_business_to_your_friends_to_receive_commission"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textColor="@color/FontWhiteColor" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

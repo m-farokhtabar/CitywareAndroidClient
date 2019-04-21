@@ -18,13 +18,12 @@ import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
 
 public class HomeService implements IService {
 
-    private String ControllerName = "Home";
-    private String ActionAll = "All";
+    private String ControllerName = "Home/All";
     private String ControllerPage = "Page";
     private String ControllerRegion = "Region";
-    private String ControllerPosition = "Position";
     private String ControllerCategory = "Category";
-    private String ControllerTop = "Top";
+    private String ControllerLocation = "Location";
+    private String ControllerBookmark = "Bookmark";
 
 
     private IResponseService ResponseService;
@@ -34,20 +33,28 @@ public class HomeService implements IService {
     }
 
 
-    public void GetAll(int QueryType, int GpsRangeInKm, boolean ShowAllRegion, double latitude, double longitude, boolean ShowAllCategory, int Page) {
+    public void GetAll(int QueryType, Integer BusinessCategoryId, Integer RegionId, Integer GpsRangeInKm,Double latitude, Double longitude,  int Page) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionAll + "/" + QueryType + "/" + ControllerRegion + "/" + GpsRangeInKm + "/" + ShowAllRegion + "/" + ControllerPosition + "/" + latitude
-                + "/" + longitude + "/" + ControllerCategory + "/" + ShowAllCategory + "/" + ControllerPage + "/" + Page;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName  + "/" + QueryType + "/" + ControllerCategory + "/" +
+                BusinessCategoryId + "/" + ControllerRegion + "/" + RegionId + "/" + ControllerLocation
+                + "/" + GpsRangeInKm + "/" + latitude + "/" + longitude + "/" + ControllerPage + "/" + Page;
         Current.GetService(this, Url, ServiceMethodType.BusinessPosterInfoGetAll, BusinessPosterInfoViewModel.class, new TypeToken<Feedback<List<BusinessPosterInfoViewModel>>>() {
         }.getType());
     }
 
-
-    public void GetAllTop( int GpsRangeInKm, boolean ShowAllRegion, double latitude, double longitude, boolean ShowAllCategory, int Page) {
+    public void GetAllTop(int QueryType, Integer BusinessCategoryId, Integer RegionId, Integer GpsRangeInKm,Double latitude, Double longitude,  int Page) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionAll + "/" + ControllerTop + "/" + ControllerRegion + "/" + GpsRangeInKm + "/" + ShowAllRegion + "/" + ControllerPosition + "/" + latitude
-                + "/" + longitude + "/" + ControllerCategory + "/" + ShowAllCategory + "/" + ControllerPage + "/" + Page;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName  + "/" + QueryType + "/" + ControllerCategory + "/" +
+                BusinessCategoryId + "/" + ControllerRegion + "/" + RegionId + "/" + ControllerLocation
+                + "/" + GpsRangeInKm + "/" + latitude + "/" + longitude + "/" + ControllerPage + "/" + Page;
         Current.GetService(this, Url, ServiceMethodType.BusinessPosterInfoTopGetAll, BusinessPosterInfoViewModel.class, new TypeToken<Feedback<List<BusinessPosterInfoViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetAllBookmark(int Page) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName  + "/" + ControllerBookmark + "/" + ControllerPage + "/" + Page;
+        Current.GetService(this, Url, ServiceMethodType.BookmarkPosterInfoGetAll, BusinessPosterInfoViewModel.class, new TypeToken<Feedback<List<BusinessPosterInfoViewModel>>>() {
         }.getType());
     }
 

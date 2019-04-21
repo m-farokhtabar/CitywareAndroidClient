@@ -231,46 +231,64 @@
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".View.MasterChildren.PrizeAllActivity"
+        <activity
+            android:name=".View.MasterChildren.PrizeAllActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".View.MasterChildren.UserPrizeActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.MasterChildren.UserPrizeActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".View.MasterChildren.ActionPointAllActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.MasterChildren.ActionPointAllActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".View.MasterChildren.UserActionPointActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.MasterChildren.UserActionPointActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".View.UserProfileChildren.BuyPosterSetActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.UserProfileChildren.BuyPosterSetActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".View.UserProfileChildren.PosterTypeActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.UserProfileChildren.PosterTypeActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".View.UserProfileChildren.PosterTypeDetailsActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.UserProfileChildren.PosterTypeDetailsActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".View.UserProfileChildren.BuyPosterTypeActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.UserProfileChildren.BuyPosterTypeActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".View.Share.CommissionActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Share.CommissionActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".View.Share.UserSearchActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Share.UserSearchActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Master.CommerceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".View.MasterChildren.DiscountActivity" />
+        <activity android:name=".View.MasterChildren.ShowDiscountDetailsActivity" />
+        <activity android:name=".View.MasterChildren.ShowMarketerCommissionDetailsActivity"></activity>
     </application>
 
 </manifest>

@@ -9,6 +9,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserAddressRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
@@ -17,6 +23,7 @@ import ir.rayas.app.citywareclient.Service.Etc.EventOrNewsService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Setting.SettingService;
 import ir.rayas.app.citywareclient.Service.User.AccountService;
+import ir.rayas.app.citywareclient.Service.User.UserAddressService;
 import ir.rayas.app.citywareclient.Share.Constant.LayoutConstant;
 import ir.rayas.app.citywareclient.Share.Enum.LinkType;
 import ir.rayas.app.citywareclient.Share.Enum.PlaceType;
@@ -36,11 +43,12 @@ import ir.rayas.app.citywareclient.ViewModel.Definition.BusinessCategoryViewMode
 import ir.rayas.app.citywareclient.ViewModel.Definition.RegionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Etc.EventOrNewsViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
+import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
 public class IntroduceActivity extends BaseActivity implements IResponseService {
 
     private ImageView IntroduceBannerImageView = null;
-    private ButtonPersianView IntroduceButton  = null;
+    private ButtonPersianView IntroduceButton = null;
     private int LoadDataCounter = 0;
     private int MaxLoadData = 2;
     /**
@@ -51,6 +59,8 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
     private int GoToWhichActivity = 0;
     private String SViewModel = null;
     private EventOrNewsViewModel EViewModel = null;
+
+    private String ArrayAddressString = "";
 
 
     @Override
@@ -64,7 +74,7 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
             public void call() {
                 LoadData();
             }
-        },0);
+        }, 0);
         //ایجاد طرح بندی صفحه
         CreateLayout();
         //دریافت اطلاعات از سرور
@@ -76,7 +86,7 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
      */
     private void CreateLayout() {
         IntroduceBannerImageView = findViewById(R.id.IntroduceBannerImageView);
-        RelativeLayout.LayoutParams IntroduceBannerImageViewLayoutParams =   new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,LayoutUtility.GetWidthAccordingToScreen(this,3));
+        RelativeLayout.LayoutParams IntroduceBannerImageViewLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LayoutUtility.GetWidthAccordingToScreen(this, 3));
         IntroduceBannerImageViewLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         IntroduceBannerImageViewLayoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
         IntroduceBannerImageView.setLayoutParams(IntroduceBannerImageViewLayoutParams);
@@ -103,13 +113,11 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
         ShowLoadingProgressBar();
         AccountRepository Repository = new AccountRepository(this);
         AccountViewModel ViewModel = Repository.getAccount();
-        if (ViewModel!=null) {
+        if (ViewModel != null) {
             MaxLoadData = 3;
             AccountService AService = new AccountService(this);
-            AService.Login(ViewModel.getUser().getCellPhone(),ViewModel.getConfirmationId());
-        }
-        else
-        {
+            AService.Login(ViewModel.getUser().getCellPhone(), ViewModel.getConfirmationId());
+        } else {
             MaxLoadData = 2;
             GoToWhichActivity = 0;
         }
@@ -121,31 +129,25 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
     }
 
     private void OnImageViewOnClick() {
-        if (EViewModel.getLink() == LinkType.WebLink.ordinal())
-        {
-            Intent  BrowserIntent = new Intent(Intent.ACTION_VIEW);
+        if (EViewModel.getLink() == LinkType.WebLink.ordinal()) {
+            Intent BrowserIntent = new Intent(Intent.ACTION_VIEW);
             BrowserIntent.setData(Uri.parse(EViewModel.getPageLink()));
             startActivity(BrowserIntent);
         }
     }
 
-    private void OnButtonClick()
-    {
+    private void OnButtonClick() {
         if (GoToWhichActivity == 0) {
             Intent ActivityIntent = new Intent(this, DescriptionAppActivity.class);
             startActivity(ActivityIntent);
-        }
-        else
-        {
-            if (GoToWhichActivity == 1)
-            {
+        } else {
+            if (GoToWhichActivity == 1) {
                 Intent ActivityIntent = new Intent(this, HowToSearchInAppGpsOrRegionActivity.class);
                 startActivity(ActivityIntent);
-            }
-            else
-            {
+            } else {
                 Intent ActivityIntent = new Intent(this, MainActivity.class);
                 ActivityIntent.putExtra("FromActivityId", ActivityIdList.APP_NEEDS_USER_BACK_TO_TERMINATE);
+                ActivityIntent.putExtra("ArrayAddressString", ArrayAddressString);
                 startActivity(ActivityIntent);
             }
         }
@@ -163,15 +165,33 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
                 } else {
                     if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
                         LoadDataCounter++;
-                    }
-                    else {
+                    } else {
                         //نیازی به نمایش خطا نیست
                         ShowErrorInConnectDialog();
                     }
                 }
-            }
-            else
-            {
+            } else if (ServiceMethod == ServiceMethodType.UserGetAllAddress) {
+                Feedback<List<UserAddressViewModel>> FeedBack = (Feedback<List<UserAddressViewModel>>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    List<UserAddressViewModel> ViewModel = FeedBack.getValue();
+
+                    if (ViewModel != null) {
+                        ArrayAddressString = new Gson().toJson(ViewModel);
+                    } else {
+                        ViewModel = new ArrayList<>();
+                        ArrayAddressString = new Gson().toJson(ViewModel);
+                    }
+
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
+            } else {
                 if (ServiceMethod == ServiceMethodType.RandomlyEventOrNewsGet) {
                     LoadDataCounter++;
                     Feedback<EventOrNewsViewModel> FeedBack = (Feedback<EventOrNewsViewModel>) Data;
@@ -181,24 +201,37 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
                         //نیازی به نمایش خطا نیست
                         ShowErrorInConnectDialog();
                     }
-                }
-                else
-                {
+                } else {
                     Feedback<AccountViewModel> FeedBack = (Feedback<AccountViewModel>) Data;
                     if (FeedBack.getStatus() == FeedbackType.UpdatedSuccessful.getId()) {
                         AccountViewModel AViewModel = FeedBack.getValue();
-                        if (AViewModel!=null) {
+                        if (AViewModel != null) {
                             AccountRepository ARepository = new AccountRepository(this);
                             ARepository.setAccount(AViewModel);
-                            if (AViewModel.getUserSetting()==null)
-                            {
+                            if (AViewModel.getUserSetting() == null) {
                                 //Go to Description App
                                 GoToWhichActivity = 1;
-                            }
-                            else
-                            {
+                            } else {
                                 //Go to Main
                                 GoToWhichActivity = 2;
+                                MaxLoadData++;
+                                LoadDataCounter++;
+
+                                AccountRepository AccountRepository = new AccountRepository(this);
+                                AccountViewModel ViewModel = AccountRepository.getAccount();
+                                if (ViewModel != null) {
+                                    UserAddressService userAddressService = new UserAddressService(this);
+                                    //دریافت اطلاعات
+                                    userAddressService.GetAll();
+                                } else {
+                                    Intent ActivityIntent = new Intent(this, MainActivity.class);
+                                    ActivityIntent.putExtra("FromActivityId", ActivityIdList.APP_NEEDS_USER_BACK_TO_TERMINATE);
+                                    List<UserAddressViewModel> ViewModelList = new ArrayList<>();
+                                    String ArrayAddressString = new Gson().toJson(ViewModelList);
+                                    ActivityIntent.putExtra("ArrayAddressString", ArrayAddressString);
+                                    startActivity(ActivityIntent);
+                                }
+
                             }
                         }
                         LoadDataCounter++;
@@ -216,14 +249,13 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
                 }
             }
             if (LoadDataCounter == MaxLoadData) {
-                if (SViewModel!=null)
-                {
-                    int ScreenWidth = LayoutUtility.GetWidthAccordingToScreen(this,1);
-                    int ScreenHeight = LayoutUtility.GetHeightAccordingToScreen(this,1);
-                    LayoutUtility.LoadBackgroundImageWithGlide(this,SViewModel,getMasterContainer(),ScreenWidth,ScreenHeight,ScreenWidth/4,ScreenHeight/4);
+                if (SViewModel != null) {
+                    int ScreenWidth = LayoutUtility.GetWidthAccordingToScreen(this, 1);
+                    int ScreenHeight = LayoutUtility.GetHeightAccordingToScreen(this, 1);
+                    LayoutUtility.LoadBackgroundImageWithGlide(this, SViewModel, getMasterContainer(), ScreenWidth, ScreenHeight, ScreenWidth / 4, ScreenHeight / 4);
                 }
-                if (EViewModel!=null) {
-                    LayoutUtility.LoadImageWithGlide(this,EViewModel.getImagePath(),IntroduceBannerImageView, LayoutConstant.ImageWidthFullWidth,LayoutConstant.ImageHeightQuarterOfWidth);
+                if (EViewModel != null) {
+                    LayoutUtility.LoadImageWithGlide(this, EViewModel.getImagePath(), IntroduceBannerImageView, LayoutConstant.ImageWidthFullWidth, LayoutConstant.ImageHeightQuarterOfWidth);
                 }
                 HideLoading();
             }

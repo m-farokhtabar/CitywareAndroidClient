@@ -207,7 +207,7 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
                         if (ViewModelList.size() > 10)
                             TotalPages = 10;
                         else
-                            TotalPages = ViewModelList.size()-1;
+                            TotalPages = ViewModelList.size() - 1;
 
 
                         NextTextViewClubUsersActivity.setOnClickListener(new View.OnClickListener() {
@@ -300,10 +300,12 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
     }
 
     public List<PrizeViewModel> GeneratePage(int currentPage, List<PrizeViewModel> ViewModel) {
-
         List<PrizeViewModel> pageData = new ArrayList<>();
-        pageData.add(ViewModel.get(currentPage));
+        try {
+            pageData.add(ViewModel.get(currentPage));
+        } catch (Exception e) {
 
+        }
         return pageData;
     }
 
@@ -316,7 +318,7 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
                     finish();
                     Intent ClubUsersIntent = new Intent(ClubUsersActivity.this, ClubUsersActivity.class);
                     startActivity(ClubUsersIntent);
-                    
+
                     break;
             }
         }

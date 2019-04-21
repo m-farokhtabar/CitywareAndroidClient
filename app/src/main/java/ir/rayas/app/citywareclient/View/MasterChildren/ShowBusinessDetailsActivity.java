@@ -50,6 +50,7 @@ import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkOutViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessContactViewModel;
@@ -66,22 +67,9 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
     private ImageView BookmarkImageViewShowBusinessDetailsActivity = null;
     private ImageView ShareImageViewShowBusinessDetailsActivity = null;
     private ImageView BusinessImageImageViewShowBusinessDetailsActivity = null;
-    private RelativeLayout CommentUserRelativeLayoutShowBusinessDetailsActivity = null;
-    private RelativeLayout DescriptionRelativeLayoutShowBusinessDetailsActivity = null;
-    private RelativeLayout ContactRelativeLayoutShowBusinessDetailsActivity = null;
-    private RelativeLayout OpenTimeRelativeLayoutShowBusinessDetailsActivity = null;
-    private RelativeLayout RatingRelativeLayoutShowBusinessDetailsActivity = null;
-    private RelativeLayout ShowProductRelativeLayoutShowBusinessDetailsActivity = null;
-    private RelativeLayout PosterRelativeLayoutShowBusinessDetailsActivity = null;
-    private ButtonPersianView IntroducingBusinessButtonShowBusinessDetailsActivity = null;
     private SwitchCompat IsOpenSwitchShowBusinessDetailsActivity = null;
     private SwitchCompat HasDeliverySwitchShowBusinessDetailsActivity = null;
     private RatingBar RatingBusinessRatingBarShowBusinessDetailsActivity = null;
-    private TextViewPersian CommentIconTextViewShowBusinessDetailsActivity = null;
-    private TextViewPersian DescriptionIconTextViewShowBusinessDetailsActivity = null;
-    private TextViewPersian ContactIconTextViewShowBusinessDetailsActivity = null;
-    private TextViewPersian OpenTimeIconTextViewShowBusinessDetailsActivity = null;
-    private TextViewPersian RatingIconTextViewShowBusinessDetailsActivity = null;
     private TextViewPersian BusinessNameTextViewShowBusinessDetailsActivity = null;
     private TextViewPersian BusinessJobTitleTextViewShowBusinessDetailsActivity = null;
     private TextViewPersian CategoryNameTextViewShowBusinessDetailsActivity = null;
@@ -91,16 +79,12 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
     private TextViewPersian AddressTextViewShowBusinessDetailsActivity = null;
     private TextViewPersian PostalCodeTextViewShowBusinessDetailsActivity = null;
 
-    private BusinessDetailsOpenTimeRecyclerViewAdapter businessDetailsOpenTimeRecyclerViewAdapter = null;
-    private BusinessDetailsContactRecyclerViewAdapter businessDetailsContactRecyclerViewAdapter = null;
-
     private Dialog ShowBusinessDetailsRatingDialog;
     private int BusinessId;
     private boolean IsSwipe = false;
     private GoogleMap mMap;
 
     private String Description;
-    private AccountRepository AccountRepository = null;
     private AccountViewModel AccountModel;
     private boolean IsBookmark = false;
 
@@ -113,8 +97,8 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         setCurrentActivityId(ActivityIdList.SHOW_PRODUCT_BUSINESS_ACTIVITY);
 
         BusinessId = getIntent().getExtras().getInt("BusinessId");
-        AccountRepository = new AccountRepository(this);
-        AccountModel = AccountRepository.getAccount();
+        AccountRepository accountRepository = new AccountRepository(this);
+        AccountModel = accountRepository.getAccount();
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -146,49 +130,49 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         BusinessImageImageViewShowBusinessDetailsActivity = findViewById(R.id.BusinessImageImageViewShowBusinessDetailsActivity);
         BookmarkImageViewShowBusinessDetailsActivity = findViewById(R.id.BookmarkImageViewShowBusinessDetailsActivity);
         ShareImageViewShowBusinessDetailsActivity = findViewById(R.id.ShareImageViewShowBusinessDetailsActivity);
-        CommentUserRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.CommentUserRelativeLayoutShowBusinessDetailsActivity);
-        DescriptionRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.DescriptionRelativeLayoutShowBusinessDetailsActivity);
+        RelativeLayout commentUserRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.CommentUserRelativeLayoutShowBusinessDetailsActivity);
+        RelativeLayout descriptionRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.DescriptionRelativeLayoutShowBusinessDetailsActivity);
         CategoryNameTextViewShowBusinessDetailsActivity = findViewById(R.id.CategoryNameTextViewShowBusinessDetailsActivity);
         IsOpenSwitchShowBusinessDetailsActivity = findViewById(R.id.IsOpenSwitchShowBusinessDetailsActivity);
         BusinessNameTextViewShowBusinessDetailsActivity = findViewById(R.id.BusinessNameTextViewShowBusinessDetailsActivity);
         BusinessJobTitleTextViewShowBusinessDetailsActivity = findViewById(R.id.BusinessJobTitleTextViewShowBusinessDetailsActivity);
-        CommentIconTextViewShowBusinessDetailsActivity = findViewById(R.id.CommentIconTextViewShowBusinessDetailsActivity);
-        DescriptionIconTextViewShowBusinessDetailsActivity = findViewById(R.id.DescriptionIconTextViewShowBusinessDetailsActivity);
+        TextViewPersian commentIconTextViewShowBusinessDetailsActivity = findViewById(R.id.CommentIconTextViewShowBusinessDetailsActivity);
+        TextViewPersian descriptionIconTextViewShowBusinessDetailsActivity = findViewById(R.id.DescriptionIconTextViewShowBusinessDetailsActivity);
         KeywordTextViewShowBusinessDetailsActivity = findViewById(R.id.KeywordTextViewShowBusinessDetailsActivity);
         EstablishmentTextViewShowBusinessDetailsActivity = findViewById(R.id.EstablishmentTextViewShowBusinessDetailsActivity);
         CountOfEmployeesTextViewShowBusinessDetailsActivity = findViewById(R.id.CountOfEmployeesTextViewShowBusinessDetailsActivity);
         HasDeliverySwitchShowBusinessDetailsActivity = findViewById(R.id.HasDeliverySwitchShowBusinessDetailsActivity);
-        ContactRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.ContactRelativeLayoutShowBusinessDetailsActivity);
-        ContactIconTextViewShowBusinessDetailsActivity = findViewById(R.id.ContactIconTextViewShowBusinessDetailsActivity);
-        OpenTimeRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.OpenTimeRelativeLayoutShowBusinessDetailsActivity);
-        OpenTimeIconTextViewShowBusinessDetailsActivity = findViewById(R.id.OpenTimeIconTextViewShowBusinessDetailsActivity);
+        RelativeLayout contactRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.ContactRelativeLayoutShowBusinessDetailsActivity);
+        TextViewPersian contactIconTextViewShowBusinessDetailsActivity = findViewById(R.id.ContactIconTextViewShowBusinessDetailsActivity);
+        RelativeLayout openTimeRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.OpenTimeRelativeLayoutShowBusinessDetailsActivity);
+        TextViewPersian openTimeIconTextViewShowBusinessDetailsActivity = findViewById(R.id.OpenTimeIconTextViewShowBusinessDetailsActivity);
         AddressTextViewShowBusinessDetailsActivity = findViewById(R.id.AddressTextViewShowBusinessDetailsActivity);
         PostalCodeTextViewShowBusinessDetailsActivity = findViewById(R.id.PostalCodeTextViewShowBusinessDetailsActivity);
-        RatingRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.RatingRelativeLayoutShowBusinessDetailsActivity);
-        RatingIconTextViewShowBusinessDetailsActivity = findViewById(R.id.RatingIconTextViewShowBusinessDetailsActivity);
-        ShowProductRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.ShowProductRelativeLayoutShowBusinessDetailsActivity);
-        PosterRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.PosterRelativeLayoutShowBusinessDetailsActivity);
+        RelativeLayout ratingRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.RatingRelativeLayoutShowBusinessDetailsActivity);
+        TextViewPersian ratingIconTextViewShowBusinessDetailsActivity = findViewById(R.id.RatingIconTextViewShowBusinessDetailsActivity);
+        RelativeLayout showProductRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.ShowProductRelativeLayoutShowBusinessDetailsActivity);
+        RelativeLayout posterRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.PosterRelativeLayoutShowBusinessDetailsActivity);
         RatingBusinessRatingBarShowBusinessDetailsActivity = findViewById(R.id.RatingBusinessRatingBarShowBusinessDetailsActivity);
-        IntroducingBusinessButtonShowBusinessDetailsActivity = findViewById(R.id.IntroducingBusinessButtonShowBusinessDetailsActivity);
+        ButtonPersianView introducingBusinessButtonShowBusinessDetailsActivity = findViewById(R.id.IntroducingBusinessButtonShowBusinessDetailsActivity);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
-        CommentIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
-        CommentIconTextViewShowBusinessDetailsActivity.setText("\uf27a");
+        commentIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
+        commentIconTextViewShowBusinessDetailsActivity.setText("\uf27a");
 
-        DescriptionIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
-        DescriptionIconTextViewShowBusinessDetailsActivity.setText("\uf15c");
+        descriptionIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
+        descriptionIconTextViewShowBusinessDetailsActivity.setText("\uf15c");
 
-        ContactIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
-        ContactIconTextViewShowBusinessDetailsActivity.setText("\uf095");
+        contactIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
+        contactIconTextViewShowBusinessDetailsActivity.setText("\uf095");
 
-        OpenTimeIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
-        OpenTimeIconTextViewShowBusinessDetailsActivity.setText("\uf017");
+        openTimeIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
+        openTimeIconTextViewShowBusinessDetailsActivity.setText("\uf017");
 
-        RatingIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
-        RatingIconTextViewShowBusinessDetailsActivity.setText("\uf005");
+        ratingIconTextViewShowBusinessDetailsActivity.setTypeface(Font.MasterIcon);
+        ratingIconTextViewShowBusinessDetailsActivity.setText("\uf005");
 
         BusinessImageImageViewShowBusinessDetailsActivity.getLayoutParams().height = LayoutUtility.GetWidthAccordingToScreen(this, 2);
         BusinessImageImageViewShowBusinessDetailsActivity.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(this, 1);
@@ -207,7 +191,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
             }
         });
 
-        OpenTimeRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
+        openTimeRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ShowLoadingProgressBar();
@@ -216,7 +200,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
             }
         });
 
-        ContactRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
+        contactRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ShowLoadingProgressBar();
@@ -225,7 +209,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
             }
         });
 
-        RatingRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
+        ratingRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ShowLoadingProgressBar();
@@ -234,7 +218,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
             }
         });
 
-        CommentUserRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
+        commentUserRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent ShowCommentBusinessIntent = NewIntent(ShowCommentBusinessActivity.class);
@@ -245,7 +229,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
             }
         });
 
-        DescriptionRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
+        descriptionRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent DescriptionBusinessDetailsIntent = NewIntent(DescriptionBusinessDetailsActivity.class);
@@ -272,7 +256,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
             }
         });
 
-        ShowProductRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
+        showProductRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent ShowProductListIntent = NewIntent(ShowProductListActivity.class);
@@ -282,7 +266,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
             }
         });
 
-        PosterRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
+        posterRelativeLayoutShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent ShowBusinessPosterListIntent = NewIntent(ShowBusinessPosterListActivity.class);
@@ -292,7 +276,15 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
             }
         });
 
-
+        introducingBusinessButtonShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent CommissionIntent = NewIntent(CommissionActivity.class);
+                CommissionIntent.putExtra("BusinessId", BusinessId);
+                CommissionIntent.putExtra("BusinessName", BusinessNameTextViewShowBusinessDetailsActivity.getText().toString());
+                startActivity(CommissionIntent);
+            }
+        });
 
 
     }
@@ -489,14 +481,14 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         else
             PostalCodeTextViewShowBusinessDetailsActivity.setText("-");
 
-        String Address = "";
+        String Address;
         if (!ViewModel.getRegionName().equals(""))
             Address = ViewModel.getRegionName() + " - " + ViewModel.getAddress();
         else
             Address = ViewModel.getAddress();
         AddressTextViewShowBusinessDetailsActivity.setText(Address);
 
-        String ProductImage = "";
+        String ProductImage;
         if (!ViewModel.getImagePathUrl().equals("")) {
             if (ViewModel.getImagePathUrl().contains("~")) {
                 ProductImage = ViewModel.getImagePathUrl().replace("~", DefaultConstant.BaseUrlWebService);
@@ -556,7 +548,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         ShowBusinessDetailsDialog.setContentView(R.layout.dialog_business_open_time);
 
         RecyclerView BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity = ShowBusinessDetailsDialog.findViewById(R.id.BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity);
-        businessDetailsOpenTimeRecyclerViewAdapter = new BusinessDetailsOpenTimeRecyclerViewAdapter(ShowBusinessDetailsActivity.this, R.layout.recycler_view_dialog_open_time, ViewModel, BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity);
+        BusinessDetailsOpenTimeRecyclerViewAdapter businessDetailsOpenTimeRecyclerViewAdapter = new BusinessDetailsOpenTimeRecyclerViewAdapter(ShowBusinessDetailsActivity.this, R.layout.recycler_view_dialog_open_time, ViewModel, BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity);
         LinearLayoutManager BusinessOpenTimeLinearLayoutManager = new LinearLayoutManager(ShowBusinessDetailsActivity.this);
         BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity.setLayoutManager(BusinessOpenTimeLinearLayoutManager);
         BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity.setAdapter(businessDetailsOpenTimeRecyclerViewAdapter);
@@ -574,7 +566,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         TextViewPersian HeaderTextViewShowBusinessDetailsActivity = ShowBusinessDetailsDialog.findViewById(R.id.HeaderTextViewShowBusinessDetailsActivity);
         HeaderTextViewShowBusinessDetailsActivity.getLayoutParams().width =LayoutUtility.GetWidthAccordingToScreen(ShowBusinessDetailsActivity.this, 1);
         RecyclerView BusinessContactRecyclerViewShowBusinessDetailsActivity = ShowBusinessDetailsDialog.findViewById(R.id.BusinessContactRecyclerViewShowBusinessDetailsActivity);
-        businessDetailsContactRecyclerViewAdapter = new BusinessDetailsContactRecyclerViewAdapter(ShowBusinessDetailsActivity.this, ViewModel, BusinessContactRecyclerViewShowBusinessDetailsActivity);
+        BusinessDetailsContactRecyclerViewAdapter businessDetailsContactRecyclerViewAdapter = new BusinessDetailsContactRecyclerViewAdapter(ShowBusinessDetailsActivity.this, ViewModel, BusinessContactRecyclerViewShowBusinessDetailsActivity);
         LinearLayoutManager BusinessOpenTimeLinearLayoutManager = new LinearLayoutManager(ShowBusinessDetailsActivity.this);
         BusinessContactRecyclerViewShowBusinessDetailsActivity.setLayoutManager(BusinessOpenTimeLinearLayoutManager);
         BusinessContactRecyclerViewShowBusinessDetailsActivity.setAdapter(businessDetailsContactRecyclerViewAdapter);
@@ -621,7 +613,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
                     ViewModel.setBusinessId(BusinessId);
                     ViewModel.setUserId(AccountModel.getUser().getId());
 
-                } catch (Exception Ex) {
+                } catch (Exception ignored) {
                 }
 
                 ScoreService ScoreService = new ScoreService(ShowBusinessDetailsActivity.this);
@@ -648,11 +640,11 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
 
-        String ShareMessage = "";
+        String ShareMessage ;
         ShareMessage = ViewModel.getTitle() + "\n" + ViewModel.getJobTitle() + "\n";
         ShareMessage = ShareMessage + Html.fromHtml(Description).toString();
 
-        String ProductImage = "";
+        String ProductImage ;
         if (!ViewModel.getImagePathUrl().equals("")) {
             if (ViewModel.getImagePathUrl().contains("~")) {
                 ProductImage = ViewModel.getImagePathUrl().replace("~", DefaultConstant.BaseUrlWebService);

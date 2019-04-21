@@ -67,7 +67,7 @@
             android:layout_marginBottom="8dp"
             android:textColor="@color/FontGrayColor"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-            android:text="@string/commission"/>
+            android:text="@string/commerce"/>
     </android.support.v7.widget.LinearLayoutCompat>
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/ItemMenu3"

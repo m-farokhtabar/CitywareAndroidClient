@@ -1,7 +1,6 @@
 package ir.rayas.app.citywareclient.View.Base;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -50,20 +49,20 @@ import ir.rayas.app.citywareclient.View.Initializer.IntroduceActivity;
 import ir.rayas.app.citywareclient.View.Master.BookmarkActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.Master.ClubUsersActivity;
+import ir.rayas.app.citywareclient.View.Master.CommerceActivity;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
 import ir.rayas.app.citywareclient.View.Master.NotificationActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.SettingActivity;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.View.Share.BusinessListForFactorActivity;
-import ir.rayas.app.citywareclient.View.Share.SelectRegionActivity;
 import ir.rayas.app.citywareclient.View.Share.UserFactorListActivity;
+import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
+import ir.rayas.app.citywareclient.View.UserProfileChildren.PosterTypeActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessVisitedOutViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
-/**
- * Created by Programmer on 2/11/2018.
- */
+
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener, MenuItem.OnMenuItemClickListener, IOnChangeUserAccount {
 
@@ -332,6 +331,21 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                     GoToMasterActivity(ActivityIdList.BUSINESS_LIST_FOR_FACTOR_ACTIVITY);
                 break;
 
+            case R.id.BuyPackageItemMenu:
+                if (CurrentActivityId != ActivityIdList.PACKAGE_ACTIVITY)  {
+                    Intent NewPackageIntent = NewIntent(PackageActivity.class);
+                    NewPackageIntent.putExtra("New", "New");
+                    startActivity(NewPackageIntent);
+                }
+                break;
+
+            case R.id.BuyPosterItemMenu:
+                if (CurrentActivityId != ActivityIdList.POSTER_TYPE_ACTIVITY) {
+                    Intent NewPosterTypeIntent = NewIntent(PosterTypeActivity.class);
+                    startActivity(NewPosterTypeIntent);
+                }
+                break;
+
         }
         return false;
     }
@@ -411,7 +425,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             IconMenu5.setTypeface(Font.MasterIcon);
             IconMenu5.setText("\uf0c0");
             //TODO: بعدا باید کد اکتیوتی مورد نظر اضافه شود
-            if (CurrentActivityId == 5555) {
+            if (CurrentActivityId == ActivityIdList.CLUB_USERS_ACTIVITY) {
                 IconMenu5.setTextColor(LayoutUtility.GetColorFromResource(this, R.color.FontThemeColor));
                 TextMenu5.setTextColor(LayoutUtility.GetColorFromResource(this, R.color.FontThemeColor));
             } else {
@@ -427,7 +441,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             IconMenu4.setTypeface(Font.MasterIcon);
             IconMenu4.setText("\uf155");
             //TODO: بعدا باید کد اکتیوتی مورد نظر اضافه شود
-            if (CurrentActivityId == 4444) {
+            if (CurrentActivityId == ActivityIdList.COMMERCE_ACTIVITY) {
                 IconMenu4.setTextColor(LayoutUtility.GetColorFromResource(this, R.color.FontThemeColor));
                 TextMenu4.setTextColor(LayoutUtility.GetColorFromResource(this, R.color.FontThemeColor));
             } else {
@@ -638,6 +652,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             //Commission
             case R.id.ItemMenu4:
+                if (CurrentActivityId != ActivityIdList.COMMERCE_ACTIVITY)
+                    GoToMasterActivity(ActivityIdList.COMMERCE_ACTIVITY);
                 break;
             //MyClub
             case R.id.ItemMenu5:
@@ -646,6 +662,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
 
     /**
      * مدیریت ایجاد اکتیویتی ها
@@ -696,6 +714,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 ClubUsersIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(ClubUsersIntent);
                 break;
+            case ActivityIdList.COMMERCE_ACTIVITY:
+                Intent CommerceIntent = new Intent(this, CommerceActivity.class);
+                CommerceIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
+                startActivity(CommerceIntent);
+                break;
         }
     }
 
@@ -708,7 +731,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         boolean Output = false;
         //TODO: برای دو اکتیویتی اصلی دیگر نیز باید این قسمت درست شود
         if (ActivityId == ActivityIdList.MAIN_ACTIVITY || ActivityId == ActivityIdList.USER_PROFILE_ACTIVITY ||
-            ActivityId == ActivityIdList.BOOKMARK_ACTIVITY || ActivityId == ActivityIdList.NOTIFICATION_ACTIVITY)
+            ActivityId == ActivityIdList.BOOKMARK_ACTIVITY || ActivityId == ActivityIdList.NOTIFICATION_ACTIVITY ||
+                ActivityId == ActivityIdList.CLUB_USERS_ACTIVITY || ActivityId == ActivityIdList.COMMERCE_ACTIVITY)
             Output = true;
         return Output;
     }

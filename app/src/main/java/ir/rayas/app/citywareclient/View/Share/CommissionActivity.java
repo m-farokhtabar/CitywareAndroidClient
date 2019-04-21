@@ -185,7 +185,7 @@ public class CommissionActivity extends BaseActivity implements IResponseService
             } else if (ServiceMethod == ServiceMethodType.MarketerSuggestionAdd) {
 
                 Feedback<SuggestionInfoViewModel> FeedBack = (Feedback<SuggestionInfoViewModel>) Data;
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
 
                     final SuggestionInfoViewModel ViewModel = FeedBack.getValue();
                     if (ViewModel != null) {
@@ -290,7 +290,6 @@ public class CommissionActivity extends BaseActivity implements IResponseService
         DialogOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowLoadingProgressBar();
 
                 ShareView(ViewModel);
                 TicketDialog.dismiss();

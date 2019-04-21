@@ -115,6 +115,9 @@ public enum ServiceMethodType {
     MarketerSuggestionAdd,
     SearchGet,
     BusinessPosterInfoGetAll,
-    BusinessPosterInfoTopGetAll
+    BusinessPosterInfoTopGetAll,
+    BookmarkPosterInfoGetAll,
+    CustomerPercentsGet,
+    MarketerCommissionGet,
 
 }

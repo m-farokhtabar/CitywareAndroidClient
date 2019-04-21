@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MainDrawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="ir.rayas.app.citywareclient.View.Master.CommerceActivity"
+    tools:openDrawer="right">
+
+    <RelativeLayout
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/ToolBar"
+            layout="@layout/view_toolbar" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/MainMenuBottom"
+            android:layout_below="@+id/ToolBar"
+           android:padding="16dp"
+            android:gravity="center_horizontal"
+            android:background="@color/BackgroundWhiteColor"
+            android:orientation="vertical">
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/GetDiscountsButtonCommerceActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/selector_button_theme_without_corner"
+                android:text="@string/get_discounts"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontWhiteColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/MarketerCommissionButtonCommerceActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/selector_button_theme_without_corner"
+                android:text="@string/marketer_commission"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontWhiteColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/IncomeFromBusinessButtonCommerceActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/selector_button_theme_without_corner"
+                android:text="@string/income_from_business"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontWhiteColor" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/MainMenuBottom"
+            layout="@layout/main_menu_bar_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/DrawerNavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/view_header_menu_drawer"
+        app:menu="@menu/view_drawer" />
+
+</android.support.v4.widget.DrawerLayout>
+

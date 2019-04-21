@@ -528,6 +528,30 @@
     <string name="km">کیلومتر</string>
 
 
+    <!--متون مرتبط با  تجارت-->
+    <string name="discounts_and_income">تخفیف و درآمد</string>
+    <string name="commerce">تجارت</string>
+    <string name="get_discounts">دریافت تخفیفات</string>
+    <string name="income_from_business">درآمد از کسب و کار</string>
+    <string name="details_discount">جزئیات تخفیف</string>
+    <string name="state">وضعیت</string>
+    <string name="use_date">تاریخ استفاده</string>
+    <string name="use">استفاده شده است</string>
+    <string name="not_use">استفاده نشده است</string>
+    <string name="discount_details">جزئیات تخفیف</string>
+    <string name="presenter">معرفی کننده</string>
+    <string name="discount_product_or_service">محصولات یا خدمات تخفیف دار</string>
+    <string name="total_number_of_customers_introduced_to_the_business">تعداد کل مشتریان معرفی شده به کسب و کار</string>
+    <string name="number_of_customers_who_have_used_the_business">تعداد مشتریانی که از کسب و کار استفاده کرده اند</string>
+    <string name="total_amount_of_commission">مبلغ کل پورسانت</string>
+    <string name="amount_of_commission_paid">مبلغ پورسانت پرداخت شده</string>
+    <string name="remaining_amount_of_commission">مبلغ مانده پورسانت</string>
+    <string name="no_commission_received">پورسانت دریافت نشده</string>
+    <string name="commission_received">پورسانت دریافت شده</string>
+    <string name="archives">آرشیو</string>
+    <string name="new_introductions">معرفی شده های جدید</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

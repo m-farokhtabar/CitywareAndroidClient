@@ -44,16 +44,18 @@
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                 android:id="@+id/TicketDialogTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:singleLine="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/FontBlackColor"
                 tools:ignore="RtlHardcoded" />
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:singleLine="true"
@@ -80,16 +82,18 @@
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                 android:id="@+id/ExpireDateDialogTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:singleLine="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/FontBlackColor"
                 tools:ignore="RtlHardcoded" />
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:singleLine="true"

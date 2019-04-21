@@ -31,13 +31,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.6">
+                android:layout_weight="0.7">
 
                 <ProgressBar
                     android:id="@+id/PercentProgressBar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
+                    android:scaleX="1.8"
+                    android:scaleY="1.8"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
@@ -89,7 +91,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/TitlePrizeTextView"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="8dp"
@@ -98,6 +100,10 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/FontWhiteColor"
                     tools:ignore="RtlHardcoded" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"/>
 
 
             </RelativeLayout>
@@ -111,8 +117,8 @@
             android:weightSum="1"
             android:layout_below="@+id/PointLinearLayout"
             android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="16dp">
 
             <android.support.v7.widget.CardView
@@ -134,18 +140,16 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:paddingBottom="10dp"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
                     android:paddingTop="10dp">
 
                     <ImageView
                         android:id="@+id/GetPrizeIconImageView"
                         tools:ignore="ContentDescription"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/GetPrizeTextView"
                         android:layout_toRightOf="@+id/GetPrizeTextView"
                         android:adjustViewBounds="true"
@@ -183,18 +187,16 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:paddingBottom="10dp"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
                     android:paddingTop="10dp">
 
                     <ImageView
                         android:id="@+id/PointIconImageView"
                         tools:ignore="ContentDescription"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/PointTextView"
                         android:layout_toRightOf="@+id/PointTextView"
                         android:adjustViewBounds="true"

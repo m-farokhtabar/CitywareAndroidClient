@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.ClosePackageRecyclerViewAdapter;
@@ -48,6 +49,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     private int PageNumberOpen = 1;
     private int PageNumberClose = 1;
 
+    private boolean IsFirst = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +60,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
         Context = (UserProfileActivity) getActivity();
         // Inflate the layout for this fragment
         View CurrentView = inflater.inflate(R.layout.fragment_user_packge, container, false);
+
+        IsFirst = true;
         //طرحبندی ویو
         CreateLayout(CurrentView);
 
@@ -84,7 +89,10 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
             public void onLoadMore() {
                 PageNumberOpen = PageNumberOpen + 1;
                 LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
+                if (!IsFirst)
+                    LoadData();
+                
+                IsFirst = false;
             }
         });
         PackageOpenRecyclerViewUserPackageFragment.setAdapter(packageRecyclerViewAdapter);
@@ -131,14 +139,22 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
         ExpireAndValidatePackageSwitchUserPackageFragment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                List<OutputPackageTransactionViewModel> ViewModelList = new ArrayList<>();
+                packageRecyclerViewAdapter.SetViewModelList(ViewModelList);
+                closePackageRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                PageNumberOpen = 1;
+                PageNumberClose = 1;
+
                 if (isChecked) {
-                    LoadDataOpenPackage();
+                    if (!IsFirst)
+                        LoadDataOpenPackage();
 
                     ExpireAndValidatePackageTitleTextViewUserPackageFragment.setText(Context.getResources().getString(R.string.package_validate));
 
                     PackageOpenRecyclerViewUserPackageFragment.setVisibility(View.VISIBLE);
                     PackageCloseRecyclerViewUserPackageFragment.setVisibility(View.GONE);
-
 
                 } else {
                     PackageOpenRecyclerViewUserPackageFragment.setVisibility(View.GONE);
@@ -147,7 +163,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
 
                     ExpireAndValidatePackageTitleTextViewUserPackageFragment.setText(Context.getResources().getString(R.string.package_expire));
 
-                    LoadDataClosePackage();
+                    if (!IsFirst)
+                        LoadDataClosePackage();
                 }
             }
         });
@@ -192,6 +209,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
         LoadMoreProgressBar.setVisibility(View.GONE);
         RefreshPackageSwipeRefreshLayoutUserPackageFragment.setRefreshing(false);
         IsSwipe = false;
+
 
         try {
             if (ServiceMethod == ServiceMethodType.UserPackageOpenGetAll) {

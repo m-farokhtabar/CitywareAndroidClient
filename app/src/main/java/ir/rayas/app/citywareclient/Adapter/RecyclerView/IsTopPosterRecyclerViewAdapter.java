@@ -20,6 +20,8 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
+import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessPosterDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
@@ -113,7 +115,21 @@ public class IsTopPosterRecyclerViewAdapter  extends RecyclerView.Adapter<Recycl
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final UserSearchViewHolder viewHolder = (UserSearchViewHolder) holder;
 
-        Glide.with(Context).load(ViewModelList.get(position).getPosterImagePathUrl()).apply(RequestOptions.circleCropTransform()).into(viewHolder.IsTopPosterImageView);
+        String ProductImage = "";
+        if (!ViewModelList.get(position).getPosterImagePathUrl().equals("")) {
+            if (ViewModelList.get(position).getPosterImagePathUrl().contains("~")) {
+                ProductImage = ViewModelList.get(position).getPosterImagePathUrl().replace("~", DefaultConstant.BaseUrlWebService);
+            } else {
+                ProductImage = ViewModelList.get(position).getPosterImagePathUrl();
+            }
+        }
+
+        if (!ProductImage.equals("")) {
+            Glide.with(Context).load(ProductImage).apply(RequestOptions.circleCropTransform()).into(viewHolder.IsTopPosterImageView);
+        } else {
+            viewHolder.IsTopPosterImageView.setImageResource(R.drawable.image_default);
+        }
+
 
         viewHolder.IsTopBusinessPosterInfoContainerLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override

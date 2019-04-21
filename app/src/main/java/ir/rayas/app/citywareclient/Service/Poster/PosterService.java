@@ -27,7 +27,7 @@ public class PosterService implements IService {
     private String ControllerName = "Poster";
     private String ActionGetAll = "All/Page";
     private String ActionAll = "All";
-    private String Page = "Page/";
+    private String Page = "Page";
     private String ActionGetAllBusiness = "All/Business";
     private String ActionValid = "Valid";
     private String ActionExpired = "Expired";
@@ -72,7 +72,7 @@ public class PosterService implements IService {
 
     public void GetAllBusiness(int PageNumber, int BusinessId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAllBusiness + "/" + BusinessId + "/" + Page + PageNumber;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAllBusiness + "/" + BusinessId + "/" + Page+ "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.UserPosterGetAll, PurchasedPosterViewModel.class, new TypeToken<Feedback<List<PurchasedPosterViewModel>>>() {
         }.getType());
     }

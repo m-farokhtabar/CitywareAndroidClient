@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.PosterExpiredRecyclerViewAdapter;
@@ -50,6 +52,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     private int PageNumberValid = 1;
     private int PageNumberExpire = 1;
 
+    private boolean IsFirst = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,6 +62,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         Context = (UserProfileActivity) getActivity();
         // Inflate the layout for this fragment
         View CurrentView = inflater.inflate(R.layout.fragment_user_poster, container, false);
+
+        IsFirst = true;
         //طرحبندی ویو
         CreateLayout(CurrentView);
 
@@ -76,14 +82,17 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         final TextViewPersian ExpireAndValidatePosterTitleTextViewUserPostersFragment = CurrentView.findViewById(R.id.ExpireAndValidatePosterTitleTextViewUserPostersFragment);
 
         ExpireAndValidatePosterSwitchUserPostersFragment.setChecked(true);
-        
+
         PosterValidRecyclerViewUserPostersFragment.setLayoutManager(new LinearLayoutManager(Context));
         posterValidRecyclerViewAdapter = new PosterValidRecyclerViewAdapter(Context, null, PosterValidRecyclerViewUserPostersFragment, new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 PageNumberValid = PageNumberValid + 1;
                 LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
+                    LoadData();
+                
+
+
             }
         });
         PosterValidRecyclerViewUserPostersFragment.setAdapter(posterValidRecyclerViewAdapter);
@@ -127,8 +136,18 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         ExpireAndValidatePosterSwitchUserPostersFragment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                List<PurchasedPosterViewModel> ViewModelList = new ArrayList<>();
+                posterValidRecyclerViewAdapter.SetViewModelList(ViewModelList);
+                posterExpiredRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                PageNumberValid = 1;
+                PageNumberExpire = 1;
+
                 if (isChecked) {
-                    LoadDataValidPackage();
+
+                    if (!IsFirst)
+                        LoadDataValidPackage();
 
                     ExpireAndValidatePosterTitleTextViewUserPostersFragment.setText(Context.getResources().getString(R.string.poster_validate));
 
@@ -143,7 +162,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
                     ExpireAndValidatePosterTitleTextViewUserPostersFragment.setText(Context.getResources().getString(R.string.poster_expire));
 
-                    LoadDataClosePackage();
+                    if (!IsFirst)
+                        LoadDataClosePackage();
                 }
             }
         });
@@ -188,19 +208,22 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         LoadMoreProgressBar.setVisibility(View.GONE);
         RefreshPosterSwipeRefreshLayoutUserPostersFragment.setRefreshing(false);
         IsSwipe = false;
+
         try {
             if (ServiceMethod == ServiceMethodType.UserPosterValidGet) {
                 Context.HideLoading();
                 Feedback<List<PurchasedPosterViewModel>> FeedBack = (Feedback<List<PurchasedPosterViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-
+                    IsFirst = false;
                     final List<PurchasedPosterViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         if (PageNumberValid == 1)
                             posterValidRecyclerViewAdapter.SetViewModelList(ViewModelList);
                         else
                             posterValidRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+
                     }
 
                 } else {
@@ -212,7 +235,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
                         Context.ShowErrorInConnectDialog();
                     }
                 }
-            }  else  if (ServiceMethod == ServiceMethodType.UserPosterExpiredGet) {
+            } else if (ServiceMethod == ServiceMethodType.UserPosterExpiredGet) {
                 Context.HideLoading();
                 Feedback<List<PurchasedPosterViewModel>> FeedBack = (Feedback<List<PurchasedPosterViewModel>>) Data;
 
@@ -228,7 +251,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumberValid > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
+                        if (!(PageNumberExpire > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
                             Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
 
                     } else {
@@ -262,6 +285,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         }
     }
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
@@ -270,6 +294,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
             if (!IsLoadedDataForFirst) {
                 IsSwipe = false;
                 IsLoadedDataForFirst = true;
+
                 //دریافت اطلاعات از سرور
                 LoadData();
             }

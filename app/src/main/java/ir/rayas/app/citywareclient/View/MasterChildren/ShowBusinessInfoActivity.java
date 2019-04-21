@@ -24,6 +24,7 @@ import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 
 public class ShowBusinessInfoActivity extends BaseActivity implements IResponseService, ILoadData {
@@ -74,6 +75,7 @@ public class ShowBusinessInfoActivity extends BaseActivity implements IResponseS
         ButtonPersianView ShowBusinessInfoButtonShowBusinessInfoActivity = findViewById(R.id.ShowBusinessInfoButtonShowBusinessInfoActivity);
         ButtonPersianView ShowProductButtonShowBusinessInfoActivity = findViewById(R.id.ShowProductButtonShowBusinessInfoActivity);
         ButtonPersianView ShowPosterAndOfferButtonShowBusinessInfoActivity = findViewById(R.id.ShowPosterAndOfferButtonShowBusinessInfoActivity);
+        ButtonPersianView IntroducingBusinessButtonShowBusinessInfoActivity = findViewById(R.id.IntroducingBusinessButtonShowBusinessInfoActivity);
         ButtonPersianView CreateAndShowCommentButtonShowBusinessInfoActivity = findViewById(R.id.CreateAndShowCommentButtonShowBusinessInfoActivity);
 
         IsOpenSwitchShowBusinessInfoActivity.setClickable(false);
@@ -117,6 +119,16 @@ public class ShowBusinessInfoActivity extends BaseActivity implements IResponseS
                 ShowCommentBusinessIntent.putExtra("TotalScore", RatingShowBusinessInfoRatingBarShowBusinessInfoActivity.getRating());
                 ShowCommentBusinessIntent.putExtra("BusinessId", BusinessId);
                 startActivity(ShowCommentBusinessIntent);
+            }
+        });
+
+        IntroducingBusinessButtonShowBusinessInfoActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent CommissionIntent = NewIntent(CommissionActivity.class);
+                CommissionIntent.putExtra("BusinessId", BusinessId);
+                CommissionIntent.putExtra("BusinessName", TitleBusinessInfoTextViewShowBusinessInfoActivity.getText().toString());
+                startActivity(CommissionIntent);
             }
         });
 
@@ -168,7 +180,7 @@ public class ShowBusinessInfoActivity extends BaseActivity implements IResponseS
             ImageBusinessInfoImageViewShowBusinessInfoActivity.setImageResource(R.drawable.image_default);
         } else {
             ImageBusinessInfoImageViewShowBusinessInfoActivity.setVisibility(View.VISIBLE);
-            String ImageUrl = "";
+            String ImageUrl;
             if (ViewModel.getImagePathUrl().contains("~")) {
                 ImageUrl = ViewModel.getImagePathUrl().replace("~", DefaultConstant.BaseUrlWebService);
             } else {
