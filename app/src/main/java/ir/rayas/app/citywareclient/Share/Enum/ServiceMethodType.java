@@ -119,5 +119,14 @@ public enum ServiceMethodType {
     BookmarkPosterInfoGetAll,
     CustomerPercentsGet,
     MarketerCommissionGet,
+    BusinessCommissionGet,
+    NotReceivedMarketerCommissionGetAll,
+    NotPayedBusinessCommissionGetAll,
+    ReceivedMarketerCommissionGetAll,
+    PayedBusinessCommissionGetAll,
+   NewSuggestionMarketerCommissionGetAll,
+    ExpiredMarketerCommissionGetAll,
+    ExpiredBusinessCommissionGetAll,
+    NewSuggestionBusinessCommissionGetAll,
 
 }

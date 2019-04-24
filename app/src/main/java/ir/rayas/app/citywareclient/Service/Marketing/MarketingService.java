@@ -15,20 +15,20 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionInfoViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketerCommissionInfoViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketerSuggestionViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingBusinessManViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingBusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingCustomerViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessManViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.SuggestionInfoViewModel;
 
 
 public class MarketingService implements IService {
 
     private String ControllerName = "Marketing";
-    private String ActionBusiness = "Business";
-    private String ActionPercents = "Percents";
-    private String ActionMarketerSuggestion = "MarketerSuggestion";
-    private String ControllerCustomerPercents = "CustomerPercents";
-    private String ControllerMarketerCommission = "MarketerCommission";
 
     private IResponseService ResponseService;
 
@@ -39,14 +39,17 @@ public class MarketingService implements IService {
 
     public void Get(int BusinessId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionBusiness + "/" + BusinessId + "/" + ActionPercents;
+        String actionPercents = "Percents";
+        String actionBusiness = "Business";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionBusiness + "/" + BusinessId + "/" + actionPercents;
         Current.GetService(this, Url, ServiceMethodType.BusinessCommissionAndDiscountGet, BusinessCommissionAndDiscountViewModel.class, new TypeToken<Feedback<BusinessCommissionAndDiscountViewModel>>() {
         }.getType());
     }
 
     public void Add(MarketerSuggestionViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionMarketerSuggestion;
+        String actionMarketerSuggestion = "MarketerSuggestion";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionMarketerSuggestion;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PostService(this, Url, JsonViewModel, ServiceMethodType.MarketerSuggestionAdd, MarketerSuggestionViewModel.class, new TypeToken<Feedback<SuggestionInfoViewModel>>() {
@@ -55,18 +58,93 @@ public class MarketingService implements IService {
 
     public void GetCustomerPercents() {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ControllerCustomerPercents;
+        String controllerCustomerPercents = "CustomerPercents";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerCustomerPercents;
         Current.GetService(this, Url, ServiceMethodType.CustomerPercentsGet, MarketingCustomerViewModel.class, new TypeToken<Feedback<List<MarketingCustomerViewModel>>>() {
         }.getType());
     }
 
     public void GetMarketerCommission() {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ControllerMarketerCommission;
-        Current.GetService(this, Url, ServiceMethodType.MarketerCommissionGet, MarketerCommissionInfoViewModel.class, new TypeToken<Feedback<List<MarketerCommissionInfoViewModel>>>() {
+        String controllerMarketerCommission = "MarketerCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerMarketerCommission;
+        Current.GetService(this, Url, ServiceMethodType.MarketerCommissionGet, MarketerCommissionInfoViewModel.class, new TypeToken<Feedback<MarketerCommissionInfoViewModel>>() {
         }.getType());
     }
 
+    public void GetAllNotReceivedMarketerCommission() {
+        BaseService Current = new BaseService();
+        String controllerNotReceivedMarketerCommission = "GetAllNotReceivedMarketerCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNotReceivedMarketerCommission;
+        Current.GetService(this, Url, ServiceMethodType.NotReceivedMarketerCommissionGetAll, MarketingBusinessManViewModel.class, new TypeToken<Feedback<List<MarketingBusinessManViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetAllReceivedMarketerCommission() {
+        BaseService Current = new BaseService();
+        String controllerReceivedMarketerCommission = "GetAllReceivedMarketerCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerReceivedMarketerCommission;
+        Current.GetService(this, Url, ServiceMethodType.ReceivedMarketerCommissionGetAll, MarketingPayedBusinessManViewModel.class, new TypeToken<Feedback<List<MarketingPayedBusinessManViewModel>>>() {
+        }.getType());
+    }
+
+
+    public void GetAllNewSuggestionMarketerCommission() {
+        BaseService Current = new BaseService();
+        String controllerNewSuggestionMarketerCommission = "GetAllNewSuggestionMarketerCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNewSuggestionMarketerCommission;
+        Current.GetService(this, Url, ServiceMethodType.NewSuggestionMarketerCommissionGetAll, MarketingBusinessManViewModel.class, new TypeToken<Feedback<List<MarketingBusinessManViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetAllExpiredMarketerCommission() {
+        BaseService Current = new BaseService();
+        String controllerExpiredMarketerCommission = "GetAllExpiredMarketerCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerExpiredMarketerCommission;
+        Current.GetService(this, Url, ServiceMethodType.ExpiredMarketerCommissionGetAll, MarketingBusinessManViewModel.class, new TypeToken<Feedback<List<MarketingBusinessManViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetBusinessCommission(int BusinessId) {
+        BaseService Current = new BaseService();
+        String controllerBusinessCommission = "BusinessCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerBusinessCommission + "/" + BusinessId;
+        Current.GetService(this, Url, ServiceMethodType.BusinessCommissionGet, BusinessCommissionInfoViewModel.class, new TypeToken<Feedback<BusinessCommissionInfoViewModel>>() {
+        }.getType());
+    }
+
+    public void GetAllNotPayedBusinessCommission(int BusinessId) {
+        BaseService Current = new BaseService();
+        String controllerNotPayedBusinessCommission = "GetAllNotPayedBusinessCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNotPayedBusinessCommission + "/" + BusinessId;
+        Current.GetService(this, Url, ServiceMethodType.NotPayedBusinessCommissionGetAll, MarketingBusinessViewModel.class, new TypeToken<Feedback<List<MarketingBusinessViewModel>>>() {
+        }.getType());
+    }
+
+
+    public void GetAllPayedBusinessCommission(int BusinessId) {
+        BaseService Current = new BaseService();
+        String controllerPayedBusinessCommission = "GetAllPayedBusinessCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerPayedBusinessCommission + "/" + BusinessId;
+        Current.GetService(this, Url, ServiceMethodType.PayedBusinessCommissionGetAll, MarketingPayedBusinessViewModel.class, new TypeToken<Feedback<List<MarketingPayedBusinessViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetAllExpiredBusinessCommission(int BusinessId) {
+        BaseService Current = new BaseService();
+        String controllerExpiredBusinessCommission = "GetAllExpiredBusinessCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerExpiredBusinessCommission + "/" + BusinessId;
+        Current.GetService(this, Url, ServiceMethodType.ExpiredBusinessCommissionGetAll, MarketingBusinessViewModel.class, new TypeToken<Feedback<List<MarketingBusinessViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetAllNewSuggestionBusinessCommission(int BusinessId) {
+        BaseService Current = new BaseService();
+        String controllerNewSuggestionBusinessCommission = "GetAllNewSuggestionBusinessCommission";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNewSuggestionBusinessCommission + "/" + BusinessId;
+        Current.GetService(this, Url, ServiceMethodType.NewSuggestionBusinessCommissionGetAll, MarketingBusinessViewModel.class, new TypeToken<Feedback<List<MarketingBusinessViewModel>>>() {
+        }.getType());
+    }
 
     @Override
     public <T> void OnSuccess(String Response, ServiceMethodType ServiceMethod, Class<T> OutputClass, Type OutputClassType) {

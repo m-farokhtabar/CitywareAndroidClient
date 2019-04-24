@@ -11,6 +11,7 @@ import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.MasterChildren.DiscountActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowMarketerCommissionDetailsActivity;
+import ir.rayas.app.citywareclient.View.Share.UserBusinessListActivity;
 
 public class CommerceActivity extends BaseActivity {
 
@@ -65,7 +66,8 @@ public class CommerceActivity extends BaseActivity {
         IncomeFromBusinessButtonCommerceActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent UserBusinessListIntent = NewIntent(UserBusinessListActivity.class);
+                startActivity(UserBusinessListIntent);
             }
         });
 

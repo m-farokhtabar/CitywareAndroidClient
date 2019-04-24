@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -41,7 +40,6 @@ import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.Gps;
 import ir.rayas.app.citywareclient.Share.Helper.GpsCurrentLocation;
 import ir.rayas.app.citywareclient.Share.Helper.IResponseTurnOnGpsDialog;
-import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
@@ -58,10 +56,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     private IsTopPosterRecyclerViewAdapter isTopPosterRecyclerViewAdapter = null;
     private BusinessPosterInfoRecyclerViewAdapter businessPosterInfoRecyclerViewAdapter = null;
-    private ImageView MostVisitedImageViewMainActivity = null;
-    private ImageView StarredImageViewMainActivity = null;
-    private ImageView NewestImageViewMainActivity = null;
-    private ImageView BookmarkImageViewMainActivity = null;
     private TextViewPersian MostVisitedTextViewMainActivity = null;
     private TextViewPersian StarredTextViewMainActivity = null;
     private TextViewPersian NewestTextViewMainActivity = null;
@@ -74,6 +68,10 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private RadioButton CategoryAllRadioButtonMainActivity = null;
     private RadioButton CategoryRadioButtonMainActivity = null;
     private RadioButton RegionAllRadioButtonMainActivity = null;
+    private TextView LineNewestTextViewMainActivity = null;
+    private TextView LineStarredTextViewMainActivity = null;
+    private TextView LineMostVisitedTextViewMainActivity = null;
+    private TextView LineBookmarkTextViewMainActivity = null;
 
     private int PageNumber = 1;
     private int PageNumberPoster = 1;
@@ -155,7 +153,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         homeService.GetAll(queryType, BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumberPoster);
     }
 
-
     //سرویس مربوط به لیست علاقه مندی ها
     private void LoadDataBookmarkPoster() {
         ShowLoadingProgressBar();
@@ -164,13 +161,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         homeService.GetAllBookmark(PageNumberPoster);
     }
 
-
     private void CreateLayout() {
-        TextView SearchLogo = findViewById(R.id.MainSearchIconTextView);
-        SearchLogo.setTypeface(Font.MasterIcon);
-        SearchLogo.setText("\uf002");
-
-
         RecyclerView isTopPosterRecyclerViewMainActivity = findViewById(R.id.IsTopPosterRecyclerViewMainActivity);
         isTopPosterRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true));
         isTopPosterRecyclerViewAdapter = new IsTopPosterRecyclerViewAdapter(MainActivity.this, null, isTopPosterRecyclerViewMainActivity, new OnLoadMoreListener() {
@@ -205,20 +196,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         MostVisitedLinearLayoutMainActivity = findViewById(R.id.MostVisitedLinearLayoutMainActivity);
         StarredLinearLayoutMainActivity = findViewById(R.id.StarredLinearLayoutMainActivity);
         NewestLinearLayoutMainActivity = findViewById(R.id.NewestLinearLayoutMainActivity);
-        BookmarkImageViewMainActivity = findViewById(R.id.BookmarkImageViewMainActivity);
-        MostVisitedImageViewMainActivity = findViewById(R.id.MostVisitedImageViewMainActivity);
-        StarredImageViewMainActivity = findViewById(R.id.StarredImageViewMainActivity);
-        NewestImageViewMainActivity = findViewById(R.id.NewestImageViewMainActivity);
         MostVisitedTextViewMainActivity = findViewById(R.id.MostVisitedTextViewMainActivity);
         StarredTextViewMainActivity = findViewById(R.id.StarredTextViewMainActivity);
         NewestTextViewMainActivity = findViewById(R.id.NewestTextViewMainActivity);
         BookmarkTextViewMainActivity = findViewById(R.id.BookmarkTextViewMainActivity);
+        LineNewestTextViewMainActivity = findViewById(R.id.LineNewestTextViewMainActivity);
+        LineStarredTextViewMainActivity = findViewById(R.id.LineStarredTextViewMainActivity);
+        LineMostVisitedTextViewMainActivity = findViewById(R.id.LineMostVisitedTextViewMainActivity);
+        LineBookmarkTextViewMainActivity = findViewById(R.id.LineBookmarkTextViewMainActivity);
 
-
-        NewestLinearLayoutMainActivity.setBackgroundColor(getResources().getColor(R.color.ButtonBackgroundThemeColor));
-        MostVisitedLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        StarredLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        BookmarkLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
 
         queryType = QueryType.New.GetQueryType();
 
@@ -507,20 +493,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void NewestPoster() {
-        NewestLinearLayoutMainActivity.setBackgroundColor(getResources().getColor(R.color.ButtonBackgroundThemeColor));
-        MostVisitedLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        StarredLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        BookmarkLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
+        LineNewestTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundThemeColor));
+        LineStarredTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineMostVisitedTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineBookmarkTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
 
-        MostVisitedImageViewMainActivity.setBackgroundResource(R.drawable.ic_visibility_theme_24dp);
-        StarredImageViewMainActivity.setBackgroundResource(R.drawable.ic_stars_theme_24dp);
-        BookmarkImageViewMainActivity.setBackgroundResource(R.drawable.ic_bookmark_full_24dp);
-        NewestImageViewMainActivity.setBackgroundResource(R.drawable.ic_fiber_new_white_24dp);
-
-        MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
-        StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
-        BookmarkTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
-        NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontWhiteColor));
+        MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        BookmarkTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
 
         queryType = QueryType.New.GetQueryType();
 
@@ -536,20 +517,16 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void StarredPoster() {
-        StarredLinearLayoutMainActivity.setBackgroundColor(getResources().getColor(R.color.ButtonBackgroundThemeColor));
-        MostVisitedLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        NewestLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        BookmarkLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
 
-        MostVisitedImageViewMainActivity.setBackgroundResource(R.drawable.ic_visibility_theme_24dp);
-        StarredImageViewMainActivity.setBackgroundResource(R.drawable.ic_stars_white_24dp);
-        NewestImageViewMainActivity.setBackgroundResource(R.drawable.ic_fiber_new_theme_24dp);
-        BookmarkImageViewMainActivity.setBackgroundResource(R.drawable.ic_bookmark_full_24dp);
+        LineNewestTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineStarredTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundThemeColor));
+        LineMostVisitedTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineBookmarkTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
 
-        MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
-        StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontWhiteColor));
-        NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
-        BookmarkTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+        MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+        NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        BookmarkTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
 
         queryType = QueryType.Star.GetQueryType();
 
@@ -564,20 +541,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void MostVisitedPoster() {
-        MostVisitedLinearLayoutMainActivity.setBackgroundColor(getResources().getColor(R.color.ButtonBackgroundThemeColor));
-        NewestLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        StarredLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        BookmarkLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
+        MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+        StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        BookmarkTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
 
-        MostVisitedImageViewMainActivity.setBackgroundResource(R.drawable.ic_visibility_white_24dp);
-        StarredImageViewMainActivity.setBackgroundResource(R.drawable.ic_stars_theme_24dp);
-        NewestImageViewMainActivity.setBackgroundResource(R.drawable.ic_fiber_new_theme_24dp);
-        BookmarkImageViewMainActivity.setBackgroundResource(R.drawable.ic_bookmark_full_24dp);
-
-        MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontWhiteColor));
-        StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
-        NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
-        BookmarkTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+        LineNewestTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineStarredTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineMostVisitedTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundThemeColor));
+        LineBookmarkTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
 
         queryType = QueryType.Visit.GetQueryType();
 
@@ -593,20 +565,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     private void BookmarkPoster() {
 
-        BookmarkLinearLayoutMainActivity.setBackgroundColor(getResources().getColor(R.color.ButtonBackgroundThemeColor));
-        NewestLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        StarredLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
-        MostVisitedLinearLayoutMainActivity.setBackgroundResource(R.drawable.selector_item_bottom_menu);
+        LineNewestTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineStarredTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineMostVisitedTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineBookmarkTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundThemeColor));
 
-        MostVisitedImageViewMainActivity.setBackgroundResource(R.drawable.ic_visibility_theme_24dp);
-        StarredImageViewMainActivity.setBackgroundResource(R.drawable.ic_stars_theme_24dp);
-        NewestImageViewMainActivity.setBackgroundResource(R.drawable.ic_fiber_new_theme_24dp);
-        BookmarkImageViewMainActivity.setBackgroundResource(R.drawable.ic_bookmark_white_24dp);
-
-        BookmarkTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontWhiteColor));
-        StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
-        NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
-        MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+        BookmarkTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+        StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
 
         queryType = QueryType.Visit.GetQueryType();
 

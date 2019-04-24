@@ -115,6 +115,17 @@ public class IsTopPosterRecyclerViewAdapter  extends RecyclerView.Adapter<Recycl
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final UserSearchViewHolder viewHolder = (UserSearchViewHolder) holder;
 
+
+        int ScreenWidth = LayoutUtility.GetWidthAccordingToScreen(Context, 5)-40;
+
+        viewHolder.IsTopPosterImageView.getLayoutParams().width = ScreenWidth;
+        viewHolder.IsTopPosterImageView.getLayoutParams().height = ScreenWidth;
+
+        viewHolder.IsTopBusinessPosterInfoContainerLinearLayout.getLayoutParams().width = ScreenWidth;
+        viewHolder.IsTopBusinessPosterInfoContainerLinearLayout.getLayoutParams().height = ScreenWidth;
+
+
+
         String ProductImage = "";
         if (!ViewModelList.get(position).getPosterImagePathUrl().equals("")) {
             if (ViewModelList.get(position).getPosterImagePathUrl().contains("~")) {

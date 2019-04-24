@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.BusinessCommission.CustomerSearchFragment">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/SearchCardViewCustomerSearchFragment"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/SearchUserImageViewCustomerSearchFragment"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:foreground="?selectableItemBackground"
+                android:scaleType="fitCenter"
+                android:background="@drawable/ic_search_theme_24dp"
+                android:adjustViewBounds="true"
+                tools:ignore="ContentDescription" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                android:id="@+id/SearchUserEditTextCustomerSearchFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toRightOf="@+id/SearchUserImageViewCustomerSearchFragment"
+                android:layout_toEndOf="@+id/SearchUserImageViewCustomerSearchFragment"
+                android:background="@android:color/transparent"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:gravity="right|center_vertical"
+                android:hint="@string/customer_search"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                tools:ignore="RtlHardcoded" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/RefreshCustomerSwipeRefreshLayoutCustomerSearchFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/SearchCardViewCustomerSearchFragment"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/CustomerRecyclerViewCustomerSearchFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:dividerHeight="0dp" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/ShowEmptyCustomerTextViewCustomerSearchFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="@string/there_is_no_customer_to_show"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/FontSemiDarkThemeColor"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

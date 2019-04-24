@@ -12,6 +12,7 @@
     <RelativeLayout
         android:id="@+id/MasterContentLinearLayout"
         android:layout_width="match_parent"
+        android:background="@color/BackgroundWhiteColor"
         android:layout_height="match_parent">
 
         <include
@@ -19,70 +20,10 @@
             layout="@layout/view_toolbar" />
 
         <android.support.v7.widget.LinearLayoutCompat
-            android:id="@+id/SearchLinearLayoutMainActivity"
+            android:id="@+id/NewAndStarAndVisitLinearLayoutMainActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ToolBar"
-            android:background="@color/BackgroundThemeColor">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/MainSearchIconTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
-                    android:text="test"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/FontWhiteColor" />
-
-                <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/MainSearchIconTextView"
-                    android:hint="@string/search_in_city_ware"
-                    android:imeOptions="actionSearch"
-                    android:singleLine="true"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColorHint="@color/TextHintColor" />
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.LinearLayoutCompat>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/IsTopPosterRecyclerViewMainActivity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/SearchLinearLayoutMainActivity"
-            android:divider="@null"
-            android:dividerHeight="0dp" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/BusinessPosterInfoRecyclerViewMainActivity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/MainMenuBottomNewAndStarAndVisitLinearLayoutMainActivity"
-            android:layout_below="@+id/IsTopPosterRecyclerViewMainActivity"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:divider="@null"
-            android:dividerHeight="0dp" />
-
-
-        <android.support.v7.widget.LinearLayoutCompat
-            android:id="@+id/MainMenuBottomNewAndStarAndVisitLinearLayoutMainActivity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/Line"
-            android:background="@drawable/shadow_main_menu_bottom"
             android:weightSum="4">
 
             <android.support.v7.widget.LinearLayoutCompat
@@ -95,27 +36,20 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/BookmarkImageViewMainActivity"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="2dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/ic_bookmark_full_24dp"
-                    android:scaleType="fitCenter" />
-
                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                     android:id="@+id/BookmarkTextViewMainActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_margin="8dp"
                     android:text="@string/favorite"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/FontSemiDarkThemeColor" />
+                    android:textColor="@color/FontSemiBlackColor" />
+
+                <TextView
+                    android:id="@+id/LineBookmarkTextViewMainActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:background="@color/BackgroundWhiteColor" />
             </android.support.v7.widget.LinearLayoutCompat>
 
             <android.support.v7.widget.LinearLayoutCompat
@@ -128,27 +62,20 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/MostVisitedImageViewMainActivity"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="2dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/ic_visibility_theme_24dp"
-                    android:scaleType="fitCenter" />
-
                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                     android:id="@+id/MostVisitedTextViewMainActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_margin="8dp"
                     android:text="@string/most_visited"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/FontSemiDarkThemeColor" />
+                    android:textColor="@color/FontSemiBlackColor" />
+
+                <TextView
+                    android:id="@+id/LineMostVisitedTextViewMainActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:background="@color/BackgroundWhiteColor" />
             </android.support.v7.widget.LinearLayoutCompat>
 
             <android.support.v7.widget.LinearLayoutCompat
@@ -161,27 +88,20 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/StarredImageViewMainActivity"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="2dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/ic_stars_theme_24dp"
-                    android:scaleType="fitCenter" />
-
                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                     android:id="@+id/StarredTextViewMainActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_margin="8dp"
                     android:text="@string/starred"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/FontSemiDarkThemeColor" />
+                    android:textColor="@color/FontSemiBlackColor" />
+
+                <TextView
+                    android:id="@+id/LineStarredTextViewMainActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:background="@color/BackgroundWhiteColor" />
             </android.support.v7.widget.LinearLayoutCompat>
 
             <android.support.v7.widget.LinearLayoutCompat
@@ -194,39 +114,55 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/NewestImageViewMainActivity"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="2dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/ic_fiber_new_white_24dp"
-                    android:scaleType="fitCenter" />
-
                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                     android:id="@+id/NewestTextViewMainActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_margin="8dp"
                     android:text="@string/newest"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/FontWhiteColor" />
+                    android:textColor="@color/FontSemiDarkThemeColor" />
+
+                <TextView
+                    android:id="@+id/LineNewestTextViewMainActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.7dp"
+                    android:background="@color/BackgroundThemeColor" />
             </android.support.v7.widget.LinearLayoutCompat>
 
         </android.support.v7.widget.LinearLayoutCompat>
 
-        <android.support.v7.widget.CardView
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/IsTopPosterRecyclerViewMainActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/NewAndStarAndVisitLinearLayoutMainActivity"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+        <FrameLayout
             android:id="@+id/Line"
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
+            android:background="@color/LineTopColor"
+            android:layout_below="@+id/IsTopPosterRecyclerViewMainActivity"
+            android:layout_marginTop="5dp"
+            tools:ignore="Suspicious0dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/BusinessPosterInfoRecyclerViewMainActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/MainMenuBottomCategoryAndRegionLinearLayoutMainActivity"
-            android:elevation="5dp"
-            android:orientation="horizontal" />
-        <!--android:background="@color/LineTopColor"-->
+            android:layout_below="@+id/Line"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+
         <android.support.v7.widget.LinearLayoutCompat
             android:id="@+id/MainMenuBottomCategoryAndRegionLinearLayoutMainActivity"
             android:layout_width="match_parent"

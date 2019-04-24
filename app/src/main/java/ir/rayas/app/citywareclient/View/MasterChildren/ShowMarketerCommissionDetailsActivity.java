@@ -1,39 +1,39 @@
 package ir.rayas.app.citywareclient.View.MasterChildren;
 
-import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
+import android.app.Activity;
 import android.os.Bundle;
 
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 
+import ir.rayas.app.citywareclient.Adapter.Pager.MarketerCommissionPagerAdapter;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Service.IResponseService;
-import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
-import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
-import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
-import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
-import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
-import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
-import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
+import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketerCommissionInfoViewModel;
 
-public class ShowMarketerCommissionDetailsActivity extends BaseActivity implements IResponseService {
+public class ShowMarketerCommissionDetailsActivity extends BaseActivity  {
 
-    private TextViewPersian TotalNumberCustomerTextViewShowMarketerCommissionDetailsActivity = null;
-    private TextViewPersian NumberCustomerUseTextViewShowMarketerCommissionDetailsActivity = null;
-    private TextViewPersian PercentCustomerNumberTextViewShowMarketerCommissionDetailsActivity = null;
-    private TextViewPersian TotalAmountCommissionTextViewShowMarketerCommissionDetailsActivity = null;
-    private TextViewPersian AmountCommissionPaidTextViewShowMarketerCommissionDetailsActivity = null;
-    private TextViewPersian RemainingAmountCommissionTextViewShowMarketerCommissionDetailsActivity = null;
-    private TextViewPersian PercentAmountCommissionTextViewShowMarketerCommissionDetailsActivity = null;
-    private ProgressBar PercentCustomerNumberProgressBarShowMarketerCommissionDetailsActivity = null;
-    private ProgressBar PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity = null;
+    private MarketerCommissionPagerAdapter Pager = null;
+    private int RetryType = 0;
+    private int FragmentIndex = 0;
+    
+
+    /**
+     * ثبت اطلعات یک
+     * دریافت اطلاعات دو
+     *
+     * @param retryType
+     */
+    public void setRetryType(int retryType) {
+        RetryType = retryType;
+    }
+
+    public void setFragmentIndex(int fragmentIndex) {
+        FragmentIndex = fragmentIndex;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,135 +47,66 @@ public class ShowMarketerCommissionDetailsActivity extends BaseActivity implemen
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
             @Override
             public void call() {
-                LoadData();
+                RetryButtonOnClick();
             }
-        }, R.string.marketer_commission);
+        }, R.string.income_from_business);
 
 
         CreateLayout();
         //دریافت اطلاعات از سرور
-        LoadData();
+    }
+
+    /**
+     * رویداد زمانی اجرا  می شود که کاربر دکمه تلاش مجدد را ضار دهد
+     */
+    private void RetryButtonOnClick() {
+        switch (RetryType) {
+            //ثبت اطلاعات
+            case 1:
+                HideLoading();
+                break;
+            //دریافت اطلاعات
+            case 2:
+                Pager.getLoadDataByIndex(FragmentIndex).LoadData();
+                break;
+        }
     }
 
     private void CreateLayout() {
 
-        NumberCustomerUseTextViewShowMarketerCommissionDetailsActivity = findViewById(R.id.NumberCustomerUseTextViewShowMarketerCommissionDetailsActivity);
-        TotalNumberCustomerTextViewShowMarketerCommissionDetailsActivity = findViewById(R.id.TotalNumberCustomerTextViewShowMarketerCommissionDetailsActivity);
-        PercentCustomerNumberTextViewShowMarketerCommissionDetailsActivity = findViewById(R.id.PercentCustomerNumberTextViewShowMarketerCommissionDetailsActivity);
-        PercentCustomerNumberProgressBarShowMarketerCommissionDetailsActivity = findViewById(R.id.PercentCustomerNumberProgressBarShowMarketerCommissionDetailsActivity);
-        TotalAmountCommissionTextViewShowMarketerCommissionDetailsActivity = findViewById(R.id.TotalAmountCommissionTextViewShowMarketerCommissionDetailsActivity);
-        AmountCommissionPaidTextViewShowMarketerCommissionDetailsActivity = findViewById(R.id.AmountCommissionPaidTextViewShowMarketerCommissionDetailsActivity);
-        RemainingAmountCommissionTextViewShowMarketerCommissionDetailsActivity = findViewById(R.id.RemainingAmountCommissionTextViewShowMarketerCommissionDetailsActivity);
-        PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity = findViewById(R.id.PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity);
-        PercentAmountCommissionTextViewShowMarketerCommissionDetailsActivity = findViewById(R.id.PercentAmountCommissionTextViewShowMarketerCommissionDetailsActivity);
-        ButtonPersianView CommissionReceivedButtonShowMarketerCommissionDetailsActivity = findViewById(R.id.CommissionReceivedButtonShowMarketerCommissionDetailsActivity);
-        ButtonPersianView NoCommissionReceivedButtonShowMarketerCommissionDetailsActivity = findViewById(R.id.NoCommissionReceivedButtonShowMarketerCommissionDetailsActivity);
-        ButtonPersianView ArchivesBusinessButtonShowMarketerCommissionDetailsActivity = findViewById(R.id.ArchivesBusinessButtonShowMarketerCommissionDetailsActivity);
-        ButtonPersianView NewIntroductionsButtonShowMarketerCommissionDetailsActivity = findViewById(R.id.NewIntroductionsButtonShowMarketerCommissionDetailsActivity);
+        ViewPager ProfileViewpager = findViewById(R.id.MarketerCommissionViewpagerShowMarketerCommissionDetailsActivity);
+        TabLayout ProfileTabLayout = findViewById(R.id.MarketerCommissionTabLayoutShowMarketerCommissionDetailsActivity);
 
-        CommissionReceivedButtonShowMarketerCommissionDetailsActivity.setOnClickListener(new View.OnClickListener() {
+        String[] TabNames = new String[]{ getString(R.string.archives), getString(R.string.commission_received), getString(R.string.no_commission_received),  getString(R.string.new_introductions),getString(R.string.report_marketer_commission)};
+        Pager = new MarketerCommissionPagerAdapter(getSupportFragmentManager(), TabNames);
+        ProfileViewpager.setAdapter(Pager);
+        //تعداد فرگمنت هایی که می تواند باز بماند در viewPager
+        ProfileViewpager.setOffscreenPageLimit(5);
+        ProfileTabLayout.setupWithViewPager(ProfileViewpager);
+
+        LayoutUtility.SetTabCustomFont(ProfileTabLayout);
+
+        TabLayout.Tab DefaultTab = ProfileTabLayout.getTabAt(4);
+        DefaultTab.select();
+
+        //رویداد های مربوط به تغییر صفحات
+        final Activity CurrentActivity = this;
+        ProfileViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onPageSelected(int position) {
+                Utility.HideKeyboard(CurrentActivity);
             }
-        });
-        NoCommissionReceivedButtonShowMarketerCommissionDetailsActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
+            @Override
+            public void onPageScrolled(int position, float offset, int offsetPixels) {
             }
-        });
-        ArchivesBusinessButtonShowMarketerCommissionDetailsActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
-        NewIntroductionsButtonShowMarketerCommissionDetailsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onPageScrollStateChanged(int state) {
             }
         });
 
     }
-
-    public void LoadData() {
-        ShowLoadingProgressBar();
-
-        MarketingService marketingService = new MarketingService(this);
-        marketingService.GetMarketerCommission();
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        HideLoading();
-        try {
-            if (ServiceMethod == ServiceMethodType.MarketerCommissionGet) {
-
-                Feedback<MarketerCommissionInfoViewModel> FeedBack = (Feedback<MarketerCommissionInfoViewModel>) Data;
-
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-
-                    MarketerCommissionInfoViewModel ViewModel = FeedBack.getValue();
-                    if (ViewModel != null) {
-                        SetInformationToView(ViewModel);
-                    }
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        ShowErrorInConnectDialog();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            HideLoading();
-            ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void SetInformationToView(MarketerCommissionInfoViewModel ViewModel) {
-
-
-        TotalNumberCustomerTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(ViewModel.getAllMarketerSuggestion()));
-        NumberCustomerUseTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(ViewModel.getAllSuccessMarketerSuggestion()));
-        TotalAmountCommissionTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(ViewModel.getAllMarketerCommission()) + " " + getResources().getString(R.string.toman));
-        AmountCommissionPaidTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(ViewModel.getAllReceivedMarketerCommission()) + " " + getResources().getString(R.string.toman));
-
-        double TotalAmountCommission = ViewModel.getAllMarketerCommission() - ViewModel.getAllReceivedMarketerCommission();
-        RemainingAmountCommissionTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(TotalAmountCommission) + " " + getResources().getString(R.string.toman));
-
-        double TotalNumberCustomer = ViewModel.getAllMarketerSuggestion();
-        double NumberCustomerUse = ViewModel.getAllSuccessMarketerSuggestion();
-        Double Percent = (NumberCustomerUse * 100) / TotalNumberCustomer;
-        int PercentProgress = (int) Double.parseDouble(Percent.toString());
-
-        PercentCustomerNumberTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(Percent) + " " + getResources().getString(R.string.percent));
-
-        Drawable drawable = getResources().getDrawable(R.drawable.circular_percent_progress_bar_yellow);
-        PercentCustomerNumberProgressBarShowMarketerCommissionDetailsActivity.setProgress(PercentProgress);   // Main Progress
-        PercentCustomerNumberProgressBarShowMarketerCommissionDetailsActivity.setSecondaryProgress(100); // Secondary Progress
-        PercentCustomerNumberProgressBarShowMarketerCommissionDetailsActivity.setMax(100); // Maximum Progress
-        PercentCustomerNumberProgressBarShowMarketerCommissionDetailsActivity.setProgressDrawable(drawable);
-
-
-        double TotalAmount = ViewModel.getAllMarketerCommission();
-        double AmountCommissionPaid = ViewModel.getAllReceivedMarketerCommission();
-        Double PercentAmountCommission = (AmountCommissionPaid * 100) / TotalAmount;
-        int PercentProgressAmountCommission = (int) Double.parseDouble(PercentAmountCommission.toString());
-
-        PercentAmountCommissionTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(PercentAmountCommission) + " " + getResources().getString(R.string.percent));
-
-        PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity.setProgress(PercentProgressAmountCommission);   // Main Progress
-        PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity.setSecondaryProgress(100); // Secondary Progress
-        PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity.setMax(100); // Maximum Progress
-        PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity.setProgressDrawable(drawable);
-
-    }
-
 
     @Override
     protected void onDestroy() {

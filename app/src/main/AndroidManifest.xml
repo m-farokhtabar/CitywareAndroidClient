@@ -286,9 +286,41 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".View.MasterChildren.DiscountActivity" />
-        <activity android:name=".View.MasterChildren.ShowDiscountDetailsActivity" />
-        <activity android:name=".View.MasterChildren.ShowMarketerCommissionDetailsActivity"></activity>
+        <activity
+            android:name=".View.MasterChildren.DiscountActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.MasterChildren.ShowDiscountDetailsActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.MasterChildren.ShowMarketerCommissionDetailsActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.MasterChildren.ShowCommissionDetailsActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Master.SearchActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.Share.UserBusinessListActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".View.MasterChildren.ShowBusinessCommissionActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

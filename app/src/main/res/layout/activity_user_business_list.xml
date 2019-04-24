@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundWhiteColor"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.Share.UserBusinessListActivity">
+
+    <RelativeLayout
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <include
+            android:id="@+id/BackToolBar"
+            layout="@layout/view_back_toolbar" />
+
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/RefreshBusinessListSwipeRefreshLayoutUserBusinessListActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/BackToolBar">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/BusinessListRecyclerViewUserBusinessListActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:dividerHeight="0dp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/ShowEmptyBusinessListTextViewUserBusinessListActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="@string/no_business_for_showing_to_view"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/FontSemiDarkThemeColor"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+</LinearLayout>

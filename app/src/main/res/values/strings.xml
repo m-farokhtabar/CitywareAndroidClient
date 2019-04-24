@@ -331,6 +331,7 @@
     <string name="bookmark">علاقه مندی ها</string>
     <string name="business_rating">امتیاز کسب و کار</string>
     <string name="introducing_business_to_your_friends_to_receive_commission">معرفی کسب و کار به دوستان جهت دریافت پورسانت</string>
+    <string name="introducing_to_your_friends">معرفی به دوستان</string>
     <string name="introducing_your_friends_to_receive_commission">معرفی به دوستان جهت دریافت پورسانت</string>
     <string name="poster_validate">پوستر های معتبر</string>
     <string name="poster_expire">پوستر های منقضی شده</string>
@@ -539,17 +540,38 @@
     <string name="use">استفاده شده است</string>
     <string name="not_use">استفاده نشده است</string>
     <string name="discount_details">جزئیات تخفیف</string>
+    <string name="commission_details">جزئیات پورسانت</string>
     <string name="presenter">معرفی کننده</string>
     <string name="discount_product_or_service">محصولات یا خدمات تخفیف دار</string>
-    <string name="total_number_of_customers_introduced_to_the_business">تعداد کل مشتریان معرفی شده به کسب و کار</string>
-    <string name="number_of_customers_who_have_used_the_business">تعداد مشتریانی که از کسب و کار استفاده کرده اند</string>
+    <string name="total_number_of_customers_introduced_to_the_business">کل مشتریان معرفی شده به کسب و کار</string>
+    <string name="number_of_customers_who_have_used_the_business">مشتریانی که از کسب و کار استفاده کرده اند</string>
     <string name="total_amount_of_commission">مبلغ کل پورسانت</string>
     <string name="amount_of_commission_paid">مبلغ پورسانت پرداخت شده</string>
+    <string name="amount_of_commission_un_paid">مبلغ پورسانت پرداخت نشده</string>
     <string name="remaining_amount_of_commission">مبلغ مانده پورسانت</string>
     <string name="no_commission_received">پورسانت دریافت نشده</string>
     <string name="commission_received">پورسانت دریافت شده</string>
     <string name="archives">آرشیو</string>
     <string name="new_introductions">معرفی شده های جدید</string>
+    <string name="introduced_to">معرفی شده به</string>
+    <string name="business_does_not_specify_a_commission">کسب و کار پورسانت مشخص نکرده است</string>
+    <string name="received_date">تاریخ دریافت</string>
+    <string name="paid_date">تاریخ پرداخت</string>
+    <string name="there_is_no_commission_to_show">پورسانتی جهت نمایش وجود ندارد.</string>
+    <string name="there_is_no_customer_to_show">مشتری جهت نمایش وجود ندارد.</string>
+    <string name="number_of_customers_introduced">مشتریان معرفی شده</string>
+    <string name="total_number_of_customers_using_the_discount">مشتریانی که از تخفیف استفاده کرده اند</string>
+    <string name="number_of_unpaid_commission">تعداد پورسانت های پرداخت نشده</string>
+    <string name="total_commission_paid">تعداد پورسانت های پرداخت شده</string>
+    <string name="report_income_from_business">گزارش درآمد از کسب و کار</string>
+    <string name="report_marketer_commission">گزارش پورسانت بازاریاب</string>
+    <string name="customer_search">جستجوی مشتری</string>
+    <string name="details_factor">جزئیات فاکتور</string>
+    <string name="discount_commission">تخفیف و پورسانت</string>
+    <string name="commission_un_paid">پورسانت پرداخت نشده</string>
+    <string name="commission_paid">پورسانت پرداخت شده</string>
+    <string name="commission_price">مبلغ پورسانت</string>
+    <string name="customer">مشتری</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

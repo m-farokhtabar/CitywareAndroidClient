@@ -1,28 +1,16 @@
 package ir.rayas.app.citywareclient.View.MasterChildren;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
-import android.view.Window;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.List;
-
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.CommissionProductRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.DiscountProductRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -32,18 +20,11 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
-import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
-import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
-import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
-import ir.rayas.app.citywareclient.View.Share.UserSearchActivity;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketerSuggestionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.ProductCommissionAndDiscountViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.SuggestionInfoViewModel;
 
 public class ShowDiscountDetailsActivity extends BaseActivity implements IResponseService {
 

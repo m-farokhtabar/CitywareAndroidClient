@@ -21,7 +21,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.MasterChildren.DiscountActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessDetailsActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowDiscountDetailsActivity;
-import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingCustomerViewModel;
 

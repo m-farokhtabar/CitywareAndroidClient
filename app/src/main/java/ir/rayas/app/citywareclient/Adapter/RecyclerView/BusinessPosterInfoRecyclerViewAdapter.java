@@ -162,9 +162,9 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
         }
 
         if (IsBookmark)
-            viewHolder.BookmarkImageView.setImageResource(R.drawable.ic_bookmark_full_24dp);
+            viewHolder.BookmarkImageView.setImageResource(R.drawable.ic_favorite_green_24dp);
         else
-            viewHolder.BookmarkImageView.setImageResource(R.drawable.ic_bookmark_empty_24dp);
+            viewHolder.BookmarkImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
 
 
         String ProductImage = "";

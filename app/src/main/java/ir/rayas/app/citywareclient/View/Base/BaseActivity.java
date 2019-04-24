@@ -52,6 +52,7 @@ import ir.rayas.app.citywareclient.View.Master.ClubUsersActivity;
 import ir.rayas.app.citywareclient.View.Master.CommerceActivity;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
 import ir.rayas.app.citywareclient.View.Master.NotificationActivity;
+import ir.rayas.app.citywareclient.View.Master.SearchActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.SettingActivity;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
@@ -61,7 +62,6 @@ import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PosterTypeActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessVisitedOutViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
-
 
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener, MenuItem.OnMenuItemClickListener, IOnChangeUserAccount {
@@ -332,7 +332,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.BuyPackageItemMenu:
-                if (CurrentActivityId != ActivityIdList.PACKAGE_ACTIVITY)  {
+                if (CurrentActivityId != ActivityIdList.PACKAGE_ACTIVITY) {
                     Intent NewPackageIntent = NewIntent(PackageActivity.class);
                     NewPackageIntent.putExtra("New", "New");
                     startActivity(NewPackageIntent);
@@ -471,7 +471,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             ItemMenu2.setTag(new WhichViewClicked(0, R.id.ItemMenu2));
             IconMenu2.setTypeface(Font.MasterIcon);
             IconMenu2.setText("\uf002");
-            if (CurrentActivityId == 2222) {
+            if (CurrentActivityId == ActivityIdList.SEARCH_ACTIVITY) {
                 IconMenu2.setTextColor(LayoutUtility.GetColorFromResource(this, R.color.FontThemeColor));
                 TextMenu2.setTextColor(LayoutUtility.GetColorFromResource(this, R.color.FontThemeColor));
             } else {
@@ -644,6 +644,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             //Search
             case R.id.ItemMenu2:
+                if (CurrentActivityId != ActivityIdList.SEARCH_ACTIVITY)
+                    GoToMasterActivity(ActivityIdList.SEARCH_ACTIVITY);
                 break;
             //UserProfile
             case R.id.ItemMenu3:
@@ -662,7 +664,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
 
 
     /**
@@ -719,6 +720,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 CommerceIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(CommerceIntent);
                 break;
+            case ActivityIdList.SEARCH_ACTIVITY:
+                Intent SearchIntent = new Intent(this, SearchActivity.class);
+                SearchIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
+                startActivity(SearchIntent);
+                break;
         }
     }
 
@@ -731,8 +737,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         boolean Output = false;
         //TODO: برای دو اکتیویتی اصلی دیگر نیز باید این قسمت درست شود
         if (ActivityId == ActivityIdList.MAIN_ACTIVITY || ActivityId == ActivityIdList.USER_PROFILE_ACTIVITY ||
-            ActivityId == ActivityIdList.BOOKMARK_ACTIVITY || ActivityId == ActivityIdList.NOTIFICATION_ACTIVITY ||
-                ActivityId == ActivityIdList.CLUB_USERS_ACTIVITY || ActivityId == ActivityIdList.COMMERCE_ACTIVITY)
+                ActivityId == ActivityIdList.BOOKMARK_ACTIVITY || ActivityId == ActivityIdList.NOTIFICATION_ACTIVITY ||
+                ActivityId == ActivityIdList.CLUB_USERS_ACTIVITY || ActivityId == ActivityIdList.COMMERCE_ACTIVITY ||
+                ActivityId == ActivityIdList.SEARCH_ACTIVITY)
             Output = true;
         return Output;
     }
