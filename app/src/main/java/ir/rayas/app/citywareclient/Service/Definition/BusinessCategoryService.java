@@ -14,15 +14,10 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Definition.BusinessCategoryViewModel;
 
-/**
- * Created by Hajar on 8/16/2018.
- */
 
 public class BusinessCategoryService implements IService {
 
-    private String ControllerName = "BusinessCategory";
     private IResponseService ResponseService;
-    private String ActionGetAllTree = "Tree";
 
     public BusinessCategoryService(IResponseService ResponseService) {
         this.ResponseService = ResponseService;
@@ -30,7 +25,9 @@ public class BusinessCategoryService implements IService {
 
     public void GetAllTree() {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAllTree;
+        String controllerName = "BusinessCategory";
+        String actionGetAllTree = "Tree";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + controllerName + "/" + actionGetAllTree;
         Current.GetService(this,Url, ServiceMethodType.BusinessCategoryTreeGet,BusinessCategoryViewModel.class, new TypeToken<Feedback<BusinessCategoryViewModel>>() {}.getType());
     }
 

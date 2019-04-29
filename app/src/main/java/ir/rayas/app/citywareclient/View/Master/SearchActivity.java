@@ -4,20 +4,18 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.SearchRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Service.Home.HomeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.QueryType;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
@@ -34,7 +32,6 @@ import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 public class SearchActivity extends BaseActivity implements IResponseService {
 
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter = null;
-    private ProgressBar LoadMoreProgressBar = null;
 
     private int PageNumber = 1;
     private UserSettingViewModel userSettingViewModel = null;
@@ -72,18 +69,10 @@ public class SearchActivity extends BaseActivity implements IResponseService {
     }
 
     private void CreateLayout() {
-        LoadMoreProgressBar = findViewById(R.id.LoadMoreProgressBarSearchActivity);
 
         RecyclerView SearchRecyclerViewSearchActivity = findViewById(R.id.SearchRecyclerViewSearchActivity);
         SearchRecyclerViewSearchActivity.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, null, SearchRecyclerViewSearchActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumber = PageNumber + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
-            }
-        });
+        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, null, SearchRecyclerViewSearchActivity);
         SearchRecyclerViewSearchActivity.setAdapter(searchRecyclerViewAdapter);
 
 
@@ -140,11 +129,50 @@ public class SearchActivity extends BaseActivity implements IResponseService {
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
 
         HideLoading();
-        LoadMoreProgressBar.setVisibility(View.GONE);
         try {
             if (ServiceMethod == ServiceMethodType.BusinessPosterInfoGetAll) {
-
                 Feedback<List<BusinessPosterInfoViewModel>> FeedBack = (Feedback<List<BusinessPosterInfoViewModel>>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                    Static.IsRefreshBookmark = false;
+
+                    final List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
+                    if (ViewModelList != null) {
+
+
+                        if (businessPosterInfoViewModelList == null)
+                            businessPosterInfoViewModelList = new ArrayList<>();
+                        businessPosterInfoViewModelList.addAll(ViewModelList);
+
+
+                        List<SearchViewModel> ViewModel = GetListSort(businessPosterInfoViewModelList);
+
+                        for (int i = 0; i < ViewModel.size(); i++) {
+                            List<BusinessPosterInfoViewModel> businessPosterInfoViewModels = ViewModel.get(i).getBusinessPosterInfoViewModel();
+
+                            for (int j = 0; j < businessPosterInfoViewModels.size(); j++) {
+                                if (businessPosterInfoViewModels.get(j).getBusinessId() > 0) {
+                                    businessPosterInfoViewModelList.add(businessPosterInfoViewModels.get(j));
+                                }
+                            }
+                        }
+
+                        searchRecyclerViewAdapter.SetViewModelList(ViewModel);
+
+                        if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                            PageNumber = PageNumber + 1;
+                            LoadData();
+                        }
+
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
+
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
@@ -188,7 +216,6 @@ public class SearchActivity extends BaseActivity implements IResponseService {
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
-        searchRecyclerViewAdapter.setLoading(false);
     }
 
     private List<SearchViewModel> GetListSort(List<BusinessPosterInfoViewModel> ViewModel) {
@@ -332,7 +359,7 @@ public class SearchActivity extends BaseActivity implements IResponseService {
                                         FinishThree = true;
                                     }
                                 }
-                            }else {
+                            } else {
                                 if (RowThree == RowOneColumn) {
                                     RowThree = RowThree + 1;
                                     FinishThree = true;

@@ -16,14 +16,9 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Order.ProductViewModel;
 
-/**
- * Created by Hajar on 8/30/2018.
- */
-
 public class ProductService implements IService {
 
     private String ControllerName = "Product";
-    private String ActionGetAll = "all";
     private IResponseService ResponseService;
 
     public ProductService(IResponseService ResponseService) {
@@ -32,7 +27,8 @@ public class ProductService implements IService {
 
     public void GetAll(int BusinessId, int NumberPage) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAll + "/Business/" + BusinessId + "/Page/" + NumberPage;
+        String actionGetAll = "all";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGetAll + "/Business/" + BusinessId + "/Page/" + NumberPage;
         Current.GetService(this, Url, ServiceMethodType.ProductGetAll, ProductViewModel.class, new TypeToken<Feedback<List<ProductViewModel>>>() {
         }.getType());
     }

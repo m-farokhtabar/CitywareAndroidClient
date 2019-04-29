@@ -17,14 +17,11 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessContactViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessContactWithTypesViewModel;
 
-/**
- * Created by Hajar on 8/22/2018.
- */
+
 
 public class BusinessContactService implements IService {
 
     private String ControllerName = "BusinessContact";
-    private String ActionGetAll = "All";
     private IResponseService ResponseService;
 
     public BusinessContactService(IResponseService ResponseService) {
@@ -33,7 +30,8 @@ public class BusinessContactService implements IService {
 
     public void GetAll(int BusinessId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/Business/" + BusinessId + "/" + ActionGetAll;
+        String actionGetAll = "All";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/Business/" + BusinessId + "/" + actionGetAll;
         Current.GetService(this, Url, ServiceMethodType.BusinessContactGetAll, BusinessContactViewModel.class, new TypeToken<Feedback<List<BusinessContactViewModel>>>() {
         }.getType());
     }

@@ -103,6 +103,7 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
             holder.BasketItemTotalPriceTextView.setText(Context.getResources().getString(R.string.unknown));
 
             CountQuickItem = CountQuickItem + 1;
+            Context.basketSummeryViewModel.setQuickItem(true);
 
         } else {
 
@@ -183,14 +184,14 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
 
                     BasketItemViewModel basketItemViewModel = FeedBack.getValue();
                     if (basketItemViewModel.getPrice() > 0) {
-                        Context.basketSummeryViewModel.setQuickItem(true);
+                        Context.basketSummeryViewModel.setQuickItem(false);
                     } else {
                         CountQuickItem = CountQuickItem - 1;
                         if (CountQuickItem == 0) {
                             Context.basketSummeryViewModel.setQuickItem(false);
                         } else {
                             Context.basketSummeryViewModel.setQuickItem(true);
-                        }
+                    }
                     }
 
                 } else {

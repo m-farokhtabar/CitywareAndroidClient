@@ -222,7 +222,7 @@
                     android:background="@drawable/selector_button_theme_style"
                     android:gravity="center"
                     android:text="@string/details_buy"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/FontWhiteColor" />
 
 
@@ -256,7 +256,7 @@
                         android:background="@drawable/selector_button_theme_style"
                         android:gravity="center"
                         android:text="@string/observe_and_edit"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/FontWhiteColor" />
 
                 </LinearLayout>

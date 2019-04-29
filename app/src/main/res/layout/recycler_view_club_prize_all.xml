@@ -57,7 +57,7 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="96%"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/FontWhiteColor"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
@@ -67,7 +67,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.4">
+                android:layout_weight="0.3">
 
                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                     android:id="@+id/TitlePrizeTextView"
@@ -76,11 +76,12 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginTop="16dp"
                     android:gravity="right"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/FontWhiteColor"
                     tools:ignore="RtlHardcoded" />
 
@@ -92,12 +93,12 @@
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/TitlePrizeTextView"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginTop="8dp"
                     android:gravity="right"
                     android:singleLine="false"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/FontWhiteColor"
                     tools:ignore="RtlHardcoded" />
 
@@ -117,8 +118,8 @@
             android:weightSum="1"
             android:layout_below="@+id/PointLinearLayout"
             android:layout_marginEnd="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:layout_marginStart="16dp">
 
             <android.support.v7.widget.CardView
@@ -126,8 +127,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
                 android:layout_marginTop="8dp"
                 android:elevation="5dp"
                 android:layout_weight="0.5"
@@ -145,11 +146,11 @@
                     <ImageView
                         android:id="@+id/GetPrizeIconImageView"
                         tools:ignore="ContentDescription"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginStart="3dp"
                         android:layout_toEndOf="@+id/GetPrizeTextView"
                         android:layout_toRightOf="@+id/GetPrizeTextView"
                         android:adjustViewBounds="true"
@@ -162,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/receive"
-                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/FontWhiteColor"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -173,8 +174,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
                 android:layout_marginTop="8dp"
                 android:elevation="5dp"
                 android:layout_weight="0.5"
@@ -192,11 +193,11 @@
                     <ImageView
                         android:id="@+id/PointIconImageView"
                         tools:ignore="ContentDescription"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginStart="3dp"
                         android:layout_toEndOf="@+id/PointTextView"
                         android:layout_toRightOf="@+id/PointTextView"
                         android:adjustViewBounds="true"
@@ -208,7 +209,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/FontWhiteColor"
                         android:textStyle="bold" />
                 </RelativeLayout>

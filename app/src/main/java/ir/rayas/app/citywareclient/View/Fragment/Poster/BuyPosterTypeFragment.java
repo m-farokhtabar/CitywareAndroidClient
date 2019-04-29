@@ -22,7 +22,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.BuyPosterTypeActivity;
-import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +31,8 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService 
     private BuyPosterTypeActivity Context = null;
     private TextViewPersian YourCreditTextViewBuyPosterTypeFragment = null;
     private double TotalPrice = 0.0;
+    private double PriceHours = 0.0;
+    private double PriceDay = 0.0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,12 +72,13 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService 
         HoursNumberPickerBuyPosterTypeFragment.setValue(0);
         DayNumberPickerBuyPosterTypeFragment.setValue(0);
 
+
         DayNumberPickerBuyPosterTypeFragment.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int newDay) {
                 double ConvertToHours = newDay * 24;
-                ConvertToHours = ConvertToHours *  Context.getPosterTypePrice();
-                TotalPrice = TotalPrice + ConvertToHours;
+                PriceDay = ConvertToHours * Context.getPosterTypePrice();
+                TotalPrice = PriceDay + PriceHours;
                 TotalPriceTextViewBuyPosterTypeFragment.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
             }
         });
@@ -84,8 +86,8 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService 
         HoursNumberPickerBuyPosterTypeFragment.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int newHours) {
-                double ConvertPrice = newHours * Context.getPosterTypePrice();
-                TotalPrice = TotalPrice + ConvertPrice;
+                PriceHours = newHours * Context.getPosterTypePrice();
+                TotalPrice = PriceDay + PriceHours;
                 TotalPriceTextViewBuyPosterTypeFragment.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
             }
         });
@@ -94,7 +96,7 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService 
         ReturnButtonBuyPosterTypeFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStack();
+                Context.onBackPressed();
             }
         });
 
@@ -102,13 +104,17 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService 
             @Override
             public void onClick(View view) {
 
-                Context.setHours((int)(TotalPrice/Context.getPosterTypePrice()));
+                if (TotalPrice == 0) {
+                    Context.ShowToast(Context.getResources().getString(R.string.specify_days_or_hours), Toast.LENGTH_LONG, MessageType.Warning);
+                } else {
+                    Context.setHours((int) (TotalPrice / Context.getPosterTypePrice()));
 
-                BusinessListForPosterFragment businessListForPosterFragment = new BusinessListForPosterFragment();
-                FragmentTransaction BusinessListTransaction = Context.getSupportFragmentManager().beginTransaction();
-                BusinessListTransaction.replace(R.id.PosterFrameLayoutBuyPosterTypeActivity, businessListForPosterFragment);
-                BusinessListTransaction.addToBackStack(null);
-                BusinessListTransaction.commit();
+                    BusinessListForPosterFragment businessListForPosterFragment = new BusinessListForPosterFragment();
+                    FragmentTransaction BusinessListTransaction = Context.getSupportFragmentManager().beginTransaction();
+                    BusinessListTransaction.replace(R.id.PosterFrameLayoutBuyPosterTypeActivity, businessListForPosterFragment);
+                    BusinessListTransaction.addToBackStack(null);
+                    BusinessListTransaction.commit();
+                }
             }
         });
     }

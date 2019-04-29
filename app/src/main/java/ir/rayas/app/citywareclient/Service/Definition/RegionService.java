@@ -13,9 +13,6 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Definition.RegionViewModel;
 
-/** سرویس دریافت اطلاعات نواحی
- * Created by Programmer on 3/10/2018.
- */
 
 public class RegionService implements IService
 {

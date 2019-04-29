@@ -1,10 +1,10 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +16,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
-import ir.rayas.app.citywareclient.Share.Enum.ContactType;
 import ir.rayas.app.citywareclient.Share.Enum.FactorStatus;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
@@ -36,59 +34,26 @@ import ir.rayas.app.citywareclient.ViewModel.Factor.FactorItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 
-/**
- * Created by Hajar on 2/21/2019.
- */
 
 public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
 
     private BusinessFactorListActivity Context;
     private RecyclerView Container = null;
     private List<FactorViewModel> ViewModelList = null;
-    private OnLoadMoreListener onLoadMoreListener;
-    private boolean isLoading;
 
-    private int visibleThreshold = 1;
-    private int lastVisibleItem;
-    private int totalItemCount;
 
     private int Position;
 
     private List<FactorStatusViewModel> FactorStatusViewModel = null;
 
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
 
-
-    public BusinessFactorListRecyclerViewAdapter(BusinessFactorListActivity Context, List<FactorViewModel> FactorList, List<FactorStatusViewModel> FactorStatusViewModel, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
+    public BusinessFactorListRecyclerViewAdapter(BusinessFactorListActivity Context, List<FactorViewModel> FactorList, List<FactorStatusViewModel> FactorStatusViewModel, RecyclerView Container) {
         this.ViewModelList = FactorList;
         this.Context = Context;
         this.Container = Container;
-        this.onLoadMoreListener = mOnLoadMoreListener;
         this.FactorStatusViewModel = FactorStatusViewModel;
-        CreateLayout();
     }
 
-    private void CreateLayout() {
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) Container.getLayoutManager();
-        Container.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                if (lastVisibleItem < linearLayoutManager.findLastVisibleItemPosition()) {
-                    if (!isLoading && totalItemCount <= (linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)) {
-                        if (onLoadMoreListener != null) {
-                            isLoading = true;
-                            onLoadMoreListener.onLoadMore();
-                        }
-                    }
-                }
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -98,6 +63,7 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
 
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
@@ -286,21 +252,21 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
 
     private class FactorListViewHolder extends RecyclerView.ViewHolder {
 
-        public TextViewPersian BusinessFactorDeleteIconTextView;
-        public TextViewPersian UserNameTitleTextView;
-        public TextViewPersian CreateDateBusinessFactorTextView;
-        public TextViewPersian PricePayableBusinessFactorTextView;
-        public TextViewPersian DescriptionBusinessFactorTextView;
-        public TextViewPersian NumberOfOrderItemsBusinessFactorTextView;
-        public TextViewPersian FactorCodeTextView;
-        public TextViewPersian UserCellPhoneTextView;
-        public TextViewPersian UserAddressTextView;
-        public LinearLayout ShowMapUserAddressLinearLayout;
-        public TextViewPersian ShowMapUserAddressIconTextView;
-        public TextViewPersian StatusBusinessFactorTextView;
-        public RelativeLayout BusinessFactorListRelativeLayout;
+         TextViewPersian BusinessFactorDeleteIconTextView;
+         TextViewPersian UserNameTitleTextView;
+         TextViewPersian CreateDateBusinessFactorTextView;
+         TextViewPersian PricePayableBusinessFactorTextView;
+         TextViewPersian DescriptionBusinessFactorTextView;
+         TextViewPersian NumberOfOrderItemsBusinessFactorTextView;
+         TextViewPersian FactorCodeTextView;
+         TextViewPersian UserCellPhoneTextView;
+         TextViewPersian UserAddressTextView;
+         LinearLayout ShowMapUserAddressLinearLayout;
+         TextViewPersian ShowMapUserAddressIconTextView;
+         TextViewPersian StatusBusinessFactorTextView;
+         RelativeLayout BusinessFactorListRelativeLayout;
 
-        public FactorListViewHolder(View v) {
+         FactorListViewHolder(View v) {
             super(v);
 
             BusinessFactorDeleteIconTextView = v.findViewById(R.id.BusinessFactorDeleteIconTextView);

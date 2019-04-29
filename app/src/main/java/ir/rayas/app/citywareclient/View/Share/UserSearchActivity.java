@@ -11,18 +11,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.ListView.OfferSearchListViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserSearchRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.User.UserService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -41,7 +40,6 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
     private ListView ListSearchListViewUserSearchActivity = null;
     private UserSearchRecyclerViewAdapter userSearchRecyclerViewAdapter = null;
     private EditTextPersian SearchUserEditTextUserSearchActivity = null;
-    private ProgressBar LoadMoreProgressBar = null;
 
     private String TextSearch = "";
     private boolean IsOffer = false;
@@ -82,17 +80,9 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
         ListSearchListViewUserSearchActivity = findViewById(R.id.ListSearchListViewUserSearchActivity);
         RecyclerView ShowUserListRecyclerViewUserSearchActivity = findViewById(R.id.ShowUserListRecyclerViewUserSearchActivity);
         FloatingActionButton GetUserIdFloatingActionButtonUserSearchActivity = findViewById(R.id.GetUserIdFloatingActionButtonUserSearchActivity);
-        LoadMoreProgressBar = findViewById(R.id.LoadMoreProgressPackageFragment);
 
         ShowUserListRecyclerViewUserSearchActivity.setLayoutManager(new LinearLayoutManager(UserSearchActivity.this));
-        userSearchRecyclerViewAdapter = new UserSearchRecyclerViewAdapter(UserSearchActivity.this, null, ShowUserListRecyclerViewUserSearchActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumber = PageNumber + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
-            }
-        });
+        userSearchRecyclerViewAdapter = new UserSearchRecyclerViewAdapter(UserSearchActivity.this, null, ShowUserListRecyclerViewUserSearchActivity);
         ShowUserListRecyclerViewUserSearchActivity.setAdapter(userSearchRecyclerViewAdapter);
 
         SearchUserEditTextUserSearchActivity.addTextChangedListener(new TextWatcher() {
@@ -153,7 +143,6 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
 
         HideLoading();
-        LoadMoreProgressBar.setVisibility(View.GONE);
         try {
             if (ServiceMethod == ServiceMethodType.SearchGet) {
 
@@ -167,10 +156,24 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
                         ListSearchListViewUserSearchActivity.setVisibility(View.GONE);
                         if (ViewModel != null) {
-                            if (PageNumber == 1)
-                                userSearchRecyclerViewAdapter.SetViewModelList(ViewModel);
-                            else
+                            if (PageNumber == 1) {
+                                if (ViewModel.size() > 0) {
+                                    userSearchRecyclerViewAdapter.SetViewModelList(ViewModel);
+
+                                    if (DefaultConstant.PageNumberSize == ViewModel.size()) {
+                                        PageNumber = PageNumber + 1;
+                                        LoadData();
+                                    }
+                                }
+
+                            } else {
                                 userSearchRecyclerViewAdapter.AddViewModelList(ViewModel);
+
+                                if (DefaultConstant.PageNumberSize == ViewModel.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
                         }
                     } else {
                         if (ViewModel != null) {

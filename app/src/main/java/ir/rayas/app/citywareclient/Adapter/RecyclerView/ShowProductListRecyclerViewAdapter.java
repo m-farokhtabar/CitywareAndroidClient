@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.MyClickListener;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Service.Basket.BasketService;
@@ -33,7 +31,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowProductDetailsActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowProductListActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
@@ -42,60 +39,26 @@ import ir.rayas.app.citywareclient.ViewModel.Order.ProductImageViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Order.ProductViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
-/**
- * Created by Hajar on 11/22/2018.
- */
 
 public class ShowProductListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
 
     private ShowProductListActivity Context;
     private RecyclerView Container = null;
     private List<ProductViewModel> ViewModelList = null;
-    private OnLoadMoreListener onLoadMoreListener;
-    private boolean isLoading;
     private boolean IsGrid;
 
-    private int visibleThreshold = 1;
-    private int lastVisibleItem;
-    private int totalItemCount;
     private String ProductName = "";
     private int ProductId = 0;
 
     private MyClickListener myClickListener;
     private EditText DialogCustomerQuantityEditText = null;
 
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
 
-
-    public ShowProductListRecyclerViewAdapter(ShowProductListActivity Context, boolean IsGrid, List<ProductViewModel> ProductList, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
+    public ShowProductListRecyclerViewAdapter(ShowProductListActivity Context, boolean IsGrid, List<ProductViewModel> ProductList, RecyclerView Container) {
         this.ViewModelList = ProductList;
         this.Context = Context;
         this.IsGrid = IsGrid;
         this.Container = Container;
-        this.onLoadMoreListener = mOnLoadMoreListener;
-        CreateLayout();
-    }
-
-    private void CreateLayout() {
-        final GridLayoutManager linearLayoutManager = (GridLayoutManager) Container.getLayoutManager();
-        Container.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                if (lastVisibleItem < linearLayoutManager.findLastVisibleItemPosition()) {
-                    if (!isLoading && totalItemCount <= (linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)) {
-                        if (onLoadMoreListener != null) {
-                            isLoading = true;
-                            onLoadMoreListener.onLoadMore();
-                        }
-                    }
-                }
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-            }
-        });
     }
 
     /**
@@ -204,14 +167,14 @@ public class ShowProductListRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     public class ShowProductListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextViewPersian ProductNameTextView;
-        public TextViewPersian AbstractDescriptionTextView;
-        public TextViewPersian PriceTextView;
-        public ImageView ImageProductImageView;
-        public ImageView ShoppingCartImageView;
+         TextViewPersian ProductNameTextView;
+         TextViewPersian AbstractDescriptionTextView;
+         TextViewPersian PriceTextView;
+         ImageView ImageProductImageView;
+         ImageView ShoppingCartImageView;
 
 
-        public ShowProductListViewHolder(View v) {
+         ShowProductListViewHolder(View v) {
             super(v);
             ProductNameTextView = v.findViewById(R.id.ProductNameTextView);
             AbstractDescriptionTextView = v.findViewById(R.id.AbstractDescriptionTextView);
@@ -403,7 +366,7 @@ public class ShowProductListRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
             ViewModel.setValue(Double.valueOf(DialogCustomerQuantityEditText.getText().toString()));
             ViewModel.setProductId(ProductId);
-        } catch (Exception Ex) {
+        } catch (Exception ignored) {
         }
         return ViewModel;
     }

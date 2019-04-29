@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -31,7 +30,6 @@ import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.BuyPosterSetActivity;
@@ -44,12 +42,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     private UserProfileActivity Context;
     private RecyclerView Container = null;
     private List<PurchasedPosterViewModel> ViewModelList = null;
-    private OnLoadMoreListener onLoadMoreListener;
-    private boolean isLoading;
-
-    private int visibleThreshold = 1;
-    private int lastVisibleItem;
-    private int totalItemCount;
 
     private int Hours = 0;
     private int Day = 0;
@@ -57,39 +49,16 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
     private int Position = 0;
 
+    private Dialog ExtendedPosterTypeDialog;
+
     private TextViewPersian TotalPriceTextView = null;
 
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
-
-    public PosterValidRecyclerViewAdapter(UserProfileActivity Context, List<PurchasedPosterViewModel> ViewModelList, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
+    public PosterValidRecyclerViewAdapter(UserProfileActivity Context, List<PurchasedPosterViewModel> ViewModelList, RecyclerView Container) {
         this.ViewModelList = ViewModelList;
         this.Context = Context;
         this.Container = Container;
-        this.onLoadMoreListener = mOnLoadMoreListener;
-        CreateLayout();
     }
 
-    private void CreateLayout() {
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) Container.getLayoutManager();
-        Container.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                if (lastVisibleItem < linearLayoutManager.findLastVisibleItemPosition()) {
-                    if (!isLoading && totalItemCount <= (linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)) {
-                        if (onLoadMoreListener != null) {
-                            isLoading = true;
-                            onLoadMoreListener.onLoadMore();
-                        }
-                    }
-                }
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
 
     /**
      * اضافه مودن لیست جدید
@@ -227,6 +196,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     if (FeedBack.getValue() != null) {
+
                         ShowDialogExtendedPosterType(ViewModelList.get(Position), FeedBack.getValue());
                     } else {
                         ShowDialogExtendedPosterType(ViewModelList.get(Position), 0);
@@ -245,6 +215,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
                     if (FeedBack.getValue() != null) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                        ExtendedPosterTypeDialog.dismiss();
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -263,7 +234,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         ExtendBuyPosterViewModel ViewModel = new ExtendBuyPosterViewModel();
         try {
-            ViewModel.setHours((int)Hours);
+            ViewModel.setHours((int) Hours);
             ViewModel.setPurchasedPosterId(ViewModelList.get(Position).getId());
         } catch (Exception Ex) {
             Context.ShowToast(FeedbackType.InvalidDataFormat.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
@@ -320,7 +291,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
     private void ShowDialogExtendedPosterType(final PurchasedPosterViewModel ViewModel, double UserCredit) {
 
-        final Dialog ExtendedPosterTypeDialog = new Dialog(Context);
+        ExtendedPosterTypeDialog = new Dialog(Context);
         ExtendedPosterTypeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         ExtendedPosterTypeDialog.setContentView(R.layout.dialog_buy_poster_type);
 
@@ -345,13 +316,17 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         HoursNumberPicker.setValue(0);
         DayNumberPicker.setValue(0);
 
+        final double[] PriceHours = {0.0};
+        final double[] PriceDay = {0.0};
+
+
         DayNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int newDay) {
                 Day = newDay;
                 double ConvertToHours = Day * 24;
-                ConvertToHours = ConvertToHours * ViewModel.getPosterPrice();
-                TotalPrice = TotalPrice + ConvertToHours;
+                PriceDay[0] = ConvertToHours * ViewModel.getPosterPrice();
+                TotalPrice = PriceHours[0] + PriceDay[0];
                 TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
             }
         });
@@ -360,8 +335,8 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int newHours) {
                 Hours = newHours;
-                double ConvertPrice = Hours * ViewModel.getPosterPrice();
-                TotalPrice = TotalPrice + ConvertPrice;
+                PriceHours[0] = Hours * ViewModel.getPosterPrice();
+                TotalPrice = PriceDay[0] + PriceHours[0];
                 TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
             }
         });
@@ -369,19 +344,24 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         DialogExtendedPosterOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context.ShowLoadingProgressBar();
-                PosterService PosterService = new PosterService(PosterValidRecyclerViewAdapter.this);
-                PosterService.EditExtendPoster(MadeViewModel(TotalPrice/ViewModel.getPosterPrice()));
 
-                TotalPrice = 0;
-                Day = 0;
-                Hours = 0;
+                if (Hours == 0 && Day == 0) {
+                    Context.ShowToast(Context.getResources().getString(R.string.specify_days_or_hours), Toast.LENGTH_LONG, MessageType.Warning);
+                } else {
+                    Context.ShowLoadingProgressBar();
+                    PosterService PosterService = new PosterService(PosterValidRecyclerViewAdapter.this);
+                    PosterService.EditExtendPoster(MadeViewModel(TotalPrice / ViewModel.getPosterPrice()));
 
-                HoursNumberPicker.setValue(0);
-                DayNumberPicker.setValue(0);
+                    TotalPrice = 0;
+                    Day = 0;
+                    Hours = 0;
 
-                TotalPriceTextView.setText(Context.getResources().getString(R.string.zero));
-                ExtendedPosterTypeDialog.dismiss();
+                    HoursNumberPicker.setValue(0);
+                    DayNumberPicker.setValue(0);
+
+                    TotalPriceTextView.setText(Context.getResources().getString(R.string.zero));
+
+                }
             }
         });
 

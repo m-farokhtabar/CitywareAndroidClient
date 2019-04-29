@@ -3,7 +3,6 @@ package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Master.SearchActivity;
@@ -28,46 +26,12 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private SearchActivity Context;
     private RecyclerView Container = null;
     private List<SearchViewModel> ViewModelList = null;
-    private OnLoadMoreListener onLoadMoreListener;
-    private boolean isLoading;
 
-    private int visibleThreshold = 1;
-    private int lastVisibleItem;
-    private int totalItemCount;
-
-
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
-
-    public SearchRecyclerViewAdapter(SearchActivity Context, List<SearchViewModel> ViewModel, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
+    public SearchRecyclerViewAdapter(SearchActivity Context, List<SearchViewModel> ViewModel, RecyclerView Container) {
         this.ViewModelList = ViewModel;
         this.Context = Context;
         this.Container = Container;
-        this.onLoadMoreListener = mOnLoadMoreListener;
-        CreateLayout();
     }
-
-    private void CreateLayout() {
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) Container.getLayoutManager();
-        Container.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                if (lastVisibleItem < linearLayoutManager.findLastVisibleItemPosition()) {
-                    if (!isLoading && totalItemCount <= (linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)) {
-                        if (onLoadMoreListener != null) {
-                            isLoading = true;
-                            onLoadMoreListener.onLoadMore();
-                        }
-                    }
-                }
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

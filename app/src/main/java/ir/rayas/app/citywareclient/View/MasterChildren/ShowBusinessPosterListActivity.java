@@ -7,17 +7,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.MyClickListener;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.ShowPosterListRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Poster.PosterService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -32,9 +31,7 @@ import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 public class ShowBusinessPosterListActivity extends BaseActivity implements IResponseService, ILoadData {
 
 
-    private RecyclerView ShowPosterListRecyclerViewShowBusinessPosterListActivity = null;
     private SwipeRefreshLayout RefreshShowPosterListSwipeRefreshLayoutShowBusinessPosterListActivity;
-    private ProgressBar LoadMoreProgressBar = null;
     private ShowPosterListRecyclerViewAdapter ShowPosterListRecyclerViewAdapter = null;
     private TextViewPersian ShowEmptyPosterListTextViewShowBusinessPosterListActivity = null;
 
@@ -79,37 +76,24 @@ public class ShowBusinessPosterListActivity extends BaseActivity implements IRes
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout() {
-        LoadMoreProgressBar = findViewById(R.id.LoadMoreProgressBarShowBusinessPosterListActivity);
         ShowEmptyPosterListTextViewShowBusinessPosterListActivity = findViewById(R.id.ShowEmptyPosterListTextViewShowBusinessPosterListActivity);
         RefreshShowPosterListSwipeRefreshLayoutShowBusinessPosterListActivity = findViewById(R.id.RefreshShowPosterListSwipeRefreshLayoutShowBusinessPosterListActivity);
-        ShowPosterListRecyclerViewShowBusinessPosterListActivity = findViewById(R.id.ShowPosterListRecyclerViewShowBusinessPosterListActivity);
+        RecyclerView showPosterListRecyclerViewShowBusinessPosterListActivity = findViewById(R.id.ShowPosterListRecyclerViewShowBusinessPosterListActivity);
 
         ShowEmptyPosterListTextViewShowBusinessPosterListActivity.setVisibility(View.GONE);
 
-        ShowPosterListRecyclerViewShowBusinessPosterListActivity.setLayoutManager(new LinearLayoutManager(this));
-        ShowPosterListRecyclerViewAdapter = new ShowPosterListRecyclerViewAdapter(this, null, ShowPosterListRecyclerViewShowBusinessPosterListActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumber = PageNumber + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
-            }
-        });
-        ShowPosterListRecyclerViewShowBusinessPosterListActivity.setAdapter(ShowPosterListRecyclerViewAdapter);
+        showPosterListRecyclerViewShowBusinessPosterListActivity.setLayoutManager(new LinearLayoutManager(this));
+        ShowPosterListRecyclerViewAdapter = new ShowPosterListRecyclerViewAdapter(this, null, showPosterListRecyclerViewShowBusinessPosterListActivity);
+        showPosterListRecyclerViewShowBusinessPosterListActivity.setAdapter(ShowPosterListRecyclerViewAdapter);
 
         RefreshShowPosterListSwipeRefreshLayoutShowBusinessPosterListActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadMoreProgressBar.setVisibility(View.GONE);
                 IsSwipe = true;
                 PageNumber = 1;
-                ShowPosterListRecyclerViewAdapter.setLoading(false);
                 LoadData();
             }
         });
-
-
-
 
     }
 
@@ -133,51 +117,82 @@ public class ShowBusinessPosterListActivity extends BaseActivity implements IRes
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         HideLoading();
-        LoadMoreProgressBar.setVisibility(View.GONE);
         RefreshShowPosterListSwipeRefreshLayoutShowBusinessPosterListActivity.setRefreshing(false);
         IsSwipe = false;
         try {
             if (ServiceMethod == ServiceMethodType.UserPosterGetAll) {
                 Feedback<List<PurchasedPosterViewModel>> FeedBack = (Feedback<List<PurchasedPosterViewModel>>) Data;
 
+
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
                     final List<PurchasedPosterViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
-                        ShowEmptyPosterListTextViewShowBusinessPosterListActivity.setVisibility(View.GONE);
-                        if (PageNumber == 1)
-                            ShowPosterListRecyclerViewAdapter.SetViewModelList(ViewModelList);
-                        else
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyPosterListTextViewShowBusinessPosterListActivity.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyPosterListTextViewShowBusinessPosterListActivity.setVisibility(View.GONE);
+                                ShowPosterListRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+
+
+                                ShowPosterListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
+                                    @Override
+                                    public void onItemClick(int position, View v) {
+                                        Intent ShowBusinessPosterDetailsIntent = NewIntent(ShowBusinessPosterDetailsActivity.class);
+                                        ShowBusinessPosterDetailsIntent.putExtra("PosterId", ViewModelList.get(position).getId());
+                                        startActivity(ShowBusinessPosterDetailsIntent);
+
+                                    }
+                                });
+                            }
+
+                        } else {
+                            ShowEmptyPosterListTextViewShowBusinessPosterListActivity.setVisibility(View.GONE);
                             ShowPosterListRecyclerViewAdapter.AddViewModelList(ViewModelList);
 
-                        ShowPosterListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
-                            @Override
-                            public void onItemClick(int position, View v) {
-                                Intent ShowBusinessPosterDetailsIntent = NewIntent(ShowBusinessPosterDetailsActivity.class);
-                                ShowBusinessPosterDetailsIntent.putExtra("PosterId", ViewModelList.get(position).getId());
-                                startActivity(ShowBusinessPosterDetailsIntent);
-
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
                             }
-                        });
 
+
+                            ShowPosterListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
+                                @Override
+                                public void onItemClick(int position, View v) {
+                                    Intent ShowBusinessPosterDetailsIntent = NewIntent(ShowBusinessPosterDetailsActivity.class);
+                                    ShowBusinessPosterDetailsIntent.putExtra("PosterId", ViewModelList.get(position).getId());
+                                    startActivity(ShowBusinessPosterDetailsIntent);
+
+                                }
+                            });
+                        }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptyPosterListTextViewShowBusinessPosterListActivity.setVisibility(View.GONE);
                     } else {
                         ShowEmptyPosterListTextViewShowBusinessPosterListActivity.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ShowEmptyPosterListTextViewShowBusinessPosterListActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-//                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                            ShowEmptyPosterListTextViewShowBusinessPosterListActivity.setVisibility(View.VISIBLE);
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         ShowErrorInConnectDialog();
                     }
                 }
+
             }
         } catch (Exception e) {
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
-        ShowPosterListRecyclerViewAdapter.setLoading(false);
     }
 
 

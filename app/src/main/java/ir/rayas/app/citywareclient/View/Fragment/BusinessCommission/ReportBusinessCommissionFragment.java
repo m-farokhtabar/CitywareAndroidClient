@@ -193,6 +193,7 @@ public class ReportBusinessCommissionFragment extends Fragment implements IRespo
         PercentCustomerNumberProgressBarReportBusinessCommissionFragment.setMax(100); // Maximum Progress
         PercentCustomerNumberProgressBarReportBusinessCommissionFragment.setProgressDrawable(drawable);
 
+
         double TotalAmount;
         double AmountCommissionPaid;
         double AmountCommissionUnPaid;
@@ -220,10 +221,11 @@ public class ReportBusinessCommissionFragment extends Fragment implements IRespo
 
         PercentAmountCommissionTextViewReportBusinessCommissionFragment.setText(Utility.GetIntegerNumberWithComma(PercentAmountCommission) + " " + getResources().getString(R.string.percent));
 
+        Drawable drawablePercentAmountCommission = Context.getResources().getDrawable(R.drawable.circular_percent_progress_bar_yellow);
         PercentAmountCommissionProgressBarReportBusinessCommissionFragment.setProgress(PercentProgressAmountCommission);   // Main Progress
         PercentAmountCommissionProgressBarReportBusinessCommissionFragment.setSecondaryProgress(100); // Secondary Progress
         PercentAmountCommissionProgressBarReportBusinessCommissionFragment.setMax(100); // Maximum Progress
-        PercentAmountCommissionProgressBarReportBusinessCommissionFragment.setProgressDrawable(drawable);
+        PercentAmountCommissionProgressBarReportBusinessCommissionFragment.setProgressDrawable(drawablePercentAmountCommission);
 
     }
 

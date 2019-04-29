@@ -14,59 +14,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.CardView
+
+            <LinearLayout
                 android:id="@+id/UserCreditCardViewUserPostersFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp">
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/toman"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/FontSemiDarkThemeColor"
+                    tools:ignore="RtlHardcoded" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/UserCreditTextViewUserPostersFragment"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="8dp"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textColor="@color/FontSemiDarkThemeColor"
+                    android:textStyle="bold" />
 
-                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:gravity="right"
-                        android:text="@string/toman"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/FontSemiDarkThemeColor"
-                        tools:ignore="RtlHardcoded" />
-
-                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                        android:id="@+id/UserCreditTextViewUserPostersFragment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="16dp"
-                        android:gravity="center"
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/FontSemiDarkThemeColor"
-                        android:textStyle="bold" />
-
-                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/credit_now"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/FontSemiBlackColor" />
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/credit_now"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/FontSemiBlackColor" />
 
 
-                </LinearLayout>
+            </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            <FrameLayout
+                android:id="@+id/LineFrameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_below="@+id/UserCreditCardViewUserPostersFragment"
+                android:layout_marginBottom="8dp"
+                android:background="@color/LineTopColor" />
 
             <LinearLayout
                 android:id="@+id/SwitchLinearLayoutUserPostersFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/UserCreditCardViewUserPostersFragment"
-                android:layout_marginBottom="16dp"
+                android:layout_below="@+id/LineFrameLayout"
                 android:layout_marginEnd="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
@@ -98,38 +98,39 @@
                     android:textColor="@color/FontSemiDarkThemeColor" />
             </LinearLayout>
 
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/PosterValidRecyclerViewUserPostersFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/SwitchLinearLayoutUserPostersFragment"
+                android:divider="@null"
                 android:dividerHeight="0dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/PosterExpiredRecyclerViewUserPackageFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/SwitchLinearLayoutUserPostersFragment"
+                android:divider="@null"
                 android:dividerHeight="0dp"
+                android:visibility="gone" />
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/ShowEmptyTextViewUserPostersFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="@string/poster_list_is_empty"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/FontSemiDarkThemeColor"
                 android:visibility="gone" />
 
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <ProgressBar
-        android:id="@+id/LoadMoreProgressPosterFragment"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:background="#00000000"
-        android:indeterminateDrawable="@drawable/view_loading_style"
-        android:visibility="gone" />
 
 
     <android.support.design.widget.FloatingActionButton

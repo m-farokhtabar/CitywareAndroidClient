@@ -21,12 +21,6 @@ import ir.rayas.app.citywareclient.ViewModel.User.UserViewModel;
 
 public class UserService implements IService {
     private String ControllerName = "User";
-    private String ActionAdd = "Add";
-    private String ActionGet = "Get";
-    private String ActionSet = "Set";
-    private String ActionSearch = "Search";
-    private String Page = "Page";
-    private String Text = "Text";
 
 
     private IResponseService ResponseService;
@@ -37,7 +31,8 @@ public class UserService implements IService {
 
     public void Add(UserViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionAdd;
+        String actionAdd = "Add";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionAdd;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PostService(this, Url, JsonViewModel, ServiceMethodType.UserAdd, AccountViewModel.class, new TypeToken<Feedback<UserViewModel>>() {
@@ -46,14 +41,16 @@ public class UserService implements IService {
 
     public void Get(int UserId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGet + "/" + String.valueOf(UserId);
+        String actionGet = "Get";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGet + "/" + String.valueOf(UserId);
         Current.GetService(this, Url, ServiceMethodType.UserGet, UserViewModel.class, new TypeToken<Feedback<UserViewModel>>() {
         }.getType());
     }
 
     public void Set(UserViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionSet;
+        String actionSet = "Set";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionSet;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PutService(this, Url, JsonViewModel, ServiceMethodType.UserSet, AccountViewModel.class, new TypeToken<Feedback<UserViewModel>>() {
@@ -62,7 +59,10 @@ public class UserService implements IService {
 
     public void GetSearch(int PageNumber, String SearchText) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionSearch + "/" + Page + "/" + PageNumber + "/?" + Text + "=" + SearchText;
+        String actionSearch = "Search";
+        String text = "Text";
+        String page = "Page";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionSearch + "/" + page + "/" + PageNumber + "/?" + text + "=" + SearchText;
         Current.GetService(this, Url, ServiceMethodType.SearchGet, OutUserSearchViewModel.class, new TypeToken<Feedback<List<OutUserSearchViewModel>>>() {
         }.getType());
     }

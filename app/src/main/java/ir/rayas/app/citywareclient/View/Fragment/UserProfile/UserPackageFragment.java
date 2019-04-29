@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,9 +20,11 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.ClosePackageRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.PackageRecyclerViewAdapter;
+import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -31,7 +32,6 @@ import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
@@ -41,7 +41,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     private UserProfileActivity Context = null;
     private SwipeRefreshLayout RefreshPackageSwipeRefreshLayoutUserPackageFragment = null;
     private TextViewPersian UserCreditTextViewUserPackageFragment = null;
-    private ProgressBar LoadMoreProgressBar = null;
+    private TextViewPersian ShowEmptyTextViewUserPackageFragment = null;
     private boolean IsSwipe = false;
     private boolean IsLoadedDataForFirst = false;
     private PackageRecyclerViewAdapter packageRecyclerViewAdapter = null;
@@ -71,42 +71,25 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
 
     private void CreateLayout(View CurrentView) {
 
-        LoadMoreProgressBar = CurrentView.findViewById(R.id.LoadMoreProgressPackageFragment);
+        ShowEmptyTextViewUserPackageFragment = CurrentView.findViewById(R.id.ShowEmptyTextViewUserPackageFragment);
         RefreshPackageSwipeRefreshLayoutUserPackageFragment = CurrentView.findViewById(R.id.RefreshPackageSwipeRefreshLayoutUserPackageFragment);
         final RecyclerView PackageOpenRecyclerViewUserPackageFragment = CurrentView.findViewById(R.id.PackageOpenRecyclerViewUserPackageFragment);
         final RecyclerView PackageCloseRecyclerViewUserPackageFragment = CurrentView.findViewById(R.id.PackageCloseRecyclerViewUserPackageFragment);
-        SwitchCompat ExpireAndValidatePackageSwitchUserPackageFragment = CurrentView.findViewById(R.id.ExpireAndValidatePackageSwitchUserPackageFragment);
+        final SwitchCompat ExpireAndValidatePackageSwitchUserPackageFragment = CurrentView.findViewById(R.id.ExpireAndValidatePackageSwitchUserPackageFragment);
         UserCreditTextViewUserPackageFragment = CurrentView.findViewById(R.id.UserCreditTextViewUserPackageFragment);
         final TextViewPersian ExpireAndValidatePackageTitleTextViewUserPackageFragment = CurrentView.findViewById(R.id.ExpireAndValidatePackageTitleTextViewUserPackageFragment);
 
-
+        ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
         ExpireAndValidatePackageSwitchUserPackageFragment.setChecked(true);
 
 
         PackageOpenRecyclerViewUserPackageFragment.setLayoutManager(new LinearLayoutManager(Context));
-        packageRecyclerViewAdapter = new PackageRecyclerViewAdapter(Context, null, PackageOpenRecyclerViewUserPackageFragment, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumberOpen = PageNumberOpen + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                if (!IsFirst)
-                    LoadData();
-                
-                IsFirst = false;
-            }
-        });
+        packageRecyclerViewAdapter = new PackageRecyclerViewAdapter(Context, null, PackageOpenRecyclerViewUserPackageFragment);
         PackageOpenRecyclerViewUserPackageFragment.setAdapter(packageRecyclerViewAdapter);
 
 
         PackageCloseRecyclerViewUserPackageFragment.setLayoutManager(new LinearLayoutManager(Context));
-        closePackageRecyclerViewAdapter = new ClosePackageRecyclerViewAdapter(Context, null, PackageCloseRecyclerViewUserPackageFragment, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumberClose = PageNumberClose + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
-            }
-        });
+        closePackageRecyclerViewAdapter = new ClosePackageRecyclerViewAdapter(Context, null, PackageCloseRecyclerViewUserPackageFragment);
         PackageCloseRecyclerViewUserPackageFragment.setAdapter(closePackageRecyclerViewAdapter);
 
 
@@ -125,12 +108,13 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
             @Override
             public void onRefresh() {
 
-                LoadMoreProgressBar.setVisibility(View.GONE);
                 IsSwipe = true;
                 PageNumberOpen = 1;
                 PageNumberClose = 1;
-                packageRecyclerViewAdapter.setLoading(false);
-                closePackageRecyclerViewAdapter.setLoading(false);
+
+                ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
+                ExpireAndValidatePackageSwitchUserPackageFragment.setChecked(true);
+
                 LoadData();
             }
         });
@@ -172,8 +156,9 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     }
 
     public void LoadData() {
-
-        Context.ShowLoadingProgressBar();
+        if (!IsSwipe)
+            if (PageNumberOpen == 1)
+                Context.ShowLoadingProgressBar();
 
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
@@ -182,9 +167,6 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     }
 
     public void LoadDataOpenPackage() {
-        if (!IsSwipe)
-            if (PageNumberOpen == 1)
-                Context.ShowLoadingProgressBar();
 
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
@@ -193,9 +175,6 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     }
 
     public void LoadDataClosePackage() {
-        if (!IsSwipe)
-            if (PageNumberClose == 1)
-                Context.ShowLoadingProgressBar();
 
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
@@ -206,10 +185,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
 
-        LoadMoreProgressBar.setVisibility(View.GONE);
         RefreshPackageSwipeRefreshLayoutUserPackageFragment.setRefreshing(false);
         IsSwipe = false;
-
 
         try {
             if (ServiceMethod == ServiceMethodType.UserPackageOpenGetAll) {
@@ -217,55 +194,96 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                 Feedback<List<OutputPackageTransactionViewModel>> FeedBack = (Feedback<List<OutputPackageTransactionViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                    IsFirst = false;
+                    Static.IsRefreshBookmark = false;
 
                     final List<OutputPackageTransactionViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
+                        if (PageNumberOpen == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyTextViewUserPackageFragment.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
+                                packageRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
-                        if (PageNumberOpen == 1)
-                            packageRecyclerViewAdapter.SetViewModelList(ViewModelList);
-                        else
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumberOpen = PageNumberOpen + 1;
+                                    LoadDataOpenPackage();
+                                }
+                            }
+
+                        } else {
+                            ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
                             packageRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumberOpen = PageNumberOpen + 1;
+                                LoadDataOpenPackage();
+                            }
+                        }
                     }
-
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
-                    Context.ShowToast(Context.getResources().getString(R.string.there_is_no_valid_package), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    if (PageNumberOpen > 1) {
+                        ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
+                    } else {
+                        ShowEmptyTextViewUserPackageFragment.setVisibility(View.VISIBLE);
+                    }
                 } else {
-
+                    ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumberOpen > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }
                 }
+
             } else if (ServiceMethod == ServiceMethodType.UserPackageCloseGetAll) {
                 Context.HideLoading();
                 Feedback<List<OutputPackageTransactionViewModel>> FeedBack = (Feedback<List<OutputPackageTransactionViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                    Static.IsRefreshBookmark = false;
 
                     final List<OutputPackageTransactionViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
+                        if (PageNumberClose == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyTextViewUserPackageFragment.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
+                                closePackageRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
-                        if (PageNumberClose == 1)
-                            closePackageRecyclerViewAdapter.SetViewModelList(ViewModelList);
-                        else
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumberClose = PageNumberClose + 1;
+                                    LoadDataClosePackage();
+                                }
+                            }
+
+                        } else {
+                            ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
                             closePackageRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumberClose = PageNumberClose + 1;
+                                LoadDataClosePackage();
+                            }
+                        }
                     }
-
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
-                    Context.ShowToast(Context.getResources().getString(R.string.there_is_no_expire_package), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    if (PageNumberClose > 1) {
+                        ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
+                    } else {
+                        ShowEmptyTextViewUserPackageFragment.setVisibility(View.VISIBLE);
+                    }
                 } else {
-
+                    ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumberClose > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }
                 }
+
             } else if (ServiceMethod == ServiceMethodType.UserCreditGet) {
                 Feedback<Double> FeedBack = (Feedback<Double>) Data;
 

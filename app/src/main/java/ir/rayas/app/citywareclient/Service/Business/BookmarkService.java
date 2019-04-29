@@ -18,14 +18,10 @@ import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkOutViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
 
 
-/**
- * Created by Hajar on 10/12/2018.
- */
 
 public class BookmarkService implements IService {
 
     private String ControllerName = "Bookmark";
-    private String ActionGetAll = "All/Page";
     private IResponseService ResponseService;
 
     public BookmarkService(IResponseService ResponseService) {
@@ -34,7 +30,8 @@ public class BookmarkService implements IService {
 
     public void GetAll(int PageNumber) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAll + "/" + PageNumber;
+        String actionGetAll = "All/Page";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGetAll + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.UserBookmarkGetAll, BookmarkViewModel.class, new TypeToken<Feedback<List<BookmarkViewModel>>>() {
         }.getType());
     }

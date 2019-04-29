@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,66 +14,64 @@
             android:layout_height="8dp"
             android:background="@color/BackgroundThemeColor" />
 
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/CardViewYourCreditDialogBuyPosterType"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/LinearYourCreditDialogBuyPosterType"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:elevation="8dp">
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/HeaderColorDialogBuyPosterType"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
 
-            <LinearLayout
-                android:id="@+id/LinearYourCreditDialogBuyPosterType"
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/DialogBuyPosterTitleTextView"
-                android:layout_gravity="center"
-                android:gravity="center|right"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:orientation="horizontal"
-                tools:ignore="RtlHardcoded">
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:gravity="right"
+                android:text="@string/toman"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/FontSemiDarkThemeColor"
+                tools:ignore="RtlHardcoded" />
 
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="16dp"
-                    android:gravity="right"
-                    android:text="@string/toman"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/FontSemiDarkThemeColor"
-                    tools:ignore="RtlHardcoded" />
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/YourCreditTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="8dp"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/FontSemiDarkThemeColor" />
 
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:id="@+id/YourCreditTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="16dp"
-                    android:gravity="center_vertical"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/FontSemiDarkThemeColor" />
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/credit_now"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="16dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/credit_now"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
 
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
+        <FrameLayout
+            android:id="@+id/LineFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_below="@+id/LinearYourCreditDialogBuyPosterType"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/LineTopColor" />
 
         <LinearLayout
             android:id="@+id/LinearPosterTypeDialogBuyPosterType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/CardViewYourCreditDialogBuyPosterType"
-            android:layout_marginTop="8dp"
+            android:layout_below="@+id/LineFrameLayout"
             android:gravity="center_vertical|right"
             android:orientation="horizontal"
             tools:ignore="RtlHardcoded">
@@ -91,12 +88,19 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/Line1FrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_below="@+id/LinearPosterTypeDialogBuyPosterType"
+            android:layout_margin="10dp"
+            android:background="@color/LineTopColor" />
+
         <LinearLayout
             android:id="@+id/LinearPriceDialogBuyPosterType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/LinearPosterTypeDialogBuyPosterType"
-            android:layout_marginTop="8dp"
+            android:layout_below="@+id/Line1FrameLayout"
             android:gravity="center_vertical|right"
             android:orientation="horizontal"
             tools:ignore="RtlHardcoded">
@@ -127,83 +131,104 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="16dp"
                 android:gravity="center_vertical"
-                android:text="@string/required_credit"
+                android:text="@string/consumer_credit_per_hour"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
         </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/Line2FrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_below="@+id/LinearPriceDialogBuyPosterType"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/LineTopColor" />
+
 
         <LinearLayout
             android:id="@+id/LinearLayoutDayHoursPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/LinearPriceDialogBuyPosterType"
+            android:layout_below="@+id/Line2FrameLayout"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="1"
             tools:ignore="DisableBaselineAlignment">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="center_vertical|right"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="horizontal"
-                tools:ignore="RtlHardcoded">
+                tools:ignore="RtlHardcoded,UselessParent">
 
-                <NumberPicker
-                    android:id="@+id/HoursNumberPicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="16dp" />
-
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="16dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/hours"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_weight="0.5"
-                android:gravity="center_vertical|right"
-                android:orientation="horizontal"
-                tools:ignore="RtlHardcoded">
-
-                <NumberPicker
-                    android:id="@+id/DayNumberPicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="16dp" />
-
-
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
                     android:layout_marginRight="16dp"
                     android:gravity="center_vertical"
                     android:text="@string/day"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
+                <NumberPicker
+                    android:id="@+id/DayNumberPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center_vertical"
+                    android:text=":"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:ignore="HardcodedText" />
+
+                <NumberPicker
+                    android:id="@+id/HoursNumberPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/hours"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/Line3FrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_below="@+id/LinearLayoutDayHoursPicker"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/LineTopColor" />
 
         <LinearLayout
             android:id="@+id/LinearTotalPriceDialogBuyPosterType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/LinearLayoutDayHoursPicker"
-            android:layout_marginTop="8dp"
+            android:layout_below="@+id/Line3FrameLayout"
             android:gravity="center_vertical|right"
             android:orientation="horizontal"
             tools:ignore="RtlHardcoded">
@@ -240,19 +265,26 @@
         </LinearLayout>
 
 
+        <FrameLayout
+            android:id="@+id/Line4FrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_below="@+id/LinearTotalPriceDialogBuyPosterType"
+            android:layout_margin="8dp"
+            android:background="@color/LineTopColor" />
+
         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
             android:id="@+id/DialogBuyPosterDescriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/LinearTotalPriceDialogBuyPosterType"
             android:layout_alignRight="@+id/LinearTotalPriceDialogBuyPosterType"
-            android:layout_below="@+id/LinearTotalPriceDialogBuyPosterType"
+            android:layout_below="@+id/Line4FrameLayout"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/are_you_sure_you_want_to_extended_a_poster"
             android:gravity="right"
+            android:text="@string/are_you_sure_you_want_to_extended_a_poster"
             android:textAppearance="?android:textAppearanceSmall"
             tools:ignore="RtlHardcoded" />
 

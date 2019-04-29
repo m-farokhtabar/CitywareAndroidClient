@@ -37,7 +37,7 @@
 
         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
             android:id="@+id/CategoryNameTitleTextViewUserBusiness"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/HeaderUserBusinessRelativeLayout"
@@ -55,7 +55,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/HeaderUserBusinessRelativeLayout"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_toLeftOf="@+id/CategoryNameTitleTextViewUserBusiness"
             android:layout_toStartOf="@+id/CategoryNameTitleTextViewUserBusiness"
             android:gravity="right"
@@ -66,7 +68,7 @@
 
         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
             android:id="@+id/AddressTitleTextViewUserBusiness"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/CategoryNameTitleTextViewUserBusiness"

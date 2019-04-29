@@ -15,6 +15,7 @@
     <color name="BackgroundLightGray">#fbfbfb</color>
     <color name="LineTopColor">#ffd5d5d5</color>
     <color name="LineBottomColor">#ffe7e7e7</color>
+    <color name="BackgroundLightsColor">#f7f7f7</color>
     <!--*****************************************رنگ های پنجره پیغام*********************************************-->
     <color name="BackgroundToastThemeColor">#cc102770</color>
     <!--*****************************************رنگ های قلم*********************************************-->

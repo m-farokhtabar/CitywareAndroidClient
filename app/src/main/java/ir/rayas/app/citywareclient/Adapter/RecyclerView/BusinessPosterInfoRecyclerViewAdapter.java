@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +13,9 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
@@ -48,45 +43,14 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
     private MainActivity Context;
     private RecyclerView Container = null;
     private List<BusinessPosterInfoViewModel> ViewModelList = null;
-    private OnLoadMoreListener onLoadMoreListener;
-    private boolean isLoading;
-
-    private int visibleThreshold = 1;
-    private int lastVisibleItem;
-    private int totalItemCount;
 
     private boolean IsBookmark = false;
 
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
 
-    public BusinessPosterInfoRecyclerViewAdapter(MainActivity Context, List<BusinessPosterInfoViewModel> ViewModel, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
+    public BusinessPosterInfoRecyclerViewAdapter(MainActivity Context, List<BusinessPosterInfoViewModel> ViewModel, RecyclerView Container) {
         this.ViewModelList = ViewModel;
         this.Context = Context;
         this.Container = Container;
-        this.onLoadMoreListener = mOnLoadMoreListener;
-        CreateLayout();
-    }
-
-    private void CreateLayout() {
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) Container.getLayoutManager();
-        Container.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                if (lastVisibleItem < linearLayoutManager.findLastVisibleItemPosition()) {
-                    if (!isLoading && totalItemCount <= (linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)) {
-                        if (onLoadMoreListener != null) {
-                            isLoading = true;
-                            onLoadMoreListener.onLoadMore();
-                        }
-                    }
-                }
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-            }
-        });
     }
 
 

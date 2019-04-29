@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,63 +15,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.MyClickListener;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 
-/**
- * Created by Hajar on 12/10/2018.
- */
+
 
 public class ShowPosterListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context Context;
     private RecyclerView Container = null;
     private List<PurchasedPosterViewModel> ViewModelList = null;
-    private OnLoadMoreListener onLoadMoreListener;
-    private boolean isLoading;
-
-    private int visibleThreshold = 1;
-    private int lastVisibleItem;
-    private int totalItemCount;
 
     private MyClickListener myClickListener;
 
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
 
 
-    public ShowPosterListRecyclerViewAdapter(Context Context, List<PurchasedPosterViewModel> PosterList, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
+    public ShowPosterListRecyclerViewAdapter(Context Context, List<PurchasedPosterViewModel> PosterList, RecyclerView Container) {
         this.ViewModelList = PosterList;
         this.Context = Context;
         this.Container = Container;
-        this.onLoadMoreListener = mOnLoadMoreListener;
-        CreateLayout();
     }
 
-    private void CreateLayout() {
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) Container.getLayoutManager();
-        Container.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount  = linearLayoutManager.getItemCount();
-                if (lastVisibleItem <linearLayoutManager.findLastVisibleItemPosition()) {
-                    if (!isLoading && totalItemCount <= (linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)) {
-                        if (onLoadMoreListener != null) {
-                            isLoading = true;
-                            onLoadMoreListener.onLoadMore();
-                        }
-                    }
-                }
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-            }
-        });
-    }
 
     /**
      * اضافه مودن لیست جدید
@@ -149,12 +114,12 @@ public class ShowPosterListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
     public class ShowPosterListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextViewPersian BusinessTitlePosterTextView;
-        public RelativeLayout BusinessPosterContainerRelativeLayout;
-        public ImageView BusinessImagePosterImageView;
+         TextViewPersian BusinessTitlePosterTextView;
+         RelativeLayout BusinessPosterContainerRelativeLayout;
+         ImageView BusinessImagePosterImageView;
 
 
-        public ShowPosterListViewHolder(View v) {
+         ShowPosterListViewHolder(View v) {
             super(v);
             BusinessTitlePosterTextView = v.findViewById(R.id.BusinessTitlePosterTextView);
             BusinessPosterContainerRelativeLayout = v.findViewById(R.id.BusinessPosterContainerRelativeLayout);

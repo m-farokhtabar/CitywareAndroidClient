@@ -16,15 +16,10 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Business.ScoreInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.ScoreViewModel;
 
-/**
- * Created by Hajar on 12/7/2018.
- */
 
 public class ScoreService implements IService {
 
     private String ControllerName = "Score";
-    private String ActionGet = "Business/";
-    private String CurrentUser = "CurrentUser";
     private IResponseService ResponseService;
 
 
@@ -34,7 +29,9 @@ public class ScoreService implements IService {
 
     public void Get(int BusinessId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGet + BusinessId + "/" + CurrentUser;
+        String actionGet = "Business/";
+        String currentUser = "CurrentUser";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGet + BusinessId + "/" + currentUser;
         Current.GetService(this, Url, ServiceMethodType.BusinessScoreGet, ScoreViewModel.class, new TypeToken<Feedback<Double>>() {
         }.getType());
     }

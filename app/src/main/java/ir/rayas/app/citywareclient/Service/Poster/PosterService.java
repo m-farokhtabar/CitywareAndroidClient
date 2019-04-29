@@ -14,7 +14,6 @@ import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.ViewModel.Basket.StandardOrderItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.BuyPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.EditPurchasedPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.ExtendBuyPosterViewModel;
@@ -28,12 +27,7 @@ public class PosterService implements IService {
     private String ActionGetAll = "All/Page";
     private String ActionAll = "All";
     private String Page = "Page";
-    private String ActionGetAllBusiness = "All/Business";
-    private String ActionValid = "Valid";
-    private String ActionExpired = "Expired";
     private String ActionType = "Type";
-    private String ActionExtend = "Extend";
-    private String ActionPurchase = "Purchase";
 
 
     private IResponseService ResponseService;
@@ -58,28 +52,32 @@ public class PosterService implements IService {
 
     public void GetAllExpired(int PageNumber) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionAll + "/" + ActionExpired + "/" + Page + "/" + PageNumber;
+        String actionExpired = "Expired";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionAll + "/" + actionExpired + "/" + Page + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.UserPosterExpiredGet, PurchasedPosterViewModel.class, new TypeToken<Feedback<List<PurchasedPosterViewModel>>>() {
         }.getType());
     }
 
     public void GetAllValid(int PageNumber) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionAll + "/" + ActionValid + "/" + Page + "/" + PageNumber;
+        String actionValid = "Valid";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionAll + "/" + actionValid + "/" + Page + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.UserPosterValidGet, PurchasedPosterViewModel.class, new TypeToken<Feedback<List<PurchasedPosterViewModel>>>() {
         }.getType());
     }
 
     public void GetAllBusiness(int PageNumber, int BusinessId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAllBusiness + "/" + BusinessId + "/" + Page+ "/" + PageNumber;
+        String actionGetAllBusiness = "All/Business";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGetAllBusiness + "/" + BusinessId + "/" + Page+ "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.UserPosterGetAll, PurchasedPosterViewModel.class, new TypeToken<Feedback<List<PurchasedPosterViewModel>>>() {
         }.getType());
     }
 
     public void EditExtendPoster(ExtendBuyPosterViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionExtend;
+        String actionExtend = "Extend";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionExtend;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PutService(this, Url, JsonViewModel, ServiceMethodType.ExtendPosterEdit, ExtendBuyPosterViewModel.class, new TypeToken<Feedback<PurchasedPosterViewModel>>() {
@@ -112,7 +110,8 @@ public class PosterService implements IService {
 
     public void AddPurchasedPoster(BuyPosterViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionPurchase;
+        String actionPurchase = "Purchase";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionPurchase;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PostService(this, Url, JsonViewModel, ServiceMethodType.PurchasedPosterAdd, BuyPosterViewModel.class, new TypeToken<Feedback<PurchasedPosterViewModel>>() {

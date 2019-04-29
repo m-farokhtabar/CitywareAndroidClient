@@ -15,12 +15,10 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessVisitedOutViewModel;
 
-/**
- * Created by Programmer on 12/28/2018.
- */
+
 
 public class BusinessVisitedService implements IService {
-    private String ControllerName = "BusinessVisited";
+
     private IResponseService ResponseService;
 
     public BusinessVisitedService(IResponseService ResponseService) {
@@ -29,7 +27,8 @@ public class BusinessVisitedService implements IService {
 
     public void Set(BusinessVisitedOutViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName;
+        String controllerName = "BusinessVisited";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + controllerName;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PostService(this, Url, JsonViewModel, ServiceMethodType.BusinessVisitedSet, Boolean.class, new TypeToken<Feedback<Boolean>>() {

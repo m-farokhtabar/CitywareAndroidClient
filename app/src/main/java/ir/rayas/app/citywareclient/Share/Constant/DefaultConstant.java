@@ -49,4 +49,6 @@ public class DefaultConstant {
     public static String NotificationKey = "NotificationList";
     public static String RegionKey = "RegionKey";
     public static String BusinessCategoryKey = "BusinessCategoryKey";
+
+    public static int PageNumberSize = 10;
 }

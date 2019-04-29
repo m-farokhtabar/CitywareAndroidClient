@@ -14,19 +14,13 @@ import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.ViewModel.Business.BusinessContactViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.CommentInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.CommentViewModel;
-
-/**
- * Created by Hajar on 11/25/2018.
- */
 
 public class CommentService implements IService {
 
     private String ControllerName = "Comment";
-    private String ActionGetAll = "All/Business";
-    private String Page = "page";
+
     private IResponseService ResponseService;
 
     public CommentService(IResponseService ResponseService) {
@@ -35,7 +29,9 @@ public class CommentService implements IService {
 
     public void GetAll(int BusinessId, int PageNumber) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAll + "/" + BusinessId + "/" + Page + "/" + PageNumber;
+        String actionGetAll = "All/Business";
+        String page = "page";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGetAll + "/" + BusinessId + "/" + page + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.BusinessCommentGetAll, CommentViewModel.class, new TypeToken<Feedback<List<CommentViewModel>>>() {
         }.getType());
     }

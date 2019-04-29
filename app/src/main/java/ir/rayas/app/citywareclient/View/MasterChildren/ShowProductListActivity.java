@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.MyClickListener;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.ShowProductListRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Order.ProductService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -98,7 +98,6 @@ public class ShowProductListActivity extends BaseActivity implements IResponseSe
                 LoadMoreProgressBar.setVisibility(View.GONE);
                 IsSwipe = true;
                 PageNumber = 1;
-                ShowProductListRecyclerViewAdapter.setLoading(false);
                 LoadData();
             }
         });
@@ -165,31 +164,44 @@ public class ShowProductListActivity extends BaseActivity implements IResponseSe
             if (ServiceMethod == ServiceMethodType.ProductGetAll) {
                 Feedback<List<ProductViewModel>> FeedBack = (Feedback<List<ProductViewModel>>) Data;
 
+
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
                     final List<ProductViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         if (PageNumber == 1) {
-                            ProductList = ShowProductListRecyclerViewAdapter.SetViewModelList(ViewModelList);
-                            if (ViewModelList.size()==0)
+                            if (ViewModelList.size() < 1) {
                                 ShowEmptyProductListTextViewShowProductListActivity.setVisibility(View.VISIBLE);
-                            else {
+                            } else {
                                 ShowEmptyProductListTextViewShowProductListActivity.setVisibility(View.GONE);
+                                ProductList = ShowProductListRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
                             }
+
                         } else {
+                            ShowEmptyProductListTextViewShowProductListActivity.setVisibility(View.GONE);
                             ProductList = ShowProductListRecyclerViewAdapter.AddViewModelList(ViewModelList);
-                            ShowEmptyProductListTextViewShowProductListActivity.setVisibility(View.GONE);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
                         }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptyProductListTextViewShowProductListActivity.setVisibility(View.GONE);
                     } else {
-                        if (PageNumber <= 1)
-                            ShowEmptyProductListTextViewShowProductListActivity.setVisibility(View.VISIBLE);
-                        else
-                            ShowEmptyProductListTextViewShowProductListActivity.setVisibility(View.GONE);
+                        ShowEmptyProductListTextViewShowProductListActivity.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ShowEmptyProductListTextViewShowProductListActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         ShowErrorInConnectDialog();
                     }
@@ -199,19 +211,11 @@ public class ShowProductListActivity extends BaseActivity implements IResponseSe
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
-        ShowProductListRecyclerViewAdapter.setLoading(false);
     }
 
     private void SetRecyclerView(int Column, final List<ProductViewModel> ProductList, final boolean IsGrid) {
         ShowProductListRecyclerViewShowProductListActivity.setLayoutManager(new GridLayoutManager(getApplicationContext(), Column));
-        ShowProductListRecyclerViewAdapter = new ShowProductListRecyclerViewAdapter(this, IsGrid, ProductList, ShowProductListRecyclerViewShowProductListActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumber = PageNumber + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
-            }
-        });
+        ShowProductListRecyclerViewAdapter = new ShowProductListRecyclerViewAdapter(this, IsGrid, ProductList, ShowProductListRecyclerViewShowProductListActivity);
         ShowProductListRecyclerViewShowProductListActivity.setAdapter(ShowProductListRecyclerViewAdapter);
 
         ShowProductListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {

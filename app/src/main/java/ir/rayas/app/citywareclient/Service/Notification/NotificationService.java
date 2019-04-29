@@ -17,15 +17,9 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Notification.NotificationItemStatusOutViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Notification.NotificationViewModel;
 
-/**
- * Created by Hajar on 1/22/2019.
- */
-
 public class NotificationService implements IService {
 
     private String ControllerName = "Notification";
-    private String ActionGetAll = "All/After";
-    private String ItemStatus = "ItemStatus";
     private IResponseService ResponseService;
 
     public NotificationService(IResponseService ResponseService) {
@@ -34,7 +28,8 @@ public class NotificationService implements IService {
 
     public void GetAll(int ItemId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAll + "/" + ItemId;
+        String actionGetAll = "All/After";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGetAll + "/" + ItemId;
         Current.GetService(this, Url, ServiceMethodType.NotificationGetAll, NotificationViewModel.class, new TypeToken<Feedback<List<NotificationViewModel>>>() {
         }.getType());
     }
@@ -48,7 +43,8 @@ public class NotificationService implements IService {
 
     public void Set(NotificationItemStatusOutViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ItemStatus;
+        String itemStatus = "ItemStatus";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + itemStatus;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PutService(this, Url, JsonViewModel, ServiceMethodType.NotificationSetStatus, NotificationItemStatusOutViewModel.class, new TypeToken<Feedback<Boolean>>() {

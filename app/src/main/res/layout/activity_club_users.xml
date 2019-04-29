@@ -35,38 +35,48 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/background_layer_top">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/WelcomeClubTextViewClubUsersActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/welcome_to_user_club"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColor="@color/FontWhiteColor"
+                        tools:ignore="HardcodedText" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="20dp"
                     android:background="@drawable/background_layer">
 
-                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                        android:id="@+id/WelcomeClubTextViewClubUsersActivity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/welcome_to_user_club"
-                        android:textAppearance="?android:textAppearanceSmall"
-                        android:textColor="@color/FontBlackColor"
-                        tools:ignore="HardcodedText" />
 
                     <ImageView
                         android:id="@+id/GiftImageViewClubUsersActivity"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:layout_below="@+id/WelcomeClubTextViewClubUsersActivity"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="16dp"
                         android:adjustViewBounds="true"
                         android:background="@drawable/gift"
                         android:scaleType="fitCenter"
@@ -78,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="80dp"
+                        android:layout_marginTop="70dp"
                         android:gravity="center"
                         android:text="100"
                         android:textAppearance="?android:textAppearanceMedium"
@@ -90,8 +100,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/GiftImageViewClubUsersActivity"
                         android:layout_marginBottom="20dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
                         android:layout_marginTop="16dp"
                         android:orientation="horizontal"
                         android:weightSum="1"
@@ -102,10 +112,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginRight="4dp"
-                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginStart="2dp"
                             android:layout_weight="0.5"
                             app:cardBackgroundColor="@color/BackgroundLightColor"
                             app:cardCornerRadius="5dp">
@@ -115,8 +125,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:paddingBottom="6dp"
-                                android:paddingTop="6dp">
+                                android:paddingBottom="8dp"
+                                android:paddingTop="8dp">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -129,7 +139,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/report_scores"
-                                        android:textAppearance="?android:textAppearanceSmall"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                         android:textColor="@color/FontSemiDarkThemeColor"
                                         tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -137,9 +147,9 @@
                                         android:id="@+id/ReportScoresIconTextViewClubUsersActivity"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="5dp"
-                                        android:layout_marginStart="5dp"
-                                        android:textAppearance="?android:textAppearanceMedium"
+                                        android:layout_marginLeft="3dp"
+                                        android:layout_marginStart="3dp"
+                                        android:textAppearance="?android:textAppearanceSmall"
                                         android:textColor="@color/FontSemiDarkThemeColor"
                                         tools:ignore="HardcodedText" />
 
@@ -153,10 +163,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginRight="4dp"
-                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginStart="2dp"
                             android:layout_weight="0.5"
                             app:cardBackgroundColor="@color/ButtonBackgroundGreenColor"
                             app:cardCornerRadius="5dp">
@@ -166,8 +176,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:paddingBottom="6dp"
-                                android:paddingTop="6dp">
+                                android:paddingBottom="8dp"
+                                android:paddingTop="8dp">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -181,7 +191,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/scoring"
-                                        android:textAppearance="?android:textAppearanceSmall"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                         android:textColor="@color/FontWhiteColor"
                                         tools:ignore="HardcodedText" />
 
@@ -189,9 +199,9 @@
                                         android:id="@+id/ScoringIconTextViewClubUsersActivity"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="5dp"
-                                        android:layout_marginStart="5dp"
-                                        android:textAppearance="?android:textAppearanceMedium"
+                                        android:layout_marginLeft="3dp"
+                                        android:layout_marginStart="3dp"
+                                        android:textAppearance="?android:textAppearanceSmall"
                                         android:textColor="@color/FontWhiteColor"
                                         tools:ignore="HardcodedText" />
 
@@ -222,9 +232,9 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
-                        android:textSize="30dp"
-                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/FontWhiteColor"
+                        android:textSize="30dp"
                         android:textStyle="bold" />
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
@@ -237,16 +247,16 @@
                         android:layout_toLeftOf="@+id/GiftIconTextViewClubUsersActivity"
                         android:layout_toStartOf="@+id/GiftIconTextViewClubUsersActivity"
                         android:text="@string/gift"
-                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textAppearance="?android:textAppearanceSmall"
                         android:textColor="@color/FontWhiteColor" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginStart="4dp"
                         android:layout_toLeftOf="@+id/GiftTextViewClubUsersActivity"
                         android:layout_toStartOf="@+id/GiftTextViewClubUsersActivity"
                         android:adjustViewBounds="true"
@@ -259,11 +269,11 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="-2dp"
                     android:background="@drawable/background_layer">
 
@@ -282,10 +292,10 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="8dp"
                             android:layout_marginStart="8dp"
-                            android:textStyle="bold"
-                            android:textSize="30dp"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textColor="@color/FontSemiDarkThemeColor"
+                            android:textSize="30dp"
+                            android:textStyle="bold"
                             tools:ignore="ContentDescription" />
 
                         <android.support.v7.widget.RecyclerView
@@ -307,10 +317,10 @@
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="8dp"
                             android:layout_marginRight="8dp"
-                            android:textStyle="bold"
-                            android:textSize="30dp"
                             android:textAppearance="?android:textAppearanceLarge"
                             android:textColor="@color/FontSemiDarkThemeColor"
+                            android:textSize="30dp"
+                            android:textStyle="bold"
                             tools:ignore="ContentDescription" />
 
                     </RelativeLayout>
@@ -321,8 +331,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/GiftRelativeLayoutClubUsersActivity"
                         android:layout_marginBottom="20dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
                         android:layout_marginTop="16dp"
                         android:orientation="horizontal"
                         android:weightSum="1"
@@ -333,10 +343,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginRight="4dp"
-                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginStart="2dp"
                             android:layout_weight="0.5"
                             app:cardBackgroundColor="@color/BackgroundLightColor"
                             app:cardCornerRadius="5dp">
@@ -346,8 +356,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:paddingBottom="6dp"
-                                android:paddingTop="6dp">
+                                android:paddingBottom="8dp"
+                                android:paddingTop="8dp">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -360,7 +370,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/my_gifts"
-                                        android:textAppearance="?android:textAppearanceSmall"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                         android:textColor="@color/FontSemiDarkThemeColor"
                                         tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -368,9 +378,9 @@
                                         android:id="@+id/MyGiftIconTextViewClubUsersActivity"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="5dp"
-                                        android:layout_marginStart="5dp"
-                                        android:textAppearance="?android:textAppearanceMedium"
+                                        android:layout_marginLeft="3dp"
+                                        android:layout_marginStart="3dp"
+                                        android:textAppearance="?android:textAppearanceSmall"
                                         android:textColor="@color/FontSemiDarkThemeColor"
                                         tools:ignore="HardcodedText" />
 
@@ -384,10 +394,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginRight="4dp"
-                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginStart="2dp"
                             android:layout_weight="0.5"
                             app:cardBackgroundColor="@color/FontYellowColor"
                             app:cardCornerRadius="5dp">
@@ -397,8 +407,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:paddingBottom="6dp"
-                                android:paddingTop="6dp">
+                                android:paddingBottom="8dp"
+                                android:paddingTop="8dp">
 
                                 <LinearLayout
                                     android:layout_width="wrap_content"
@@ -412,7 +422,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/show_all_gift"
-                                        android:textAppearance="?android:textAppearanceSmall"
+                                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                         android:textColor="@color/FontSemiDarkThemeColor"
                                         tools:ignore="HardcodedText" />
 
@@ -420,9 +430,9 @@
                                         android:id="@+id/GiftsIconTextViewClubUsersActivity"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="5dp"
-                                        android:layout_marginStart="5dp"
-                                        android:textAppearance="?android:textAppearanceMedium"
+                                        android:layout_marginLeft="3dp"
+                                        android:layout_marginStart="3dp"
+                                        android:textAppearance="?android:textAppearanceSmall"
                                         android:textColor="@color/FontSemiDarkThemeColor"
                                         tools:ignore="HardcodedText" />
 

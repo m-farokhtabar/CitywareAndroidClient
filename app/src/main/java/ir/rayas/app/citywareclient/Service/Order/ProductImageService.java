@@ -16,14 +16,11 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Order.ProductImageViewModel;
 
-/**
- * Created by Hajar on 8/30/2018.
- */
 
 public class ProductImageService implements IService {
 
     private String ControllerName = "ProductImage";
-    private String ActionGetAll = "all";
+
     private IResponseService ResponseService;
 
     public ProductImageService(IResponseService ResponseService) {
@@ -32,7 +29,8 @@ public class ProductImageService implements IService {
 
     public void GetAll(int ProductId, int NumberPage) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAll + "/Product/" + ProductId + "/Page/" + NumberPage;
+        String actionGetAll = "all";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGetAll + "/Product/" + ProductId + "/Page/" + NumberPage;
         Current.GetService(this, Url, ServiceMethodType.GetAllProductImage, ProductImageViewModel.class, new TypeToken<Feedback<List<ProductImageViewModel>>>() {
         }.getType());
     }

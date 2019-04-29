@@ -5,19 +5,18 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessFactorListRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
 import ir.rayas.app.citywareclient.Service.Factor.FactorStatusService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -31,10 +30,8 @@ import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 
 public class BusinessFactorListActivity extends BaseActivity implements IResponseService {
 
-    private RecyclerView FactorListRecyclerViewBusinessFactorListActivity = null;
     private TextViewPersian ShowEmptyFactorListTextViewBusinessFactorListActivity = null;
     private SwipeRefreshLayout RefreshFactorListSwipeRefreshLayoutBusinessFactorListActivity;
-    private ProgressBar LoadMoreProgressBar = null;
     private BusinessFactorListRecyclerViewAdapter BusinessFactorListRecyclerViewAdapter = null;
 
     private int PageNumber = 1;
@@ -88,9 +85,6 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
     }
 
     private void LoadDataFactor() {
-        if (!IsSwipe)
-            if (PageNumber == 1)
-                ShowLoadingProgressBar();
 
         BusinessFactorService BusinessFactorService = new BusinessFactorService(this);
         BusinessFactorService.GetAll(BusinessId, PageNumber);
@@ -101,31 +95,21 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout() {
-        LoadMoreProgressBar = findViewById(R.id.LoadMoreProgressBarBusinessFactorListActivity);
         RefreshFactorListSwipeRefreshLayoutBusinessFactorListActivity = findViewById(R.id.RefreshFactorListSwipeRefreshLayoutBusinessFactorListActivity);
         ShowEmptyFactorListTextViewBusinessFactorListActivity = findViewById(R.id.ShowEmptyFactorListTextViewBusinessFactorListActivity);
 
         ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.GONE);
 
-        FactorListRecyclerViewBusinessFactorListActivity = findViewById(R.id.FactorListRecyclerViewBusinessFactorListActivity);
-        FactorListRecyclerViewBusinessFactorListActivity.setLayoutManager(new LinearLayoutManager(this));
-        BusinessFactorListRecyclerViewAdapter = new BusinessFactorListRecyclerViewAdapter(this, null,FactorStatusViewModel, FactorListRecyclerViewBusinessFactorListActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumber = PageNumber + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
-            }
-        });
-        FactorListRecyclerViewBusinessFactorListActivity.setAdapter(BusinessFactorListRecyclerViewAdapter);
+        RecyclerView factorListRecyclerViewBusinessFactorListActivity = findViewById(R.id.FactorListRecyclerViewBusinessFactorListActivity);
+        factorListRecyclerViewBusinessFactorListActivity.setLayoutManager(new LinearLayoutManager(this));
+        BusinessFactorListRecyclerViewAdapter = new BusinessFactorListRecyclerViewAdapter(this, null,FactorStatusViewModel, factorListRecyclerViewBusinessFactorListActivity);
+        factorListRecyclerViewBusinessFactorListActivity.setAdapter(BusinessFactorListRecyclerViewAdapter);
 
         RefreshFactorListSwipeRefreshLayoutBusinessFactorListActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadMoreProgressBar.setVisibility(View.GONE);
                 IsSwipe = true;
                 PageNumber = 1;
-                BusinessFactorListRecyclerViewAdapter.setLoading(false);
                 LoadData();
             }
         });
@@ -139,7 +123,6 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
 
-        LoadMoreProgressBar.setVisibility(View.GONE);
         RefreshFactorListSwipeRefreshLayoutBusinessFactorListActivity.setRefreshing(false);
         IsSwipe = false;
         try {
@@ -158,45 +141,47 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
                             } else {
                                 ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.GONE);
                                 BusinessFactorListRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadDataFactor();
+                                }
                             }
+
                         } else {
                             ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.GONE);
                             BusinessFactorListRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadDataFactor();
+                            }
                         }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.GONE);
+                    } else {
+                        ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.VISIBLE);
                     }
                 } else {
                     ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())) {
-                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
-                        }
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         ShowErrorInConnectDialog();
                     }
                 }
+
             }  else if (ServiceMethod == ServiceMethodType.FactorStatusGetAll) {
                 Feedback<List<FactorStatusViewModel>> FeedBack = (Feedback<List<FactorStatusViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
-                    BusinessFactorService BusinessFactorService = new BusinessFactorService(this);
-                    BusinessFactorService.GetAll(BusinessId, PageNumber);
-
                     FactorStatusViewModel =  new ArrayList<>();
                     FactorStatusViewModel = FeedBack.getValue();
 
-                    FactorListRecyclerViewBusinessFactorListActivity = findViewById(R.id.FactorListRecyclerViewBusinessFactorListActivity);
-                    FactorListRecyclerViewBusinessFactorListActivity.setLayoutManager(new LinearLayoutManager(this));
-                    BusinessFactorListRecyclerViewAdapter = new BusinessFactorListRecyclerViewAdapter(this, null,FactorStatusViewModel, FactorListRecyclerViewBusinessFactorListActivity, new OnLoadMoreListener() {
-                        @Override
-                        public void onLoadMore() {
-                            PageNumber = PageNumber + 1;
-                            LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                            LoadDataFactor();
-                        }
-                    });
-                    FactorListRecyclerViewBusinessFactorListActivity.setAdapter(BusinessFactorListRecyclerViewAdapter);
+                    LoadDataFactor();
 
                 } else {
                     HideLoading();
@@ -211,7 +196,6 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
-        BusinessFactorListRecyclerViewAdapter.setLoading(false);
     }
 
     @Override

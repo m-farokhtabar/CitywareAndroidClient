@@ -103,12 +103,12 @@ public class ReportMarketerCommissionFragment extends Fragment implements IRespo
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
-                        Context. ShowErrorInConnectDialog();
+                        Context.ShowErrorInConnectDialog();
                     }
                 }
             }
         } catch (Exception e) {
-            Context. HideLoading();
+            Context.HideLoading();
             Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
     }
@@ -130,6 +130,11 @@ public class ReportMarketerCommissionFragment extends Fragment implements IRespo
         Double Percent = (NumberCustomerUse * 100) / TotalNumberCustomer;
         int PercentProgress = (int) Double.parseDouble(Percent.toString());
 
+
+        if (Percent == null) {
+            Percent = 0.0;
+        }
+
         PercentCustomerNumberTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(Percent) + " " + getResources().getString(R.string.percent));
 
         Drawable drawable = Context.getResources().getDrawable(R.drawable.circular_percent_progress_bar_yellow);
@@ -144,12 +149,17 @@ public class ReportMarketerCommissionFragment extends Fragment implements IRespo
         Double PercentAmountCommission = (AmountCommissionPaid * 100) / TotalAmount;
         int PercentProgressAmountCommission = (int) Double.parseDouble(PercentAmountCommission.toString());
 
+        if (PercentAmountCommission == null) {
+            PercentAmountCommission = 0.0;
+        }
+
         PercentAmountCommissionTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(PercentAmountCommission) + " " + getResources().getString(R.string.percent));
 
+        Drawable drawablePercentAmountCommission = Context.getResources().getDrawable(R.drawable.circular_percent_progress_bar_yellow);
         PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity.setProgress(PercentProgressAmountCommission);   // Main Progress
         PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity.setSecondaryProgress(100); // Secondary Progress
         PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity.setMax(100); // Maximum Progress
-        PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity.setProgressDrawable(drawable);
+        PercentAmountCommissionProgressBarShowMarketerCommissionDetailsActivity.setProgressDrawable(drawablePercentAmountCommission);
 
     }
 

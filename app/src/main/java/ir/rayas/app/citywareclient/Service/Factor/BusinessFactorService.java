@@ -14,24 +14,14 @@ import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.ViewModel.Basket.BasketViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.DescriptionFactorInViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Factor.FactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.StatusAndDescriptionFactorInViewModel;
-
-/**
- * Created by Hajar on 2/21/2019.
- */
 
 public class BusinessFactorService implements IService {
 
     private String ControllerName = "Factor";
     private String ActionBusiness = "Business";
-    private String ActionAll = "All";
-    private String ActionPage = "Page";
-    private String ActionStatusAndDescription = "StatusAndDescription";
-    private String ActionDescription = "Description";
 
     private IResponseService ResponseService;
 
@@ -42,7 +32,9 @@ public class BusinessFactorService implements IService {
 
     public void GetAll(int BusinessId, int Page) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionBusiness + "/" + BusinessId + "/" + ActionAll + "/" + ActionPage + "/" + Page;
+        String actionAll = "All";
+        String actionPage = "Page";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionBusiness + "/" + BusinessId + "/" + actionAll + "/" + actionPage + "/" + Page;
         Current.GetService(this, Url, ServiceMethodType.BusinessFactorGetAll, FactorViewModel.class, new TypeToken<Feedback<List<FactorViewModel>>>() {
         }.getType());
     }
@@ -63,7 +55,8 @@ public class BusinessFactorService implements IService {
 
     public void SetStatusAndDescription(StatusAndDescriptionFactorInViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionBusiness + "/" + ActionStatusAndDescription;
+        String actionStatusAndDescription = "StatusAndDescription";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionBusiness + "/" + actionStatusAndDescription;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PutService(this, Url, JsonViewModel, ServiceMethodType.BusinessStatusAndDescriptionSet, StatusAndDescriptionFactorInViewModel.class, new TypeToken<Feedback<Boolean>>() {
@@ -72,7 +65,8 @@ public class BusinessFactorService implements IService {
 
     public void SetDescription(DescriptionFactorInViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionBusiness + "/" + ActionDescription;
+        String actionDescription = "Description";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionBusiness + "/" + actionDescription;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PutService(this, Url, JsonViewModel, ServiceMethodType.BusinessDescriptionSet, DescriptionFactorInViewModel.class, new TypeToken<Feedback<Boolean>>() {

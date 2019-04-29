@@ -2,7 +2,6 @@ package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,61 +12,23 @@ import android.widget.RatingBar;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowCommentBusinessActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.CommentViewModel;
 
-/**
- * Created by Hajar on 11/25/2018.
- */
 
 public class BusinessCommentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ShowCommentBusinessActivity Context;
     private RecyclerView Container = null;
     private List<CommentViewModel> ViewModelList = null;
-    private OnLoadMoreListener onLoadMoreListener;
-    private boolean isLoading;
 
-    private int visibleThreshold = 1;
-    private int lastVisibleItem;
-    private int totalItemCount;
-
-    private int Position;
-
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
-
-
-    public BusinessCommentRecyclerViewAdapter(ShowCommentBusinessActivity Context, List<CommentViewModel> CommentList, RecyclerView Container, OnLoadMoreListener mOnLoadMoreListener) {
+    public BusinessCommentRecyclerViewAdapter(ShowCommentBusinessActivity Context, List<CommentViewModel> CommentList, RecyclerView Container) {
         this.ViewModelList = CommentList;
         this.Context = Context;
         this.Container = Container;
-        this.onLoadMoreListener = mOnLoadMoreListener;
-        CreateLayout();
-    }
 
-    private void CreateLayout() {
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) Container.getLayoutManager();
-        Container.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                if (lastVisibleItem < linearLayoutManager.findLastVisibleItemPosition()) {
-                    if (!isLoading && totalItemCount <= (linearLayoutManager.findLastVisibleItemPosition() + visibleThreshold)) {
-                        if (onLoadMoreListener != null) {
-                            isLoading = true;
-                            onLoadMoreListener.onLoadMore();
-                        }
-                    }
-                }
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-            }
-        });
     }
 
     /**
@@ -147,14 +108,14 @@ public class BusinessCommentRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     private class CommentViewHolder extends RecyclerView.ViewHolder {
 
-        public TextViewPersian CommentTextViewShowCommentBusinessActivity;
-        public TextViewPersian NickNameCommentTextViewShowCommentBusinessActivity;
-        public TextViewPersian CreateDateCommentTextViewShowCommentBusinessActivity;
-        public RatingBar RatingUserCommentRatingBarShowCommentBusinessActivity;
-        public ImageView StickerCommentImageViewShowCommentBusinessActivity;
+         TextViewPersian CommentTextViewShowCommentBusinessActivity;
+         TextViewPersian NickNameCommentTextViewShowCommentBusinessActivity;
+         TextViewPersian CreateDateCommentTextViewShowCommentBusinessActivity;
+         RatingBar RatingUserCommentRatingBarShowCommentBusinessActivity;
+         ImageView StickerCommentImageViewShowCommentBusinessActivity;
 
 
-        public CommentViewHolder(View v) {
+         CommentViewHolder(View v) {
             super(v);
             CommentTextViewShowCommentBusinessActivity = v.findViewById(R.id.CommentTextViewShowCommentBusinessActivity);
             NickNameCommentTextViewShowCommentBusinessActivity = v.findViewById(R.id.NickNameCommentTextViewShowCommentBusinessActivity);

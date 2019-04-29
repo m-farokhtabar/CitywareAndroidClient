@@ -73,10 +73,10 @@ public class BuyPosterTypeActivity extends BaseActivity {
      */
     private void CreateLayout() {
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction BusinessListTransaction = fragmentManager.beginTransaction();
-            BusinessListTransaction.replace(R.id.PosterFrameLayoutBuyPosterTypeActivity, new BuyPosterTypeFragment());
-            BusinessListTransaction.commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction BusinessListTransaction = fragmentManager.beginTransaction();
+        BusinessListTransaction.replace(R.id.PosterFrameLayoutBuyPosterTypeActivity, new BuyPosterTypeFragment());
+        BusinessListTransaction.commit();
 
     }
 

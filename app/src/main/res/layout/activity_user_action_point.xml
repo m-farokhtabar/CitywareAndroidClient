@@ -200,7 +200,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="5dp"
                                 android:text="5"
-                                android:textAppearance="?android:textAppearanceSmall"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/FontSemiDarkThemeColor"
                                 tools:ignore="HardcodedText,TooDeepLayout" />
 
@@ -210,7 +210,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="3dp"
                                 android:text="@string/points_spent"
-                                android:textAppearance="?android:textAppearanceSmall"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/FontBlackColor"
                                 tools:ignore="HardcodedText" />
 
@@ -254,7 +254,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="5dp"
                                 android:text="3"
-                                android:textAppearance="?android:textAppearanceSmall"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/FontSemiDarkThemeColor"
                                 tools:ignore="HardcodedText" />
 
@@ -264,7 +264,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="3dp"
                                 android:text="@string/points_earned"
-                                android:textAppearance="?android:textAppearanceSmall"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/FontBlackColor"
                                 tools:ignore="HardcodedText" />
                         </LinearLayout>

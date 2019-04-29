@@ -30,8 +30,6 @@ public class PrizeService implements IService {
     private String ActionGetAll = "All";
     private String ActionUser = "User";
     private String Action = "Action";
-    private String ActionRequest = "Request";
-    private String ActionRequestPackage = "RequestPackage";
 
     private IResponseService ResponseService;
 
@@ -71,7 +69,8 @@ public class PrizeService implements IService {
 
     public void AddPrizeRequest(RequestPrizeViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService  + "/" + ControllerName +"/" + ActionRequest;
+        String actionRequest = "Request";
+        String Url = DefaultConstant.BaseUrlWebService  + "/" + ControllerName +"/" + actionRequest;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PostService(this, Url, JsonViewModel, ServiceMethodType.PrizeRequestAdd, RequestPrizeViewModel.class, new TypeToken<Feedback<UserConsumePointViewModel>>() {
@@ -80,7 +79,8 @@ public class PrizeService implements IService {
 
     public void AddPrizeRequestPackage(RequestPrizeViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService  + "/" + ControllerName +"/" + ActionRequestPackage;
+        String actionRequestPackage = "RequestPackage";
+        String Url = DefaultConstant.BaseUrlWebService  + "/" + ControllerName +"/" + actionRequestPackage;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PostService(this, Url, JsonViewModel, ServiceMethodType.PrizeRequestPackageAdd, RequestPrizeViewModel.class, new TypeToken<Feedback<UserConsumePointViewModel>>() {

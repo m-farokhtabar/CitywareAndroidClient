@@ -109,17 +109,6 @@
             android:text="@string/no_comments_for_this_business"
             android:textAppearance="?android:textAppearanceSmall" />
 
-        <ProgressBar
-            android:id="@+id/LoadMoreProgressBarShowCommentBusinessActivity"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:background="#00000000"
-            android:indeterminateDrawable="@drawable/view_loading_style"
-            android:visibility="gone" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/NewCommentFloatingActionButtonShowCommentBusinessActivity"

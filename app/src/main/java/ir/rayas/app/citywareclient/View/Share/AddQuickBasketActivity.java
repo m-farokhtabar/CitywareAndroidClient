@@ -3,13 +3,8 @@ package ir.rayas.app.citywareclient.View.Share;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -19,15 +14,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.BookmarkRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.QuickBasketRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserAddressRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Service.Basket.BasketService;
-import ir.rayas.app.citywareclient.Service.Business.BookmarkService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
@@ -38,10 +28,8 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowProductDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Basket.QuickOrderItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Basket.QuickOrderViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 public class AddQuickBasketActivity extends BaseActivity implements IResponseService {
@@ -87,7 +75,7 @@ public class AddQuickBasketActivity extends BaseActivity implements IResponseSer
     private void RetryButtonOnClick() {
 
         if (ItemList == null || ItemList.size() < 1) {
-            ShowToast(getResources().getString(R.string.please_enter_add_product_to_list), Toast.LENGTH_LONG, MessageType.Error);
+            ShowToast(getResources().getString(R.string.please_enter_add_product_to_list), Toast.LENGTH_LONG, MessageType.Warning);
 
         } else {
             ShowLoadingProgressBar();
@@ -153,10 +141,10 @@ public class AddQuickBasketActivity extends BaseActivity implements IResponseSer
             public void onClick(View v) {
 
                 if ("".equals(ProductNameEditTextAddQuickBasketActivity.getText().toString())) {
-                    ShowToast(getResources().getString(R.string.please_enter_product_name), Toast.LENGTH_LONG, MessageType.Error);
+                    ShowToast(getResources().getString(R.string.please_enter_product_name), Toast.LENGTH_LONG, MessageType.Warning);
 
                 } else if ((CustomerQuantityEditTextAddQuickBasketActivity.getText() == null) || ("".equals(CustomerQuantityEditTextAddQuickBasketActivity.getText().toString())) || (1 > Double.valueOf(CustomerQuantityEditTextAddQuickBasketActivity.getText().toString()))) {
-                    ShowToast(getResources().getString(R.string.please_enter_order_quantity), Toast.LENGTH_LONG, MessageType.Error);
+                    ShowToast(getResources().getString(R.string.please_enter_order_quantity), Toast.LENGTH_LONG, MessageType.Warning);
 
                 } else {
                     QuickOrderItemViewModel quickOrderItemViewModel = new QuickOrderItemViewModel();
@@ -183,7 +171,7 @@ public class AddQuickBasketActivity extends BaseActivity implements IResponseSer
             public void onClick(View v) {
 
                 if (ItemList == null || ItemList.size() < 1) {
-                    ShowToast(getResources().getString(R.string.please_enter_add_product_to_list), Toast.LENGTH_LONG, MessageType.Error);
+                    ShowToast(getResources().getString(R.string.please_enter_add_product_to_list), Toast.LENGTH_LONG, MessageType.Warning);
 
                 } else {
                     ShowLoadingProgressBar();
@@ -206,7 +194,7 @@ public class AddQuickBasketActivity extends BaseActivity implements IResponseSer
             ViewModel.setBusinessId(BusinessId);
             ViewModel.setItemList(ItemList);
 
-        } catch (Exception Ex) {
+        } catch (Exception ignored) {
         }
         return ViewModel;
     }
@@ -270,6 +258,12 @@ public class AddQuickBasketActivity extends BaseActivity implements IResponseSer
                 Intent BasketIntent = new Intent(AddQuickBasketActivity.this, BasketActivity.class);
                 BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(BasketIntent);
+
+                ItemList = new ArrayList<>();
+                quickBasketRecyclerViewAdapter = new QuickBasketRecyclerViewAdapter(AddQuickBasketActivity.this, ItemList, ProductNameRecyclerViewAddQuickBasketActivity);
+                ProductNameRecyclerViewAddQuickBasketActivity.setAdapter(quickBasketRecyclerViewAdapter);
+
+                DialogOrder.dismiss();
             }
         });
         DialogOrder.show();

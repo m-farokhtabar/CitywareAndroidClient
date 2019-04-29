@@ -5,19 +5,18 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserFactorListRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Factor.FactorStatusService;
 import ir.rayas.app.citywareclient.Service.Factor.UserFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -31,10 +30,8 @@ import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 
 public class UserFactorListActivity extends BaseActivity implements IResponseService {
 
-    private RecyclerView FactorListRecyclerViewUserFactorListActivity = null;
     private TextViewPersian ShowEmptyFactorListTextViewUserFactorListActivity = null;
     private SwipeRefreshLayout RefreshFactorListSwipeRefreshLayoutUserFactorListActivity;
-    private ProgressBar LoadMoreProgressBar = null;
     private UserFactorListRecyclerViewAdapter UserFactorListRecyclerViewAdapter = null;
 
     private int PageNumber = 1;
@@ -51,6 +48,9 @@ public class UserFactorListActivity extends BaseActivity implements IResponseSer
         setCurrentActivityId(ActivityIdList.USER_FACTOR_LIST_ACTIVITY);
         Static.IsRefreshBookmark = true;
 
+        //ایجاد طرحبندی صفحه
+        CreateLayout();
+
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
             @Override
@@ -59,8 +59,6 @@ public class UserFactorListActivity extends BaseActivity implements IResponseSer
             }
         }, R.string.factor);
 
-        //ایجاد طرحبندی صفحه
-        CreateLayout();
 
     }
 
@@ -69,6 +67,7 @@ public class UserFactorListActivity extends BaseActivity implements IResponseSer
      */
     private void RetryButtonOnClick() {
         //دریافت اطلاعات
+        PageNumber = 1;
         LoadData();
     }
 
@@ -86,9 +85,6 @@ public class UserFactorListActivity extends BaseActivity implements IResponseSer
     }
 
     private void LoadDataFactor() {
-        if (!IsSwipe)
-            if (PageNumber == 1)
-                ShowLoadingProgressBar();
 
         UserFactorService UserFactorService = new UserFactorService(this);
         UserFactorService.GetAll(PageNumber);
@@ -99,33 +95,21 @@ public class UserFactorListActivity extends BaseActivity implements IResponseSer
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout() {
-        LoadMoreProgressBar = findViewById(R.id.LoadMoreProgressBarUserFactorListActivity);
         RefreshFactorListSwipeRefreshLayoutUserFactorListActivity = findViewById(R.id.RefreshFactorListSwipeRefreshLayoutUserFactorListActivity);
         ShowEmptyFactorListTextViewUserFactorListActivity = findViewById(R.id.ShowEmptyFactorListTextViewUserFactorListActivity);
 
         ShowEmptyFactorListTextViewUserFactorListActivity.setVisibility(View.GONE);
 
-        FactorListRecyclerViewUserFactorListActivity = findViewById(R.id.FactorListRecyclerViewUserFactorListActivity);
-        FactorListRecyclerViewUserFactorListActivity.setLayoutManager(new LinearLayoutManager(this));
-
-
-        UserFactorListRecyclerViewAdapter = new UserFactorListRecyclerViewAdapter(this, null,FactorStatusViewModel, FactorListRecyclerViewUserFactorListActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumber = PageNumber + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadDataFactor();
-            }
-        });
-        FactorListRecyclerViewUserFactorListActivity.setAdapter(UserFactorListRecyclerViewAdapter);
+        RecyclerView factorListRecyclerViewUserFactorListActivity = findViewById(R.id.FactorListRecyclerViewUserFactorListActivity);
+        factorListRecyclerViewUserFactorListActivity.setLayoutManager(new LinearLayoutManager(this));
+        UserFactorListRecyclerViewAdapter = new UserFactorListRecyclerViewAdapter(this, null, FactorStatusViewModel, factorListRecyclerViewUserFactorListActivity);
+        factorListRecyclerViewUserFactorListActivity.setAdapter(UserFactorListRecyclerViewAdapter);
 
         RefreshFactorListSwipeRefreshLayoutUserFactorListActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadMoreProgressBar.setVisibility(View.GONE);
                 IsSwipe = true;
                 PageNumber = 1;
-                UserFactorListRecyclerViewAdapter.setLoading(false);
                 LoadData();
             }
         });
@@ -139,7 +123,6 @@ public class UserFactorListActivity extends BaseActivity implements IResponseSer
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
 
-        LoadMoreProgressBar.setVisibility(View.GONE);
         RefreshFactorListSwipeRefreshLayoutUserFactorListActivity.setRefreshing(false);
         IsSwipe = false;
         try {
@@ -158,43 +141,46 @@ public class UserFactorListActivity extends BaseActivity implements IResponseSer
                             } else {
                                 ShowEmptyFactorListTextViewUserFactorListActivity.setVisibility(View.GONE);
                                 UserFactorListRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadDataFactor();
+                                }
                             }
+
                         } else {
                             ShowEmptyFactorListTextViewUserFactorListActivity.setVisibility(View.GONE);
                             UserFactorListRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadDataFactor();
+                            }
                         }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptyFactorListTextViewUserFactorListActivity.setVisibility(View.GONE);
+                    } else {
+                        ShowEmptyFactorListTextViewUserFactorListActivity.setVisibility(View.VISIBLE);
                     }
                 } else {
                     ShowEmptyFactorListTextViewUserFactorListActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())) {
-                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
-                        }
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         ShowErrorInConnectDialog();
                     }
                 }
-            }   else if (ServiceMethod == ServiceMethodType.FactorStatusGetAll) {
+            } else if (ServiceMethod == ServiceMethodType.FactorStatusGetAll) {
                 Feedback<List<FactorStatusViewModel>> FeedBack = (Feedback<List<FactorStatusViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
-                    UserFactorService UserFactorService = new UserFactorService(this);
-                    UserFactorService.GetAll(PageNumber);
+                    LoadDataFactor();
 
-                    FactorStatusViewModel =  new ArrayList<>();
+                    FactorStatusViewModel = new ArrayList<>();
                     FactorStatusViewModel = FeedBack.getValue();
-
-                    UserFactorListRecyclerViewAdapter = new UserFactorListRecyclerViewAdapter(this, null,FactorStatusViewModel, FactorListRecyclerViewUserFactorListActivity, new OnLoadMoreListener() {
-                        @Override
-                        public void onLoadMore() {
-                            PageNumber = PageNumber + 1;
-                            LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                            LoadDataFactor();
-                        }
-                    });
-                    FactorListRecyclerViewUserFactorListActivity.setAdapter(UserFactorListRecyclerViewAdapter);
 
                 } else {
                     HideLoading();
@@ -209,9 +195,7 @@ public class UserFactorListActivity extends BaseActivity implements IResponseSer
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
-        UserFactorListRecyclerViewAdapter.setLoading(false);
     }
-
 
 
     @Override

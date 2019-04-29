@@ -16,14 +16,11 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessOpenTimeViewModel;
 
-/**
- * Created by Hajar on 8/24/2018.
- */
+
 
 public class BusinessOpenTimeService implements IService {
 
     private String ControllerName = "BusinessOpenTime";
-    private String ActionGetAll = "All";
     private IResponseService ResponseService;
 
     public BusinessOpenTimeService(IResponseService ResponseService) {
@@ -32,7 +29,8 @@ public class BusinessOpenTimeService implements IService {
 
     public void GetAll(int BusinessOpenTimeId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/Business/" + BusinessOpenTimeId + "/" + ActionGetAll;
+        String actionGetAll = "All";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/Business/" + BusinessOpenTimeId + "/" + actionGetAll;
         Current.GetService(this, Url, ServiceMethodType.BusinessOpenTimeGetAll, BusinessOpenTimeViewModel.class, new TypeToken<Feedback<List<BusinessOpenTimeViewModel>>>() {
         }.getType());
     }

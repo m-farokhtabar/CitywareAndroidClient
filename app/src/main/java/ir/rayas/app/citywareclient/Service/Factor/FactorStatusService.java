@@ -15,14 +15,8 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 
-/**
- * Created by Hajar on 3/4/2019.
- */
 
 public class FactorStatusService implements IService {
-
-    private String ControllerName = "FactorStatus";
-    private String ActionAll = "All";
 
     private IResponseService ResponseService;
 
@@ -33,7 +27,9 @@ public class FactorStatusService implements IService {
 
     public void GetAll() {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/"  + ActionAll ;
+        String controllerName = "FactorStatus";
+        String actionAll = "All";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + controllerName + "/"  + actionAll;
         Current.GetService(this, Url, ServiceMethodType.FactorStatusGetAll, FactorStatusViewModel.class, new TypeToken<Feedback<List<FactorStatusViewModel>>>() {
         }.getType());
     }

@@ -51,7 +51,8 @@
                 android:scaleX="1"
                 android:scaleY="1"
                 android:secondaryProgressTint="@color/BackgroundThemeLightColor"
-                android:stepSize="0.01" />
+                android:stepSize="0.01"
+                tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
     </RelativeLayout>
@@ -78,8 +79,8 @@
 
     <ImageView
         android:id="@+id/BookmarkImageView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_gravity="center"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
@@ -91,8 +92,8 @@
 
     <ImageView
         android:id="@+id/IsDeliveryImageView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:adjustViewBounds="true"
@@ -105,8 +106,8 @@
 
     <ImageView
         android:id="@+id/IsOpenImageView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:adjustViewBounds="true"
@@ -120,18 +121,19 @@
     <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
         android:id="@+id/IntroducingBusinessButton"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="8dp"
-        android:background="@drawable/selector_button_theme_style"
+        android:background="@drawable/selector_button_white"
         android:gravity="center"
-        android:text="@string/introducing_to_your_friends"
+        android:text="@string/marketing"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-        android:textColor="@color/FontWhiteColor" />
+        android:textColor="@color/FontSemiDarkThemeColor"
+        tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>
 
@@ -142,13 +144,14 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/IconsRelativeLayout"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold"
         android:textColor="@color/FontBlackColor"
         tools:ignore="RtlHardcoded" />
 
@@ -158,12 +161,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/PosterTitleTextView"
         android:layout_marginTop="3dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="right"
         android:singleLine="true"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/FontBlackColor"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+        android:textColor="@color/FontSemiBlackColor"
         tools:ignore="RtlHardcoded" />
 
     <TextView

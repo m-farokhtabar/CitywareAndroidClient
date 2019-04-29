@@ -11,18 +11,18 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessCommentRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
+import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Service.Business.CommentService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -42,9 +42,7 @@ import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 public class ShowCommentBusinessActivity extends BaseActivity implements IResponseService {
 
-    private RecyclerView BusinessCommentRecyclerViewShowCommentBusinessActivity = null;
     private SwipeRefreshLayout RefreshCommentSwipeRefreshLayoutShowCommentBusinessActivity;
-    private ProgressBar LoadMoreProgressBar = null;
     private BusinessCommentRecyclerViewAdapter businessCommentRecyclerViewAdapter = null;
     private EditTextPersian MessageCommentEditTextDialogBusinessComment = null;
     private TextViewPersian ShowEmptyCommentListTextViewShowCommentBusinessActivity = null;
@@ -98,12 +96,10 @@ public class ShowCommentBusinessActivity extends BaseActivity implements IRespon
         LoadData();
     }
 
-
     /**
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout() {
-        LoadMoreProgressBar = findViewById(R.id.LoadMoreProgressBarShowCommentBusinessActivity);
         RefreshCommentSwipeRefreshLayoutShowCommentBusinessActivity = findViewById(R.id.RefreshCommentSwipeRefreshLayoutShowCommentBusinessActivity);
         TextViewPersian BusinessNameTextViewShowCommentBusinessActivity = findViewById(R.id.BusinessNameTextViewShowCommentBusinessActivity);
         ShowEmptyCommentListTextViewShowCommentBusinessActivity = findViewById(R.id.ShowEmptyCommentListTextViewShowCommentBusinessActivity);
@@ -114,25 +110,16 @@ public class ShowCommentBusinessActivity extends BaseActivity implements IRespon
         RatingBusinessRatingBarShowCommentBusinessActivity.setRating(TotalScore);
         ShowEmptyCommentListTextViewShowCommentBusinessActivity.setVisibility(View.GONE);
 
-        BusinessCommentRecyclerViewShowCommentBusinessActivity = findViewById(R.id.BusinessCommentRecyclerViewShowCommentBusinessActivity);
-        BusinessCommentRecyclerViewShowCommentBusinessActivity.setLayoutManager(new LinearLayoutManager(this));
-        businessCommentRecyclerViewAdapter = new BusinessCommentRecyclerViewAdapter(this, null, BusinessCommentRecyclerViewShowCommentBusinessActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumber = PageNumber + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
-            }
-        });
-        BusinessCommentRecyclerViewShowCommentBusinessActivity.setAdapter(businessCommentRecyclerViewAdapter);
+        RecyclerView businessCommentRecyclerViewShowCommentBusinessActivity = findViewById(R.id.BusinessCommentRecyclerViewShowCommentBusinessActivity);
+        businessCommentRecyclerViewShowCommentBusinessActivity.setLayoutManager(new LinearLayoutManager(this));
+        businessCommentRecyclerViewAdapter = new BusinessCommentRecyclerViewAdapter(this, null, businessCommentRecyclerViewShowCommentBusinessActivity);
+        businessCommentRecyclerViewShowCommentBusinessActivity.setAdapter(businessCommentRecyclerViewAdapter);
 
         RefreshCommentSwipeRefreshLayoutShowCommentBusinessActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadMoreProgressBar.setVisibility(View.GONE);
                 IsSwipe = true;
                 PageNumber = 1;
-                businessCommentRecyclerViewAdapter.setLoading(false);
                 LoadData();
             }
         });
@@ -166,11 +153,10 @@ public class ShowCommentBusinessActivity extends BaseActivity implements IRespon
             ViewModel.setBusinessId(BusinessId);
             ViewModel.setUserId(AccountModel.getUser().getId());
 
-        } catch (Exception Ex) {
+        } catch (Exception ignored) {
         }
         return ViewModel;
     }
-
 
     private void ShowDialogNewComment() {
 
@@ -234,7 +220,6 @@ public class ShowCommentBusinessActivity extends BaseActivity implements IRespon
         ShowBusinessCommentDialog.show();
     }
 
-
     /**
      * @param Data
      * @param ServiceMethod
@@ -243,7 +228,6 @@ public class ShowCommentBusinessActivity extends BaseActivity implements IRespon
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         HideLoading();
-        LoadMoreProgressBar.setVisibility(View.GONE);
         RefreshCommentSwipeRefreshLayoutShowCommentBusinessActivity.setRefreshing(false);
         IsSwipe = false;
         try {
@@ -251,24 +235,43 @@ public class ShowCommentBusinessActivity extends BaseActivity implements IRespon
                 Feedback<List<CommentViewModel>> FeedBack = (Feedback<List<CommentViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                    Static.IsRefreshBookmark = false;
 
                     final List<CommentViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
-                        ShowEmptyCommentListTextViewShowCommentBusinessActivity.setVisibility(View.GONE);
-                        if (PageNumber == 1)
-                            businessCommentRecyclerViewAdapter.SetViewModelList(ViewModelList);
-                        else
-                            businessCommentRecyclerViewAdapter.AddViewModelList(ViewModelList);
-                    }   else {
-                        if (PageNumber <= 1)
-                            ShowEmptyCommentListTextViewShowCommentBusinessActivity.setVisibility(View.VISIBLE);
-                        else
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyCommentListTextViewShowCommentBusinessActivity.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyCommentListTextViewShowCommentBusinessActivity.setVisibility(View.GONE);
+                                businessCommentRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+
+                        } else {
                             ShowEmptyCommentListTextViewShowCommentBusinessActivity.setVisibility(View.GONE);
+                            businessCommentRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
+                        }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptyCommentListTextViewShowCommentBusinessActivity.setVisibility(View.GONE);
+                    } else {
+                        ShowEmptyCommentListTextViewShowCommentBusinessActivity.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ShowEmptyCommentListTextViewShowCommentBusinessActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         ShowErrorInConnectDialog();
                     }
@@ -306,7 +309,6 @@ public class ShowCommentBusinessActivity extends BaseActivity implements IRespon
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
-        businessCommentRecyclerViewAdapter.setLoading(false);
     }
 
     @Override

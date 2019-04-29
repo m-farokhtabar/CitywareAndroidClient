@@ -17,20 +17,12 @@ import ir.rayas.app.citywareclient.ViewModel.Package.OutPackageViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.PackageDetailsViewModel;
 
-/**
- * Created by Hajar on 11/3/2018.
- */
 
 public class PackageService implements IService {
 
     private String ControllerName = "Package/Purchased";
     private String ActionPackage = "Package";
     private String ActionGetAll = "All/Page";
-    private String ActionAll = "All";
-    private String ActionBusiness = "Business";
-    private String ActionUser = "User/Credit";
-    private String ActionOpen = "Open";
-    private String ActionClose = "Close";
     private IResponseService ResponseService;
 
     public PackageService(IResponseService ResponseService) {
@@ -46,21 +38,24 @@ public class PackageService implements IService {
 
     public void GetAllOpen(int PageNumber) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionOpen + "/" + ActionGetAll + "/" + PageNumber;
+        String actionOpen = "Open";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionOpen + "/" + ActionGetAll + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.UserPackageOpenGetAll, OutputPackageTransactionViewModel.class, new TypeToken<Feedback<List<OutputPackageTransactionViewModel>>>() {
         }.getType());
     }
 
     public void GetAllClose(int PageNumber) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionClose + "/" + ActionGetAll + "/" + PageNumber;
+        String actionClose = "Close";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionClose + "/" + ActionGetAll + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.UserPackageCloseGetAll, OutputPackageTransactionViewModel.class, new TypeToken<Feedback<List<OutputPackageTransactionViewModel>>>() {
         }.getType());
     }
 
     public void GetUserCredit() {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + ActionUser;
+        String actionUser = "User/Credit";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + actionUser;
         Current.GetService(this, Url, ServiceMethodType.UserCreditGet, OutputPackageTransactionViewModel.class, new TypeToken<Feedback<Double>>() {
         }.getType());
     }
@@ -74,7 +69,9 @@ public class PackageService implements IService {
 
     public void GetAllPackageList(int BusinessId) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + ActionAll + "/" + ActionBusiness + "/" + BusinessId;
+        String actionAll = "All";
+        String actionBusiness = "Business";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + actionAll + "/" + actionBusiness + "/" + BusinessId;
         Current.GetService(this, Url, ServiceMethodType.PackageListGetAll, OutPackageViewModel.class, new TypeToken<Feedback<List<OutPackageViewModel>>>() {
         }.getType());
     }

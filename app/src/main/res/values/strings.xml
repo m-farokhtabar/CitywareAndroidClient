@@ -324,6 +324,7 @@
     <string name="hours">ساعت</string>
     <string name="are_you_sure_you_want_to_extended_a_poster">آیا از تمدید پوستر مطمئن هستید؟</string>
     <string name="choose_one_of_your_businesses">یکی از کسب و کارهای خود را انتخاب کنید</string>
+    <string name="specify_days_or_hours">روز یا ساعت را مشخص کنید.</string>
 
     <!--متون مرتبط با پوستر-->
     <string name="information_show_business">مشاهده اطلاعات کسب و کار</string>
@@ -331,13 +332,14 @@
     <string name="bookmark">علاقه مندی ها</string>
     <string name="business_rating">امتیاز کسب و کار</string>
     <string name="introducing_business_to_your_friends_to_receive_commission">معرفی کسب و کار به دوستان جهت دریافت پورسانت</string>
-    <string name="introducing_to_your_friends">معرفی به دوستان</string>
+    <string name="marketing">بازاریابی</string>
     <string name="introducing_your_friends_to_receive_commission">معرفی به دوستان جهت دریافت پورسانت</string>
     <string name="poster_validate">پوستر های معتبر</string>
     <string name="poster_expire">پوستر های منقضی شده</string>
     <string name="star">*</string>
-    <string name="required_credit">اعتبار مورد نیاز</string>
+    <string name="consumer_credit_per_hour">اعتبار مصرفی به ازای هر ساعت</string>
     <string name="payment_credit">اعتبار قابل پرداخت</string>
+    <string name="poster_list_is_empty">لیست پوستر ها خالی است</string>
 
     <!--متون مرتبط با پکیج ها-->
     <string name="credit_price">اعتبار دریافتی</string>
@@ -345,6 +347,7 @@
     <string name="paid_price">مبلغ پرداخت شده</string>
     <string name="transaction_number">شماره تراکنش</string>
     <string name="unlimited">نامحدود</string>
+    <string name="tour_point_of_less_Purchases_package">امتیاز شما از امتیاز خرید پکیج کمتر است.</string>
 
     <!--متون مرتبط با مشاهده اطلاعات کسب و کار-->
     <string name="show_business_info">مشاهده اطلاعات کسب و کار</string>
@@ -552,7 +555,7 @@
     <string name="no_commission_received">پورسانت دریافت نشده</string>
     <string name="commission_received">پورسانت دریافت شده</string>
     <string name="archives">آرشیو</string>
-    <string name="new_introductions">معرفی شده های جدید</string>
+    <string name="new_introductions">مشتریان جدید</string>
     <string name="introduced_to">معرفی شده به</string>
     <string name="business_does_not_specify_a_commission">کسب و کار پورسانت مشخص نکرده است</string>
     <string name="received_date">تاریخ دریافت</string>
@@ -572,6 +575,7 @@
     <string name="commission_paid">پورسانت پرداخت شده</string>
     <string name="commission_price">مبلغ پورسانت</string>
     <string name="customer">مشتری</string>
+    <string name="report">گزارش</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

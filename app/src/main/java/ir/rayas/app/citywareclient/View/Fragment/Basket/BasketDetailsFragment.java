@@ -3,10 +3,9 @@ package ir.rayas.app.citywareclient.View.Fragment.Basket;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
         Context = (BasketActivity) getActivity();
 
         // Inflate the layout for this fragment
-       View CurrentView = inflater.inflate(R.layout.fragment_basket_details, container, false);
+        View CurrentView = inflater.inflate(R.layout.fragment_basket_details, container, false);
 
 
         //ایجاد طرحبندی صفحه
@@ -65,19 +64,22 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
         ButtonPersianView NextButtonBasketDetailsFragment = CurrentView.findViewById(R.id.NextButtonBasketDetailsFragment);
         ButtonPersianView ReturnButtonBasketDetailsFragment = CurrentView.findViewById(R.id.ReturnButtonBasketDetailsFragment);
         DescriptionEditTextBasketDetailsFragment = CurrentView.findViewById(R.id.DescriptionEditTextBasketDetailsFragment);
+        CardView HasDeliveryCardViewBasketDetailsFragment = CurrentView.findViewById(R.id.HasDeliveryCardViewBasketDetailsFragment);
 
         DescriptionEditTextBasketDetailsFragment.setText(Context.basketSummeryViewModel.getUserDescription());
         HasDeliverySwitchBasketDetailsFragment.setChecked(Context.basketSummeryViewModel.isDelivery());
 
 
-        if ( Context.basketSummeryViewModel.isBusinessIsDelivery()) {
+        if (Context.basketSummeryViewModel.isBusinessIsDelivery()) {
             HasDeliverySwitchBasketDetailsFragment.setVisibility(View.GONE);
             HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
             HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
+            HasDeliveryCardViewBasketDetailsFragment.setVisibility(View.GONE);
         } else {
             HasDeliverySwitchBasketDetailsFragment.setVisibility(View.GONE);
             HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
             HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
+            HasDeliveryCardViewBasketDetailsFragment.setVisibility(View.GONE);
         }
 
         ReturnButtonBasketDetailsFragment.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +96,7 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
                 Context.ShowLoadingProgressBar();
                 BasketService basketService = new BasketService(BasketDetailsFragment.this);
                 Context.setRetryType(1);
-                basketService.EditUserDescriptionAndDelivery(MadeViewModel(),Context.basketSummeryViewModel.getBasketId());
+                basketService.EditUserDescriptionAndDelivery(MadeViewModel(), Context.basketSummeryViewModel.getBasketId());
             }
         });
 
@@ -104,13 +106,13 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
         BasketDeliveryAndUserDescriptionViewModel ViewModel = new BasketDeliveryAndUserDescriptionViewModel();
         try {
             ViewModel.setUserDescription(DescriptionEditTextBasketDetailsFragment.getText().toString());
-            if (HasDeliverySwitchBasketDetailsFragment.getVisibility() == View.GONE){
+            if (HasDeliverySwitchBasketDetailsFragment.getVisibility() == View.GONE) {
                 ViewModel.setDelivery(true);
 
             } else {
                 ViewModel.setDelivery(HasDeliverySwitchBasketDetailsFragment.isChecked());
             }
-        } catch (Exception Ex) {
+        } catch (Exception ignored) {
         }
         return ViewModel;
     }
@@ -131,7 +133,7 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
                         Context.basketSummeryViewModel.setDelivery(true);
                         Context.basketSummeryViewModel.setUserDescription(ViewModel.getUserDescription());
 
-                        if ( Context.basketSummeryViewModel.isDelivery()){
+                        if (Context.basketSummeryViewModel.isDelivery()) {
                             BasketDeliveryFragment basketDeliveryFragment = new BasketDeliveryFragment();
                             FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
                             BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketDeliveryFragment);
@@ -178,6 +180,6 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
 
     @Override
     public void LoadData() {
-        
+
     }
 }

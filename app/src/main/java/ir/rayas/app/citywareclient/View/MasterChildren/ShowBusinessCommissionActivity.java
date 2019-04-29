@@ -83,7 +83,7 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
         ViewPager ProfileViewpager = findViewById(R.id.BusinessCommissionViewpagerShowBusinessCommissionActivity);
         TabLayout ProfileTabLayout = findViewById(R.id.BusinessCommissionTabLayoutShowBusinessCommissionActivity);
 
-        String[] TabNames = new String[]{ getString(R.string.archives), getString(R.string.commission_paid), getString(R.string.commission_un_paid),  getString(R.string.customer_search),getString(R.string.report_income_from_business)};
+        String[] TabNames = new String[]{ getString(R.string.archives), getString(R.string.commission_paid), getString(R.string.commission_un_paid),  getString(R.string.customer_search),getString(R.string.report)};
         Pager = new BusinessCommissionPagerAdapter(getSupportFragmentManager(), TabNames);
         ProfileViewpager.setAdapter(Pager);
         //تعداد فرگمنت هایی که می تواند باز بماند در viewPager

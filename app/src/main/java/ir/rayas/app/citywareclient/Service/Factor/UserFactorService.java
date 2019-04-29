@@ -20,19 +20,12 @@ import ir.rayas.app.citywareclient.ViewModel.Factor.FactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.StatusAndDescriptionFactorInViewModel;
 
-/**
- * Created by Hajar on 2/17/2019.
- */
 
 public class UserFactorService implements IService {
 
     private String ControllerName = "Factor";
-    private String ActionDeliveryPrice = "DeliveryPrice";
+
     private String ActionUser = "User";
-    private String ActionAll = "All";
-    private String ActionPage = "Page";
-    private String ActionStatusAndDescription = "StatusAndDescription";
-    private String ActionDescription = "Description";
 
     private IResponseService ResponseService;
 
@@ -43,7 +36,8 @@ public class UserFactorService implements IService {
 
     public void GetDeliveryPrice(double UserLatitude, double UserLongitude, double BusinessLatitude, double BusinessLongitude) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionDeliveryPrice + "/" + UserLatitude + "/" + UserLongitude + "/" + BusinessLatitude + "/" + BusinessLongitude;
+        String actionDeliveryPrice = "DeliveryPrice";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionDeliveryPrice + "/" + UserLatitude + "/" + UserLongitude + "/" + BusinessLatitude + "/" + BusinessLongitude;
         Current.GetService(this, Url, ServiceMethodType.DeliveryPriceGet, BasketViewModel.class, new TypeToken<Feedback<Double>>() {
         }.getType());
     }
@@ -60,7 +54,9 @@ public class UserFactorService implements IService {
 
     public void GetAll(int Page) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionUser + "/" + ActionAll + "/" + ActionPage + "/" + Page;
+        String actionAll = "All";
+        String actionPage = "Page";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionUser + "/" + actionAll + "/" + actionPage + "/" + Page;
         Current.GetService(this, Url, ServiceMethodType.UserFactorGetAll, FactorViewModel.class, new TypeToken<Feedback<List<FactorViewModel>>>() {
         }.getType());
     }
@@ -81,7 +77,8 @@ public class UserFactorService implements IService {
 
     public void SetStatusAndDescription(StatusAndDescriptionFactorInViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionUser + "/" + ActionStatusAndDescription;
+        String actionStatusAndDescription = "StatusAndDescription";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionUser + "/" + actionStatusAndDescription;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PutService(this, Url, JsonViewModel, ServiceMethodType.UserStatusAndDescriptionSet, StatusAndDescriptionFactorInViewModel.class, new TypeToken<Feedback<Boolean>>() {
@@ -90,7 +87,8 @@ public class UserFactorService implements IService {
 
     public void SetDescription(DescriptionFactorInViewModel ViewModel) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionUser + "/" + ActionDescription;
+        String actionDescription = "Description";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionUser + "/" + actionDescription;
         Gson gson = new Gson();
         String JsonViewModel = gson.toJson(ViewModel);
         Current.PutService(this, Url, JsonViewModel, ServiceMethodType.UserDescriptionSet, DescriptionFactorInViewModel.class, new TypeToken<Feedback<Boolean>>() {

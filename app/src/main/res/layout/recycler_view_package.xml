@@ -96,7 +96,6 @@
                     android:text="96%"
                     android:textAppearance="?android:attr/textAppearanceSmallPopupMenu"
                     android:textColor="@color/FontSemiDarkThemeColor"
-                    android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>

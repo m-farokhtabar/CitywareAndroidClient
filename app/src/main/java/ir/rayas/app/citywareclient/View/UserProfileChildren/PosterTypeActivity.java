@@ -4,19 +4,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.PosterTypeRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
 import ir.rayas.app.citywareclient.Service.Poster.PosterService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -32,7 +30,6 @@ public class PosterTypeActivity extends BaseActivity implements IResponseService
 
     private SwipeRefreshLayout RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity = null;
     private TextViewPersian UserCreditTextViewPosterTypeActivity = null;
-    private ProgressBar LoadMoreProgressBar = null;
     private PosterTypeRecyclerViewAdapter PosterTypeRecyclerViewAdapter = null;
 
     private int PageNumber = 1;
@@ -57,6 +54,7 @@ public class PosterTypeActivity extends BaseActivity implements IResponseService
 
         LoadDataUserCredit();
     }
+
     /**
      * در صورتی که در ارتباط با اینترنت مشکلی بوجود آمده و کاربر دکمه تلاش مجدد را فشار داده است
      */
@@ -87,28 +85,18 @@ public class PosterTypeActivity extends BaseActivity implements IResponseService
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout() {
-        LoadMoreProgressBar = findViewById(R.id.LoadMoreProgressBarPosterTypeActivity);
         RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity = findViewById(R.id.RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity);
         UserCreditTextViewPosterTypeActivity = findViewById(R.id.UserCreditTextViewPosterTypeActivity);
 
         RecyclerView PosterTypeRecyclerViewPosterTypeActivity = findViewById(R.id.PosterTypeRecyclerViewPosterTypeActivity);
         PosterTypeRecyclerViewPosterTypeActivity.setLayoutManager(new LinearLayoutManager(this));
-        PosterTypeRecyclerViewAdapter = new PosterTypeRecyclerViewAdapter(this, null, PosterTypeRecyclerViewPosterTypeActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumber = PageNumber + 1;
-                LoadMoreProgressBar.setVisibility(View.VISIBLE);
-                LoadData();
-            }
-        });
+        PosterTypeRecyclerViewAdapter = new PosterTypeRecyclerViewAdapter(this, null, PosterTypeRecyclerViewPosterTypeActivity);
         PosterTypeRecyclerViewPosterTypeActivity.setAdapter(PosterTypeRecyclerViewAdapter);
 
         RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadMoreProgressBar.setVisibility(View.GONE);
                 PageNumber = 1;
-                PosterTypeRecyclerViewAdapter.setLoading(false);
                 LoadDataUserCredit();
             }
         });
@@ -122,7 +110,6 @@ public class PosterTypeActivity extends BaseActivity implements IResponseService
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
 
-        LoadMoreProgressBar.setVisibility(View.GONE);
         RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity.setRefreshing(false);
         try {
             if (ServiceMethod == ServiceMethodType.UserCreditGet) {
@@ -146,26 +133,38 @@ public class PosterTypeActivity extends BaseActivity implements IResponseService
                     }
                 }
 
-            }else if (ServiceMethod == ServiceMethodType.PosterTypeGetAll) {
+            } else if (ServiceMethod == ServiceMethodType.PosterTypeGetAll) {
                 HideLoading();
                 Feedback<List<PosterTypeViewModel>> FeedBack = (Feedback<List<PosterTypeViewModel>>) Data;
 
+
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
-
                     final List<PosterTypeViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
-                        if (PageNumber == 1)
-                            PosterTypeRecyclerViewAdapter.SetViewModelList(ViewModelList);
-                        else
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() > 0) {
+
+                                PosterTypeRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+
+                        } else {
                             PosterTypeRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
+                        }
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())) {
-                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
-                        }
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         ShowErrorInConnectDialog();
                     }
@@ -175,7 +174,6 @@ public class PosterTypeActivity extends BaseActivity implements IResponseService
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
-        PosterTypeRecyclerViewAdapter.setLoading(false);
     }
 
 

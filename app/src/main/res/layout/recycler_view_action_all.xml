@@ -17,29 +17,12 @@
         android:background="@drawable/background_layer_blue_top"
         android:padding="8dp">
 
-
-        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-            android:id="@+id/ActionTitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/title"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/FontBlackColor"
-            tools:ignore="HardcodedText" />
-
         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
             android:id="@+id/ActionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/ActionTitleTextView"
-            android:layout_toStartOf="@+id/ActionTitleTextView"
-            android:gravity="left"
+            android:gravity="right"
             android:singleLine="true"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -79,7 +62,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/PointTitleTextView"
             android:layout_toStartOf="@+id/PointTitleTextView"
-            android:gravity="left"
+            android:gravity="right"
             android:singleLine="true"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -126,7 +109,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:textColor="@color/FontBlackColor"
             tools:ignore="HardcodedText,RtlHardcoded" />
 

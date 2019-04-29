@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.View.Fragment.Package;
 
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -171,9 +172,17 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
                     Double DeliveryPrice = FeedBack.getValue();
 
                     if (DeliveryPrice != null) {
-                        ShowBuyPackageWithPointDialog(DeliveryPrice.toString(),Point , PackageName);
+                        if (DeliveryPrice < Point) {
+                            Context.ShowToast(Context.getResources().getString(R.string.tour_point_of_less_Purchases_package), Toast.LENGTH_LONG, MessageType.Warning);
+                        } else {
+                            ShowBuyPackageWithPointDialog(DeliveryPrice.toString(), Point, PackageName);
+                        }
                     } else {
-                        ShowBuyPackageWithPointDialog(Context.getResources().getString(R.string.zero),Point , PackageName);
+                        if (0 < Point) {
+                            Context.ShowToast(Context.getResources().getString(R.string.tour_point_of_less_Purchases_package), Toast.LENGTH_LONG, MessageType.Warning);
+                        } else {
+                            ShowBuyPackageWithPointDialog(Context.getResources().getString(R.string.zero), Point, PackageName);
+                        }
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -182,7 +191,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
                         Context.ShowErrorInConnectDialog();
                     }
                 }
-            }  else   if (ServiceMethod == ServiceMethodType.PrizeRequestPackageAdd) {
+            } else if (ServiceMethod == ServiceMethodType.PrizeRequestPackageAdd) {
                 Feedback<UserConsumePointViewModel> FeedBack = (Feedback<UserConsumePointViewModel>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
@@ -207,6 +216,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void SetView(final PackageDetailsViewModel ViewModel) {
 
         if (ViewModel.getImagePathUrl().equals("") || ViewModel.getImagePathUrl() == null) {
@@ -268,6 +278,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         BuyPackageByPointRelativeLayoutPackageDetailsFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Context.ShowLoadingProgressBar();
                 PointService pointService = new PointService(PackageDetailsFragment.this);
                 pointService.Get();
@@ -285,7 +296,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         ButtonPersianView DialogBuyPackageOnlineCancelButton = BuyPackageDialog.findViewById(R.id.DialogBuyPackageOnlineCancelButton);
 
         String Rial = Price + Context.getResources().getString(R.string.zero);
-        String Message = "";
+        String Message;
 
         if (PackageName.contains(Context.getResources().getString(R.string.packag))) {
             Message = Context.getResources().getString(R.string.amount) + " " + Price + " " + Context.getResources().getString(R.string.toman) + " " + Context.getResources().getString(R.string.equivalent) + " " + Rial + " " +
@@ -328,7 +339,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         ButtonPersianView DialogBuyPackageWithPointOkButton = BuyPackageDialog.findViewById(R.id.DialogBuyPackageWithPointOkButton);
         ButtonPersianView DialogBuyPackageWithPointCancelButton = BuyPackageDialog.findViewById(R.id.DialogBuyPackageWithPointCancelButton);
 
-        String Message = "";
+        String Message;
 
         if (PackageName.contains(Context.getResources().getString(R.string.packag))) {
             Message = Context.getResources().getString(R.string.rate) + " " + Point + " " + Context.getResources().getString(R.string.for_buy) + " " + PackageName;
@@ -346,7 +357,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         DialogBuyPackageWithPointOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
                 Context.ShowLoadingProgressBar();
                 PrizeService prizeService = new PrizeService(PackageDetailsFragment.this);
                 prizeService.AddPrizeRequestPackage(MadeViewModel(PackageId));

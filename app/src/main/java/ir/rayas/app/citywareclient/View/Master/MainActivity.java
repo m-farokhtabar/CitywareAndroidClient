@@ -26,7 +26,6 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessPosterInfoRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.IsTopPosterRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.OnLoadMoreListener;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
@@ -46,7 +45,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.MasterChildren.SettingActivity;
-import ir.rayas.app.citywareclient.ViewModel.Factor.FactorItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Setting.UserSettingViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
@@ -60,10 +58,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private TextViewPersian StarredTextViewMainActivity = null;
     private TextViewPersian NewestTextViewMainActivity = null;
     private TextViewPersian BookmarkTextViewMainActivity = null;
-    private LinearLayoutCompat MostVisitedLinearLayoutMainActivity = null;
-    private LinearLayoutCompat StarredLinearLayoutMainActivity = null;
-    private LinearLayoutCompat NewestLinearLayoutMainActivity = null;
-    private LinearLayoutCompat BookmarkLinearLayoutMainActivity = null;
     private RadioButton RegionRadioButtonMainActivity = null;
     private RadioButton CategoryAllRadioButtonMainActivity = null;
     private RadioButton CategoryRadioButtonMainActivity = null;
@@ -115,7 +109,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         CurrentGps = new Gps();
 
         String ArrayAddressString = getIntent().getExtras().getString("ArrayAddressString");
-        Type listType = new TypeToken<List<FactorItemViewModel>>() {
+        Type listType = new TypeToken<List<UserAddressViewModel>>() {
         }.getType();
         userAddressViewModels = new Gson().fromJson(ArrayAddressString, listType);
 
@@ -164,25 +158,17 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private void CreateLayout() {
         RecyclerView isTopPosterRecyclerViewMainActivity = findViewById(R.id.IsTopPosterRecyclerViewMainActivity);
         isTopPosterRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true));
-        isTopPosterRecyclerViewAdapter = new IsTopPosterRecyclerViewAdapter(MainActivity.this, null, isTopPosterRecyclerViewMainActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumber = PageNumber + 1;
-                LoadDataTop();
-            }
-        });
+        isTopPosterRecyclerViewMainActivity.setHasFixedSize(true);
+        isTopPosterRecyclerViewMainActivity.setNestedScrollingEnabled(false);
+        isTopPosterRecyclerViewAdapter = new IsTopPosterRecyclerViewAdapter(MainActivity.this, null, isTopPosterRecyclerViewMainActivity);
         isTopPosterRecyclerViewMainActivity.setAdapter(isTopPosterRecyclerViewAdapter);
 
 
         RecyclerView businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
         businessPosterInfoRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
-        businessPosterInfoRecyclerViewAdapter = new BusinessPosterInfoRecyclerViewAdapter(MainActivity.this, null, businessPosterInfoRecyclerViewMainActivity, new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                PageNumberPoster = PageNumberPoster + 1;
-                LoadDataInfo();
-            }
-        });
+        businessPosterInfoRecyclerViewMainActivity.setHasFixedSize(true);
+        businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
+        businessPosterInfoRecyclerViewAdapter = new BusinessPosterInfoRecyclerViewAdapter(MainActivity.this, null, businessPosterInfoRecyclerViewMainActivity);
         businessPosterInfoRecyclerViewMainActivity.setAdapter(businessPosterInfoRecyclerViewAdapter);
 
         RadioGroup CategoryToggleRadioGroupMainActivity = findViewById(R.id.CategoryToggleRadioGroupMainActivity);
@@ -192,10 +178,10 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         RegionAllRadioButtonMainActivity = findViewById(R.id.RegionAllRadioButtonMainActivity);
         RegionRadioButtonMainActivity = findViewById(R.id.RegionRadioButtonMainActivity);
 
-        BookmarkLinearLayoutMainActivity = findViewById(R.id.BookmarkLinearLayoutMainActivity);
-        MostVisitedLinearLayoutMainActivity = findViewById(R.id.MostVisitedLinearLayoutMainActivity);
-        StarredLinearLayoutMainActivity = findViewById(R.id.StarredLinearLayoutMainActivity);
-        NewestLinearLayoutMainActivity = findViewById(R.id.NewestLinearLayoutMainActivity);
+        LinearLayoutCompat bookmarkLinearLayoutMainActivity = findViewById(R.id.BookmarkLinearLayoutMainActivity);
+        LinearLayoutCompat mostVisitedLinearLayoutMainActivity = findViewById(R.id.MostVisitedLinearLayoutMainActivity);
+        LinearLayoutCompat starredLinearLayoutMainActivity = findViewById(R.id.StarredLinearLayoutMainActivity);
+        LinearLayoutCompat newestLinearLayoutMainActivity = findViewById(R.id.NewestLinearLayoutMainActivity);
         MostVisitedTextViewMainActivity = findViewById(R.id.MostVisitedTextViewMainActivity);
         StarredTextViewMainActivity = findViewById(R.id.StarredTextViewMainActivity);
         NewestTextViewMainActivity = findViewById(R.id.NewestTextViewMainActivity);
@@ -209,28 +195,28 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         queryType = QueryType.New.GetQueryType();
 
 
-        NewestLinearLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
+        newestLinearLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NewestPoster();
             }
         });
 
-        MostVisitedLinearLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
+        mostVisitedLinearLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MostVisitedPoster();
             }
         });
 
-        StarredLinearLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
+        starredLinearLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 StarredPoster();
             }
         });
 
-        BookmarkLinearLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
+        bookmarkLinearLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 BookmarkPoster();
@@ -388,13 +374,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         } else {
             RegionRadioButtonMainActivity.setText(getResources().getString(R.string.address));
-            if (userAddressViewModels.size() > 1) {
-                latitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLatitude();
-                longitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLongitude();
-            } else {
-                latitude = null;
-                longitude = null;
-            }
+
+                if (userAddressViewModels.size() > 1) {
+                    latitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLatitude();
+                    longitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLongitude();
+                } else {
+                    latitude = null;
+                    longitude = null;
+                }
+
         }
     }
 
@@ -436,12 +424,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                             isTopPosterRecyclerViewAdapter.AddViewModelList(ViewModelList);
                     }
                 } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
+                    if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
                         ShowErrorInConnectDialog();
                     }
+//                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+//                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
+                    //ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+//                    } else {
+//                        ShowErrorInConnectDialog();
+//                    }
                 }
             } else if (ServiceMethod == ServiceMethodType.BusinessPosterInfoGetAll) {
                 Feedback<List<BusinessPosterInfoViewModel>> FeedBack = (Feedback<List<BusinessPosterInfoViewModel>>) Data;
@@ -457,12 +448,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                             businessPosterInfoRecyclerViewAdapter.AddViewModelList(ViewModelList);
                     }
                 } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumberPoster > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
+                    if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
                         ShowErrorInConnectDialog();
                     }
+//                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+//                        if (!(PageNumberPoster > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
+//                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+//                    } else {
+//                        ShowErrorInConnectDialog();
+//                    }
                 }
             } else if (ServiceMethod == ServiceMethodType.BookmarkPosterInfoGetAll) {
                 Feedback<List<BusinessPosterInfoViewModel>> FeedBack = (Feedback<List<BusinessPosterInfoViewModel>>) Data;
@@ -477,12 +471,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                             businessPosterInfoRecyclerViewAdapter.AddViewModelList(ViewModelList);
                     }
                 } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumberPoster > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
+                    if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
                         ShowErrorInConnectDialog();
                     }
+//                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+//                        if (!(PageNumberPoster > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
+//                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+//                    } else {
+//                        ShowErrorInConnectDialog();
+//                    }
                 }
             }
 
@@ -654,8 +651,12 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         GetSetting();
 
         List<BusinessPosterInfoViewModel> ViewModelList = new ArrayList<>();
+        List<BusinessPosterInfoViewModel> ViewModelListTop = new ArrayList<>();
         businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
-        isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelList);
+        isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelListTop);
+
+        PageNumber = 1;
+        PageNumberPoster = 1;
 
         LoadData();
 
