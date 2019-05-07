@@ -3,6 +3,7 @@ package ir.rayas.app.citywareclient.View.Master;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
@@ -29,7 +30,7 @@ public class CommerceActivity extends BaseActivity {
             public void call() {
                 LoadData();
             }
-        },0);
+        }, 0);
 
         //ایجاد طرحبندی صفحه
         CreateLayout();
@@ -41,12 +42,12 @@ public class CommerceActivity extends BaseActivity {
 
     private void CreateLayout() {
 
-        ButtonPersianView GetDiscountsButtonCommerceActivity = findViewById(R.id.GetDiscountsButtonCommerceActivity);
-        ButtonPersianView MarketerCommissionButtonCommerceActivity = findViewById(R.id.MarketerCommissionButtonCommerceActivity);
-        ButtonPersianView IncomeFromBusinessButtonCommerceActivity = findViewById(R.id.IncomeFromBusinessButtonCommerceActivity);
+        RelativeLayout GetDiscountsRelativeLayoutCommerceActivity = findViewById(R.id.GetDiscountsRelativeLayoutCommerceActivity);
+        RelativeLayout MarketerCommissionRelativeLayoutCommerceActivity = findViewById(R.id.MarketerCommissionRelativeLayoutCommerceActivity);
+        RelativeLayout IncomeFromBusinessRelativeLayoutCommerceActivity = findViewById(R.id.IncomeFromBusinessRelativeLayoutCommerceActivity);
 
 
-        GetDiscountsButtonCommerceActivity.setOnClickListener(new View.OnClickListener() {
+        GetDiscountsRelativeLayoutCommerceActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent DiscountsAndIncomeIntent = NewIntent(DiscountActivity.class);
@@ -55,7 +56,7 @@ public class CommerceActivity extends BaseActivity {
             }
         });
 
-        MarketerCommissionButtonCommerceActivity.setOnClickListener(new View.OnClickListener() {
+        MarketerCommissionRelativeLayoutCommerceActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent ShowMarketerCommissionDetailsIntent = NewIntent(ShowMarketerCommissionDetailsActivity.class);
@@ -63,7 +64,7 @@ public class CommerceActivity extends BaseActivity {
             }
         });
 
-        IncomeFromBusinessButtonCommerceActivity.setOnClickListener(new View.OnClickListener() {
+        IncomeFromBusinessRelativeLayoutCommerceActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent UserBusinessListIntent = NewIntent(UserBusinessListActivity.class);

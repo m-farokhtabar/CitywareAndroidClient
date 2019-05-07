@@ -35,7 +35,6 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PosterTypeActivity;
-import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 
 
@@ -129,6 +128,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
                 PageNumberValid = 1;
                 PageNumberExpire = 1;
 
+                ShowEmptyTextViewUserPostersFragment.setVisibility(View.GONE);
+
                 if (isChecked) {
 
                     if (!IsFirst)
@@ -193,7 +194,6 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
                 Feedback<List<PurchasedPosterViewModel>> FeedBack = (Feedback<List<PurchasedPosterViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-                    IsFirst = false;
 
                     final List<PurchasedPosterViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
@@ -287,6 +287,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
+                    IsFirst = false;
                     LoadDataValidPoster();
 
                     if (FeedBack.getValue() != null) {

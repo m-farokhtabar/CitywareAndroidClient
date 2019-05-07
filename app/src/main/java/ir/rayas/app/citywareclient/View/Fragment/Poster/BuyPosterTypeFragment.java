@@ -34,6 +34,9 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService 
     private double PriceHours = 0.0;
     private double PriceDay = 0.0;
 
+    int NewDay;
+    int NewHours;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -76,6 +79,7 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService 
         DayNumberPickerBuyPosterTypeFragment.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int newDay) {
+                NewDay = newDay * 24;
                 double ConvertToHours = newDay * 24;
                 PriceDay = ConvertToHours * Context.getPosterTypePrice();
                 TotalPrice = PriceDay + PriceHours;
@@ -86,6 +90,7 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService 
         HoursNumberPickerBuyPosterTypeFragment.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int newHours) {
+                NewHours = newHours;
                 PriceHours = newHours * Context.getPosterTypePrice();
                 TotalPrice = PriceDay + PriceHours;
                 TotalPriceTextViewBuyPosterTypeFragment.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
@@ -104,10 +109,21 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService 
             @Override
             public void onClick(View view) {
 
-                if (TotalPrice == 0) {
-                    Context.ShowToast(Context.getResources().getString(R.string.specify_days_or_hours), Toast.LENGTH_LONG, MessageType.Warning);
+
+                if (Context.getPosterTypePrice() > 0) {
+                    if (TotalPrice == 0) {
+                        Context.ShowToast(Context.getResources().getString(R.string.specify_days_or_hours), Toast.LENGTH_LONG, MessageType.Warning);
+                    } else {
+                        Context.setHours((int) (TotalPrice / Context.getPosterTypePrice()));
+
+                        BusinessListForPosterFragment businessListForPosterFragment = new BusinessListForPosterFragment();
+                        FragmentTransaction BusinessListTransaction = Context.getSupportFragmentManager().beginTransaction();
+                        BusinessListTransaction.replace(R.id.PosterFrameLayoutBuyPosterTypeActivity, businessListForPosterFragment);
+                        BusinessListTransaction.addToBackStack(null);
+                        BusinessListTransaction.commit();
+                    }
                 } else {
-                    Context.setHours((int) (TotalPrice / Context.getPosterTypePrice()));
+                    Context.setHours(NewDay + NewHours);
 
                     BusinessListForPosterFragment businessListForPosterFragment = new BusinessListForPosterFragment();
                     FragmentTransaction BusinessListTransaction = Context.getSupportFragmentManager().beginTransaction();

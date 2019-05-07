@@ -3,24 +3,24 @@ package ir.rayas.app.citywareclient.ViewModel.Marketing;
 
 public class MarketerCommissionInfoViewModel {
 
-    private int AllMarketerSuggestion;
-    private int AllSuccessMarketerSuggestion;
-    private double AllMarketerCommission;
-    private double AllReceivedMarketerCommission;
+    private Integer AllMarketerSuggestion;
+    private Integer AllSuccessMarketerSuggestion;
+    private Double AllMarketerCommission;
+    private Double AllReceivedMarketerCommission;
 
-    public int getAllMarketerSuggestion() {
+    public Integer getAllMarketerSuggestion() {
         return AllMarketerSuggestion;
     }
 
-    public int getAllSuccessMarketerSuggestion() {
+    public Integer getAllSuccessMarketerSuggestion() {
         return AllSuccessMarketerSuggestion;
     }
 
-    public double getAllMarketerCommission() {
+    public Double getAllMarketerCommission() {
         return AllMarketerCommission;
     }
 
-    public double getAllReceivedMarketerCommission() {
+    public Double getAllReceivedMarketerCommission() {
         return AllReceivedMarketerCommission;
     }
 }

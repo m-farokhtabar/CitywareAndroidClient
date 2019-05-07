@@ -14,6 +14,7 @@ import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.ProductInfoViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Order.ProductViewModel;
 
 public class ProductService implements IService {
@@ -30,6 +31,16 @@ public class ProductService implements IService {
         String actionGetAll = "all";
         String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGetAll + "/Business/" + BusinessId + "/Page/" + NumberPage;
         Current.GetService(this, Url, ServiceMethodType.ProductGetAll, ProductViewModel.class, new TypeToken<Feedback<List<ProductViewModel>>>() {
+        }.getType());
+    }
+
+
+    public void GetAll(int BusinessId) {
+
+        BaseService Current = new BaseService();
+        String actionGetAll = "AllInfo";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionGetAll + "/Business/" + BusinessId ;
+        Current.GetService(this, Url, ServiceMethodType.ProductInfoGetAll, ProductInfoViewModel.class, new TypeToken<Feedback<List<ProductInfoViewModel>>>() {
         }.getType());
     }
 

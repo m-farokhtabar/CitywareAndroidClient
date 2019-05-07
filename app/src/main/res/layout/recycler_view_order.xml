@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/OrderRelativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="UnusedAttribute">
+
+
+    <TableLayout
+        android:id="@+id/TitleTableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/MarketerPercentTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:gravity="center"
+                android:maxLines="2"
+                android:singleLine="false"
+                android:text="@string/marketer_commission"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/FontBlackColor"
+                android:textIsSelectable="false"
+                tools:ignore="RtlHardcoded" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/CustomerPercentTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:gravity="center"
+                android:maxLines="2"
+                android:singleLine="false"
+                android:text="@string/discount_customer"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/FontBlackColor"
+                android:textIsSelectable="false"
+                tools:ignore="RtlHardcoded" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/ProductNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:layout_span="10"
+                android:gravity="center|right"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/product_name"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/FontBlackColor"
+                android:textIsSelectable="false"
+                tools:ignore="HardcodedText,RtlHardcoded,SpUsage" />
+
+
+        </TableRow>
+    </TableLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@+id/TitleTableLayout"
+        android:layout_marginTop="8dp"
+        android:background="@color/LineTopColor" />
+
+
+</RelativeLayout>

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.ViewModel.Club.UserActionPointViewModel;
 
 
@@ -53,8 +51,8 @@ public class UserActionRecyclerViewAdapter extends RecyclerView.Adapter<UserActi
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        
-        holder.UserPointTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPoint()));
+
+        holder.UserPointTextView.setText( String.valueOf((int)Math.round(ViewModelList.get(position).getPoint())));
         holder.UserActionTextView.setText(ViewModelList.get(position).getActionTitle());
         holder.UserActionDateTextView.setText(ViewModelList.get(position).getCreate());
 

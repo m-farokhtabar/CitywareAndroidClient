@@ -62,7 +62,7 @@ public class ActionAllRecyclerViewAdapter  extends RecyclerView.Adapter<ActionAl
         if (Point==0){
             holder.PointTextView.setText(Context.getResources().getString(R.string.variable_point));
         }   else {
-            holder.PointTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPoint()));
+            holder.PointTextView.setText( String.valueOf((int)Math.round(ViewModelList.get(position).getPoint())));
         }
         holder.ActionTextView.setText(ViewModelList.get(position).getTitle());
         holder.DescriptionPointTextView.setText(ViewModelList.get(position).getDescription());

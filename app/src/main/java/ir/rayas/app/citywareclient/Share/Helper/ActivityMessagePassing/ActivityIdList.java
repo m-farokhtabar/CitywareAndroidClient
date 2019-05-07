@@ -64,5 +64,7 @@ public class ActivityIdList {
     public  static final int SEARCH_ACTIVITY  = 53;
     public  static final int USER_BUSINESS_LIST_ACTIVITY  = 54;
     public  static final int SHOW_BUSINESS_COMMISSION_ACTIVITY  = 55;
+    public  static final int ORDER_ACTIVITY  = 56;
+    public  static final int PRODUCT_LIST_ORDER_ACTIVITY  = 57;
 
 }

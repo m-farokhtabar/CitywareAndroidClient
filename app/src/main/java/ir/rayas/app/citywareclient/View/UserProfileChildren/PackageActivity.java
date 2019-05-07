@@ -19,8 +19,16 @@ public class PackageActivity extends BaseActivity {
         RetryType = retryType;
     }
 
-    private String ValueIntent = "";
-    private int PackageId = 0;
+    public String ValueIntent = "";
+    public int PackageId = 0;
+
+    public String getValueIntent() {
+        return ValueIntent;
+    }
+
+    public int getPackageId() {
+        return PackageId;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,22 +60,22 @@ public class PackageActivity extends BaseActivity {
      */
     private void CreateLayout() {
 
-        if (ValueIntent.equals("New")) {
+//        if (ValueIntent.equals("New")) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction BusinessListTransaction = fragmentManager.beginTransaction();
             BusinessListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, new BusinessListForPackageFragment());
             BusinessListTransaction.commit();
-        }else {
-            Bundle PackageIdBundle = new Bundle();
-            PackageIdBundle.putInt("PackageId",PackageId);
-            PackageDetailsFragment packageDetailsFragment = new PackageDetailsFragment();
-            packageDetailsFragment.setArguments(PackageIdBundle);
-
-            FragmentTransaction BasketListTransaction = getSupportFragmentManager().beginTransaction();
-            BasketListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageDetailsFragment);
-            BasketListTransaction.addToBackStack(null);
-            BasketListTransaction.commit();
-        }
+//        }else {
+//            Bundle PackageIdBundle = new Bundle();
+//            PackageIdBundle.putInt("PackageId",PackageId);
+//            PackageDetailsFragment packageDetailsFragment = new PackageDetailsFragment();
+//            packageDetailsFragment.setArguments(PackageIdBundle);
+//
+//            FragmentTransaction BasketListTransaction = getSupportFragmentManager().beginTransaction();
+//            BasketListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageDetailsFragment);
+//            BasketListTransaction.addToBackStack(null);
+//            BasketListTransaction.commit();
+//        }
     }
 
     /**

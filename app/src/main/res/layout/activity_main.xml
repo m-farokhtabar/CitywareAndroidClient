@@ -132,12 +132,19 @@
 
         </android.support.v7.widget.LinearLayoutCompat>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_below="@+id/NewAndStarAndVisitLinearLayoutMainActivity"
+            android:id="@+id/LineTab"
+            android:background="@color/LineTopColor"/>
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
             android:layout_above="@+id/MainMenuBottomCategoryAndRegionLinearLayoutMainActivity"
-            android:layout_below="@+id/NewAndStarAndVisitLinearLayoutMainActivity">
+            android:layout_below="@+id/LineTab">
 
             <RelativeLayout
                 android:layout_width="match_parent"

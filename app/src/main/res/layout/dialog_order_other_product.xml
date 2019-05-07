@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/HeaderColorDialog"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:background="@color/BackgroundThemeColor" />
+
+        <RelativeLayout
+            android:id="@+id/DialogProductNameRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/HeaderColorDialog"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+
+            <EditText
+                android:id="@+id/ProductNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@+id/ProductTitleTextView"
+                android:layout_toStartOf="@+id/ProductTitleTextView"
+                android:gravity="right|bottom"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontBlackColor"
+                tools:ignore="RtlHardcoded" />
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/ProductTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/product_name"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiBlackColor"
+                tools:ignore="RtlHardcoded"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="right|bottom"
+                android:gravity="right|bottom" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/DialogPriceProductRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/DialogProductNameRelativeLayout"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+
+            <EditText
+                android:id="@+id/UnitPriceProductTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="right|bottom"
+                android:inputType="numberDecimal"
+                android:layout_toStartOf="@+id/UnitPriceProductTitleTextView"
+                android:layout_toLeftOf="@+id/UnitPriceProductTitleTextView"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontBlackColor"
+                tools:ignore="RtlHardcoded" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/UnitPriceProductTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="right|bottom"
+                android:gravity="right|bottom"
+                android:text="@string/unit_price"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiBlackColor"
+                tools:ignore="RtlHardcoded" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/DialogCountProductRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/DialogPriceProductRelativeLayout"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+
+            <EditText
+                android:id="@+id/CountProductTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@+id/CountProductTitleTextView"
+                android:layout_toStartOf="@+id/CountProductTitleTextView"
+                android:gravity="right|bottom"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontBlackColor"
+                tools:ignore="RtlHardcoded" />
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/CountProductTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/number_of_order_items"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiBlackColor"
+                tools:ignore="RtlHardcoded"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="right|bottom"
+                android:gravity="right|bottom" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/DialogCountProductRelativeLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@color/BackgroundColorHeaderAddressLayout"
+            android:orientation="horizontal">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/DialogOrderProductCancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="13dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/view_button_normal_theme_style"
+                android:gravity="center"
+                android:text="@string/back"
+                android:textColor="@color/FontWhiteColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/DialogOrderProductOkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginEnd="13dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/view_button_normal_green_style"
+                android:text="@string/submit"
+                android:textColor="@color/FontWhiteColor" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

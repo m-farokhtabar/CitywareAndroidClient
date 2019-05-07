@@ -195,6 +195,32 @@
                     tools:ignore="RtlHardcoded">
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/CreateDateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3dp"
+                        android:gravity="right"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontBlackColor" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/buy_date"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontSemiBlackColor" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="right"
+                    android:orientation="horizontal"
+                    tools:ignore="RtlHardcoded">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                         android:id="@+id/ExpireTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -213,31 +239,7 @@
                         android:textColor="@color/FontSemiBlackColor" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:gravity="right"
-                    android:orientation="horizontal"
-                    tools:ignore="RtlHardcoded">
 
-                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                        android:id="@+id/CreateDateTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="3dp"
-                        android:gravity="right"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/FontBlackColor" />
-
-                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="@string/buy_date"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/FontSemiBlackColor" />
-                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>

@@ -10,27 +10,47 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Service.Package.PackageService;
+import ir.rayas.app.citywareclient.Service.Poster.PosterService;
+import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
+import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
+import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
+import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
+import ir.rayas.app.citywareclient.ViewModel.Poster.ExtendBuyPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 
 
-
-public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
 
     private UserProfileActivity Context;
     private RecyclerView Container = null;
     private List<PurchasedPosterViewModel> ViewModelList = null;
+
+    private int Position = 0;
+
+    private Dialog ExtendedPosterTypeDialog;
+
+    private TextViewPersian TotalPriceTextView = null;
+
+    private int Hours = 0;
+    private int Day = 0;
+    private double TotalPrice = 0.0;
 
     public PosterExpiredRecyclerViewAdapter(UserProfileActivity Context, List<PurchasedPosterViewModel> ViewModelList, RecyclerView Container) {
         this.ViewModelList = ViewModelList;
@@ -88,6 +108,7 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
         holder.BusinessNameTextView.setText(ViewModelList.get(position).getBusinessName());
         holder.ExpireDateTextView.setText(ViewModelList.get(position).getExpireDate());
+        holder.PosterCostTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPosterPrice()));
 
 
         if (!ViewModelList.get(position).getImagePathUrl().equals("")) {
@@ -107,7 +128,10 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         holder.ExtendedPosterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Context.ShowLoadingProgressBar();
+                Position = position;
+                PackageService packageService = new PackageService(PosterExpiredRecyclerViewAdapter.this);
+                packageService.GetUserCredit();
             }
         });
 
@@ -136,6 +160,7 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         TextViewPersian PosterTitleTextView;
         TextViewPersian BusinessNameTextView;
         TextViewPersian ExpireDateTextView;
+        TextViewPersian PosterCostTextView;
         ImageView PosterImageView;
 
         PosterViewHolder(View v) {
@@ -147,7 +172,166 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             DetailsBuyPosterButton = v.findViewById(R.id.DetailsBuyPosterButton);
             PosterImageView = v.findViewById(R.id.PosterImageView);
             ExpireDateTextView = v.findViewById(R.id.ExpireDateTextView);
+            PosterCostTextView = v.findViewById(R.id.PosterCostTextView);
         }
+    }
+
+
+    /**
+     * @param Data
+     * @param ServiceMethod
+     * @param <T>
+     */
+    @Override
+    public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
+        Context.HideLoading();
+        try {
+            if (ServiceMethod == ServiceMethodType.UserCreditGet) {
+                Feedback<Double> FeedBack = (Feedback<Double>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                    if (FeedBack.getValue() != null) {
+
+                        ShowDialogExtendedPosterType(ViewModelList.get(Position), FeedBack.getValue());
+                    } else {
+                        ShowDialogExtendedPosterType(ViewModelList.get(Position), 0);
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        Context.ShowErrorInConnectDialog();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.ExtendPosterEdit) {
+                Feedback<PurchasedPosterViewModel> FeedBack = (Feedback<PurchasedPosterViewModel>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    if (FeedBack.getValue() != null) {
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        Context.ShowErrorInConnectDialog();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
+        }
+    }
+
+    private ExtendBuyPosterViewModel MadeViewModel(double Hours) {
+
+        ExtendBuyPosterViewModel ViewModel = new ExtendBuyPosterViewModel();
+        try {
+            ViewModel.setHours((int) Hours);
+            ViewModel.setPurchasedPosterId(ViewModelList.get(Position).getId());
+        } catch (Exception Ex) {
+            Context.ShowToast(FeedbackType.InvalidDataFormat.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
+        }
+        return ViewModel;
+    }
+
+
+    private void ShowDialogExtendedPosterType(final PurchasedPosterViewModel ViewModel, double UserCredit) {
+
+        ExtendedPosterTypeDialog = new Dialog(Context);
+        ExtendedPosterTypeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ExtendedPosterTypeDialog.setContentView(R.layout.dialog_buy_poster_type);
+
+        TextViewPersian YourCreditTextView = ExtendedPosterTypeDialog.findViewById(R.id.YourCreditTextView);
+        final TextViewPersian PosterTypeTextView = ExtendedPosterTypeDialog.findViewById(R.id.PosterTypeTextView);
+        TextViewPersian priceTextView = ExtendedPosterTypeDialog.findViewById(R.id.priceTextView);
+        TotalPriceTextView = ExtendedPosterTypeDialog.findViewById(R.id.TotalPriceTextView);
+        final NumberPicker DayNumberPicker = ExtendedPosterTypeDialog.findViewById(R.id.DayNumberPicker);
+        final NumberPicker HoursNumberPicker = ExtendedPosterTypeDialog.findViewById(R.id.HoursNumberPicker);
+        ButtonPersianView DialogExtendedPosterCancelButton = ExtendedPosterTypeDialog.findViewById(R.id.DialogExtendedPosterCancelButton);
+        ButtonPersianView DialogExtendedPosterOkButton = ExtendedPosterTypeDialog.findViewById(R.id.DialogExtendedPosterOkButton);
+        FrameLayout Line1FrameLayout = ExtendedPosterTypeDialog.findViewById(R.id.Line1FrameLayout);
+
+
+        if (ViewModel.getTitle().equals("")) {
+            PosterTypeTextView.setVisibility(View.GONE);
+            Line1FrameLayout.setVisibility(View.GONE);
+        } else {
+            PosterTypeTextView.setVisibility(View.VISIBLE);
+            Line1FrameLayout.setVisibility(View.VISIBLE);
+            PosterTypeTextView.setText(ViewModel.getTitle());
+        }
+        priceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModel.getPosterPrice()));
+        YourCreditTextView.setText(Utility.GetIntegerNumberWithComma(UserCredit));
+        TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
+
+        HoursNumberPicker.setMinValue(0);
+        HoursNumberPicker.setMaxValue(23);
+        DayNumberPicker.setMinValue(0);
+        DayNumberPicker.setMaxValue(31);
+        HoursNumberPicker.setValue(0);
+        DayNumberPicker.setValue(0);
+
+        final double[] PriceHours = {0.0};
+        final double[] PriceDay = {0.0};
+
+
+        DayNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int newDay) {
+                Day = newDay;
+                double ConvertToHours = Day * 24;
+                PriceDay[0] = ConvertToHours * ViewModel.getPosterPrice();
+                TotalPrice = PriceHours[0] + PriceDay[0];
+                TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
+            }
+        });
+
+        HoursNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int newHours) {
+                Hours = newHours;
+                PriceHours[0] = Hours * ViewModel.getPosterPrice();
+                TotalPrice = PriceDay[0] + PriceHours[0];
+                TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
+            }
+        });
+
+        DialogExtendedPosterOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (Hours == 0 && Day == 0) {
+                    Context.ShowToast(Context.getResources().getString(R.string.specify_days_or_hours), Toast.LENGTH_LONG, MessageType.Warning);
+                } else {
+                    Context.ShowLoadingProgressBar();
+                    PosterService PosterService = new PosterService(PosterExpiredRecyclerViewAdapter.this);
+                    PosterService.EditExtendPoster(MadeViewModel(Day + Hours));
+
+                    ExtendedPosterTypeDialog.dismiss();
+
+                    TotalPrice = 0;
+                    Day = 0;
+                    Hours = 0;
+
+                    HoursNumberPicker.setValue(0);
+                    DayNumberPicker.setValue(0);
+
+                    TotalPriceTextView.setText(Context.getResources().getString(R.string.zero));
+
+                }
+            }
+        });
+
+        DialogExtendedPosterCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExtendedPosterTypeDialog.dismiss();
+            }
+        });
+
+        ExtendedPosterTypeDialog.show();
     }
 
 

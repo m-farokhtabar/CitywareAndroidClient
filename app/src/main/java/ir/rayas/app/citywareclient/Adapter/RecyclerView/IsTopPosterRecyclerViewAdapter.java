@@ -105,7 +105,7 @@ public class IsTopPosterRecyclerViewAdapter  extends RecyclerView.Adapter<Recycl
         if (!ProductImage.equals("")) {
             Glide.with(Context).load(ProductImage).apply(RequestOptions.circleCropTransform()).into(viewHolder.IsTopPosterImageView);
         } else {
-            viewHolder.IsTopPosterImageView.setImageResource(R.drawable.image_default);
+            viewHolder.IsTopPosterImageView.setImageResource(R.drawable.image_default_banner);
         }
 
 

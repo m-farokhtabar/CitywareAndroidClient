@@ -321,6 +321,8 @@
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity android:name=".View.MasterChildren.OrderActivity" />
+        <activity android:name=".View.MasterChildren.ProductListOrderActivity"></activity>
     </application>
 
 </manifest>

@@ -141,10 +141,10 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginStart="8dp"
                             android:layout_toLeftOf="@+id/MyPointTitleTextViewUserActionPointActivity"
                             android:layout_toStartOf="@+id/MyPointTitleTextViewUserActionPointActivity"
                             android:gravity="left"
@@ -157,7 +157,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="75dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
@@ -187,32 +187,45 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/background_layer_gray"
-                            android:layout_margin="8dp"
                             android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/background_layer_gray"
+                            android:gravity="center"
                             android:orientation="vertical"
                             tools:ignore="UselessParent">
 
-                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/PointsSpentTextViewUserActionPointActivity"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="5dp"
-                                android:text="5"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                                android:textColor="@color/FontSemiDarkThemeColor"
-                                tools:ignore="HardcodedText,TooDeepLayout" />
+                                android:background="@drawable/background_layer_gray"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                tools:ignore="UselessParent">
 
-                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginBottom="3dp"
-                                android:text="@string/points_spent"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                                android:textColor="@color/FontBlackColor"
-                                tools:ignore="HardcodedText" />
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:id="@+id/PointsSpentTextViewUserActionPointActivity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="5dp"
+                                    android:text="5"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                    android:textColor="@color/FontSemiDarkThemeColor"
+                                    tools:ignore="HardcodedText,TooDeepLayout" />
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="3dp"
+                                    android:text="@string/points_spent"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                    android:textColor="@color/FontBlackColor"
+                                    tools:ignore="HardcodedText" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -220,7 +233,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginEnd="4dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
@@ -240,33 +253,46 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/background_layer_gray"
-                            android:layout_margin="8dp"
                             android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/background_layer_gray"
+                            android:gravity="center"
                             android:orientation="vertical"
                             tools:ignore="UselessParent">
 
-
-                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/MyPointTextViewUserActionPointActivity"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="5dp"
-                                android:text="3"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                                android:textColor="@color/FontSemiDarkThemeColor"
-                                tools:ignore="HardcodedText" />
+                                android:background="@drawable/background_layer_gray"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                tools:ignore="UselessParent">
 
-                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginBottom="3dp"
-                                android:text="@string/points_earned"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                                android:textColor="@color/FontBlackColor"
-                                tools:ignore="HardcodedText" />
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:id="@+id/MyPointTextViewUserActionPointActivity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="5dp"
+                                    android:text="3"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                    android:textColor="@color/FontSemiDarkThemeColor"
+                                    tools:ignore="HardcodedText" />
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="3dp"
+                                    android:text="@string/points_earned"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                    android:textColor="@color/FontBlackColor"
+                                    tools:ignore="HardcodedText" />
+
+                            </LinearLayout>
                         </LinearLayout>
 
                     </RelativeLayout>

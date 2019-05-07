@@ -1,15 +1,14 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,12 +82,14 @@ public class PrizeAllClubRecyclerViewAdapter extends RecyclerView.Adapter<PrizeA
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.DescriptionPrizeTextView.setText(ViewModelList.get(position).getDescription());
         holder.TitlePrizeTextView.setText(ViewModelList.get(position).getTitle());
-        holder.PointTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPoint()) + "  " + Context.getResources().getString(R.string.rate));
+
+        holder.PointTextView.setText(String.valueOf((int) Math.round(ViewModelList.get(position).getPoint())) + "  " + Context.getResources().getString(R.string.rate));
 
 
         Double Point = ViewModelList.get(position).getPoint();
@@ -172,12 +173,12 @@ public class PrizeAllClubRecyclerViewAdapter extends RecyclerView.Adapter<PrizeA
 
         TextView DialogPointTextView = BuyPrizeDialog.findViewById(R.id.DialogPointTextView);
         TextViewPersian DialogMyPointTextView = BuyPrizeDialog.findViewById(R.id.DialogMyPointTextView);
-        DialogMyPointTextView.setText(Utility.GetIntegerNumberWithComma(YourPoint));
+        DialogMyPointTextView.setText(String.valueOf((int) Math.round(YourPoint)));
 
         DialogPointTextView.setTypeface(typeface);
 
         String Name = "<font color='#ff0000'><b>" + PackageName + "</b></font>";
-        String point = "<font color='#ff0000'><b>" + Utility.GetIntegerNumberWithComma(Point) + "</b></font>";
+        String point = "<font color='#ff0000'><b>" + String.valueOf((int) Math.round(Point)) + "</b></font>";
         String Message = Context.getResources().getString(R.string.for_buy) + " " + Name + " " + Context.getResources().getString(R.string.need_to) + " " + point + " " + Context.getResources().getString(R.string.are_you_sure_you_want_to_purchase_the_point_you_are_looking_for);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -216,7 +217,7 @@ public class PrizeAllClubRecyclerViewAdapter extends RecyclerView.Adapter<PrizeA
         try {
             ViewModel.setId(Id);
 
-        } catch (Exception Ex) {
+        } catch (Exception ignored) {
         }
         return ViewModel;
     }

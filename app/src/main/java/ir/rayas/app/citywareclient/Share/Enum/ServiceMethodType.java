@@ -45,6 +45,7 @@ public enum ServiceMethodType {
     BusinessOpenTimeAdd,
     BusinessOpenTimeSet,
     ProductGetAll,
+    ProductInfoGetAll,
     ProductGet,
     ProductSet,
     ProductAdd,
@@ -124,9 +125,10 @@ public enum ServiceMethodType {
     NotPayedBusinessCommissionGetAll,
     ReceivedMarketerCommissionGetAll,
     PayedBusinessCommissionGetAll,
-   NewSuggestionMarketerCommissionGetAll,
+    NewSuggestionMarketerCommissionGetAll,
     ExpiredMarketerCommissionGetAll,
     ExpiredBusinessCommissionGetAll,
     NewSuggestionBusinessCommissionGetAll,
+    SearchResultGet,
 
 }

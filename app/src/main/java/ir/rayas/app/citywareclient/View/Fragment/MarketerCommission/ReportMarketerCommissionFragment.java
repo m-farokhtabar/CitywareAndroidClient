@@ -125,15 +125,27 @@ public class ReportMarketerCommissionFragment extends Fragment implements IRespo
         double TotalAmountCommission = ViewModel.getAllMarketerCommission() - ViewModel.getAllReceivedMarketerCommission();
         RemainingAmountCommissionTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(TotalAmountCommission) + " " + getResources().getString(R.string.toman));
 
-        double TotalNumberCustomer = ViewModel.getAllMarketerSuggestion();
-        double NumberCustomerUse = ViewModel.getAllSuccessMarketerSuggestion();
+        Integer TotalNumberCustomer;
+        double NumberCustomerUse;
+
+
+        if (ViewModel.getAllMarketerSuggestion() == null) {
+            TotalNumberCustomer = 1;
+        } else if (ViewModel.getAllMarketerSuggestion() == 0) {
+            TotalNumberCustomer = 1;
+        } else {
+            TotalNumberCustomer = ViewModel.getAllMarketerSuggestion();
+        }
+
+
+        if (ViewModel.getAllSuccessMarketerSuggestion() == null) {
+            NumberCustomerUse = 0;
+        } else {
+            NumberCustomerUse = ViewModel.getAllSuccessMarketerSuggestion();
+        }
+
         Double Percent = (NumberCustomerUse * 100) / TotalNumberCustomer;
         int PercentProgress = (int) Double.parseDouble(Percent.toString());
-
-
-        if (Percent == null) {
-            Percent = 0.0;
-        }
 
         PercentCustomerNumberTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(Percent) + " " + getResources().getString(R.string.percent));
 
@@ -144,14 +156,29 @@ public class ReportMarketerCommissionFragment extends Fragment implements IRespo
         PercentCustomerNumberProgressBarShowMarketerCommissionDetailsActivity.setProgressDrawable(drawable);
 
 
-        double TotalAmount = ViewModel.getAllMarketerCommission();
-        double AmountCommissionPaid = ViewModel.getAllReceivedMarketerCommission();
+        Double TotalAmount;
+        Double AmountCommissionPaid;
+
+
+        if (ViewModel.getAllMarketerCommission() == null) {
+            TotalAmount = 1.0;
+        } else if (ViewModel.getAllMarketerCommission() == 0) {
+            TotalAmount = 1.0;
+        } else {
+            TotalAmount = ViewModel.getAllMarketerCommission();
+        }
+
+
+        if (ViewModel.getAllReceivedMarketerCommission() == null) {
+            AmountCommissionPaid = 0.0;
+        } else {
+            AmountCommissionPaid = ViewModel.getAllReceivedMarketerCommission();
+        }
+
+
         Double PercentAmountCommission = (AmountCommissionPaid * 100) / TotalAmount;
         int PercentProgressAmountCommission = (int) Double.parseDouble(PercentAmountCommission.toString());
 
-        if (PercentAmountCommission == null) {
-            PercentAmountCommission = 0.0;
-        }
 
         PercentAmountCommissionTextViewShowMarketerCommissionDetailsActivity.setText(Utility.GetIntegerNumberWithComma(PercentAmountCommission) + " " + getResources().getString(R.string.percent));
 

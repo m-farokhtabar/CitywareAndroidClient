@@ -25,18 +25,13 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserAddressFragment;
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserBusinessFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.MasterChildren.ActionPointAllActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.PrizeAllActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.UserActionPointActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.UserPrizeActivity;
-import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Club.PrizeViewModel;
-import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
 public class ClubUsersActivity extends BaseActivity implements IResponseService {
 
@@ -223,10 +218,12 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
                         PreviousTextViewClubUsersActivity.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                CurrentPage -= 1;
-                                PrizeAllClubRecyclerViewAdapter prizeAllRecyclerViewAdapter = new PrizeAllClubRecyclerViewAdapter(ClubUsersActivity.this, GeneratePage(CurrentPage, ViewModelList), MyPoint);
-                                GiftRecyclerViewClubUsersActivity.setAdapter(prizeAllRecyclerViewAdapter);
-                                toggleButtons();
+                                if (CurrentPage != 0) {
+                                    CurrentPage -= 1;
+                                    PrizeAllClubRecyclerViewAdapter prizeAllRecyclerViewAdapter = new PrizeAllClubRecyclerViewAdapter(ClubUsersActivity.this, GeneratePage(CurrentPage, ViewModelList), MyPoint);
+                                    GiftRecyclerViewClubUsersActivity.setAdapter(prizeAllRecyclerViewAdapter);
+                                    toggleButtons();
+                                }
                             }
                         });
                     } else {
@@ -247,8 +244,7 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
 
                     MyPoint = FeedBack.getValue();
                     if (MyPoint != null) {
-
-                        MyPointTextViewClubUsersActivity.setText(Utility.GetIntegerNumberWithComma(MyPoint));
+                        MyPointTextViewClubUsersActivity.setText(String.valueOf((int)Math.round(MyPoint)));
                     } else {
                         MyPointTextViewClubUsersActivity.setText(getResources().getString(R.string.zero));
                     }
@@ -303,7 +299,7 @@ public class ClubUsersActivity extends BaseActivity implements IResponseService 
         List<PrizeViewModel> pageData = new ArrayList<>();
         try {
             pageData.add(ViewModel.get(currentPage));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return pageData;

@@ -53,7 +53,7 @@ public class UserPrizeRecyclerViewAdapter extends RecyclerView.Adapter<UserPrize
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        holder.PrizePointTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPoint()));
+        holder.PrizePointTextView.setText( String.valueOf((int)Math.round(ViewModelList.get(position).getPoint())));
         holder.PrizeNameTextView.setText(ViewModelList.get(position).getPrizeTitle());
         holder.PrizeDateTextView.setText(ViewModelList.get(position).getCreate());
 

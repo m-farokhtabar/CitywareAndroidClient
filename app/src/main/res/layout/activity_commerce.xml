@@ -24,44 +24,182 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/MainMenuBottom"
             android:layout_below="@+id/ToolBar"
-           android:padding="16dp"
-            android:gravity="center_horizontal"
             android:background="@color/BackgroundWhiteColor"
-            android:orientation="vertical">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-
-            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
-                android:id="@+id/GetDiscountsButtonCommerceActivity"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:id="@+id/GetDiscountsRelativeLayoutCommerceActivity"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/selector_button_theme_without_corner"
-                android:text="@string/get_discounts"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/FontWhiteColor" />
+                android:layout_gravity="center_vertical|left"
+                android:gravity="center_vertical|left"
+                android:layout_marginTop="16dp"
+                tools:ignore="RtlHardcoded">
 
-            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
-                android:id="@+id/MarketerCommissionButtonCommerceActivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/selector_button_theme_without_corner"
-                android:text="@string/marketer_commission"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/FontWhiteColor" />
+                <LinearLayout
+                    android:layout_width="230dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/background_layer_button"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_toRightOf="@+id/DiscountLinearLayout"
+                    android:layout_toEndOf="@+id/DiscountLinearLayout"
+                    android:orientation="vertical">
 
-            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
-                android:id="@+id/IncomeFromBusinessButtonCommerceActivity"
-                android:layout_width="match_parent"
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/get_discounts"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontSemiDarkThemeColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/DiscountLinearLayout"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_vertical|left"
+                    android:background="@drawable/view_circle_button"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical|left"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:background="@drawable/ic_discount_24dp"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/MarketerCommissionRelativeLayoutCommerceActivity"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="center_vertical|right"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/selector_button_theme_without_corner"
-                android:text="@string/income_from_business"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/FontWhiteColor" />
+                tools:ignore="RtlHardcoded">
+
+                <LinearLayout
+                    android:layout_width="230dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/background_layer_button_right"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginRight="-15dp"
+                    android:layout_toLeftOf="@+id/MarketerCommissionLinearLayout"
+                    android:layout_toStartOf="@+id/MarketerCommissionLinearLayout"
+                    android:orientation="vertical">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/marketer_commission"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontSemiDarkThemeColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/MarketerCommissionLinearLayout"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:background="@drawable/view_circle_button"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical|right"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:background="@drawable/ic_marketer_24dp"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/IncomeFromBusinessRelativeLayoutCommerceActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:gravity="center_vertical|left"
+                android:layout_marginTop="10dp"
+                tools:ignore="RtlHardcoded">
+
+                <LinearLayout
+                    android:layout_width="230dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/background_layer_button"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginLeft="-15dp"
+                    android:layout_toRightOf="@+id/IncomeFromBusinessLinearLayout"
+                    android:layout_toEndOf="@+id/IncomeFromBusinessLinearLayout"
+                    android:orientation="vertical">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/income_from_business"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontSemiDarkThemeColor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/IncomeFromBusinessLinearLayout"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_vertical|left"
+                    android:background="@drawable/view_circle_button"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical|left"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:background="@drawable/ic_income_24dp"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
         </LinearLayout>
 
         <include
@@ -85,7 +223,8 @@
         android:layout_gravity="right"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/view_header_menu_drawer"
-        app:menu="@menu/view_drawer" />
+        app:menu="@menu/view_drawer"
+        tools:ignore="RtlHardcoded" />
 
 </android.support.v4.widget.DrawerLayout>
 

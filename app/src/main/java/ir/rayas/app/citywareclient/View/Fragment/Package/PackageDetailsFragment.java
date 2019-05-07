@@ -3,7 +3,6 @@ package ir.rayas.app.citywareclient.View.Fragment.Package;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -16,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.PrizeAllClubRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
@@ -31,7 +29,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.View.Master.ClubUsersActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Club.RequestPrizeViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Club.UserConsumePointViewModel;
@@ -135,7 +132,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         try {
             ViewModel.setId(Id);
 
-        } catch (Exception Ex) {
+        } catch (Exception ignored) {
         }
         return ViewModel;
     }
@@ -175,7 +172,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
                         if (DeliveryPrice < Point) {
                             Context.ShowToast(Context.getResources().getString(R.string.tour_point_of_less_Purchases_package), Toast.LENGTH_LONG, MessageType.Warning);
                         } else {
-                            ShowBuyPackageWithPointDialog(DeliveryPrice.toString(), Point, PackageName);
+                            ShowBuyPackageWithPointDialog(String.valueOf((int) Math.round(DeliveryPrice)), Point, PackageName);
                         }
                     } else {
                         if (0 < Point) {
@@ -393,6 +390,8 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
             @Override
             public void onClick(View v) {
                 OkBuyPrizePackageDialog.dismiss();
+
+                Context.onBackPressed();
             }
         });
 

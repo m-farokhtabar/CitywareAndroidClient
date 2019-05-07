@@ -92,7 +92,8 @@ public class UserActionPointActivity extends BaseActivity implements IResponseSe
         ReportPointIconTextViewUserActionPointActivity.setTypeface(Font.MasterIcon);
         ReportPointIconTextViewUserActionPointActivity.setText("\uf080");
 
-        RemainingPointTextViewUserActionPointActivity.setText(Utility.GetIntegerNumberWithComma(MyPoint));
+
+        RemainingPointTextViewUserActionPointActivity.setText(String.valueOf((int) Math.round(MyPoint)));
 
         RefreshActionSwipeRefreshLayoutUserActionPointActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -145,8 +146,8 @@ public class UserActionPointActivity extends BaseActivity implements IResponseSe
                             Point = Point + ViewModelList.get(i).getPoint();
                         }
 
-                        PointsSpentTextViewUserActionPointActivity.setText(Utility.GetIntegerNumberWithComma(Point - MyPoint));
-                        MyPointTextViewUserActionPointActivity.setText(Utility.GetIntegerNumberWithComma(Point));
+                        PointsSpentTextViewUserActionPointActivity.setText(String.valueOf((int)Math.round(Point - MyPoint)));
+                        MyPointTextViewUserActionPointActivity.setText(  String.valueOf((int)Math.round(Point)));
 
 
                     } else {

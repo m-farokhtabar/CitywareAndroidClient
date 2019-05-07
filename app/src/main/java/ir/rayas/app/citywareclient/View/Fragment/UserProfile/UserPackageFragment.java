@@ -131,6 +131,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                 PageNumberOpen = 1;
                 PageNumberClose = 1;
 
+                ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
+
                 if (isChecked) {
                     if (!IsFirst)
                         LoadDataOpenPackage();
@@ -194,7 +196,6 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                 Feedback<List<OutputPackageTransactionViewModel>> FeedBack = (Feedback<List<OutputPackageTransactionViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-                    IsFirst = false;
                     Static.IsRefreshBookmark = false;
 
                     final List<OutputPackageTransactionViewModel> ViewModelList = FeedBack.getValue();
@@ -289,6 +290,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
+                    IsFirst = false;
                     LoadDataOpenPackage();
 
                     if (FeedBack.getValue() != null) {

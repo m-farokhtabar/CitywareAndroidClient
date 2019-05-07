@@ -16,13 +16,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Share.Enum.CommissionBusinessType;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.View.MasterChildren.OrderActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessDetailsActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowCommissionDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingBusinessViewModel;
 
@@ -88,9 +85,10 @@ public class NewSuggestionBusinessCommissionRecyclerViewAdapter extends Recycler
         holder.SaveOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent ShowBusinessDetailsIntent = Context.NewIntent(ShowBusinessDetailsActivity.class);
-//                ShowBusinessDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
-//                Context.startActivity(ShowBusinessDetailsIntent);
+                Intent OrderIntent = Context.NewIntent(OrderActivity.class);
+                OrderIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
+                OrderIntent.putExtra("Percents", ViewModelList.get(position).getPercents());
+                Context.startActivity(OrderIntent);
 
             }
         });

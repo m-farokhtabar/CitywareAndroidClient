@@ -4,17 +4,23 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.SearchRecyclerViewAdapter;
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.SearchResultRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Service.Home.HomeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Service.Search.SearchService;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.QueryType;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -22,8 +28,10 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.ViewModel.Search.SearchResultViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Search.SearchViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Setting.UserSettingViewModel;
@@ -32,6 +40,10 @@ import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 public class SearchActivity extends BaseActivity implements IResponseService {
 
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter = null;
+    private SearchResultRecyclerViewAdapter searchResultRecyclerViewAdapter = null;
+
+    private RecyclerView SearchRecyclerViewSearchActivity = null;
+    private RecyclerView SearchResultRecyclerViewSearchActivity = null;
 
     private int PageNumber = 1;
     private UserSettingViewModel userSettingViewModel = null;
@@ -42,6 +54,8 @@ public class SearchActivity extends BaseActivity implements IResponseService {
     private Integer GpsRangeInKm = null;
     private Double latitude = null;
     private Double longitude = null;
+
+    private String TextSearch = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +84,55 @@ public class SearchActivity extends BaseActivity implements IResponseService {
 
     private void CreateLayout() {
 
-        RecyclerView SearchRecyclerViewSearchActivity = findViewById(R.id.SearchRecyclerViewSearchActivity);
+        ImageView SearchImageViewSearchActivity = findViewById(R.id.SearchImageViewSearchActivity);
+        EditTextPersian SearchEditTextSearchActivity = findViewById(R.id.SearchEditTextSearchActivity);
+
+        SearchRecyclerViewSearchActivity = findViewById(R.id.SearchRecyclerViewSearchActivity);
         SearchRecyclerViewSearchActivity.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
         searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, null, SearchRecyclerViewSearchActivity);
         SearchRecyclerViewSearchActivity.setAdapter(searchRecyclerViewAdapter);
 
+
+        SearchResultRecyclerViewSearchActivity = findViewById(R.id.SearchResultRecyclerViewSearchActivity);
+        SearchResultRecyclerViewSearchActivity.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+        searchResultRecyclerViewAdapter = new SearchResultRecyclerViewAdapter(SearchActivity.this, null, SearchResultRecyclerViewSearchActivity);
+        SearchResultRecyclerViewSearchActivity.setAdapter(searchResultRecyclerViewAdapter);
+
+
+        SearchEditTextSearchActivity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+
+                    SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+                    SearchRecyclerViewSearchActivity.setVisibility(View.GONE);
+
+                    TextSearch = s.toString();
+                    PageNumber = 1;
+                    LoadDataSearch();
+
+                } else {
+                    SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
+                    SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+        SearchImageViewSearchActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoadDataSearch();
+            }
+        });
 
     }
 
@@ -85,6 +143,12 @@ public class SearchActivity extends BaseActivity implements IResponseService {
         HomeService service = new HomeService(this);
         service.GetAll(QueryType.Search.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumber);
 
+    }
+
+    public void LoadDataSearch() {
+
+        SearchService service = new SearchService(this);
+        service.GetAll(BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, 0, 0, PageNumber, TextSearch);
     }
 
 
@@ -209,6 +273,47 @@ public class SearchActivity extends BaseActivity implements IResponseService {
                         }
                     } else {
                         ShowErrorInConnectDialog();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.SearchResultGet) {
+
+                Feedback<List<SearchResultViewModel>> FeedBack = (Feedback<List<SearchResultViewModel>>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    final List<SearchResultViewModel> ViewModel = FeedBack.getValue();
+
+                    SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+                    SearchRecyclerViewSearchActivity.setVisibility(View.GONE);
+
+                    if (ViewModel != null) {
+                        if (PageNumber == 1) {
+                            if (ViewModel.size() > 0) {
+                                searchResultRecyclerViewAdapter.SetViewModelList(ViewModel);
+
+                                if (DefaultConstant.PageNumberSize == ViewModel.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+
+                        } else {
+                            searchResultRecyclerViewAdapter.AddViewModelList(ViewModel);
+
+                            if (DefaultConstant.PageNumberSize == ViewModel.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
+                        }
+                    }
+
+                } else {
+                    SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                        HideLoading();
                     }
                 }
             }

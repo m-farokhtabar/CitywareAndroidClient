@@ -39,7 +39,7 @@
                         android:id="@+id/SearchRelativeLayoutSearchActivity"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@color/BackgroundLightColor">
+                        android:background="@color/BackgroundWhiteColor">
 
                         <ImageView
                             android:id="@+id/SearchImageViewSearchActivity"
@@ -83,6 +83,16 @@
                         android:id="@+id/Line"
                         android:background="@color/LineTopColor"
                         android:layout_below="@+id/SearchRelativeLayoutSearchActivity"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/SearchResultRecyclerViewSearchActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/Line"
+                        android:visibility="gone"
+                        android:divider="@null"
+                        android:dividerHeight="0dp" />
+
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/SearchRecyclerViewSearchActivity"

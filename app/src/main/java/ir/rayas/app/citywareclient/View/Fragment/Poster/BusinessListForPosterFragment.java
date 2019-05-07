@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.View.Fragment.Poster;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,6 +26,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
+import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.BuyPosterTypeActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.BuyPosterViewModel;
@@ -176,6 +178,9 @@ public class BusinessListForPosterFragment extends Fragment implements IResponse
 
                     if (ViewModel != null) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+
+                        Intent UserProfileIntent = new Intent(Context, UserProfileActivity.class);
+                        startActivity(UserProfileIntent);
                     } else {
                         Context.ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
                     }

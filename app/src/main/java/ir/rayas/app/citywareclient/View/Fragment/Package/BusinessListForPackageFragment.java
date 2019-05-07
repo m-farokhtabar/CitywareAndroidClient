@@ -15,10 +15,12 @@ import android.widget.Toast;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessListForPackageRecyclerViewAdapter;
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.PackageListRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.MyClickListener;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Business.BusinessService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Service.Package.PackageService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -27,6 +29,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketItemListFragment;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Package.OutPackageViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,11 +92,12 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
 
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        Context.HideLoading();
+
         RefreshBusinessListSwipeRefreshLayoutBusinessListForPackageFragment.setRefreshing(false);
         IsSwipe = false;
         try {
             if (ServiceMethod == ServiceMethodType.UserGetAllBusiness) {
+                Context.HideLoading();
                 Feedback<List<BusinessViewModel>> FeedBack = (Feedback<List<BusinessViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
@@ -109,20 +113,28 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
                         businessListForPackageRecyclerViewAdapter.notifyDataSetChanged();
                         BusinessListRecyclerViewBusinessListForPackageFragment.invalidate();
 
+
                         businessListForPackageRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
                             @Override
                             public void onItemClick(int position, View v) {
 
+                                if (Context.getValueIntent().equals("New")) {
+                                    Bundle BusinessIdBundle = new Bundle();
+                                    BusinessIdBundle.putInt("BusinessId", ViewModel.get(position).getId());
+                                    PackageListFragment packageListFragment = new PackageListFragment();
+                                    packageListFragment.setArguments(BusinessIdBundle);
 
-                                Bundle BusinessIdBundle = new Bundle();
-                                BusinessIdBundle.putInt("BusinessId",ViewModel.get(position).getId());
-                                PackageListFragment packageListFragment = new PackageListFragment();
-                                packageListFragment.setArguments(BusinessIdBundle);
-                                
-                                FragmentTransaction PackageListTransaction = Context.getSupportFragmentManager().beginTransaction();
-                                PackageListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageListFragment);
-                                PackageListTransaction.addToBackStack(null);
-                                PackageListTransaction.commit();
+                                    FragmentTransaction PackageListTransaction = Context.getSupportFragmentManager().beginTransaction();
+                                    PackageListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageListFragment);
+                                    PackageListTransaction.addToBackStack(null);
+                                    PackageListTransaction.commit();
+                                } else {
+                                    Context.ShowLoadingProgressBar();
+                                    PackageService packageService = new PackageService(BusinessListForPackageFragment.this);
+                                    packageService.GetAllPackageList(ViewModel.get(position).getId());
+
+
+                                }
                             }
                         });
                     } else {
@@ -131,6 +143,50 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
 
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
                     ShowEmptyBusinessListTextViewBusinessListForPackageFragment.setVisibility(View.VISIBLE);
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        Context.ShowErrorInConnectDialog();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.PackageListGetAll) {
+
+                Feedback<List<OutPackageViewModel>> FeedBack = (Feedback<List<OutPackageViewModel>>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    final List<OutPackageViewModel> ViewModel = FeedBack.getValue();
+                    if (ViewModel != null) {
+
+                        boolean IsPrize = false;
+                        for (int i = 0; i < ViewModel.size(); i++) {
+                            if (ViewModel.get(i).getId() == Context.getPackageId()) {
+                                IsPrize = true;
+                            }
+                        }
+
+                        if (!IsPrize) {
+                            Context.HideLoading();
+                            Context.ShowToast(Context.getResources().getString(R.string.receiving_this_prize_is_not_tailored_to_your_business), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                        } else {
+                            Bundle PackageIdBundle = new Bundle();
+                            PackageIdBundle.putInt("PackageId", Context.getPackageId());
+                            PackageDetailsFragment packageDetailsFragment = new PackageDetailsFragment();
+                            packageDetailsFragment.setArguments(PackageIdBundle);
+
+                            FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
+                            BasketListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageDetailsFragment);
+                            BasketListTransaction.addToBackStack(null);
+                            BasketListTransaction.commit();
+                            Context.HideLoading();
+                        }
+
+                    } else {
+                        Context.HideLoading();
+                        Context.ShowToast(Context.getResources().getString(R.string.receiving_this_prize_is_not_tailored_to_your_business), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    }
+
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);

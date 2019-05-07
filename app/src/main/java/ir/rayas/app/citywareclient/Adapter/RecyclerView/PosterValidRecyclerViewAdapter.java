@@ -59,7 +59,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         this.Container = Container;
     }
 
-
     /**
      * اضافه مودن لیست جدید
      *
@@ -87,7 +86,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         Container.invalidate();
     }
 
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -109,6 +107,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         holder.BusinessNameTextView.setText(ViewModelList.get(position).getBusinessName());
         holder.ExpireDateTextView.setText(ViewModelList.get(position).getExpireDate());
+        holder.PosterCostTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPosterPrice()));
 
 
         if (!ViewModelList.get(position).getImagePathUrl().equals("")) {
@@ -158,7 +157,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         return ViewModelList == null ? 0 : ViewModelList.size();
     }
 
-
     private class PosterViewHolder extends RecyclerView.ViewHolder {
 
         ButtonPersianView ExtendedPosterButton;
@@ -167,6 +165,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         TextViewPersian PosterTitleTextView;
         TextViewPersian BusinessNameTextView;
         TextViewPersian ExpireDateTextView;
+        TextViewPersian PosterCostTextView;
         ImageView PosterImageView;
 
         PosterViewHolder(View v) {
@@ -178,9 +177,9 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             DetailsBuyPosterButton = v.findViewById(R.id.DetailsBuyPosterButton);
             PosterImageView = v.findViewById(R.id.PosterImageView);
             ExpireDateTextView = v.findViewById(R.id.ExpireDateTextView);
+            PosterCostTextView = v.findViewById(R.id.PosterCostTextView);
         }
     }
-
 
     /**
      * @param Data
@@ -215,7 +214,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
                     if (FeedBack.getValue() != null) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                        ExtendedPosterTypeDialog.dismiss();
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -350,7 +348,10 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 } else {
                     Context.ShowLoadingProgressBar();
                     PosterService PosterService = new PosterService(PosterValidRecyclerViewAdapter.this);
-                    PosterService.EditExtendPoster(MadeViewModel(TotalPrice / ViewModel.getPosterPrice()));
+                    PosterService.EditExtendPoster(MadeViewModel(Day + Hours));
+
+
+                    ExtendedPosterTypeDialog.dismiss();
 
                     TotalPrice = 0;
                     Day = 0;
@@ -360,7 +361,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                     DayNumberPicker.setValue(0);
 
                     TotalPriceTextView.setText(Context.getResources().getString(R.string.zero));
-
                 }
             }
         });
