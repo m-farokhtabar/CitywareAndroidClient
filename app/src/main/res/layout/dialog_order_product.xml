@@ -94,7 +94,7 @@
                 android:id="@+id/CountProductTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/number_of_order_items"
+                android:text="@string/order_quantity"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/FontSemiBlackColor"
                 tools:ignore="RtlHardcoded"

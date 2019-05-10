@@ -25,24 +25,43 @@ public class Marketing_CustomerFactorDetailsViewModel {
     /// </summary>
     public double DiscountPrice;
 
-
     public Integer getProductId() {
         return ProductId;
+    }
+
+    public void setProductId(Integer productId) {
+        ProductId = productId;
     }
 
     public String getProductName() {
         return ProductName;
     }
 
+    public void setProductName(String productName) {
+        ProductName = productName;
+    }
+
     public double getPrice() {
         return Price;
+    }
+
+    public void setPrice(double price) {
+        Price = price;
     }
 
     public double getCommissionPrice() {
         return CommissionPrice;
     }
 
+    public void setCommissionPrice(double commissionPrice) {
+        CommissionPrice = commissionPrice;
+    }
+
     public double getDiscountPrice() {
         return DiscountPrice;
+    }
+
+    public void setDiscountPrice(double discountPrice) {
+        DiscountPrice = discountPrice;
     }
 }

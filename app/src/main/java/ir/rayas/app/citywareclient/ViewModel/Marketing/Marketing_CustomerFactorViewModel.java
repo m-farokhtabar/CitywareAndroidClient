@@ -40,4 +40,20 @@ public class Marketing_CustomerFactorViewModel {
     public List<Marketing_CustomerFactorDetailsViewModel> getDetails() {
         return Details;
     }
+
+    public void setMarketingId(int marketingId) {
+        MarketingId = marketingId;
+    }
+
+    public void setBusinessId(int businessId) {
+        BusinessId = businessId;
+    }
+
+    public void setTicket(String ticket) {
+        Ticket = ticket;
+    }
+
+    public void setDetails(List<Marketing_CustomerFactorDetailsViewModel> details) {
+        Details = details;
+    }
 }

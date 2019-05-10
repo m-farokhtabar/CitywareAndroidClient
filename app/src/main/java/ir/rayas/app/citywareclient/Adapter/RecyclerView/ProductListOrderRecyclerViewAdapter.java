@@ -7,9 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
@@ -74,13 +77,26 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
 
         double MarketingCommission = (ViewModelList.get(position).getPrice() * ViewModelList.get(position).getMarketerPercent()) / 100;
         holder.MarketingCommissionTextView.setText(Utility.GetIntegerNumberWithComma(MarketingCommission));
-        
+
         holder.PriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPrice()));
 
-        double TotalPrice =  ViewModelList.get(position).getPrice() * ViewModelList.get(position).getNumberOfOrder();
+        double TotalPrice = ViewModelList.get(position).getPrice() * ViewModelList.get(position).getNumberOfOrder();
         holder.TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
-        
+
         holder.NumberOfOrderTextView.setText(String.valueOf(ViewModelList.get(position).getNumberOfOrder()));
+
+
+        holder.DeleteOrderIconTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ViewModelList.remove(position);
+                notifyDataSetChanged();
+                Container.invalidate();
+
+                Context.SetViewFooter(ViewModelList);
+            }
+        });
     }
 
     @Override
@@ -125,6 +141,23 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
             notifyDataSetChanged();
             Container.invalidate();
         }
+    }
+
+    public void DeleteViewModel(int position) {
+
+            ViewModelList.remove(position);
+            notifyDataSetChanged();
+            Container.invalidate();
+      
+    }
+
+
+    private void SendDataToParentActivity(boolean IsDelete,int Position) {
+
+        HashMap<String, Object> Output = new HashMap<>();
+        Output.put("IsDelete", IsDelete);
+        Output.put("Position", Position);
+        ActivityResultPassing.Push(new ActivityResult(Context.getCurrentActivityId(), Context.getCurrentActivityId(), Output));
     }
 
 }

@@ -2,7 +2,6 @@ package ir.rayas.app.citywareclient.View.MasterChildren;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,16 +13,17 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.OrderProductsRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.ProductListOrderRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
@@ -31,13 +31,12 @@ import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 
+import ir.rayas.app.citywareclient.ViewModel.Marketing.Marketing_CustomerFactorDetailsViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.Marketing_CustomerFactorViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.ProductCommissionAndDiscountModel;
-import ir.rayas.app.citywareclient.ViewModel.Order.ProductViewModel;
 
 public class OrderActivity extends BaseActivity implements IResponseService, ILoadData {
 
-    private SwipeRefreshLayout RefreshOrderSwipeRefreshLayoutOrderActivity = null;
-    private RecyclerView ProductListOrderRecyclerViewOrderActivity = null;
     private ProductListOrderRecyclerViewAdapter productListOrderRecyclerViewAdapter = null;
     private TextViewPersian MarketingCommissionTextViewOrderActivity = null;
     private TextViewPersian CustomerDiscountTextViewOrderActivity = null;
@@ -46,10 +45,12 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
     private FrameLayout Line2 = null;
 
     List<ProductCommissionAndDiscountModel> productCommissionAndDiscountModels = new ArrayList<>();
+    List<Marketing_CustomerFactorDetailsViewModel> marketing_customerFactorDetailsViewModels = new ArrayList<>();
 
-    private boolean IsSwipe = false;
     private int BusinessId = 0;
+    private int MarketerId = 0;
     private String Percents = "";
+    private String Ticket = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,9 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
         setCurrentActivityId(ActivityIdList.ORDER_ACTIVITY);
 
         BusinessId = getIntent().getExtras().getInt("BusinessId");
+        MarketerId = getIntent().getExtras().getInt("MarketerId");
         Percents = getIntent().getExtras().getString("Percents");
+        Ticket = getIntent().getExtras().getString("Ticket");
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -89,20 +92,20 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout() {
-        RefreshOrderSwipeRefreshLayoutOrderActivity = findViewById(R.id.RefreshOrderSwipeRefreshLayoutOrderActivity);
         MarketingCommissionTextViewOrderActivity = findViewById(R.id.MarketingCommissionTextViewOrderActivity);
         CustomerDiscountTextViewOrderActivity = findViewById(R.id.CustomerDiscountTextViewOrderActivity);
         TotalPriceTextViewOrderActivity = findViewById(R.id.TotalPriceTextViewOrderActivity);
         TotalLinearLayoutOrderActivity = findViewById(R.id.TotalLinearLayoutOrderActivity);
         Line2 = findViewById(R.id.Line2);
+        ButtonPersianView SubmitOrderButtonOrderActivity = findViewById(R.id.SubmitOrderButtonOrderActivity);
 
-        ProductListOrderRecyclerViewOrderActivity = findViewById(R.id.ProductListOrderRecyclerViewOrderActivity);
-        ProductListOrderRecyclerViewOrderActivity.setHasFixedSize(true);
+        RecyclerView productListOrderRecyclerViewOrderActivity = findViewById(R.id.ProductListOrderRecyclerViewOrderActivity);
+        productListOrderRecyclerViewOrderActivity.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(OrderActivity.this);
-        ProductListOrderRecyclerViewOrderActivity.setLayoutManager(LinearLayoutManager);
+        productListOrderRecyclerViewOrderActivity.setLayoutManager(LinearLayoutManager);
 
-        productListOrderRecyclerViewAdapter = new ProductListOrderRecyclerViewAdapter(OrderActivity.this, null, ProductListOrderRecyclerViewOrderActivity);
-        ProductListOrderRecyclerViewOrderActivity.setAdapter(productListOrderRecyclerViewAdapter);
+        productListOrderRecyclerViewAdapter = new ProductListOrderRecyclerViewAdapter(OrderActivity.this, null, productListOrderRecyclerViewOrderActivity);
+        productListOrderRecyclerViewOrderActivity.setAdapter(productListOrderRecyclerViewAdapter);
 
         TotalLinearLayoutOrderActivity.setVisibility(View.GONE);
         Line2.setVisibility(View.GONE);
@@ -119,24 +122,40 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
             }
         });
 
-
-        RefreshOrderSwipeRefreshLayoutOrderActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        SubmitOrderButtonOrderActivity.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh() {
-                IsSwipe = true;
+            public void onClick(View view) {
                 LoadData();
             }
         });
+
     }
 
     /**
      * دریافت اطلاعات نحوای جهت پر کردن Recycle
      */
     public void LoadData() {
-        if (!IsSwipe)
-            ShowLoadingProgressBar();
 
+        ShowLoadingProgressBar();
 
+        MarketingService service = new MarketingService(this);
+        service.AddCustomerFactor(MadeViewModel());
+
+    }
+
+    private Marketing_CustomerFactorViewModel MadeViewModel() {
+
+        Marketing_CustomerFactorViewModel ViewModel = new Marketing_CustomerFactorViewModel();
+        try {
+            ViewModel.setBusinessId(BusinessId);
+            ViewModel.setDetails(marketing_customerFactorDetailsViewModels);
+            ViewModel.setMarketingId(MarketerId);
+            ViewModel.setTicket(Ticket);
+
+        } catch (Exception Ex) {
+            ShowToast(FeedbackType.InvalidDataFormat.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
+        }
+        return ViewModel;
     }
 
     /**
@@ -147,14 +166,29 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         HideLoading();
-        RefreshOrderSwipeRefreshLayoutOrderActivity.setRefreshing(false);
-        IsSwipe = false;
         try {
-            if (ServiceMethod == ServiceMethodType.ProductGetAll) {
-                Feedback<List<ProductViewModel>> FeedBack = (Feedback<List<ProductViewModel>>) Data;
+            if (ServiceMethod == ServiceMethodType.AddCustomerFactorAdd) {
+                Feedback<Boolean> FeedBack = (Feedback<Boolean>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
+                    if (FeedBack.getValue() != null) {
+                        if (FeedBack.getValue()) {
+                            ShowToast(getResources().getString(R.string.you_order_submit_successful), Toast.LENGTH_LONG, MessageType.Info);
+                            onBackPressed();
+                        } else {
+                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                        }
+                    } else {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    }
+
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
                 }
             }
         } catch (Exception e) {
@@ -168,13 +202,12 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
             switch (Result.getToActivityId()) {
 
                 case ActivityIdList.PRODUCT_LIST_ORDER_ACTIVITY:
+
                     ProductCommissionAndDiscountModel ViewModel = (ProductCommissionAndDiscountModel) Result.getData().get("ProductCommissionAndDiscountModel");
                     productCommissionAndDiscountModels.add(ViewModel);
 
                     TotalLinearLayoutOrderActivity.setVisibility(View.VISIBLE);
                     Line2.setVisibility(View.VISIBLE);
-
-
 
                     if (productCommissionAndDiscountModels.size() == 0)
                         productListOrderRecyclerViewAdapter.SetViewModel(ViewModel);
@@ -182,25 +215,48 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
                         productListOrderRecyclerViewAdapter.AddViewModel(ViewModel);
 
 
-                    double MarketingCommission = 0;
-                    double CustomerDiscount = 0;
-                    double TotalPrice = 0;
-                    for (int i = 0; i < productCommissionAndDiscountModels.size(); i++) {
-
-                        CustomerDiscount = CustomerDiscount + (productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100;
-                        MarketingCommission = MarketingCommission + (productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100;
-                        TotalPrice = TotalPrice + productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder();
-
-                    }
-
-                    MarketingCommissionTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(MarketingCommission));
-                    CustomerDiscountTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(CustomerDiscount));
-                    TotalPriceTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
-
+                    SetViewFooter(productCommissionAndDiscountModels);
                     break;
             }
         }
         super.onGetResult(Result);
+    }
+
+    public void SetViewFooter(List<ProductCommissionAndDiscountModel> productCommissionAndDiscountModels) {
+
+        if (productCommissionAndDiscountModels.size() > 0) {
+
+            TotalLinearLayoutOrderActivity.setVisibility(View.VISIBLE);
+            Line2.setVisibility(View.VISIBLE);
+
+            double MarketingCommission = 0;
+            double CustomerDiscount = 0;
+            double TotalPrice = 0;
+
+            for (int i = 0; i < productCommissionAndDiscountModels.size(); i++) {
+
+                CustomerDiscount = CustomerDiscount + (productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100;
+                MarketingCommission = MarketingCommission + (productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100;
+                TotalPrice = (TotalPrice + productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder()) - CustomerDiscount;
+
+
+                Marketing_CustomerFactorDetailsViewModel marketing_customerFactorDetailsViewModel = new Marketing_CustomerFactorDetailsViewModel();
+                marketing_customerFactorDetailsViewModel.setCommissionPrice(MarketingCommission);
+                marketing_customerFactorDetailsViewModel.setDiscountPrice(CustomerDiscount);
+                marketing_customerFactorDetailsViewModel.setPrice(TotalPrice);
+                marketing_customerFactorDetailsViewModel.setProductId(productCommissionAndDiscountModels.get(i).getProductId());
+                marketing_customerFactorDetailsViewModel.setProductName(productCommissionAndDiscountModels.get(i).getProductName());
+
+                marketing_customerFactorDetailsViewModels.add(marketing_customerFactorDetailsViewModel);
+            }
+
+            MarketingCommissionTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(MarketingCommission));
+            CustomerDiscountTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(CustomerDiscount));
+            TotalPriceTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
+        } else {
+            TotalLinearLayoutOrderActivity.setVisibility(View.GONE);
+            Line2.setVisibility(View.GONE);
+        }
     }
 
 

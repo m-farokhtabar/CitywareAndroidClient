@@ -15,18 +15,15 @@ import android.widget.Toast;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessListForPackageRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.PackageListRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.MyClickListener;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Business.BusinessService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
-import ir.rayas.app.citywareclient.Service.Package.PackageService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketItemListFragment;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutPackageViewModel;
@@ -118,7 +115,6 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
                             @Override
                             public void onItemClick(int position, View v) {
 
-                                if (Context.getValueIntent().equals("New")) {
                                     Bundle BusinessIdBundle = new Bundle();
                                     BusinessIdBundle.putInt("BusinessId", ViewModel.get(position).getId());
                                     PackageListFragment packageListFragment = new PackageListFragment();
@@ -128,13 +124,7 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
                                     PackageListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageListFragment);
                                     PackageListTransaction.addToBackStack(null);
                                     PackageListTransaction.commit();
-                                } else {
-                                    Context.ShowLoadingProgressBar();
-                                    PackageService packageService = new PackageService(BusinessListForPackageFragment.this);
-                                    packageService.GetAllPackageList(ViewModel.get(position).getId());
 
-
-                                }
                             }
                         });
                     } else {

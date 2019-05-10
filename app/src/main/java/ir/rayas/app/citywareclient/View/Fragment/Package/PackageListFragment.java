@@ -13,13 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessListForPackageRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.PackageListRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.MyClickListener;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Service.Business.BusinessService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
 import ir.rayas.app.citywareclient.Service.User.PointService;
@@ -28,10 +27,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketItemListFragment;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
-import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutPackageViewModel;
 
 
@@ -49,8 +45,7 @@ public class PackageListFragment extends Fragment implements IResponseService {
     private int BusinessId = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //دریافت اکتیوتی والد این فرگمین
         Context = (PackageActivity) getActivity();
@@ -99,7 +94,6 @@ public class PackageListFragment extends Fragment implements IResponseService {
         PackageService packageService = new PackageService(this);
         packageService.GetAllPackageList(BusinessId);
 
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -118,29 +112,74 @@ public class PackageListFragment extends Fragment implements IResponseService {
                     final List<OutPackageViewModel> ViewModel = FeedBack.getValue();
                     if (ViewModel != null) {
 
-                        ShowEmptyPackageListTextViewPackageListFragment.setVisibility(View.GONE);
 
-                        //تنظیمات مربوط به recycle کسب و کار
-                        PackageListRecyclerViewAdapter packageListRecyclerViewAdapter = new PackageListRecyclerViewAdapter(Context, ViewModel);
-                        PackageListRecyclerViewPackageListFragment.setAdapter(packageListRecyclerViewAdapter);
-                        packageListRecyclerViewAdapter.notifyDataSetChanged();
-                        PackageListRecyclerViewPackageListFragment.invalidate();
+                        if (Context.getValueIntent().equals("New")) {
+                            ShowEmptyPackageListTextViewPackageListFragment.setVisibility(View.GONE);
 
-                        packageListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
-                            @Override
-                            public void onItemClick(int position, View v) {
+                            PackageListRecyclerViewAdapter packageListRecyclerViewAdapter = new PackageListRecyclerViewAdapter(Context, ViewModel);
+                            //تنظیمات مربوط به recycle کسب و کار
+                            PackageListRecyclerViewPackageListFragment.setAdapter(packageListRecyclerViewAdapter);
+                            packageListRecyclerViewAdapter.notifyDataSetChanged();
+                            PackageListRecyclerViewPackageListFragment.invalidate();
 
-                                Bundle PackageIdBundle = new Bundle();
-                                PackageIdBundle.putInt("PackageId",ViewModel.get(position).getId());
-                                PackageDetailsFragment packageDetailsFragment = new PackageDetailsFragment();
-                                packageDetailsFragment.setArguments(PackageIdBundle);
 
-                                FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
-                                BasketListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageDetailsFragment);
-                                BasketListTransaction.addToBackStack(null);
-                                BasketListTransaction.commit();
+                            packageListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
+                                @Override
+                                public void onItemClick(int position, View v) {
+
+                                    Bundle PackageIdBundle = new Bundle();
+                                    PackageIdBundle.putInt("PackageId", ViewModel.get(position).getId());
+                                    PackageDetailsFragment packageDetailsFragment = new PackageDetailsFragment();
+                                    packageDetailsFragment.setArguments(PackageIdBundle);
+
+                                    FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
+                                    BasketListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageDetailsFragment);
+                                    BasketListTransaction.addToBackStack(null);
+                                    BasketListTransaction.commit();
+                                }
+                            });
+                        } else {
+
+                            List<OutPackageViewModel> outPackageViewModels = new ArrayList<>();
+                            boolean IsPackage = false;
+                            for (int i = 0; i < ViewModel.size(); i++) {
+                                if (ViewModel.get(i).getId() == Context.getPackageId()) {
+                                    outPackageViewModels.add(ViewModel.get(i));
+                                    IsPackage = true;
+                                    break;
+                                }
                             }
-                        });
+                            if (IsPackage)
+                                ShowEmptyPackageListTextViewPackageListFragment.setVisibility(View.GONE);
+                            else
+                                ShowEmptyPackageListTextViewPackageListFragment.setVisibility(View.VISIBLE);
+
+                            PackageListRecyclerViewAdapter packageListRecyclerViewAdapter = new PackageListRecyclerViewAdapter(Context, outPackageViewModels);
+                            //تنظیمات مربوط به recycle کسب و کار
+                            PackageListRecyclerViewPackageListFragment.setAdapter(packageListRecyclerViewAdapter);
+                            packageListRecyclerViewAdapter.notifyDataSetChanged();
+                            PackageListRecyclerViewPackageListFragment.invalidate();
+
+
+                            packageListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
+                                @Override
+                                public void onItemClick(int position, View v) {
+
+                                    Bundle PackageIdBundle = new Bundle();
+                                    PackageIdBundle.putInt("PackageId", Context.getPackageId());
+                                    PackageDetailsFragment packageDetailsFragment = new PackageDetailsFragment();
+                                    packageDetailsFragment.setArguments(PackageIdBundle);
+
+                                    FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
+                                    BasketListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageDetailsFragment);
+                                    BasketListTransaction.addToBackStack(null);
+                                    BasketListTransaction.commit();
+                                }
+                            });
+
+                        }
+
+
                     } else {
                         ShowEmptyPackageListTextViewPackageListFragment.setVisibility(View.VISIBLE);
                     }
@@ -164,7 +203,7 @@ public class PackageListFragment extends Fragment implements IResponseService {
 
                         UserPointTextViewPackageListFragment.setText(String.valueOf((int) Math.round(DeliveryPrice)));
                     } else {
-                        UserPointTextViewPackageListFragment.setText( Context.getResources().getString(R.string.zero));
+                        UserPointTextViewPackageListFragment.setText(Context.getResources().getString(R.string.zero));
 
                     }
                 } else {
@@ -180,6 +219,5 @@ public class PackageListFragment extends Fragment implements IResponseService {
             Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
     }
-
 
 }

@@ -191,9 +191,9 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
         }.getType();
         businessCommissionAndDiscountViewModel = gson.fromJson(Percents, listType);
 
-        ApplicationPercent =  businessCommissionAndDiscountViewModel.getApplicationPercent();
-        MarketerPercent =  businessCommissionAndDiscountViewModel.getMarketerPercent();
-        CustomerPercent =  businessCommissionAndDiscountViewModel.getCustomerPercent();
+        ApplicationPercent = businessCommissionAndDiscountViewModel.getApplicationPercent();
+        MarketerPercent = businessCommissionAndDiscountViewModel.getMarketerPercent();
+        CustomerPercent = businessCommissionAndDiscountViewModel.getCustomerPercent();
         OtherProductMarketerPercentTextViewProductListOrderActivity.setText(MarketerPercent + " " + getResources().getString(R.string.percent));
         OtherProductCustomerPercentTextViewProductListOrderActivity.setText(CustomerPercent + " " + getResources().getString(R.string.percent));
 
@@ -361,26 +361,35 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
             @Override
             public void onClick(View v) {
 
-                ProductCommissionAndDiscountModel ViewModel = new ProductCommissionAndDiscountModel();
-                ViewModel.setProductName(ProductNameTextView.getText().toString());
-                ViewModel.setPrice(Double.parseDouble(UnitPriceProductTextView.getText().toString()));
-                ViewModel.setNumberOfOrder(Double.parseDouble(CountProductTextView.getText().toString()));
-                ViewModel.setApplicationPercent(ApplicationPercent);
-                ViewModel.setCustomerPercent(CustomerPercent);
-                ViewModel.setMarketerPercent(MarketerPercent);
-                ViewModel.setProductId(0);
+                if (ProductNameTextView.getText().toString().equals("")) {
+                    ShowToast(getResources().getString(R.string.please_enter_product_name), Toast.LENGTH_LONG, MessageType.Warning);
+                } else {
+                    if (Double.parseDouble(CountProductTextView.getText().toString()) <=  0) {
+                        ShowToast(getResources().getString(R.string.please_enter_order_quantity), Toast.LENGTH_LONG, MessageType.Warning);
+                    } else {
+                        ProductCommissionAndDiscountModel ViewModel = new ProductCommissionAndDiscountModel();
+                        ViewModel.setProductName(ProductNameTextView.getText().toString());
+                        ViewModel.setPrice(Double.parseDouble(UnitPriceProductTextView.getText().toString()));
+                        ViewModel.setNumberOfOrder(Double.parseDouble(CountProductTextView.getText().toString()));
+                        ViewModel.setApplicationPercent(ApplicationPercent);
+                        ViewModel.setCustomerPercent(CustomerPercent);
+                        ViewModel.setMarketerPercent(MarketerPercent);
+                        ViewModel.setProductId(0);
 
-                Double TotalPrice = Double.parseDouble(UnitPriceProductTextView.getText().toString()) * Double.parseDouble(CountProductTextView.getText().toString());
-                ViewModel.setTotalPrice(TotalPrice);
+                        Double TotalPrice = Double.parseDouble(UnitPriceProductTextView.getText().toString()) * Double.parseDouble(CountProductTextView.getText().toString());
+                        ViewModel.setTotalPrice(TotalPrice);
 
 
-                SendDataToParentActivity(ViewModel);
+                        SendDataToParentActivity(ViewModel);
 //        //این قسمت به دلیل SingleInstance بودن Parent بایستی مطمئن شوبم که اکتیویتی Parent بعد از اتمام این اکتیویتی دوباره صدا  زده می شود
 //        //در حالت خروج از برنامه و ورود دوباره این اکتیوتی ممکن است Parent خود را گم کند
-                FinishCurrentActivity();
+                        FinishCurrentActivity();
 
 
-                EditOrderProductDialog.dismiss();
+                        EditOrderProductDialog.dismiss();
+
+                    }
+                }
 
             }
         });

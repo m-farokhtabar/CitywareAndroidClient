@@ -23,7 +23,9 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingBusinessViewMode
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingCustomerViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessManViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.Marketing_CustomerFactorViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.SuggestionInfoViewModel;
+
 
 
 public class MarketingService implements IService {
@@ -143,6 +145,17 @@ public class MarketingService implements IService {
         String controllerNewSuggestionBusinessCommission = "GetAllNewSuggestionBusinessCommission";
         String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNewSuggestionBusinessCommission + "/" + BusinessId;
         Current.GetService(this, Url, ServiceMethodType.NewSuggestionBusinessCommissionGetAll, MarketingBusinessViewModel.class, new TypeToken<Feedback<List<MarketingBusinessViewModel>>>() {
+        }.getType());
+    }
+
+    public void AddCustomerFactor(Marketing_CustomerFactorViewModel ViewModel){
+
+        BaseService Current = new BaseService();
+        String actionAddCustomerFactor = "AddCustomerFactor";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionAddCustomerFactor;
+        Gson gson = new Gson();
+        String JsonViewModel = gson.toJson(ViewModel);
+        Current.PostService(this, Url, JsonViewModel, ServiceMethodType.AddCustomerFactorAdd, Marketing_CustomerFactorViewModel.class, new TypeToken<Feedback<Boolean>>() {
         }.getType());
     }
 

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">شهر افزار</string>
     <string name="title_activity_introduce">معرفی نرم افزار</string>
     <string name="retry">تلاش مجدد</string>
@@ -49,11 +49,11 @@
 
 
     <!--متون مربوط به انتخاب ناحیه یا جی پی اس-->
-    <string name="how_to_show_business_in_search">تمایل دارید بنگاه های اقتصادی(مغازه، رستوران، دفتر شرکت، کارخانه و ...) بر اساس چه روشی به شما نمایش داده شود</string>
+    <string name="how_to_show_business_in_search" tools:ignore="TypographyEllipsis">تمایل دارید بنگاه های اقتصادی(مغازه، رستوران، دفتر شرکت، کارخانه و ...) بر اساس چه روشی به شما نمایش داده شود</string>
     <string name="select_your_search_type">انتخاب نحوه ی جستجو</string>
     <string name="show_business_base_on_gps">نمایش موارد با توجه به موقعیت جغرافیایی</string>
     <string name="show_business_base_on_region">نمایش موارد با توجه به منطقه انتخابی</string>
-    <string name="TurnOnLocation">با روشن کردن مکان یاب گوشی؛ بنگاه های اقتصادی(مغازه، رستوران، دفتر شرکت، کارخانه و ...) اطراف خود را هوشمندانه تر انتخاب کنید</string>
+    <string name="TurnOnLocation" tools:ignore="TypographyEllipsis">با روشن کردن مکان یاب گوشی؛ بنگاه های اقتصادی(مغازه، رستوران، دفتر شرکت، کارخانه و ...) اطراف خود را هوشمندانه تر انتخاب کنید</string>
     <string name="ok">باشه</string>
     <string name="no">نه</string>
     <string name="not_now">فعلا نه</string>
@@ -382,7 +382,7 @@
     <string name="image_product">تصویر محصول</string>
     <string name="read_more">ادامه مطلب</string>
 
-    <string name="sending_email">در حال فرستادن ایمیل...</string>
+    <string name="sending_email" tools:ignore="TypographyEllipsis">در حال فرستادن ایمیل...</string>
     <string name="not_email_address">آدرس ایمیل موجود نمی باشد</string>
     <string name="not_valid_link">لینک مورد نظر معتبر نمی باشد</string>
 
@@ -438,7 +438,7 @@
     <string name="price_is_not_definitive">قیمت قطعی نمی باشد.</string>
     <string name="description_user">توضیحات کاربر</string>
     <string name="factor_products">محصولات فاکتور خرید</string>
-    <string name="no_change_description_status_factor">شما تغییری ایجاد نکرده اید...</string>
+    <string name="no_change_description_status_factor" tools:ignore="TypographyEllipsis">شما تغییری ایجاد نکرده اید...</string>
     <string name="contact_us">اطلاعات تماس</string>
     <string name="zero">0</string>
     <string name="customer_order_will_be_delivered_to_the_business_address">سفارش مشتری در آدرس کسب و کار تحویل گرفته خواهد شد</string>
@@ -446,7 +446,7 @@
 
     <!--متون مرتبط با  پکیج-->
     <string name="your_business_list_is_empty">لیست کسب و کار شما خالی است</string>
-    <string name="package_list_is_empty">لیست پکیج ها خالی است</string>
+    <string name="package_list_is_empty">پکیجی موجود نمی باشد</string>
     <string name="validity_duration">مدت اعتبار</string>
     <string name="day">روز</string>
     <string name="rate">امتیاز</string>
@@ -581,6 +581,7 @@
     <string name="customer">مشتری</string>
     <string name="report">گزارش</string>
     <string name="unit_all_price_is_toman">واحد تمامی مبالغ تومان می باشد</string>
+    <string name="you_order_submit_successful">سفارش شما با موفقیت ثبت شد</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

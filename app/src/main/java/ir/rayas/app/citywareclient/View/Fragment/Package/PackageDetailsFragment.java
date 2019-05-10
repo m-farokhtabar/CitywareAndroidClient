@@ -105,6 +105,8 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         TextViewPersian BuyPackageByCashTextViewPackageDetailsFragment = CurrentView.findViewById(R.id.BuyPackageByCashTextViewPackageDetailsFragment);
 
 
+        BuyPackageByPointRelativeLayoutPackageDetailsFragment.setVisibility(View.GONE);
+
         width = LayoutUtility.GetWidthAccordingToScreen(Context, 1);
         height = LayoutUtility.GetWidthAccordingToScreen(Context, 2);
 
@@ -212,7 +214,6 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         }
     }
 
-
     @SuppressLint("SetTextI18n")
     private void SetView(final PackageDetailsViewModel ViewModel) {
 
@@ -227,6 +228,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         PriceTextViewPackageDetailsFragment.setText(Utility.GetIntegerNumberWithComma((int) ViewModel.getCreditPrice()));
 
         if (ViewModel.isCanPurchaseByPoint()) {
+            BuyPackageByPointRelativeLayoutPackageDetailsFragment.setVisibility(View.VISIBLE);
             PointTextViewPackageDetailsFragment.setVisibility(View.VISIBLE);
             OrTextViewPackageDetailsFragment.setVisibility(View.VISIBLE);
             PointValueTextViewPackageDetailsFragment.setVisibility(View.VISIBLE);
@@ -239,6 +241,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
             OrTextViewPackageDetailsFragment.setVisibility(View.GONE);
             PointValueTextViewPackageDetailsFragment.setVisibility(View.GONE);
             TagImageViewPackageDetailsFragment.setVisibility(View.GONE);
+            BuyPackageByPointRelativeLayoutPackageDetailsFragment.setVisibility(View.GONE);
         }
 
         if (ViewModel.getPoint() > 0) {

@@ -130,5 +130,6 @@ public enum ServiceMethodType {
     ExpiredBusinessCommissionGetAll,
     NewSuggestionBusinessCommissionGetAll,
     SearchResultGet,
+    AddCustomerFactorAdd,
 
 }

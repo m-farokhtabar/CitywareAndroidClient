@@ -88,6 +88,8 @@ public class NewSuggestionBusinessCommissionRecyclerViewAdapter extends Recycler
                 Intent OrderIntent = Context.NewIntent(OrderActivity.class);
                 OrderIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
                 OrderIntent.putExtra("Percents", ViewModelList.get(position).getPercents());
+                OrderIntent.putExtra("Ticket", ViewModelList.get(position).getTicket());
+                OrderIntent.putExtra("MarketerId", ViewModelList.get(position).getId());
                 Context.startActivity(OrderIntent);
 
             }

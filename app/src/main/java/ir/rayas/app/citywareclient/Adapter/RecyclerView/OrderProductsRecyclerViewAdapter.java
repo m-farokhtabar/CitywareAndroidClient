@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
@@ -156,28 +158,32 @@ public class OrderProductsRecyclerViewAdapter extends RecyclerView.Adapter<Order
             @Override
             public void onClick(View v) {
 
-                ProductCommissionAndDiscountModel ViewModel = new ProductCommissionAndDiscountModel();
-                ViewModel.setProductName(productCommissionAndDiscountModel.getProductName());
-                ViewModel.setPrice(Double.parseDouble(UnitPriceProductTextView.getText().toString()));
-                ViewModel.setNumberOfOrder(Double.parseDouble(CountProductTextView.getText().toString()));
-                ViewModel.setApplicationPercent(productCommissionAndDiscountModel.getApplicationPercent());
-                ViewModel.setCustomerPercent(productCommissionAndDiscountModel.getCustomerPercent());
-                ViewModel.setMarketerPercent(productCommissionAndDiscountModel.getMarketerPercent());
-                ViewModel.setProductId(productCommissionAndDiscountModel.getProductId());
+                if (Double.parseDouble(CountProductTextView.getText().toString()) <=  0){
+                    Context.ShowToast(Context.getResources().getString(R.string.please_enter_order_quantity), Toast.LENGTH_LONG, MessageType.Warning);
+                }   else {
+                    ProductCommissionAndDiscountModel ViewModel = new ProductCommissionAndDiscountModel();
+                    ViewModel.setProductName(productCommissionAndDiscountModel.getProductName());
+                    ViewModel.setPrice(Double.parseDouble(UnitPriceProductTextView.getText().toString()));
+                    ViewModel.setNumberOfOrder(Double.parseDouble(CountProductTextView.getText().toString()));
+                    ViewModel.setApplicationPercent(productCommissionAndDiscountModel.getApplicationPercent());
+                    ViewModel.setCustomerPercent(productCommissionAndDiscountModel.getCustomerPercent());
+                    ViewModel.setMarketerPercent(productCommissionAndDiscountModel.getMarketerPercent());
+                    ViewModel.setProductId(productCommissionAndDiscountModel.getProductId());
 
-                Double TotalPrice = Double.parseDouble(UnitPriceProductTextView.getText().toString()) * Double.parseDouble(CountProductTextView.getText().toString());
-                ViewModel.setTotalPrice(TotalPrice);
+                    Double TotalPrice = Double.parseDouble(UnitPriceProductTextView.getText().toString()) * Double.parseDouble(CountProductTextView.getText().toString());
+                    ViewModel.setTotalPrice(TotalPrice);
 
-                SetViewModel(ViewModel);
+                    SetViewModel(ViewModel);
 
 
-                SendDataToParentActivity(productCommissionAndDiscountModel);
+                    SendDataToParentActivity(productCommissionAndDiscountModel);
 //        //این قسمت به دلیل SingleInstance بودن Parent بایستی مطمئن شوبم که اکتیویتی Parent بعد از اتمام این اکتیویتی دوباره صدا  زده می شود
 //        //در حالت خروج از برنامه و ورود دوباره این اکتیوتی ممکن است Parent خود را گم کند
-                Context.FinishCurrentActivity();
+                    Context.FinishCurrentActivity();
 
 
-                EditOrderProductDialog.dismiss();
+                    EditOrderProductDialog.dismiss();
+                }
 
             }
         });
