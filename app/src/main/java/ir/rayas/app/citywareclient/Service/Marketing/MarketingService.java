@@ -27,10 +27,10 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.Marketing_CustomerFactorV
 import ir.rayas.app.citywareclient.ViewModel.Marketing.SuggestionInfoViewModel;
 
 
-
 public class MarketingService implements IService {
 
     private String ControllerName = "Marketing";
+    private String ControllerPage = "Page";
 
     private IResponseService ResponseService;
 
@@ -115,19 +115,19 @@ public class MarketingService implements IService {
         }.getType());
     }
 
-    public void GetAllNotPayedBusinessCommission(int BusinessId) {
+    public void GetAllNotPayedBusinessCommission(int BusinessId, int PageNumber) {
         BaseService Current = new BaseService();
         String controllerNotPayedBusinessCommission = "GetAllNotPayedBusinessCommission";
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNotPayedBusinessCommission + "/" + BusinessId;
-        Current.GetService(this, Url, ServiceMethodType.NotPayedBusinessCommissionGetAll, MarketingBusinessViewModel.class, new TypeToken<Feedback<List<MarketingBusinessViewModel>>>() {
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNotPayedBusinessCommission + "/" + BusinessId + "/" + ControllerPage + "/" + PageNumber;
+        Current.GetService(this, Url, ServiceMethodType.NotPayedBusinessCommissionGetAll, MarketingPayedBusinessViewModel.class, new TypeToken<Feedback<List<MarketingPayedBusinessViewModel>>>() {
         }.getType());
     }
 
 
-    public void GetAllPayedBusinessCommission(int BusinessId) {
+    public void GetAllPayedBusinessCommission(int BusinessId, int PageNumber) {
         BaseService Current = new BaseService();
         String controllerPayedBusinessCommission = "GetAllPayedBusinessCommission";
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerPayedBusinessCommission + "/" + BusinessId;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerPayedBusinessCommission + "/" + BusinessId + "/" + ControllerPage + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.PayedBusinessCommissionGetAll, MarketingPayedBusinessViewModel.class, new TypeToken<Feedback<List<MarketingPayedBusinessViewModel>>>() {
         }.getType());
     }
@@ -140,15 +140,15 @@ public class MarketingService implements IService {
         }.getType());
     }
 
-    public void GetAllNewSuggestionBusinessCommission(int BusinessId) {
+    public void GetAllNewSuggestionBusinessCommission(int BusinessId, int PageNumber, String SearchText) {
         BaseService Current = new BaseService();
         String controllerNewSuggestionBusinessCommission = "GetAllNewSuggestionBusinessCommission";
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNewSuggestionBusinessCommission + "/" + BusinessId;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNewSuggestionBusinessCommission + "/" + BusinessId + "/" + ControllerPage + "/" + PageNumber + "/?Text=" + SearchText;
         Current.GetService(this, Url, ServiceMethodType.NewSuggestionBusinessCommissionGetAll, MarketingBusinessViewModel.class, new TypeToken<Feedback<List<MarketingBusinessViewModel>>>() {
         }.getType());
     }
 
-    public void AddCustomerFactor(Marketing_CustomerFactorViewModel ViewModel){
+    public void AddCustomerFactor(Marketing_CustomerFactorViewModel ViewModel) {
 
         BaseService Current = new BaseService();
         String actionAddCustomerFactor = "AddCustomerFactor";

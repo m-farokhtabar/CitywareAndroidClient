@@ -42,7 +42,7 @@
                 android:background="@android:color/transparent"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:gravity="right|center_vertical"
-                android:hint="@string/customer_search"
+                android:hint="@string/customer_or_ticket_search"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 tools:ignore="RtlHardcoded" />

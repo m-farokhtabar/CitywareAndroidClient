@@ -18,6 +18,7 @@ import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -37,10 +38,11 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
     private boolean IsSwipe = false;
     private boolean IsLoadedDataForFirst = false;
     private int BusinessId = 0;
+    private int PageNumber = 1;
 
-    private RecyclerView CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment = null;
     private SwipeRefreshLayout RefreshCommissionReceivedSwipeRefreshLayoutBusinessCommissionReceivedFragment = null;
     private TextViewPersian ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment = null;
+    private  BusinessCommissionReceivedRecyclerViewAdapter CommissionReceivedRecyclerViewAdapter = null;
 
 
     @Override
@@ -65,16 +67,21 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
         RefreshCommissionReceivedSwipeRefreshLayoutBusinessCommissionReceivedFragment = CurrentView.findViewById(R.id.RefreshCommissionReceivedSwipeRefreshLayoutBusinessCommissionReceivedFragment);
         ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment.setVisibility(View.GONE);
 
-        CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment = CurrentView.findViewById(R.id.CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment);
+        RecyclerView CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment = CurrentView.findViewById(R.id.CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment);
         CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
         CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment.setLayoutManager(LinearLayoutManager);
+
+
+        CommissionReceivedRecyclerViewAdapter = new BusinessCommissionReceivedRecyclerViewAdapter(Context, null,CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment);
+        CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment.setAdapter(CommissionReceivedRecyclerViewAdapter);
 
 
         RefreshCommissionReceivedSwipeRefreshLayoutBusinessCommissionReceivedFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 IsSwipe = true;
+                PageNumber = 1;
                 LoadData();
             }
         });
@@ -85,11 +92,12 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
      */
     public void LoadData() {
         if (!IsSwipe)
+            if (PageNumber == 1)
             Context.ShowLoadingProgressBar();
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(BusinessCommissionReceivedFragment.this);
-        MarketingService.GetAllPayedBusinessCommission(BusinessId);
+        MarketingService.GetAllPayedBusinessCommission(BusinessId,PageNumber);
     }
 
     /**
@@ -104,28 +112,47 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
         IsSwipe = false;
         try {
             if (ServiceMethod == ServiceMethodType.PayedBusinessCommissionGetAll) {
+                Context.HideLoading();
                 Feedback<List<MarketingPayedBusinessViewModel>> FeedBack = (Feedback<List<MarketingPayedBusinessViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
 
                     final List<MarketingPayedBusinessViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null && ViewModelList.size() > 0) {
+                    if (ViewModelList != null) {
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment.setVisibility(View.GONE);
+                                CommissionReceivedRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+
+                        } else {
+                            ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment.setVisibility(View.GONE);
+                            CommissionReceivedRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
+                        }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
                         ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment.setVisibility(View.GONE);
-
-                        BusinessCommissionReceivedRecyclerViewAdapter CommissionReceivedRecyclerViewAdapter = new BusinessCommissionReceivedRecyclerViewAdapter(Context, ViewModelList);
-                        CommissionReceivedRecyclerViewBusinessCommissionReceivedFragment.setAdapter(CommissionReceivedRecyclerViewAdapter);
-
                     } else {
                         ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())
-                            ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment.setVisibility(View.VISIBLE);
-                        else
-                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }

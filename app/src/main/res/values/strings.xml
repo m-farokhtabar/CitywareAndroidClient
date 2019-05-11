@@ -421,10 +421,12 @@
     <string name="unknown">نامشخص</string>
     <string name="quick_items">سفارش سریع</string>
     <string name="product_name">نام محصول</string>
+    <string name="service_product_name">نام محصول/خدمات</string>
     <string name="add_to_product_list">افزودن به لیست محصولات</string>
     <string name="please_enter_add_product_to_list">لطفا محصول خود را به لیست اضافه کنید</string>
     <string name="price_paid_customer">مبلغ پرداختی مشتری</string>
     <string name="submit">ثبت</string>
+    <string name="select_product_service">انتخاب محصول/خدمات</string>
 
 
     <!--متون مرتبط با  فاکتور-->
@@ -521,6 +523,10 @@
     <string name="ticket_number">شماره تیکت</string>
     <string name="share">اشتراک گذاری</string>
     <string name="other_product_service">سایر محصولات و خدمات</string>
+    <string name="total_price_facture">مبلغ کل فاکتور</string>
+    <string name="facture_of_income">درآمد از فاکتور</string>
+    <string name="operation">عملیات</string>
+    <string name="message_product_null">تمامی محصولات و خدمات این کسب و کار با استفاده از پورسانت و تخفیفی که در بالا مشاهده می کنید محاسبه می گردد</string>
     <string name="please_refer_to_the_business_menu_for_additional_information">لطفا جهت دریافت اطلاعات تکمیلی به منوی کسب و کار های معرفی شده مراجعه فرمایید</string>
 
 
@@ -544,6 +550,7 @@
     <string name="details_discount">جزئیات تخفیف</string>
     <string name="state">وضعیت</string>
     <string name="use_date">تاریخ استفاده</string>
+    <string name="payment_deadline">مهلت پرداخت </string>
     <string name="use">استفاده شده است</string>
     <string name="not_use">استفاده نشده است</string>
     <string name="discount_details">جزئیات تخفیف</string>
@@ -573,6 +580,7 @@
     <string name="report_income_from_business">گزارش درآمد از کسب و کار</string>
     <string name="report_marketer_commission">گزارش پورسانت بازاریاب</string>
     <string name="customer_search">جستجوی مشتری</string>
+    <string name="customer_or_ticket_search">جستجوی تیکت یا مشخصات کاربر</string>
     <string name="details_factor">جزئیات فاکتور</string>
     <string name="discount_commission">تخفیف و پورسانت</string>
     <string name="commission_un_paid">پورسانت پرداخت نشده</string>

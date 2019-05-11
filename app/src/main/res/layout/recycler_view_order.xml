@@ -61,7 +61,7 @@
                 android:gravity="center|right"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@string/product_name"
+                android:text="@string/service_product_name"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/FontBlackColor"
                 android:textIsSelectable="false"

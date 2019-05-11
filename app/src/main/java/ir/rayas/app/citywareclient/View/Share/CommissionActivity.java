@@ -50,6 +50,7 @@ public class CommissionActivity extends BaseActivity implements IResponseService
     private TextViewPersian CustomerPercentTextViewCommissionActivity = null;
     private CardView UserNameCardViewCommissionActivity = null;
     private TextViewPersian UserNameTextViewCommissionActivity = null;
+    private TextViewPersian MessageTextViewCommissionActivity = null;
     private EditTextPersian DescriptionDialog = null;
 
     private int BusinessId = 0;
@@ -86,6 +87,7 @@ public class CommissionActivity extends BaseActivity implements IResponseService
         ButtonPersianView IntroducingFriendsButtonCommissionActivity = findViewById(R.id.IntroducingFriendsButtonCommissionActivity);
         ButtonPersianView UserSelectionButtonCommissionActivity = findViewById(R.id.UserSelectionButtonCommissionActivity);
         TextViewPersian TitleBusinessTextViewCommissionActivity = findViewById(R.id.TitleBusinessTextViewCommissionActivity);
+        MessageTextViewCommissionActivity = findViewById(R.id.MessageTextViewCommissionActivity);
         CommissionProductCardViewCommissionActivity = findViewById(R.id.CommissionProductCardViewCommissionActivity);
         MarketingCommissionTextViewCommissionActivity = findViewById(R.id.MarketingCommissionTextViewCommissionActivity);
         CustomerPercentTextViewCommissionActivity = findViewById(R.id.CustomerPercentTextViewCommissionActivity);
@@ -93,6 +95,7 @@ public class CommissionActivity extends BaseActivity implements IResponseService
         UserNameTextViewCommissionActivity = findViewById(R.id.UserNameTextViewCommissionActivity);
 
         UserNameCardViewCommissionActivity.setVisibility(View.GONE);
+        MessageTextViewCommissionActivity.setVisibility(View.GONE);
 
         ShowProductListRecyclerViewCommissionActivity = findViewById(R.id.ShowProductListRecyclerViewCommissionActivity);
         ShowProductListRecyclerViewCommissionActivity.setHasFixedSize(true);
@@ -160,20 +163,19 @@ public class CommissionActivity extends BaseActivity implements IResponseService
                     final BusinessCommissionAndDiscountViewModel ViewModel = FeedBack.getValue();
                     if (ViewModel != null) {
                         if (ViewModel.getProductList() != null) {
+                            MessageTextViewCommissionActivity.setVisibility(View.GONE);
+
                             List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
 
                             CommissionProductRecyclerViewAdapter commissionProductRecyclerViewAdapter = new CommissionProductRecyclerViewAdapter(CommissionActivity.this, ViewModelList);
                             ShowProductListRecyclerViewCommissionActivity.setAdapter(commissionProductRecyclerViewAdapter);
-                        }
-
-                        if (ViewModel.getCustomerPercent() == 0 && ViewModel.getMarketerPercent() == 0) {
-                            CommissionProductCardViewCommissionActivity.setVisibility(View.GONE);
                         } else {
-                            CommissionProductCardViewCommissionActivity.setVisibility(View.VISIBLE);
-
-                            CustomerPercentTextViewCommissionActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
-                            MarketingCommissionTextViewCommissionActivity.setText(String.valueOf(ViewModel.getMarketerPercent()) + " " + getResources().getString(R.string.percent));
+                            MessageTextViewCommissionActivity.setVisibility(View.VISIBLE);
                         }
+
+                        CustomerPercentTextViewCommissionActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
+                        MarketingCommissionTextViewCommissionActivity.setText(String.valueOf(ViewModel.getMarketerPercent()) + " " + getResources().getString(R.string.percent));
+
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {

@@ -209,9 +209,7 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                     }
                 } else {
                     ListSearchListViewUserSearchActivity.setVisibility(View.GONE);
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
+                    if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
                         ShowErrorInConnectDialog();
                     }
                 }

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -66,6 +67,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private TextView LineStarredTextViewMainActivity = null;
     private TextView LineMostVisitedTextViewMainActivity = null;
     private TextView LineBookmarkTextViewMainActivity = null;
+    private FrameLayout Line = null;
 
     private int PageNumber = 1;
     private int PageNumberPoster = 1;
@@ -177,6 +179,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         CategoryRadioButtonMainActivity = findViewById(R.id.CategoryRadioButtonMainActivity);
         RegionAllRadioButtonMainActivity = findViewById(R.id.RegionAllRadioButtonMainActivity);
         RegionRadioButtonMainActivity = findViewById(R.id.RegionRadioButtonMainActivity);
+        Line = findViewById(R.id.Line);
 
         LinearLayoutCompat bookmarkLinearLayoutMainActivity = findViewById(R.id.BookmarkLinearLayoutMainActivity);
         LinearLayoutCompat mostVisitedLinearLayoutMainActivity = findViewById(R.id.MostVisitedLinearLayoutMainActivity);
@@ -418,21 +421,31 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
                     final List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
-                        if (PageNumber == 1)
+                        if (PageNumber == 1) {
                             isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelList);
-                        else
+
+                            if (ViewModelList.size()>0){
+                                Line.setVisibility(View.VISIBLE);
+                            }   else {
+                                Line.setVisibility(View.GONE);
+                            }
+                        } else {
                             isTopPosterRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            Line.setVisibility(View.VISIBLE);
+                        }
+
+                    }  else {
+                        Line.setVisibility(View.GONE);
                     }
                 } else {
                     if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
                         ShowErrorInConnectDialog();
+                        Line.setVisibility(View.GONE);
+                    } else {
+                        Line.setVisibility(View.GONE);
                     }
-//                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-//                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-                    //ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-//                    } else {
-//                        ShowErrorInConnectDialog();
-//                    }
+
                 }
             } else if (ServiceMethod == ServiceMethodType.BusinessPosterInfoGetAll) {
                 Feedback<List<BusinessPosterInfoViewModel>> FeedBack = (Feedback<List<BusinessPosterInfoViewModel>>) Data;
@@ -451,12 +464,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                     if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
                         ShowErrorInConnectDialog();
                     }
-//                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-//                        if (!(PageNumberPoster > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-//                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-//                    } else {
-//                        ShowErrorInConnectDialog();
-//                    }
+
                 }
             } else if (ServiceMethod == ServiceMethodType.BookmarkPosterInfoGetAll) {
                 Feedback<List<BusinessPosterInfoViewModel>> FeedBack = (Feedback<List<BusinessPosterInfoViewModel>>) Data;
@@ -474,12 +482,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                     if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
                         ShowErrorInConnectDialog();
                     }
-//                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-//                        if (!(PageNumberPoster > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()))
-//                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-//                    } else {
-//                        ShowErrorInConnectDialog();
-//                    }
+
                 }
             }
 
@@ -655,12 +658,28 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
         isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelListTop);
 
+        LineNewestTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundThemeColor));
+        LineStarredTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineMostVisitedTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineBookmarkTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+
+        MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        BookmarkTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+
+        queryType = QueryType.New.GetQueryType();
+
         PageNumber = 1;
         PageNumberPoster = 1;
 
+        
         LoadData();
 
     }
+
+
+
 
     @Override
     protected void onResume() {

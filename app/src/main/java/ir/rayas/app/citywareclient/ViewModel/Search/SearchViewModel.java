@@ -19,11 +19,11 @@ public class SearchViewModel {
         Cols = cols;
     }
 
-    public List<ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel> getBusinessPosterInfoViewModel() {
+    public List<BusinessPosterInfoViewModel> getBusinessPosterInfoViewModel() {
         return BusinessPosterInfoViewModel;
     }
 
-    public void setBusinessPosterInfoViewModel(List<ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel> businessPosterInfoViewModel) {
+    public void setBusinessPosterInfoViewModel(List<BusinessPosterInfoViewModel> businessPosterInfoViewModel) {
         BusinessPosterInfoViewModel = businessPosterInfoViewModel;
     }
 }

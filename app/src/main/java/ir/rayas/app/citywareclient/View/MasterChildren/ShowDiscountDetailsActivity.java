@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
+
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.DiscountProductRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -104,9 +105,9 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
                         if (ViewModel.getProductList() != null) {
                             List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
 
-                            if (ViewModelList.size()>0){
+                            if (ViewModelList.size() > 0) {
                                 TitleProductCardViewShowDiscountDetailsActivity.setVisibility(View.VISIBLE);
-                            }else {
+                            } else {
                                 TitleProductCardViewShowDiscountDetailsActivity.setVisibility(View.GONE);
                             }
 
@@ -114,14 +115,8 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
                             ShowProductListRecyclerViewShowDiscountDetailsActivity.setAdapter(discountProductRecyclerViewAdapter);
                         }
 
-                        if (ViewModel.getCustomerPercent() == 0 && ViewModel.getMarketerPercent() == 0) {
-                            CommissionProductCardViewShowDiscountDetailsActivity.setVisibility(View.GONE);
-                        } else {
-                            CommissionProductCardViewShowDiscountDetailsActivity.setVisibility(View.VISIBLE);
-
-                            CustomerPercentTextViewShowDiscountDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
-                            AddressTextViewShowDiscountDetailsActivity.setText(ViewModel.getBusinessAddress());
-                        }
+                        CustomerPercentTextViewShowDiscountDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
+                        AddressTextViewShowDiscountDetailsActivity.setText(ViewModel.getBusinessAddress());
                     } else {
                         TitleProductCardViewShowDiscountDetailsActivity.setVisibility(View.GONE);
                     }

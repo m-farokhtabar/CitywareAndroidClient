@@ -14,7 +14,8 @@ public class MarketingPayedBusinessViewModel {
     private String Percents;
     private double Price;
     private String Factor;
-     private String TransactionNumber;
+    private String TransactionNumber;
+    private String BusinessPayOffDeadLine;
 
     public int getId() {
         return Id;
@@ -62,5 +63,9 @@ public class MarketingPayedBusinessViewModel {
 
     public String getTransactionNumber() {
         return TransactionNumber;
+    }
+
+    public String getBusinessPayOffDeadLine() {
+        return BusinessPayOffDeadLine;
     }
 }

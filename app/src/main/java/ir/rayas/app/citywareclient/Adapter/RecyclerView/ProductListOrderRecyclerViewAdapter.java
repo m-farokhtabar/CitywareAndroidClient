@@ -37,7 +37,6 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
         TextViewPersian ProductNameTextView;
         TextViewPersian MarketingCommissionTextView;
         TextViewPersian CustomerPercentTextView;
-        TextViewPersian PriceTextView;
         TextViewPersian TotalPriceTextView;
         TextViewPersian NumberOfOrderTextView;
         TextViewPersian DeleteOrderIconTextView;
@@ -48,7 +47,6 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
             ProductNameTextView = v.findViewById(R.id.ProductNameTextView);
             MarketingCommissionTextView = v.findViewById(R.id.MarketingCommissionTextView);
             CustomerPercentTextView = v.findViewById(R.id.CustomerPercentTextView);
-            PriceTextView = v.findViewById(R.id.PriceTextView);
             TotalPriceTextView = v.findViewById(R.id.TotalPriceTextView);
             NumberOfOrderTextView = v.findViewById(R.id.NumberOfOrderTextView);
             DeleteOrderIconTextView = v.findViewById(R.id.DeleteOrderIconTextView);
@@ -72,15 +70,15 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
 
         holder.ProductNameTextView.setText(ViewModelList.get(position).getProductName());
 
-        double DiscountPrice = (ViewModelList.get(position).getPrice() * ViewModelList.get(position).getCustomerPercent()) / 100;
+       double TotalPrice =   ViewModelList.get(position).getPrice() *   ViewModelList.get(position).getNumberOfOrder();
+
+        double DiscountPrice = (TotalPrice * ViewModelList.get(position).getCustomerPercent()) / 100;
         holder.CustomerPercentTextView.setText(Utility.GetIntegerNumberWithComma(DiscountPrice));
 
-        double MarketingCommission = (ViewModelList.get(position).getPrice() * ViewModelList.get(position).getMarketerPercent()) / 100;
+        double MarketingCommission = (TotalPrice * ViewModelList.get(position).getMarketerPercent()) / 100;
         holder.MarketingCommissionTextView.setText(Utility.GetIntegerNumberWithComma(MarketingCommission));
 
-        holder.PriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPrice()));
 
-        double TotalPrice = ViewModelList.get(position).getPrice() * ViewModelList.get(position).getNumberOfOrder();
         holder.TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
 
         holder.NumberOfOrderTextView.setText(String.valueOf(ViewModelList.get(position).getNumberOfOrder()));

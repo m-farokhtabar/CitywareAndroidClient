@@ -2,6 +2,7 @@ package ir.rayas.app.citywareclient.View.Master;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -41,6 +42,7 @@ public class SearchActivity extends BaseActivity implements IResponseService {
 
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter = null;
     private SearchResultRecyclerViewAdapter searchResultRecyclerViewAdapter = null;
+    private SwipeRefreshLayout RefreshSearchSwipeRefreshLayoutSearchActivity = null;
 
     private RecyclerView SearchRecyclerViewSearchActivity = null;
     private RecyclerView SearchResultRecyclerViewSearchActivity = null;
@@ -85,7 +87,8 @@ public class SearchActivity extends BaseActivity implements IResponseService {
     private void CreateLayout() {
 
         ImageView SearchImageViewSearchActivity = findViewById(R.id.SearchImageViewSearchActivity);
-        EditTextPersian SearchEditTextSearchActivity = findViewById(R.id.SearchEditTextSearchActivity);
+        final EditTextPersian SearchEditTextSearchActivity = findViewById(R.id.SearchEditTextSearchActivity);
+        RefreshSearchSwipeRefreshLayoutSearchActivity = findViewById(R.id.RefreshSearchSwipeRefreshLayoutSearchActivity);
 
         SearchRecyclerViewSearchActivity = findViewById(R.id.SearchRecyclerViewSearchActivity);
         SearchRecyclerViewSearchActivity.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
@@ -111,7 +114,7 @@ public class SearchActivity extends BaseActivity implements IResponseService {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
-
+                    RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(true);
                     SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
                     SearchRecyclerViewSearchActivity.setVisibility(View.GONE);
 
@@ -120,6 +123,7 @@ public class SearchActivity extends BaseActivity implements IResponseService {
                     LoadDataSearch();
 
                 } else {
+                    RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(false);
                     SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
                     SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
                 }
@@ -131,6 +135,20 @@ public class SearchActivity extends BaseActivity implements IResponseService {
             @Override
             public void onClick(View view) {
                 LoadDataSearch();
+            }
+        });
+
+
+        RefreshSearchSwipeRefreshLayoutSearchActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                PageNumber = 1;
+                SearchEditTextSearchActivity.setText("");
+                SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
+                SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+                
+                HomeService service = new HomeService(SearchActivity.this);
+                service.GetAll(QueryType.Search.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumber);
             }
         });
 
@@ -191,7 +209,7 @@ public class SearchActivity extends BaseActivity implements IResponseService {
     @SuppressLint("SetTextI18n")
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-
+        RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(false);
         HideLoading();
         try {
             if (ServiceMethod == ServiceMethodType.BusinessPosterInfoGetAll) {

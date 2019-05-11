@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.View.Fragment.BusinessCommission;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.List;
@@ -18,14 +20,17 @@ import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
+import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingBusinessViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,14 +39,17 @@ public class BusinessNoCommissionReceivedFragment extends Fragment implements IR
 
     private ShowBusinessCommissionActivity Context = null;
 
-    private RecyclerView NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment = null;
     private SwipeRefreshLayout RefreshNoCommissionReceivedSwipeRefreshLayoutBusinessNoCommissionReceivedFragment = null;
     private TextViewPersian ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment = null;
+    public TextViewPersian TotalPriceFactoreTextViewBusinessNoCommissionReceivedFragment = null;
+    public LinearLayout TotalLinearLayoutBusinessNoCommissionReceivedFragment = null;
+    private BusinessNoCommissionReceivedRecyclerViewAdapter noCommissionReceivedRecyclerViewAdapter = null;
 
     private boolean IsSwipe = false;
     private boolean IsLoadedDataForFirst = false;
     private int BusinessId = 0;
-
+    private int PageNumber = 1;
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,19 +69,35 @@ public class BusinessNoCommissionReceivedFragment extends Fragment implements IR
     private void CreateLayout(View CurrentView) {
         ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment = CurrentView.findViewById(R.id.ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment);
         RefreshNoCommissionReceivedSwipeRefreshLayoutBusinessNoCommissionReceivedFragment = CurrentView.findViewById(R.id.RefreshNoCommissionReceivedSwipeRefreshLayoutBusinessNoCommissionReceivedFragment);
-        ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment.setVisibility(View.GONE);
+        TotalPriceFactoreTextViewBusinessNoCommissionReceivedFragment = CurrentView.findViewById(R.id.TotalPriceFactoreTextViewBusinessNoCommissionReceivedFragment);
+        TotalLinearLayoutBusinessNoCommissionReceivedFragment = CurrentView.findViewById(R.id.TotalLinearLayoutBusinessNoCommissionReceivedFragment);
+        ButtonPersianView SubmitButtonBusinessNoCommissionReceivedFragment = CurrentView.findViewById(R.id.SubmitButtonBusinessNoCommissionReceivedFragment);
 
-        NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment = CurrentView.findViewById(R.id.NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment);
+        ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment.setVisibility(View.GONE);
+        TotalLinearLayoutBusinessNoCommissionReceivedFragment.setVisibility(View.GONE);
+
+        RecyclerView NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment = CurrentView.findViewById(R.id.NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment);
         NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
         NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment.setLayoutManager(LinearLayoutManager);
+
+        noCommissionReceivedRecyclerViewAdapter = new BusinessNoCommissionReceivedRecyclerViewAdapter(Context, null, NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment);
+        NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment.setAdapter(noCommissionReceivedRecyclerViewAdapter);
 
 
         RefreshNoCommissionReceivedSwipeRefreshLayoutBusinessNoCommissionReceivedFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 IsSwipe = true;
+                PageNumber = 1;
                 LoadData();
+            }
+        });
+
+        SubmitButtonBusinessNoCommissionReceivedFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
@@ -84,11 +108,12 @@ public class BusinessNoCommissionReceivedFragment extends Fragment implements IR
      */
     public void LoadData() {
         if (!IsSwipe)
-            Context.ShowLoadingProgressBar();
+            if (PageNumber == 1)
+                Context.ShowLoadingProgressBar();
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(this);
-        MarketingService.GetAllNotPayedBusinessCommission(BusinessId);
+        MarketingService.GetAllNotPayedBusinessCommission(BusinessId, PageNumber);
     }
 
     /**
@@ -103,28 +128,47 @@ public class BusinessNoCommissionReceivedFragment extends Fragment implements IR
         IsSwipe = false;
         try {
             if (ServiceMethod == ServiceMethodType.NotPayedBusinessCommissionGetAll) {
-                Feedback<List<MarketingBusinessViewModel>> FeedBack = (Feedback<List<MarketingBusinessViewModel>>) Data;
+                Context.HideLoading();
+                Feedback<List<MarketingPayedBusinessViewModel>> FeedBack = (Feedback<List<MarketingPayedBusinessViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
 
-                    final List<MarketingBusinessViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null && ViewModelList.size() > 0) {
+                    final List<MarketingPayedBusinessViewModel> ViewModelList = FeedBack.getValue();
+                    if (ViewModelList != null) {
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment.setVisibility(View.GONE);
+                                noCommissionReceivedRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+
+                        } else {
+                            ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment.setVisibility(View.GONE);
+                            noCommissionReceivedRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
+                        }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
                         ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment.setVisibility(View.GONE);
-
-                        BusinessNoCommissionReceivedRecyclerViewAdapter noCommissionReceivedRecyclerViewAdapter = new BusinessNoCommissionReceivedRecyclerViewAdapter(Context, ViewModelList);
-                        NoCommissionReceivedRecyclerViewBusinessNoCommissionReceivedFragment.setAdapter(noCommissionReceivedRecyclerViewAdapter);
-
                     } else {
                         ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())
-                            ShowEmptyNoCommissionReceivedTextViewBusinessNoCommissionReceivedFragment.setVisibility(View.VISIBLE);
-                        else
-                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }
@@ -133,6 +177,17 @@ public class BusinessNoCommissionReceivedFragment extends Fragment implements IR
         } catch (Exception e) {
             Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void SetViewPriceInFooter(double TotalPrice) {
+        TotalPriceFactoreTextViewBusinessNoCommissionReceivedFragment.setText(Utility.GetIntegerNumberWithComma(TotalPrice)+ " " + Context.getResources().getString(R.string.toman));
+
+        if (TotalPrice <= 0)
+            TotalLinearLayoutBusinessNoCommissionReceivedFragment.setVisibility(View.GONE);
+        else
+            TotalLinearLayoutBusinessNoCommissionReceivedFragment.setVisibility(View.VISIBLE);
+
     }
 
     @Override

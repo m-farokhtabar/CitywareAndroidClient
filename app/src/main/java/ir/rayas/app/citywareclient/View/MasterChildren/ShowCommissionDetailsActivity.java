@@ -114,14 +114,9 @@ public class ShowCommissionDetailsActivity extends BaseActivity implements IResp
                             ShowProductListRecyclerViewShowCommissionDetailsActivity.setAdapter(commissionProductsRecyclerViewAdapter);
                         }
 
-                        if (ViewModel.getCustomerPercent() == 0 && ViewModel.getMarketerPercent() == 0) {
-                            CommissionProductCardViewShowCommissionDetailsActivity.setVisibility(View.GONE);
-                        } else {
-                            CommissionProductCardViewShowCommissionDetailsActivity.setVisibility(View.VISIBLE);
-
                             MarketerPercentTextViewShowCommissionDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
                             AddressTextViewShowCommissionDetailsActivity.setText(ViewModel.getBusinessAddress());
-                        }
+
                     } else {
                         TitleProductCardViewShowCommissionDetailsActivity.setVisibility(View.GONE);
                     }

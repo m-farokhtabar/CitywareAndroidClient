@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
@@ -30,10 +31,12 @@ public class BusinessCommissionReceivedRecyclerViewAdapter extends RecyclerView.
 
     private List<MarketingPayedBusinessViewModel> ViewModelList = null;
     private ShowBusinessCommissionActivity Context;
+    private RecyclerView Container = null;
 
-    public BusinessCommissionReceivedRecyclerViewAdapter(ShowBusinessCommissionActivity context, List<MarketingPayedBusinessViewModel> ViewModel) {
+    public BusinessCommissionReceivedRecyclerViewAdapter(ShowBusinessCommissionActivity context, List<MarketingPayedBusinessViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
         this.ViewModelList = ViewModel;
+        this.Container = Container;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -136,6 +139,35 @@ public class BusinessCommissionReceivedRecyclerViewAdapter extends RecyclerView.
 
 
     }
+
+
+    /**
+     * اضافه مودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void AddViewModelList(List<MarketingPayedBusinessViewModel> ViewModel) {
+        if (ViewModel != null) {
+            if (ViewModelList == null)
+                ViewModelList = new ArrayList<>();
+            ViewModelList.addAll(ViewModel);
+            notifyDataSetChanged();
+            Container.invalidate();
+        }
+    }
+
+    /**
+     * جایگزین نمودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void SetViewModelList(List<MarketingPayedBusinessViewModel> ViewModel) {
+        ViewModelList = new ArrayList<>();
+        ViewModelList.addAll(ViewModel);
+        notifyDataSetChanged();
+        Container.invalidate();
+    }
+
 
     @Override
     public int getItemCount() {

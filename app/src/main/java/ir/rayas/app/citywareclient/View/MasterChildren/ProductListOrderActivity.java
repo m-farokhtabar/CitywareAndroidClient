@@ -75,7 +75,7 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
             public void call() {
                 RetryButtonOnClick();
             }
-        }, R.string.basket_submit);
+        }, R.string.select_product_service);
 
 
         //ایجاد طرح بندی صفحه

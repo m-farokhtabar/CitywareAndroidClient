@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import java.util.List;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Master.SearchActivity;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessPosterDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Search.SearchViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
 
@@ -75,7 +77,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final UserSearchViewHolder viewHolder = (UserSearchViewHolder) holder;
 
-        List<BusinessPosterInfoViewModel> businessPosterInfoViewModels = ViewModelList.get(position).getBusinessPosterInfoViewModel();
+        final List<BusinessPosterInfoViewModel> businessPosterInfoViewModels = ViewModelList.get(position).getBusinessPosterInfoViewModel();
 
         int Height = LayoutUtility.GetWidthAccordingToScreen(Context, 3);
 
@@ -122,6 +124,33 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     }
                 }
             }
+            
+            viewHolder.Column3ImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent ShowBusinessPosterDetailsIntent =  Context.NewIntent(ShowBusinessPosterDetailsActivity.class);
+                    ShowBusinessPosterDetailsIntent.putExtra("PosterId",businessPosterInfoViewModels.get(2).getPosterId());
+                    Context.startActivity(ShowBusinessPosterDetailsIntent);
+                }
+            });
+
+            viewHolder.Column2ImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent ShowBusinessPosterDetailsIntent =  Context.NewIntent(ShowBusinessPosterDetailsActivity.class);
+                    ShowBusinessPosterDetailsIntent.putExtra("PosterId",businessPosterInfoViewModels.get(1).getPosterId());
+                    Context.startActivity(ShowBusinessPosterDetailsIntent);
+                }
+            });
+
+            viewHolder.Column1ImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent ShowBusinessPosterDetailsIntent =  Context.NewIntent(ShowBusinessPosterDetailsActivity.class);
+                    ShowBusinessPosterDetailsIntent.putExtra("PosterId",businessPosterInfoViewModels.get(0).getPosterId());
+                    Context.startActivity(ShowBusinessPosterDetailsIntent);
+                }
+            });
 
         } else if (ViewModelList.get(position).getCols() == 3) {
             viewHolder.OneColumnBannerRelativeLayout.setVisibility(View.VISIBLE);
@@ -132,6 +161,17 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             viewHolder.OneColumnImageView.getLayoutParams().height = ScreenH;
 
             LayoutUtility.LoadImageWithGlide(Context, businessPosterInfoViewModels.get(0).getPosterImagePathUrl(), viewHolder.OneColumnImageView, ScreenWidthOne, ScreenH);
+
+
+            viewHolder.OneColumnImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent ShowBusinessPosterDetailsIntent =  Context.NewIntent(ShowBusinessPosterDetailsActivity.class);
+                    ShowBusinessPosterDetailsIntent.putExtra("PosterId",businessPosterInfoViewModels.get(0).getPosterId());
+                    Context.startActivity(ShowBusinessPosterDetailsIntent);
+                }
+            });
+
         }
 
 

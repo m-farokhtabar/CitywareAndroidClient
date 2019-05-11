@@ -1,5 +1,6 @@
 package ir.rayas.app.citywareclient.View.MasterChildren;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.Fragment.BusinessCommission.BusinessNoCommissionReceivedFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 
 public class ShowBusinessCommissionActivity extends BaseActivity {
@@ -21,6 +23,7 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
     private int FragmentIndex = 0;
 
     private String BusinessName ="";
+    double TotalPrice = 0.0;
 
 
     /**
@@ -111,6 +114,20 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    public void SetViewPriceInFooter(double Price, boolean IsAdd) {
+
+        if (IsAdd) {
+            TotalPrice = TotalPrice + Price;
+        } else {
+            TotalPrice = TotalPrice - Price;
+        }
+
+        ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).SetViewPriceInFooter(TotalPrice);
 
     }
 

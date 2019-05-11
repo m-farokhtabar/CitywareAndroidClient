@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/BackgroundLightColor"
+    android:background="@color/BackgroundWhiteColor"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -143,6 +143,20 @@
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/MessageTextViewCommissionActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_margin="16dp"
+                android:singleLine="false"
+                android:text="@string/message_product_null"
+                android:gravity="center"
+                android:visibility="gone"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/FontSemiDarkThemeColor"
+                tools:ignore="RtlHardcoded" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ShowProductListRecyclerViewCommissionActivity"

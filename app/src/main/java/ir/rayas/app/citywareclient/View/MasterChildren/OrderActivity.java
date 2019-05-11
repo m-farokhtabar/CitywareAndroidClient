@@ -38,8 +38,8 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.ProductCommissionAndDisco
 public class OrderActivity extends BaseActivity implements IResponseService, ILoadData {
 
     private ProductListOrderRecyclerViewAdapter productListOrderRecyclerViewAdapter = null;
-    private TextViewPersian MarketingCommissionTextViewOrderActivity = null;
-    private TextViewPersian CustomerDiscountTextViewOrderActivity = null;
+    private TextViewPersian TotalPriceFactoreTextViewOrderActivity = null;
+    private TextViewPersian FactureOfIncomeTextViewOrderActivity = null;
     private TextViewPersian TotalPriceTextViewOrderActivity = null;
     private LinearLayout TotalLinearLayoutOrderActivity = null;
     private FrameLayout Line2 = null;
@@ -92,8 +92,8 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout() {
-        MarketingCommissionTextViewOrderActivity = findViewById(R.id.MarketingCommissionTextViewOrderActivity);
-        CustomerDiscountTextViewOrderActivity = findViewById(R.id.CustomerDiscountTextViewOrderActivity);
+        TotalPriceFactoreTextViewOrderActivity = findViewById(R.id.TotalPriceFactoreTextViewOrderActivity);
+        FactureOfIncomeTextViewOrderActivity = findViewById(R.id.FactureOfIncomeTextViewOrderActivity);
         TotalPriceTextViewOrderActivity = findViewById(R.id.TotalPriceTextViewOrderActivity);
         TotalLinearLayoutOrderActivity = findViewById(R.id.TotalLinearLayoutOrderActivity);
         Line2 = findViewById(R.id.Line2);
@@ -231,28 +231,31 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
 
             double MarketingCommission = 0;
             double CustomerDiscount = 0;
-            double TotalPrice = 0;
+            double TotalPriceFacture = 0;
+            double PayablePrice = 0;
 
             for (int i = 0; i < productCommissionAndDiscountModels.size(); i++) {
 
-                CustomerDiscount = CustomerDiscount + (productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100;
-                MarketingCommission = MarketingCommission + (productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100;
-                TotalPrice = (TotalPrice + productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder()) - CustomerDiscount;
+                double TotalPrice = productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder();
+                CustomerDiscount = CustomerDiscount + (TotalPrice * productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100;
+                MarketingCommission = MarketingCommission + (TotalPrice * productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100;
+                PayablePrice = (PayablePrice + TotalPrice) - CustomerDiscount;
+                TotalPriceFacture = TotalPriceFacture + TotalPrice;
 
 
                 Marketing_CustomerFactorDetailsViewModel marketing_customerFactorDetailsViewModel = new Marketing_CustomerFactorDetailsViewModel();
                 marketing_customerFactorDetailsViewModel.setCommissionPrice(MarketingCommission);
                 marketing_customerFactorDetailsViewModel.setDiscountPrice(CustomerDiscount);
-                marketing_customerFactorDetailsViewModel.setPrice(TotalPrice);
+                marketing_customerFactorDetailsViewModel.setPrice(TotalPriceFacture);
                 marketing_customerFactorDetailsViewModel.setProductId(productCommissionAndDiscountModels.get(i).getProductId());
                 marketing_customerFactorDetailsViewModel.setProductName(productCommissionAndDiscountModels.get(i).getProductName());
 
                 marketing_customerFactorDetailsViewModels.add(marketing_customerFactorDetailsViewModel);
             }
 
-            MarketingCommissionTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(MarketingCommission));
-            CustomerDiscountTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(CustomerDiscount));
-            TotalPriceTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
+            TotalPriceFactoreTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(TotalPriceFacture));
+            FactureOfIncomeTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(TotalPriceFacture - CustomerDiscount - MarketingCommission));
+            TotalPriceTextViewOrderActivity.setText(Utility.GetIntegerNumberWithComma(PayablePrice));
         } else {
             TotalLinearLayoutOrderActivity.setVisibility(View.GONE);
             Line2.setVisibility(View.GONE);
