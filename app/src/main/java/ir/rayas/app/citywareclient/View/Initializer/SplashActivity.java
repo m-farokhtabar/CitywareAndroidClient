@@ -12,8 +12,6 @@ import java.util.TimerTask;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
-import ir.rayas.app.citywareclient.Repository.RegionRepository;
-import ir.rayas.app.citywareclient.Service.Definition.BusinessCategoryService;
 import ir.rayas.app.citywareclient.Service.Definition.RegionService;
 import ir.rayas.app.citywareclient.Service.Helper.AppController;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -27,7 +25,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ProgressBarView;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.ViewModel.Definition.BusinessCategoryViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Definition.RegionViewModel;
 
 public class SplashActivity extends BaseActivity implements IResponseService {
 
@@ -142,7 +139,7 @@ public class SplashActivity extends BaseActivity implements IResponseService {
                 if (FeedBack.getValue() != null) {
 
                     BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
-                    businessCategoryRepository.setAllBusinessCategory(FeedBack.getValue());
+                    businessCategoryRepository.SetAll(FeedBack.getValue());
 
                     Intent IntroduceIntent = new Intent(getApplicationContext(), IntroduceActivity.class);
                     startActivity(IntroduceIntent);

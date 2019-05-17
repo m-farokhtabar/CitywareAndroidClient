@@ -41,14 +41,20 @@ public class DefaultConstant {
     /// 100 Kb
     /// </summary>
     public static int ProductImageSize = 102400;
-
-
     /**
      * کلید اکانت جهت نگهداری تمامی پیام ها در حافظه داخلی
      */
     public static String NotificationKey = "NotificationList";
+    /**
+     * کلید اکانت نگهداری اطلاعات مناطق به صورت درختی
+     */
     public static String RegionKey = "RegionKey";
+    /**
+     * کلید اکانت نگهداری اطلاعات اصناف به صورت درختی
+     */
     public static String BusinessCategoryKey = "BusinessCategoryKey";
-
+    /**
+     * تعداد آیتم های نمایش در صفحه
+     */
     public static int PageNumberSize = 10;
 }
