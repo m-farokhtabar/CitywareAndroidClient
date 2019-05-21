@@ -7,6 +7,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.util.Util;
+import com.google.gson.Gson;
+
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +18,8 @@ import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Service.Helper.AppController;
 import ir.rayas.app.citywareclient.Service.Uploader.MultipartRequest;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
+import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.ViewModel.Authorize.AuthorizeToken;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 /**
@@ -50,6 +55,49 @@ public class BaseService {
                     } else {
                         params.put("Authorization", "");
                     }
+                    return params;
+                }
+            };
+            //to prevent get twice
+            CurrentRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 16, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            AppController.getInstance().addToRequestQueue(CurrentRequest, "request");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * دریافت اطلاعات از سرور برای سرویس هایی که نیاز به ورود کاربر ندارند
+     * @param Service کلاس سرویس صدا زننده این متد جهت ارسال پاسخ به آن
+     * @param URL آدرس سرویس در سرور
+     * @param ServiceMethod نوع سرویس
+     * @param OutputClass خروجی
+     * @param OutputClassType نوع خروجی
+     * @param <T>
+     */
+    public <T> void GetServiceWithOutAuthentication(final IService Service, String URL, final ServiceMethodType ServiceMethod, final Class<T> OutputClass, final Type OutputClassType) {
+        StringRequest CurrentRequest;
+
+        try {
+            CurrentRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Service.OnSuccess(response, ServiceMethod, OutputClass, OutputClassType);
+                    //-------------------------------------------------------------
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Service.OnError(volleyError, ServiceMethod, OutputClass);
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    AuthorizeToken Token = new AuthorizeToken("!m$E6f97","far7!@");
+                    params.put("AuthorizeToken", Token.GetEncryptedToken());
                     return params;
                 }
             };

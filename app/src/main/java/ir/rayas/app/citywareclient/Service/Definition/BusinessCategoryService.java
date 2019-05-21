@@ -28,7 +28,7 @@ public class BusinessCategoryService implements IService {
         String controllerName = "BusinessCategory";
         String actionGetAllTree = "Tree";
         String Url = DefaultConstant.BaseUrlWebService + "/" + controllerName + "/" + actionGetAllTree;
-        Current.GetService(this,Url, ServiceMethodType.BusinessCategoryTreeGet,BusinessCategoryViewModel.class, new TypeToken<Feedback<BusinessCategoryViewModel>>() {}.getType());
+        Current.GetServiceWithOutAuthentication(this,Url, ServiceMethodType.BusinessCategoryTreeGet,BusinessCategoryViewModel.class, new TypeToken<Feedback<BusinessCategoryViewModel>>() {}.getType());
     }
 
     @Override
