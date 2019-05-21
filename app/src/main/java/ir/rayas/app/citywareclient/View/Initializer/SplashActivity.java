@@ -12,6 +12,8 @@ import java.util.TimerTask;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
+import ir.rayas.app.citywareclient.Service.Definition.BusinessCategoryService;
 import ir.rayas.app.citywareclient.Service.Definition.RegionService;
 import ir.rayas.app.citywareclient.Service.Helper.AppController;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -25,6 +27,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ProgressBarView;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.ViewModel.Definition.BusinessCategoryViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Definition.RegionViewModel;
 
 public class SplashActivity extends BaseActivity implements IResponseService {
 
@@ -109,27 +112,27 @@ public class SplashActivity extends BaseActivity implements IResponseService {
             finish();
 
 
-//            Feedback<RegionViewModel> FeedBack = (Feedback<RegionViewModel>) Data;
-//            if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-//
-//                if (FeedBack.getValue() != null) {
-//                    RegionRepository regionRepository = new RegionRepository();
-//                    regionRepository.setAllRegion(FeedBack.getValue());
-//
-//                    BusinessCategoryService Service = new BusinessCategoryService(this);
-//                    Service.GetAllTree();
-//
-//                } else {
-//                    ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
-//                    ShowErrorInConnectDialog();
-//                }
-//            } else {
-//                if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-//                    ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-//                } else {
-//                    ShowErrorInConnectDialog();
-//                }
-//            }
+            Feedback<RegionViewModel> FeedBack = (Feedback<RegionViewModel>) Data;
+            if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                if (FeedBack.getValue() != null) {
+                    RegionRepository regionRepository = new RegionRepository();
+                    regionRepository.SetAll(FeedBack.getValue());
+
+                    BusinessCategoryService Service = new BusinessCategoryService(this);
+                    Service.GetAllTree();
+
+                } else {
+                    ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
+                    ShowErrorInConnectDialog();
+                }
+            } else {
+                if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                    ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                } else {
+                    ShowErrorInConnectDialog();
+                }
+            }
         } else if (ServiceMethod == ServiceMethodType.BusinessCategoryTreeGet) {
 
             Feedback<BusinessCategoryViewModel> FeedBack = (Feedback<BusinessCategoryViewModel>) Data;
