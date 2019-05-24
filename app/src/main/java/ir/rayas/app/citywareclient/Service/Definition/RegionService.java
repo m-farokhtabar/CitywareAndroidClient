@@ -41,7 +41,7 @@ public class RegionService implements IService
         String ActionGetAllTree = "GetAllTree";
         BaseService Current = new BaseService();
         String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ActionGetAllTree;
-        Current.GetService(this,Url, ServiceMethodType.RegionAllTreeGet,RegionViewModel.class, new TypeToken<Feedback<RegionViewModel>>() {}.getType());
+        Current.GetServiceWithOutAuthentication(this,Url, ServiceMethodType.RegionAllTreeGet,RegionViewModel.class, new TypeToken<Feedback<RegionViewModel>>() {}.getType());
     }
 
 

@@ -2,6 +2,7 @@ package ir.rayas.app.citywareclient.Share.Utility;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -9,12 +10,15 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -214,8 +218,7 @@ public class Utility {
                 int Min2 = Integer.valueOf(Time2Array[1]);
                 if (Hour1 > Hour2) {
                     Output = 1;
-                }
-                else {
+                } else {
                     if (Hour2 > Hour1) {
                         Output = -1;
                     }
@@ -223,11 +226,10 @@ public class Utility {
                     else {
                         if (Min1 > Min2) {
                             Output = 1;
-                        }
-                        else {
+                        } else {
                             if (Min1 < Min2)
                                 Output = -1;
-                            //یعنی دقایق هم مساویست
+                                //یعنی دقایق هم مساویست
                             else
                                 Output = 0;
                         }
@@ -289,6 +291,45 @@ public class Utility {
         DecimalFormat CommaSeparatorFormatter = new DecimalFormat("#,###,###");
         Output = CommaSeparatorFormatter.format(IntegerNumber);
         return Output;
+    }
+
+    /**
+     * رمز نگاری متن به روش XOR
+     *
+     * @param Value متن
+     * @return متن رمز شده
+     */
+    public static String Encrypt(String Value) {
+        String Result = "";
+        try {
+            //TODO: تولید اتفاقی کلید حتما 6 کارکتر باشد
+            String Key = "!5xyz$";
+            StringBuilder EncryptData = new StringBuilder();
+            if (Value != null && !Value.trim().equals("")) {
+                for (int i = 0; i < Value.length(); ++i)
+                    EncryptData.append((char)(Key.charAt(i % Key.length()) ^ Value.charAt(i)));
+            }
+            EncryptData.append(Key);
+            Result = Base64.encodeToString(EncryptData.toString().getBytes("UTF-8"), Base64.NO_WRAP);
+        } catch(Exception Ex) {
+            Ex.printStackTrace();
+        }
+        return Result;
+    }
+
+    /**
+     * تولید رشته تصادفی
+     * @param Length طول رشته
+     * @return - رشته تولید شده
+     */
+    public static String GenerateRandomString(int Length){
+        StringBuilder Result = new StringBuilder();
+        String Alphabet = "1234567890abcdefghijklmnopqrstuwxyz";
+        Random Rnd = new Random();
+        for (int i = 0; i < Length; i++) {
+            Result.append(Alphabet.charAt(Rnd.nextInt(Alphabet.length())));
+        }
+        return Result.toString();
     }
 
 }

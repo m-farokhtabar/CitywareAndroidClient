@@ -4,40 +4,74 @@ import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Helper.SharedPreferenceManager;
 import ir.rayas.app.citywareclient.ViewModel.Definition.BusinessCategoryViewModel;
 
-
-
+/**
+ * ثبت اطلاعات اصناف به صورت درختی
+ * در این کلاس اطلاعات صنف از طریق نود ریشه قابل دسترس است
+ */
 public class BusinessCategoryRepository {
-
-    private static BusinessCategoryViewModel BusinessCategoryModel;
-
     /**
-     * دریافت لیست پیام ها از کش
-     *
-     * @return
+     * نود ریشه صنف
      */
-    public BusinessCategoryViewModel getAllBusinessCategory() {
-        if (BusinessCategoryModel == null) {
+    private static BusinessCategoryViewModel RootBusinessCategory;
+    /**
+     * دریافت لیست اصناف از کش به صورت درختی
+     *
+     * @return نود ریشه اصناف
+     */
+    public BusinessCategoryViewModel GetAll() {
+        if (RootBusinessCategory == null) {
             SharedPreferenceManager ShManager = new SharedPreferenceManager();
             if (ShManager.IsContain(DefaultConstant.BusinessCategoryKey)) {
-                BusinessCategoryModel = ShManager.GetClass(DefaultConstant.BusinessCategoryKey, BusinessCategoryViewModel.class);
+                RootBusinessCategory = ShManager.GetClass(DefaultConstant.BusinessCategoryKey, BusinessCategoryViewModel.class);
             }
         }
-        return BusinessCategoryModel;
+        return RootBusinessCategory;
     }
-
     /**
-     * ویرایش یا اضافه کردن پیام ها به کش
-     *
-     * @param regionModel
+     * ثبت تمامی اصناف در کش به صورت درختی
+     * @param RootViewModel لیست اصناف
      */
-    public void setAllBusinessCategory(BusinessCategoryViewModel regionModel) {
+    public void SetAll(BusinessCategoryViewModel RootViewModel) {
         SharedPreferenceManager ShManager = new SharedPreferenceManager();
-        if (ShManager.SetClass(DefaultConstant.BusinessCategoryKey, regionModel)) {
-            BusinessCategoryModel = regionModel;
+        if (ShManager.SetClass(DefaultConstant.BusinessCategoryKey, RootViewModel)) {
+            RootBusinessCategory = RootViewModel;
         } else {
-            BusinessCategoryModel = null;
+            RootBusinessCategory = null;
         }
-
     }
-
+    /**
+     * دریافت نام کامل صنف
+     *
+     * @param Id کد صنف
+     * @return - نام کامل صنف
+     */
+    public String GetFullName(int Id) {
+        String Output = null;
+        if (RootBusinessCategory!=null){
+            Output = GetFullName(RootBusinessCategory, Id);
+        }
+        return Output;
+    }
+    /**
+     * پیدا کردن نود صنف با استافده از کد آن
+     * @param ParentNode نود ریشه صنف
+     * @param Id کد صنف
+     * @return - نام کامل
+     */
+    private String GetFullName(BusinessCategoryViewModel ParentNode,int Id){
+        if (ParentNode!=null) {
+            if (ParentNode.getId() == Id)
+                return ParentNode.getName();
+            else {
+                if (ParentNode.getChildren()!=null && ParentNode.getChildren().size()>0) {
+                    for (BusinessCategoryViewModel Node : ParentNode.getChildren()){
+                        String Result = GetFullName(Node,Id);
+                        if (Result != null)
+                            return  ParentNode.getName() + "، " + Result;
+                    }
+                }
+            }
+        }
+        return  null;
+    }
 }
