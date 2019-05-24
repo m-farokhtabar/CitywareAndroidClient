@@ -547,9 +547,11 @@
     <string name="commerce">تجارت</string>
     <string name="get_discounts">دریافت تخفیفات</string>
     <string name="income_from_business">درآمد از کسب و کار</string>
+    <string name="marketing_and_Business_income">بازاریابی و کسب و درآمد</string>
     <string name="details_discount">جزئیات تخفیف</string>
     <string name="state">وضعیت</string>
     <string name="use_date">تاریخ استفاده</string>
+    <string name="use_date_customer">تاریخ استفاده مشتری</string>
     <string name="payment_deadline">مهلت پرداخت </string>
     <string name="use">استفاده شده است</string>
     <string name="not_use">استفاده نشده است</string>

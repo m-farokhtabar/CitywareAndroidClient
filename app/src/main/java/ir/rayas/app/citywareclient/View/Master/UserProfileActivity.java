@@ -15,8 +15,10 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserAddressFragment;
 import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserBusinessFragment;
+import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPosterFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
 public class UserProfileActivity extends BaseActivity {
@@ -138,6 +140,13 @@ public class UserProfileActivity extends BaseActivity {
                     } else {
                             ((UserBusinessFragment) Pager.getFragmentByIndex(2)).getBusinessListRecyclerViewAdapter().SetViewModel(ViewModelBusiness);
                     }
+                    break;
+
+                case ActivityIdList.BUY_POSTER_SET_ACTIVITY:
+                    PurchasedPosterViewModel purchasedPosterViewModel = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
+
+                    ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModel);
+
                     break;
             }
         }

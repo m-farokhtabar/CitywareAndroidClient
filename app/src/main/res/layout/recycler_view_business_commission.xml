@@ -49,12 +49,12 @@
                         android:id="@+id/DetailsBusinessButton"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
-                        android:layout_gravity="center"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
                         android:background="@drawable/selector_button_theme_style"
                         android:gravity="center"
-                        android:layout_centerVertical="true"
                         android:text="@string/details_factor"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="@color/FontWhiteColor" />
@@ -63,90 +63,79 @@
                         android:id="@+id/FullNameTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:gravity="right"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
                         android:layout_toEndOf="@+id/DetailsBusinessButton"
                         android:layout_toRightOf="@+id/DetailsBusinessButton"
-                        android:layout_marginLeft="5dp"
+                        android:gravity="right"
                         android:singleLine="true"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/FontSemiDarkThemeColor"
                         tools:ignore="RtlHardcoded" />
                 </RelativeLayout>
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="6dp"
+                    android:gravity="right"
                     android:orientation="horizontal"
-                    tools:ignore="DisableBaselineAlignment,InefficientWeight,NestedWeights,ObsoleteLayoutParam">
+                    tools:ignore="RtlHardcoded">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_marginEnd="2dp"
-                        android:layout_marginRight="2dp"
-                        android:layout_weight="0.5"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical"
-                        tools:ignore="NestedWeights,UselessLeaf">
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/PriceTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="right"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontBlackColor" />
 
-                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                            android:id="@+id/TicketNumberTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="2dp"
-                            android:layout_marginRight="2dp"
-                            android:gravity="left"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/FontSemiDarkThemeColor"
-                            tools:ignore="RtlHardcoded" />
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/commission"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontSemiBlackColor" />
+
+                </LinearLayout>
 
 
-                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="6dp"
+                    android:gravity="right"
+                    android:orientation="horizontal"
+                    tools:ignore="NestedWeights,UselessLeaf">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_weight=".5"
-                        android:gravity="center"
-                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:orientation="horizontal"
-                            tools:ignore="RtlHardcoded">
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/TicketNumberTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginStart="4dp"
+                        android:gravity="right"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontSemiDarkThemeColor" />
 
-                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:id="@+id/PriceTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="5dp"
-                                android:layout_marginRight="5dp"
-                                android:gravity="right"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textColor="@color/FontBlackColor" />
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/ticket_number"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontSemiBlackColor" />
 
-                            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="@string/commission"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:textColor="@color/FontSemiBlackColor" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
 
                 </LinearLayout>
 

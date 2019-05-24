@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
@@ -20,7 +21,6 @@ import ir.rayas.app.citywareclient.Share.Enum.CommissionBusinessType;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessDetailsActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowCommissionDetailsActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowMarketerCommissionDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
@@ -31,10 +31,12 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
 
     private List<MarketingBusinessManViewModel> ViewModelList = null;
     private ShowMarketerCommissionDetailsActivity Context;
+    private RecyclerView Container = null;
 
-    public NoCommissionReceivedRecyclerViewAdapter(ShowMarketerCommissionDetailsActivity context, List<MarketingBusinessManViewModel> ViewModel) {
+    public NoCommissionReceivedRecyclerViewAdapter(ShowMarketerCommissionDetailsActivity context, List<MarketingBusinessManViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
         this.ViewModelList = ViewModel;
+        this.Container = Container;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,12 +45,10 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
         TextViewPersian FullNameTextView;
         TextViewPersian TicketNumberTextView;
         TextViewPersian UseDateTextView;
-        TextViewPersian ExpireDateTextView;
         TextViewPersian PriceTextView;
         RelativeLayout DiscountContainerRelativeLayout;
-        ButtonPersianView DetailsBusinessButton;
+        ButtonPersianView DetailsFactoreButton;
         ButtonPersianView DetailsNoCommissionReceivedButton;
-        LinearLayout ExpireDateLinearLayout;
         LinearLayout UseDateLinearLayout;
 
 
@@ -56,13 +56,11 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
             super(v);
             DiscountContainerRelativeLayout = v.findViewById(R.id.DiscountContainerRelativeLayout);
             BusinessTitleTextView = v.findViewById(R.id.BusinessTitleTextView);
-            DetailsBusinessButton = v.findViewById(R.id.DetailsBusinessButton);
+            DetailsFactoreButton = v.findViewById(R.id.DetailsFactoreButton);
             DetailsNoCommissionReceivedButton = v.findViewById(R.id.DetailsNoCommissionReceivedButton);
             FullNameTextView = v.findViewById(R.id.FullNameTextView);
             TicketNumberTextView = v.findViewById(R.id.TicketNumberTextView);
-            ExpireDateTextView = v.findViewById(R.id.ExpireDateTextView);
             UseDateTextView = v.findViewById(R.id.UseDateTextView);
-            ExpireDateLinearLayout = v.findViewById(R.id.ExpireDateLinearLayout);
             UseDateLinearLayout = v.findViewById(R.id.UseDateLinearLayout);
             PriceTextView = v.findViewById(R.id.PriceTextView);
 
@@ -90,8 +88,7 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
         holder.FullNameTextView.setText(ViewModelList.get(position).getCustomerFullName());
         holder.TicketNumberTextView.setText(ViewModelList.get(position).getTicket());
 
-        holder.ExpireDateTextView.setText(ViewModelList.get(position).getTicketValidity());
-        
+
         if (CommissionBusinessType.NotSpecify.GetCommission() == ViewModelList.get(position).getStatus()) {
             holder.PriceTextView.setText(Context.getResources().getString(R.string.business_does_not_specify_a_commission));
 
@@ -107,12 +104,12 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
         }
 
 
-        holder.DetailsBusinessButton.setOnClickListener(new View.OnClickListener() {
+        holder.DetailsFactoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent ShowBusinessDetailsIntent = Context.NewIntent(ShowBusinessDetailsActivity.class);
-                ShowBusinessDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
-                Context.startActivity(ShowBusinessDetailsIntent);
+//                Intent ShowBusinessDetailsIntent = Context.NewIntent(ShowBusinessDetailsActivity.class);
+//                ShowBusinessDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
+//                Context.startActivity(ShowBusinessDetailsIntent);
 
             }
         });
@@ -129,6 +126,37 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
 
 
     }
+
+
+
+
+    /**
+     * اضافه مودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void AddViewModelList(List<MarketingBusinessManViewModel> ViewModel) {
+        if (ViewModel != null) {
+            if (ViewModelList == null)
+                ViewModelList = new ArrayList<>();
+            ViewModelList.addAll(ViewModel);
+            notifyDataSetChanged();
+            Container.invalidate();
+        }
+    }
+
+    /**
+     * جایگزین نمودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void SetViewModelList(List<MarketingBusinessManViewModel> ViewModel) {
+        ViewModelList = new ArrayList<>();
+        ViewModelList.addAll(ViewModel);
+        notifyDataSetChanged();
+        Container.invalidate();
+    }
+
 
     @Override
     public int getItemCount() {

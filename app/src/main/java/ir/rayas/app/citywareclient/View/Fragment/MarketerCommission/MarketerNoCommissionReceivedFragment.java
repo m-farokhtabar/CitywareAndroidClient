@@ -18,6 +18,7 @@ import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -34,12 +35,13 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
 
     private ShowMarketerCommissionDetailsActivity Context = null;
 
-    private RecyclerView NoCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity = null;
     private SwipeRefreshLayout RefreshNoCommissionReceivedSwipeRefreshLayoutShowNoCommissionReceivedActivity = null;
     private TextViewPersian ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity = null;
+    private  NoCommissionReceivedRecyclerViewAdapter noCommissionReceivedRecyclerViewAdapter = null;
 
     private boolean IsSwipe = false;
     private boolean IsLoadedDataForFirst = false;
+    private int PageNumber = 1;
 
 
     @Override
@@ -63,16 +65,19 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
         RefreshNoCommissionReceivedSwipeRefreshLayoutShowNoCommissionReceivedActivity = CurrentView.findViewById(R.id.RefreshNoCommissionReceivedSwipeRefreshLayoutShowNoCommissionReceivedActivity);
         ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
 
-        NoCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity = CurrentView.findViewById(R.id.NoCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity);
-        NoCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity.setHasFixedSize(true);
+        RecyclerView noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity = CurrentView.findViewById(R.id.NoCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity);
+        noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
-        NoCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity.setLayoutManager(LinearLayoutManager);
+        noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity.setLayoutManager(LinearLayoutManager);
 
+        noCommissionReceivedRecyclerViewAdapter = new NoCommissionReceivedRecyclerViewAdapter(Context, null,noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity);
+        noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity.setAdapter(noCommissionReceivedRecyclerViewAdapter);
 
         RefreshNoCommissionReceivedSwipeRefreshLayoutShowNoCommissionReceivedActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 IsSwipe = true;
+                PageNumber = 1;
                 LoadData();
             }
         });
@@ -83,11 +88,12 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
      */
     public void LoadData() {
         if (!IsSwipe)
+            if (PageNumber == 1)
             Context.ShowLoadingProgressBar();
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(this);
-        MarketingService.GetAllNotReceivedMarketerCommission();
+        MarketingService.GetAllNotReceivedMarketerCommission(PageNumber);
     }
 
     /**
@@ -104,26 +110,45 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
             if (ServiceMethod == ServiceMethodType.NotReceivedMarketerCommissionGetAll) {
                 Feedback<List<MarketingBusinessManViewModel>> FeedBack = (Feedback<List<MarketingBusinessManViewModel>>) Data;
 
+
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
 
                     final List<MarketingBusinessManViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null && ViewModelList.size() > 0) {
+                    if (ViewModelList != null) {
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
+                                noCommissionReceivedRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+
+                        } else {
+                            ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
+                            noCommissionReceivedRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
+                        }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
                         ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
-
-                        NoCommissionReceivedRecyclerViewAdapter noCommissionReceivedRecyclerViewAdapter = new NoCommissionReceivedRecyclerViewAdapter(Context, ViewModelList);
-                        NoCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity.setAdapter(noCommissionReceivedRecyclerViewAdapter);
-
                     } else {
                         ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())
-                            ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.VISIBLE);
-                        else
-                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }

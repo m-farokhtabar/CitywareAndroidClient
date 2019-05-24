@@ -1,19 +1,16 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.app.Dialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +20,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessDetailsActivity;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
 
 
@@ -78,11 +73,6 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        final BusinessCommissionAndDiscountViewModel businessCommissionAndDiscountViewModel;
-        Gson gson = new Gson();
-        Type listType = new TypeToken<BusinessCommissionAndDiscountViewModel>() {
-        }.getType();
-        businessCommissionAndDiscountViewModel = gson.fromJson(ViewModelList.get(position).getPercents(), listType);
 
         holder.FullNameTextView.setText(ViewModelList.get(position).getCustomerFullName());
         holder.TicketNumberTextView.setText(ViewModelList.get(position).getTicket());
@@ -102,9 +92,7 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
         holder.DetailsBusinessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent ShowBusinessDetailsIntent = Context.NewIntent(ShowBusinessDetailsActivity.class);
-                ShowBusinessDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
-                Context.startActivity(ShowBusinessDetailsIntent);
+                ShowDetailsFactureDialog(ViewModelList.get(position));
 
             }
         });
@@ -171,6 +159,45 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
         else
             Output = ViewModelList.size();
         return Output;
+    }
+
+
+    private void ShowDetailsFactureDialog(MarketingPayedBusinessViewModel ViewModel) {
+
+        final Dialog DetailsBuyPackageDialog = new Dialog(Context);
+        DetailsBuyPackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        DetailsBuyPackageDialog.setContentView(R.layout.dialog_details_facture);
+
+//        final BusinessCommissionAndDiscountViewModel businessCommissionAndDiscountViewModel;
+//        Gson gson = new Gson();
+//        Type listType = new TypeToken<BusinessCommissionAndDiscountViewModel>() {
+//        }.getType();
+//        businessCommissionAndDiscountViewModel = gson.fromJson(ViewModelList.get(position).getPercents(), listType);
+
+
+        ButtonPersianView DialogOkButton = DetailsBuyPackageDialog.findViewById(R.id.DialogOkButton);
+        TextViewPersian PaidTypeTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidTypeTextView);
+        TextViewPersian PaidPriceTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidPriceTextView);
+        TextViewPersian TransactionNumberTextView = DetailsBuyPackageDialog.findViewById(R.id.TransactionNumberTextView);
+        TextViewPersian CreateDateTextView = DetailsBuyPackageDialog.findViewById(R.id.CreateDateTextView);
+        TextViewPersian PaidPriceTomanTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidPriceTomanTextView);
+        TextViewPersian PaidPriceTitleTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidPriceTitleTextView);
+        LinearLayout TransactionNumberLinearLayout = DetailsBuyPackageDialog.findViewById(R.id.TransactionNumberLinearLayout);
+
+
+
+//        TransactionNumberTextView.setText(ViewModel.getTransactionNumber());
+//        CreateDateTextView.setText(ViewModel.getCreate());
+
+
+        DialogOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DetailsBuyPackageDialog.dismiss();
+            }
+        });
+
+        DetailsBuyPackageDialog.show();
     }
 
 }

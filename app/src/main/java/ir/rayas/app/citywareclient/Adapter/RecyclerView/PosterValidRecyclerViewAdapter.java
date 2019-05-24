@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -241,6 +242,27 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     }
 
 
+
+    /**
+     * ویرایش اطلاعات یک آدرس در لیست
+     * @param ViewModel
+     */
+    public void SetViewModel(PurchasedPosterViewModel ViewModel)
+    {
+        if (ViewModel!=null && ViewModelList!=null && ViewModelList.size()>0) {
+            for (PurchasedPosterViewModel Item : ViewModelList) {
+                if (Item.getId() == ViewModel.getId()) {
+                    Item.setTitle(ViewModel.getTitle());
+                    Item.setImagePathUrl(ViewModel.getImagePathUrl());
+
+                }
+            }
+            notifyDataSetChanged();
+            Container.invalidate();
+        }
+    }
+
+
     @SuppressLint("SetTextI18n")
     private void ShowDetailsPackageBuyDialog(PurchasedPosterViewModel ViewModel) {
 
@@ -301,8 +323,17 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         final NumberPicker HoursNumberPicker = ExtendedPosterTypeDialog.findViewById(R.id.HoursNumberPicker);
         ButtonPersianView DialogExtendedPosterCancelButton = ExtendedPosterTypeDialog.findViewById(R.id.DialogExtendedPosterCancelButton);
         ButtonPersianView DialogExtendedPosterOkButton = ExtendedPosterTypeDialog.findViewById(R.id.DialogExtendedPosterOkButton);
+        FrameLayout Line1FrameLayout = ExtendedPosterTypeDialog.findViewById(R.id.Line1FrameLayout);
 
-        PosterTypeTextView.setText(ViewModel.getTitle());
+
+        if (ViewModel.getTitle().equals("")) {
+            PosterTypeTextView.setVisibility(View.GONE);
+            Line1FrameLayout.setVisibility(View.GONE);
+        } else {
+            PosterTypeTextView.setVisibility(View.VISIBLE);
+            Line1FrameLayout.setVisibility(View.VISIBLE);
+            PosterTypeTextView.setText(ViewModel.getTitle());
+        }
         priceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModel.getPosterPrice()));
         YourCreditTextView.setText(Utility.GetIntegerNumberWithComma(UserCredit));
         TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
@@ -350,7 +381,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                     PosterService PosterService = new PosterService(PosterValidRecyclerViewAdapter.this);
                     PosterService.EditExtendPoster(MadeViewModel(Day + Hours));
 
-
                     ExtendedPosterTypeDialog.dismiss();
 
                     TotalPrice = 0;
@@ -361,6 +391,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                     DayNumberPicker.setValue(0);
 
                     TotalPriceTextView.setText(Context.getResources().getString(R.string.zero));
+
                 }
             }
         });

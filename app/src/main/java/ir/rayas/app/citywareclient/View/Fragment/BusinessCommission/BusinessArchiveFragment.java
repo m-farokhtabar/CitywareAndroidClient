@@ -18,6 +18,7 @@ import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -37,10 +38,11 @@ public class BusinessArchiveFragment extends Fragment implements IResponseServic
     private boolean IsSwipe = false;
     private boolean IsLoadedDataForFirst = false;
     private int BusinessId = 0;
+    private int PageNumber = 1;
 
-    private RecyclerView ArchiveRecyclerViewBusinessArchiveFragment = null;
     private SwipeRefreshLayout RefreshArchiveSwipeRefreshLayoutBusinessArchiveFragment = null;
     private TextViewPersian ShowEmptyArchiveTextViewBusinessArchiveFragment = null;
+    private BusinessArchiveRecyclerViewAdapter archiveRecyclerViewAdapter = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,16 +65,20 @@ public class BusinessArchiveFragment extends Fragment implements IResponseServic
         RefreshArchiveSwipeRefreshLayoutBusinessArchiveFragment = CurrentView.findViewById(R.id.RefreshArchiveSwipeRefreshLayoutBusinessArchiveFragment);
         ShowEmptyArchiveTextViewBusinessArchiveFragment.setVisibility(View.GONE);
 
-        ArchiveRecyclerViewBusinessArchiveFragment = CurrentView.findViewById(R.id.ArchiveRecyclerViewBusinessArchiveFragment);
-        ArchiveRecyclerViewBusinessArchiveFragment.setHasFixedSize(true);
+        RecyclerView archiveRecyclerViewBusinessArchiveFragment = CurrentView.findViewById(R.id.ArchiveRecyclerViewBusinessArchiveFragment);
+        archiveRecyclerViewBusinessArchiveFragment.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
-        ArchiveRecyclerViewBusinessArchiveFragment.setLayoutManager(LinearLayoutManager);
+        archiveRecyclerViewBusinessArchiveFragment.setLayoutManager(LinearLayoutManager);
+
+        archiveRecyclerViewAdapter = new BusinessArchiveRecyclerViewAdapter(Context, null, archiveRecyclerViewBusinessArchiveFragment);
+        archiveRecyclerViewBusinessArchiveFragment.setAdapter(archiveRecyclerViewAdapter);
 
 
         RefreshArchiveSwipeRefreshLayoutBusinessArchiveFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 IsSwipe = true;
+                PageNumber = 1;
                 LoadData();
             }
         });
@@ -83,11 +89,12 @@ public class BusinessArchiveFragment extends Fragment implements IResponseServic
      */
     public void LoadData() {
         if (!IsSwipe)
-            Context.ShowLoadingProgressBar();
+            if (PageNumber == 1)
+                Context.ShowLoadingProgressBar();
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(BusinessArchiveFragment.this);
-        MarketingService.GetAllExpiredBusinessCommission(BusinessId);
+        MarketingService.GetAllExpiredBusinessCommission(BusinessId, PageNumber);
     }
 
     /**
@@ -97,39 +104,59 @@ public class BusinessArchiveFragment extends Fragment implements IResponseServic
      */
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        Context. HideLoading();
+        Context.HideLoading();
         RefreshArchiveSwipeRefreshLayoutBusinessArchiveFragment.setRefreshing(false);
         IsSwipe = false;
         try {
             if (ServiceMethod == ServiceMethodType.ExpiredBusinessCommissionGetAll) {
                 Feedback<List<MarketingBusinessViewModel>> FeedBack = (Feedback<List<MarketingBusinessViewModel>>) Data;
 
+
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
 
                     final List<MarketingBusinessViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null && ViewModelList.size() > 0) {
-                        ShowEmptyArchiveTextViewBusinessArchiveFragment.setVisibility(View.GONE);
+                    if (ViewModelList != null) {
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyArchiveTextViewBusinessArchiveFragment.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyArchiveTextViewBusinessArchiveFragment.setVisibility(View.GONE);
+                                archiveRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
-                        BusinessArchiveRecyclerViewAdapter archiveRecyclerViewAdapter = new BusinessArchiveRecyclerViewAdapter(Context,ViewModelList);
-                        ArchiveRecyclerViewBusinessArchiveFragment.setAdapter(archiveRecyclerViewAdapter);
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+
+                        } else {
+                            ShowEmptyArchiveTextViewBusinessArchiveFragment.setVisibility(View.GONE);
+                            archiveRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
+                        }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptyArchiveTextViewBusinessArchiveFragment.setVisibility(View.GONE);
                     } else {
                         ShowEmptyArchiveTextViewBusinessArchiveFragment.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ShowEmptyArchiveTextViewBusinessArchiveFragment.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())
-                            ShowEmptyArchiveTextViewBusinessArchiveFragment.setVisibility(View.VISIBLE);
-                        else
-                            Context. ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }
                 }
             }
         } catch (Exception e) {
-            Context. ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
+            Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
     }
 

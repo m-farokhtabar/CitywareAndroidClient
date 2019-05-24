@@ -18,6 +18,7 @@ import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -30,16 +31,17 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingBusinessManViewM
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewSuggestionMarketerCommissionFragment extends Fragment  implements IResponseService, ILoadData {
+public class NewSuggestionMarketerCommissionFragment extends Fragment implements IResponseService, ILoadData {
 
     private ShowMarketerCommissionDetailsActivity Context = null;
 
     private boolean IsSwipe = false;
     private boolean IsLoadedDataForFirst = false;
+    private int PageNumber = 1;
 
-    private RecyclerView NewSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity = null;
     private SwipeRefreshLayout RefreshNewSuggestionSwipeRefreshLayoutNewSuggestionMarketerCommissionActivity = null;
     private TextViewPersian ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity = null;
+    private NewSuggestionMarketerCommissionRecyclerViewAdapter newSuggestionMarketerCommissionRecyclerViewAdapter = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,16 +65,19 @@ public class NewSuggestionMarketerCommissionFragment extends Fragment  implement
         RefreshNewSuggestionSwipeRefreshLayoutNewSuggestionMarketerCommissionActivity = CurrentView.findViewById(R.id.RefreshNewSuggestionSwipeRefreshLayoutNewSuggestionMarketerCommissionActivity);
         ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity.setVisibility(View.GONE);
 
-        NewSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity = CurrentView.findViewById(R.id.NewSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity);
-        NewSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity.setHasFixedSize(true);
+        RecyclerView newSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity = CurrentView.findViewById(R.id.NewSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity);
+        newSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
-        NewSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity.setLayoutManager(LinearLayoutManager);
+        newSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity.setLayoutManager(LinearLayoutManager);
 
+        newSuggestionMarketerCommissionRecyclerViewAdapter = new NewSuggestionMarketerCommissionRecyclerViewAdapter(Context, null, newSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity);
+        newSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity.setAdapter(newSuggestionMarketerCommissionRecyclerViewAdapter);
 
         RefreshNewSuggestionSwipeRefreshLayoutNewSuggestionMarketerCommissionActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 IsSwipe = true;
+                PageNumber = 1;
                 LoadData();
             }
         });
@@ -83,11 +88,12 @@ public class NewSuggestionMarketerCommissionFragment extends Fragment  implement
      */
     public void LoadData() {
         if (!IsSwipe)
-            Context.ShowLoadingProgressBar();
+            if (PageNumber == 1)
+                Context.ShowLoadingProgressBar();
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(this);
-        MarketingService.GetAllNewSuggestionMarketerCommission();
+        MarketingService.GetAllNewSuggestionMarketerCommission(PageNumber);
     }
 
     /**
@@ -97,7 +103,7 @@ public class NewSuggestionMarketerCommissionFragment extends Fragment  implement
      */
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        Context. HideLoading();
+        Context.HideLoading();
         RefreshNewSuggestionSwipeRefreshLayoutNewSuggestionMarketerCommissionActivity.setRefreshing(false);
         IsSwipe = false;
         try {
@@ -107,25 +113,49 @@ public class NewSuggestionMarketerCommissionFragment extends Fragment  implement
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
 
-                    final List<MarketingBusinessManViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null && ViewModelList.size() > 0) {
-                        ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity.setVisibility(View.GONE);
 
-                        NewSuggestionMarketerCommissionRecyclerViewAdapter newSuggestionMarketerCommissionRecyclerViewAdapter = new NewSuggestionMarketerCommissionRecyclerViewAdapter(Context,ViewModelList);
-                        NewSuggestionRecyclerViewNewSuggestionMarketerCommissionActivity.setAdapter(newSuggestionMarketerCommissionRecyclerViewAdapter);
+                    if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                        Static.IsRefreshBookmark = false;
 
-                    } else {
-                        ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())
+                        final List<MarketingBusinessManViewModel> ViewModelList = FeedBack.getValue();
+                        if (ViewModelList != null) {
+                            if (PageNumber == 1) {
+                                if (ViewModelList.size() < 1) {
+                                    ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity.setVisibility(View.VISIBLE);
+                                } else {
+                                    ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity.setVisibility(View.GONE);
+                                    newSuggestionMarketerCommissionRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                    if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                        PageNumber = PageNumber + 1;
+                                        LoadData();
+                                    }
+                                }
+
+                            } else {
+                                ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity.setVisibility(View.GONE);
+                                newSuggestionMarketerCommissionRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+                        }
+                    } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                        if (PageNumber > 1) {
+                            ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity.setVisibility(View.GONE);
+                        } else {
                             ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity.setVisibility(View.VISIBLE);
-                        else
-                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
+                        }
                     } else {
-                        Context.ShowErrorInConnectDialog();
+                        ShowEmptyNewSuggestionTextViewNewSuggestionMarketerCommissionActivity.setVisibility(View.GONE);
+                        if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                        } else {
+                            Context.ShowErrorInConnectDialog();
+                        }
+
                     }
                 }
             }

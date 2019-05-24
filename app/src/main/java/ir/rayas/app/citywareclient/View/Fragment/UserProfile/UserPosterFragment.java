@@ -54,6 +54,10 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
     private boolean IsFirst = false;
 
+    public PosterValidRecyclerViewAdapter getPosterValidRecyclerViewAdapter() {
+        return posterValidRecyclerViewAdapter;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

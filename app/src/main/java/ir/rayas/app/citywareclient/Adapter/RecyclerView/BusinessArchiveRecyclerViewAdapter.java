@@ -1,29 +1,16 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
-
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Share.Enum.CommissionBusinessType;
-import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessDetailsActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowCommissionDetailsActivity;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingBusinessViewModel;
 
 
@@ -31,10 +18,12 @@ public class BusinessArchiveRecyclerViewAdapter extends RecyclerView.Adapter<Bus
 
     private List<MarketingBusinessViewModel> ViewModelList = null;
     private ShowBusinessCommissionActivity Context;
+    private RecyclerView Container = null;
 
-    public BusinessArchiveRecyclerViewAdapter(ShowBusinessCommissionActivity context, List<MarketingBusinessViewModel> ViewModel) {
+    public BusinessArchiveRecyclerViewAdapter(ShowBusinessCommissionActivity context, List<MarketingBusinessViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
         this.ViewModelList = ViewModel;
+        this.Container = Container;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,6 +59,35 @@ public class BusinessArchiveRecyclerViewAdapter extends RecyclerView.Adapter<Bus
 
 
     }
+
+
+    /**
+     * اضافه مودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void AddViewModelList(List<MarketingBusinessViewModel> ViewModel) {
+        if (ViewModel != null) {
+            if (ViewModelList == null)
+                ViewModelList = new ArrayList<>();
+            ViewModelList.addAll(ViewModel);
+            notifyDataSetChanged();
+            Container.invalidate();
+        }
+    }
+
+    /**
+     * جایگزین نمودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void SetViewModelList(List<MarketingBusinessViewModel> ViewModel) {
+        ViewModelList = new ArrayList<>();
+        ViewModelList.addAll(ViewModel);
+        notifyDataSetChanged();
+        Container.invalidate();
+    }
+
 
     @Override
     public int getItemCount() {

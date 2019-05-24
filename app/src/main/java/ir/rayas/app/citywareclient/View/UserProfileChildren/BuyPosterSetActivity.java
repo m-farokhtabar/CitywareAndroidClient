@@ -32,13 +32,14 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Helper.ExternalStorage;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
-import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Poster.EditPurchasedPosterViewModel;
@@ -107,7 +108,6 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
         DescriptionEditTextBuyPosterSetActivity = findViewById(R.id.DescriptionEditTextBuyPosterSetActivity);
         ShowImageViewBuyPosterSetActivity = findViewById(R.id.ShowImageViewBuyPosterSetActivity);
         OrderEditTextBuyPosterSetActivity = findViewById(R.id.OrderEditTextBuyPosterSetActivity);
-
 
 
         ProductImageIconTextViewBuyPosterSetActivity.setTypeface(Font.MasterIcon);
@@ -195,18 +195,29 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
 
     /**
      * دکمه ثبت یا ویرایش یک آدرس
-     *
      */
     private void OnSaveProductImageButtonClick() {
-        if (Utility.ValidateView(TitlePosterEditTextBuyPosterSetActivity)) {
+        if (TitlePosterEditTextBuyPosterSetActivity.getText().toString().equals("")) {
+            ShowToast(getString(R.string.please_enter_title), Toast.LENGTH_LONG, MessageType.Warning);
 
+        } else if (DescriptionAbstractEditTextBuyPosterSetActivity.getText().toString().equals("")) {
+            ShowToast(getString(R.string.please_enter_abstract_of_description), Toast.LENGTH_LONG, MessageType.Warning);
+
+        } else if (Integer.valueOf(OrderEditTextBuyPosterSetActivity.getText().toString()) <= 0) {
+            ShowToast(getString(R.string.please_enter_order), Toast.LENGTH_LONG, MessageType.Warning);
+
+        } else if (PosterImage.equals("")) {
+            ShowToast(getString(R.string.please_select_your_image), Toast.LENGTH_LONG, MessageType.Warning);
+
+        } else {
+
+            ShowLoadingProgressBar();
             PosterService PosterService = new PosterService(this);
             //ثبت اطلاعات
             RetryType = 1;
             PosterService.EditPurchasedPoster(MadeViewModel());
-        } else {
-            ShowToast(getString(R.string.please_enter_title), Toast.LENGTH_LONG, MessageType.Warning);
         }
+
     }
 
     private EditPurchasedPosterViewModel MadeViewModel() {
@@ -288,7 +299,10 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
                     PurchasedPosterViewModel ViewModel = FeedBack.getValue();
 
                     if (ViewModel != null) {
-                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+
+                        SendDataToParentActivity(ViewModel);
+                        FinishCurrentActivity();
+
                     } else {
                         ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
                     }
@@ -330,6 +344,11 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
         }
     }
 
+    private void SendDataToParentActivity(PurchasedPosterViewModel ViewModel) {
+        HashMap<String, Object> Output = new HashMap<>();
+        Output.put("PurchasedPosterViewModel", ViewModel);
+        ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
+    }
 
     private void SetInformationToView(final PurchasedPosterViewModel ViewModel) {
         TitlePosterEditTextBuyPosterSetActivity.setText(ViewModel.getTitle());
@@ -348,7 +367,6 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
         } else {
             ShowImageViewBuyPosterSetActivity.setImageResource(R.drawable.image_default);
         }
-
 
 
     }
@@ -427,14 +445,12 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
         dataOutputStream.writeBytes(lineEnd);
     }
 
-
     private byte[] getFileDataFromDrawable(Context context, Uri uri) {
         Bitmap bitmap = null;
         try {
-            if(bitmap!=null)
-            {
+            if (bitmap != null) {
                 bitmap.recycle();
-                bitmap=null;
+                bitmap = null;
             }
 
             bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);

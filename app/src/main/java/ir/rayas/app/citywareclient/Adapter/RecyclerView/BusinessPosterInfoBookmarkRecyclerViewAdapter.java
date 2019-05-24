@@ -38,7 +38,7 @@ import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 
-public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
+public class BusinessPosterInfoBookmarkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
 
     private List<BusinessPosterInfoViewModel> ViewModelList = null;
     private MainActivity Context;
@@ -52,7 +52,7 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
     private ImageView imageView;
 
 
-    public BusinessPosterInfoRecyclerViewAdapter(MainActivity Context, List<BusinessPosterInfoViewModel> ViewModel, RecyclerView Container) {
+    public BusinessPosterInfoBookmarkRecyclerViewAdapter(MainActivity Context, List<BusinessPosterInfoViewModel> ViewModel, RecyclerView Container) {
         this.ViewModelList = ViewModel;
         this.Context = Context;
         this.Container = Container;
@@ -164,7 +164,7 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
 
                 imageView = viewHolder.BookmarkImageView;
                 Position = position;
-                BookmarkService BookmarkService = new BookmarkService(BusinessPosterInfoRecyclerViewAdapter.this);
+                BookmarkService BookmarkService = new BookmarkService(BusinessPosterInfoBookmarkRecyclerViewAdapter.this);
 
                 if (ViewModelList.get(position).isBookmark()) {
                     BookmarkService.Delete(ViewModelList.get(position).getBusinessId());

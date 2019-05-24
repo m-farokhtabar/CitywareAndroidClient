@@ -18,6 +18,7 @@ import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -37,9 +38,11 @@ public class MarketerArchiveFragment extends Fragment implements IResponseServic
     private boolean IsSwipe = false;
     private boolean IsLoadedDataForFirst = false;
 
-    private RecyclerView ArchiveRecyclerViewShowArchiveActivity = null;
     private SwipeRefreshLayout RefreshArchiveSwipeRefreshLayoutShowArchiveActivity = null;
     private TextViewPersian ShowEmptyArchiveTextViewShowArchiveActivity = null;
+    private  ArchiveRecyclerViewAdapter archiveRecyclerViewAdapter = null;
+
+    private int PageNumber = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,16 +64,20 @@ public class MarketerArchiveFragment extends Fragment implements IResponseServic
         RefreshArchiveSwipeRefreshLayoutShowArchiveActivity = CurrentView.findViewById(R.id.RefreshArchiveSwipeRefreshLayoutShowArchiveActivity);
         ShowEmptyArchiveTextViewShowArchiveActivity.setVisibility(View.GONE);
 
-        ArchiveRecyclerViewShowArchiveActivity = CurrentView.findViewById(R.id.ArchiveRecyclerViewShowArchiveActivity);
-        ArchiveRecyclerViewShowArchiveActivity.setHasFixedSize(true);
+        RecyclerView archiveRecyclerViewShowArchiveActivity = CurrentView.findViewById(R.id.ArchiveRecyclerViewShowArchiveActivity);
+        archiveRecyclerViewShowArchiveActivity.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
-        ArchiveRecyclerViewShowArchiveActivity.setLayoutManager(LinearLayoutManager);
+        archiveRecyclerViewShowArchiveActivity.setLayoutManager(LinearLayoutManager);
+
+         archiveRecyclerViewAdapter = new ArchiveRecyclerViewAdapter(Context, null, archiveRecyclerViewShowArchiveActivity);
+        archiveRecyclerViewShowArchiveActivity.setAdapter(archiveRecyclerViewAdapter);
 
 
         RefreshArchiveSwipeRefreshLayoutShowArchiveActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 IsSwipe = true;
+                PageNumber = 1;
                 LoadData();
             }
         });
@@ -82,11 +89,12 @@ public class MarketerArchiveFragment extends Fragment implements IResponseServic
      */
     public void LoadData() {
         if (!IsSwipe)
-            Context.ShowLoadingProgressBar();
+            if (PageNumber == 1)
+                Context.ShowLoadingProgressBar();
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(this);
-        MarketingService.GetAllExpiredMarketerCommission();
+        MarketingService.GetAllExpiredMarketerCommission(PageNumber);
     }
 
     /**
@@ -96,32 +104,52 @@ public class MarketerArchiveFragment extends Fragment implements IResponseServic
      */
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        Context. HideLoading();
+        Context.HideLoading();
         RefreshArchiveSwipeRefreshLayoutShowArchiveActivity.setRefreshing(false);
         IsSwipe = false;
         try {
             if (ServiceMethod == ServiceMethodType.ExpiredMarketerCommissionGetAll) {
                 Feedback<List<MarketingBusinessManViewModel>> FeedBack = (Feedback<List<MarketingBusinessManViewModel>>) Data;
 
+
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
 
                     final List<MarketingBusinessManViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null && ViewModelList.size() > 0) {
-                        ShowEmptyArchiveTextViewShowArchiveActivity.setVisibility(View.GONE);
+                    if (ViewModelList != null) {
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyArchiveTextViewShowArchiveActivity.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyArchiveTextViewShowArchiveActivity.setVisibility(View.GONE);
+                                archiveRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
-                        ArchiveRecyclerViewAdapter archiveRecyclerViewAdapter = new ArchiveRecyclerViewAdapter(Context,ViewModelList);
-                        ArchiveRecyclerViewShowArchiveActivity.setAdapter(archiveRecyclerViewAdapter);
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+
+                        } else {
+                            ShowEmptyArchiveTextViewShowArchiveActivity.setVisibility(View.GONE);
+                            archiveRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
+                        }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptyArchiveTextViewShowArchiveActivity.setVisibility(View.GONE);
                     } else {
                         ShowEmptyArchiveTextViewShowArchiveActivity.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ShowEmptyArchiveTextViewShowArchiveActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())
-                            ShowEmptyArchiveTextViewShowArchiveActivity.setVisibility(View.VISIBLE);
-                        else
-                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }

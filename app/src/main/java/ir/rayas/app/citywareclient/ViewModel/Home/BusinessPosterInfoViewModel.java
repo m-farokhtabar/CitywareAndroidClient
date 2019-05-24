@@ -16,6 +16,8 @@ public class BusinessPosterInfoViewModel {
     private Double TotalScore;
     private int Rows;
     private int Cols;
+    private boolean IsBookmark;
+    
 
     public int getBusinessId() {
         return BusinessId;
@@ -63,5 +65,61 @@ public class BusinessPosterInfoViewModel {
 
     public int getCols() {
         return Cols;
+    }
+
+    public boolean isBookmark() {
+        return IsBookmark;
+    }
+
+    public void setBookmark(boolean bookmark) {
+        IsBookmark = bookmark;
+    }
+
+    public void setBusinessId(int businessId) {
+        BusinessId = businessId;
+    }
+
+    public void setPosterId(int posterId) {
+        PosterId = posterId;
+    }
+
+    public void setBusinessTitle(String businessTitle) {
+        BusinessTitle = businessTitle;
+    }
+
+    public void setPosterTitle(String posterTitle) {
+        PosterTitle = posterTitle;
+    }
+
+    public void setPosterAbstractOfDescription(String posterAbstractOfDescription) {
+        PosterAbstractOfDescription = posterAbstractOfDescription;
+    }
+
+    public void setPosterDescription(String posterDescription) {
+        PosterDescription = posterDescription;
+    }
+
+    public void setPosterImagePathUrl(String posterImagePathUrl) {
+        PosterImagePathUrl = posterImagePathUrl;
+    }
+
+    public void setOpen(boolean open) {
+        IsOpen = open;
+    }
+
+    public void setHasDelivery(boolean hasDelivery) {
+        HasDelivery = hasDelivery;
+    }
+
+    public void setTotalScore(Double totalScore) {
+        TotalScore = totalScore;
+    }
+
+    public void setRows(int rows) {
+        Rows = rows;
+    }
+
+    public void setCols(int cols) {
+        Cols = cols;
     }
 }

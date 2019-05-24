@@ -18,6 +18,7 @@ import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -25,6 +26,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowMarketerCommissionDetailsActivity;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingBusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessManViewModel;
 
 /**
@@ -36,10 +38,11 @@ public class MarketerCommissionReceivedFragment extends Fragment implements IRes
 
     private boolean IsSwipe = false;
     private boolean IsLoadedDataForFirst = false;
+    private int PageNumber = 1;
 
-    private RecyclerView CommissionReceivedRecyclerViewShowCommissionReceivedActivity = null;
     private SwipeRefreshLayout RefreshCommissionReceivedSwipeRefreshLayoutShowCommissionReceivedActivity = null;
     private TextViewPersian ShowEmptyCommissionReceivedTextViewShowCommissionReceivedActivity = null;
+    private  CommissionReceivedRecyclerViewAdapter CommissionReceivedRecyclerViewAdapter  = null;
 
 
     @Override
@@ -63,16 +66,19 @@ public class MarketerCommissionReceivedFragment extends Fragment implements IRes
         RefreshCommissionReceivedSwipeRefreshLayoutShowCommissionReceivedActivity = CurrentView.findViewById(R.id.RefreshCommissionReceivedSwipeRefreshLayoutShowCommissionReceivedActivity);
         ShowEmptyCommissionReceivedTextViewShowCommissionReceivedActivity.setVisibility(View.GONE);
 
-        CommissionReceivedRecyclerViewShowCommissionReceivedActivity =CurrentView. findViewById(R.id.CommissionReceivedRecyclerViewShowCommissionReceivedActivity);
-        CommissionReceivedRecyclerViewShowCommissionReceivedActivity.setHasFixedSize(true);
+        RecyclerView commissionReceivedRecyclerViewShowCommissionReceivedActivity = CurrentView.findViewById(R.id.CommissionReceivedRecyclerViewShowCommissionReceivedActivity);
+        commissionReceivedRecyclerViewShowCommissionReceivedActivity.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
-        CommissionReceivedRecyclerViewShowCommissionReceivedActivity.setLayoutManager(LinearLayoutManager);
+        commissionReceivedRecyclerViewShowCommissionReceivedActivity.setLayoutManager(LinearLayoutManager);
 
+         CommissionReceivedRecyclerViewAdapter = new CommissionReceivedRecyclerViewAdapter(Context, null,commissionReceivedRecyclerViewShowCommissionReceivedActivity);
+        commissionReceivedRecyclerViewShowCommissionReceivedActivity.setAdapter(CommissionReceivedRecyclerViewAdapter);
 
         RefreshCommissionReceivedSwipeRefreshLayoutShowCommissionReceivedActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 IsSwipe = true;
+                PageNumber = 1;
                 LoadData();
             }
         });
@@ -83,11 +89,12 @@ public class MarketerCommissionReceivedFragment extends Fragment implements IRes
      */
     public void LoadData() {
         if (!IsSwipe)
-            Context.ShowLoadingProgressBar();
+            if (PageNumber == 1)
+                Context.ShowLoadingProgressBar();
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(this);
-        MarketingService.GetAllReceivedMarketerCommission();
+        MarketingService.GetAllReceivedMarketerCommission(PageNumber);
     }
 
     /**
@@ -108,22 +115,40 @@ public class MarketerCommissionReceivedFragment extends Fragment implements IRes
                     Static.IsRefreshBookmark = false;
 
                     final List<MarketingPayedBusinessManViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null && ViewModelList.size() > 0) {
+                    if (ViewModelList != null) {
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptyCommissionReceivedTextViewShowCommissionReceivedActivity.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptyCommissionReceivedTextViewShowCommissionReceivedActivity.setVisibility(View.GONE);
+                                CommissionReceivedRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                    PageNumber = PageNumber + 1;
+                                    LoadData();
+                                }
+                            }
+
+                        } else {
+                            ShowEmptyCommissionReceivedTextViewShowCommissionReceivedActivity.setVisibility(View.GONE);
+                            CommissionReceivedRecyclerViewAdapter.AddViewModelList(ViewModelList);
+
+                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+                                PageNumber = PageNumber + 1;
+                                LoadData();
+                            }
+                        }
+                    }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
                         ShowEmptyCommissionReceivedTextViewShowCommissionReceivedActivity.setVisibility(View.GONE);
-
-                        CommissionReceivedRecyclerViewAdapter CommissionReceivedRecyclerViewAdapter = new CommissionReceivedRecyclerViewAdapter(Context,ViewModelList);
-                        CommissionReceivedRecyclerViewShowCommissionReceivedActivity.setAdapter(CommissionReceivedRecyclerViewAdapter);
-
                     } else {
                         ShowEmptyCommissionReceivedTextViewShowCommissionReceivedActivity.setVisibility(View.VISIBLE);
                     }
                 } else {
+                    ShowEmptyCommissionReceivedTextViewShowCommissionReceivedActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())
-                            ShowEmptyCommissionReceivedTextViewShowCommissionReceivedActivity.setVisibility(View.VISIBLE);
-                        else
-                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }

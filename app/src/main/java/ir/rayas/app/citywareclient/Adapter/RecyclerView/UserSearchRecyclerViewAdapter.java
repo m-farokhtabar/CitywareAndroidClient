@@ -25,9 +25,6 @@ public class UserSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private List<OutUserSearchViewModel> ViewModelList = null;
 
 
-    private  boolean IsSelect = false;
-
-
     public UserSearchRecyclerViewAdapter(UserSearchActivity Context, List<OutUserSearchViewModel> UserList, RecyclerView Container) {
         this.ViewModelList = UserList;
         this.Context = Context;
@@ -90,19 +87,15 @@ public class UserSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         viewHolder.UserNameRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IsSelect = true;
                 Context.setUserId(ViewModelList.get(position).getId());
                 Context.setUserName(UserName);
-                if (IsSelect){
-                    viewHolder.UserNameRelativeLayout.setBackgroundColor(Context.getResources().getColor(R.color.BackgroundGrayColor));
-                }  else {
-                    viewHolder.UserNameRelativeLayout.setBackgroundColor(Context.getResources().getColor(R.color.BackgroundWhiteColor));
-                }
+
             }
         });
 
     }
 
+    
     @Override
     public int getItemCount() {
         return ViewModelList == null ? 0 : ViewModelList.size();

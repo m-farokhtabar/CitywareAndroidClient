@@ -74,35 +74,35 @@ public class MarketingService implements IService {
         }.getType());
     }
 
-    public void GetAllNotReceivedMarketerCommission() {
+    public void GetAllNotReceivedMarketerCommission(int PageNumber) {
         BaseService Current = new BaseService();
         String controllerNotReceivedMarketerCommission = "GetAllNotReceivedMarketerCommission";
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNotReceivedMarketerCommission;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNotReceivedMarketerCommission + "/" + ControllerPage + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.NotReceivedMarketerCommissionGetAll, MarketingBusinessManViewModel.class, new TypeToken<Feedback<List<MarketingBusinessManViewModel>>>() {
         }.getType());
     }
 
-    public void GetAllReceivedMarketerCommission() {
+    public void GetAllReceivedMarketerCommission(int PageNumber) {
         BaseService Current = new BaseService();
         String controllerReceivedMarketerCommission = "GetAllReceivedMarketerCommission";
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerReceivedMarketerCommission;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerReceivedMarketerCommission + "/" + ControllerPage + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.ReceivedMarketerCommissionGetAll, MarketingPayedBusinessManViewModel.class, new TypeToken<Feedback<List<MarketingPayedBusinessManViewModel>>>() {
         }.getType());
     }
 
 
-    public void GetAllNewSuggestionMarketerCommission() {
+    public void GetAllNewSuggestionMarketerCommission(int PageNumber) {
         BaseService Current = new BaseService();
         String controllerNewSuggestionMarketerCommission = "GetAllNewSuggestionMarketerCommission";
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNewSuggestionMarketerCommission;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerNewSuggestionMarketerCommission + "/" + ControllerPage + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.NewSuggestionMarketerCommissionGetAll, MarketingBusinessManViewModel.class, new TypeToken<Feedback<List<MarketingBusinessManViewModel>>>() {
         }.getType());
     }
 
-    public void GetAllExpiredMarketerCommission() {
+    public void GetAllExpiredMarketerCommission(int PageNumber) {
         BaseService Current = new BaseService();
         String controllerExpiredMarketerCommission = "GetAllExpiredMarketerCommission";
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerExpiredMarketerCommission;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerExpiredMarketerCommission + "/" + ControllerPage + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.ExpiredMarketerCommissionGetAll, MarketingBusinessManViewModel.class, new TypeToken<Feedback<List<MarketingBusinessManViewModel>>>() {
         }.getType());
     }
@@ -132,10 +132,10 @@ public class MarketingService implements IService {
         }.getType());
     }
 
-    public void GetAllExpiredBusinessCommission(int BusinessId) {
+    public void GetAllExpiredBusinessCommission(int BusinessId, int PageNumber) {
         BaseService Current = new BaseService();
         String controllerExpiredBusinessCommission = "GetAllExpiredBusinessCommission";
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerExpiredBusinessCommission + "/" + BusinessId;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerExpiredBusinessCommission + "/" + BusinessId + "/" + ControllerPage + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.ExpiredBusinessCommissionGetAll, MarketingBusinessViewModel.class, new TypeToken<Feedback<List<MarketingBusinessViewModel>>>() {
         }.getType());
     }

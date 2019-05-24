@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
@@ -31,10 +32,12 @@ public class ArchiveRecyclerViewAdapter extends RecyclerView.Adapter<ArchiveRecy
 
     private List<MarketingBusinessManViewModel> ViewModelList = null;
     private ShowMarketerCommissionDetailsActivity Context;
+    private RecyclerView Container = null;
 
-    public ArchiveRecyclerViewAdapter(ShowMarketerCommissionDetailsActivity context, List<MarketingBusinessManViewModel> ViewModel) {
+    public ArchiveRecyclerViewAdapter(ShowMarketerCommissionDetailsActivity context, List<MarketingBusinessManViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
         this.ViewModelList = ViewModel;
+        this.Container = Container;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -72,7 +75,7 @@ public class ArchiveRecyclerViewAdapter extends RecyclerView.Adapter<ArchiveRecy
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_no_commission_received, parent, false);
+        View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_archive_marketer, parent, false);
         return new ViewHolder(CurrentView);
     }
 
@@ -129,6 +132,34 @@ public class ArchiveRecyclerViewAdapter extends RecyclerView.Adapter<ArchiveRecy
 
 
     }
+
+    /**
+     * اضافه مودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void AddViewModelList(List<MarketingBusinessManViewModel> ViewModel) {
+        if (ViewModel != null) {
+            if (ViewModelList == null)
+                ViewModelList = new ArrayList<>();
+            ViewModelList.addAll(ViewModel);
+            notifyDataSetChanged();
+            Container.invalidate();
+        }
+    }
+
+    /**
+     * جایگزین نمودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void SetViewModelList(List<MarketingBusinessManViewModel> ViewModel) {
+        ViewModelList = new ArrayList<>();
+        ViewModelList.addAll(ViewModel);
+        notifyDataSetChanged();
+        Container.invalidate();
+    }
+
 
     @Override
     public int getItemCount() {

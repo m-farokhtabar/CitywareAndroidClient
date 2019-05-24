@@ -8,15 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.ListView.OfferSearchListViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserSearchRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -30,19 +27,16 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
-import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Search.OutUserSearchViewModel;
 
 public class UserSearchActivity extends BaseActivity implements IResponseService {
 
-    private ListView ListSearchListViewUserSearchActivity = null;
     private UserSearchRecyclerViewAdapter userSearchRecyclerViewAdapter = null;
     private EditTextPersian SearchUserEditTextUserSearchActivity = null;
 
     private String TextSearch = "";
-    private boolean IsOffer = false;
     private int PageNumber = 1;
     public int UserId = 0;
     public String UserName = "";
@@ -77,7 +71,6 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
         ImageView SearchUserImageViewUserSearchActivity = findViewById(R.id.SearchUserImageViewUserSearchActivity);
         SearchUserEditTextUserSearchActivity = findViewById(R.id.SearchUserEditTextUserSearchActivity);
-        ListSearchListViewUserSearchActivity = findViewById(R.id.ListSearchListViewUserSearchActivity);
         RecyclerView ShowUserListRecyclerViewUserSearchActivity = findViewById(R.id.ShowUserListRecyclerViewUserSearchActivity);
         FloatingActionButton GetUserIdFloatingActionButtonUserSearchActivity = findViewById(R.id.GetUserIdFloatingActionButtonUserSearchActivity);
 
@@ -96,15 +89,12 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                IsOffer = false;
                 if (s.length() != 0) {
 
                     TextSearch = s.toString();
                     PageNumber = 1;
                     LoadData();
 
-                } else {
-                    ListSearchListViewUserSearchActivity.setVisibility(View.GONE);
                 }
             }
         });
@@ -116,7 +106,6 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                 String SearchOffer = SearchUserEditTextUserSearchActivity.getText().toString();
 
                 if (!SearchOffer.equals("")) {
-                    IsOffer = true;
                     TextSearch = SearchOffer;
                     PageNumber = 1;
                     LoadData();
@@ -152,9 +141,6 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
                     final List<OutUserSearchViewModel> ViewModel = FeedBack.getValue();
 
-                    if (IsOffer) {
-
-                        ListSearchListViewUserSearchActivity.setVisibility(View.GONE);
                         if (ViewModel != null) {
                             if (PageNumber == 1) {
                                 if (ViewModel.size() > 0) {
@@ -175,40 +161,8 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                                 }
                             }
                         }
-                    } else {
-                        if (ViewModel != null) {
 
-                            ListSearchListViewUserSearchActivity.setVisibility(View.VISIBLE);
-
-                            OfferSearchListViewAdapter offerSearchListViewAdapter = new OfferSearchListViewAdapter(UserSearchActivity.this, ViewModel);
-                            ListSearchListViewUserSearchActivity.setAdapter(offerSearchListViewAdapter);
-
-                            ListSearchListViewUserSearchActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                                    ListSearchListViewUserSearchActivity.setVisibility(View.GONE);
-                                    SearchUserEditTextUserSearchActivity.setText("");
-                                    IsOffer = true;
-
-                                    TextViewPersian TextOfferSearch = view.findViewById(R.id.UserNameSearchTextView);
-                                    TextSearch = TextOfferSearch.getText().toString();
-
-                                    try {
-                                        TextSearch = TextSearch.replaceAll("\r\n", "");
-                                        LoadData();
-                                    } catch (Exception ignored) {
-                                    }
-                                }
-                            });
-
-
-                        } else {
-                            ListSearchListViewUserSearchActivity.setVisibility(View.GONE);
-                        }
-                    }
                 } else {
-                    ListSearchListViewUserSearchActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
                         ShowErrorInConnectDialog();
                     }

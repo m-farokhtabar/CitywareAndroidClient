@@ -301,7 +301,7 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
             BusinessImagePosterImageViewShowBusinessPosterDetailsActivity.setImageResource(R.drawable.image_default);
         }
 
-        //IsBookmark = ViewModel.
+//        IsBookmark = ViewModel.
 
         if (IsBookmark)
             BookmarkImageViewShowBusinessPosterActivity.setImageResource(R.drawable.ic_bookmark_full_24dp);
