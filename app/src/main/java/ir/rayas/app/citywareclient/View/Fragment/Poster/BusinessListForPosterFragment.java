@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessListForPosterRecyclerViewAdapter;
@@ -24,6 +25,9 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
@@ -91,7 +95,7 @@ public class BusinessListForPosterFragment extends Fragment implements IResponse
                 getFragmentManager().popBackStack();
             }
         });
-
+        //دکمه خرید پوستر
         BuyPosterButtonBusinessListForPosterFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +110,9 @@ public class BusinessListForPosterFragment extends Fragment implements IResponse
         });
     }
 
+    /**
+     * دریافت لیست کسب و کارهای ثبت شده این کاربر
+     */
     public void LoadData() {
         if (!IsSwipe)
             Context.ShowLoadingProgressBar();
@@ -170,6 +177,7 @@ public class BusinessListForPosterFragment extends Fragment implements IResponse
                         Context.ShowErrorInConnectDialog();
                     }
                 }
+                //خرید پوستر جدید
             } else if (ServiceMethod == ServiceMethodType.PurchasedPosterAdd) {
                 Feedback<PurchasedPosterViewModel> FeedBack = (Feedback<PurchasedPosterViewModel>) Data;
 
@@ -179,6 +187,7 @@ public class BusinessListForPosterFragment extends Fragment implements IResponse
                     if (ViewModel != null) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
 
+                        SendDataToParentActivity(ViewModel);
                         Intent UserProfileIntent = new Intent(Context, UserProfileActivity.class);
                         startActivity(UserProfileIntent);
                     } else {
@@ -197,5 +206,17 @@ public class BusinessListForPosterFragment extends Fragment implements IResponse
             Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
     }
+
+    /**
+     * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
+     * @param ViewModel اطلاعات پوستر
+     */
+    private void SendDataToParentActivity(PurchasedPosterViewModel ViewModel) {
+        HashMap<String, Object> Output = new HashMap<>();
+        Output.put("IsAdd", true);
+        Output.put("PurchasedPosterViewModel", ViewModel);
+        ActivityResultPassing.Push(new ActivityResult(ActivityIdList.USER_PROFILE_ACTIVITY, Context.getCurrentActivityId(), Output));
+    }
+
 
 }

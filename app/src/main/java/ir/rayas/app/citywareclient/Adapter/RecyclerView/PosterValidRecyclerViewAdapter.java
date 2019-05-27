@@ -59,7 +59,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         this.Context = Context;
         this.Container = Container;
     }
-
     /**
      * اضافه مودن لیست جدید
      *
@@ -74,7 +73,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             Container.invalidate();
         }
     }
-
     /**
      * جایگزین نمودن لیست جدید
      *
@@ -86,6 +84,39 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         notifyDataSetChanged();
         Container.invalidate();
     }
+    /**
+     * اضافه مودن یک آدرس جدید به لیست
+     *
+     * @param ViewModel اطلاعات پوستر
+     */
+    public void AddViewModel(PurchasedPosterViewModel ViewModel) {
+        if (ViewModel != null) {
+            if (ViewModelList == null)
+                ViewModelList = new ArrayList<>();
+            ViewModelList.add(ViewModel);
+            notifyDataSetChanged();
+            Container.invalidate();
+        }
+    }
+    /**
+     * ویرایش اطلاعات یک پوستر در لیست
+     * @param ViewModel
+     */
+    public void SetViewModel(PurchasedPosterViewModel ViewModel)
+    {
+        if (ViewModel!=null && ViewModelList!=null && ViewModelList.size()>0) {
+            for (PurchasedPosterViewModel Item : ViewModelList) {
+                if (Item.getId() == ViewModel.getId()) {
+                    Item.setTitle(ViewModel.getTitle());
+                    Item.setImagePathUrl(ViewModel.getImagePathUrl());
+
+                }
+            }
+            notifyDataSetChanged();
+            Container.invalidate();
+        }
+    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -239,27 +270,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             Context.ShowToast(FeedbackType.InvalidDataFormat.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
         return ViewModel;
-    }
-
-
-
-    /**
-     * ویرایش اطلاعات یک آدرس در لیست
-     * @param ViewModel
-     */
-    public void SetViewModel(PurchasedPosterViewModel ViewModel)
-    {
-        if (ViewModel!=null && ViewModelList!=null && ViewModelList.size()>0) {
-            for (PurchasedPosterViewModel Item : ViewModelList) {
-                if (Item.getId() == ViewModel.getId()) {
-                    Item.setTitle(ViewModel.getTitle());
-                    Item.setImagePathUrl(ViewModel.getImagePathUrl());
-
-                }
-            }
-            notifyDataSetChanged();
-            Container.invalidate();
-        }
     }
 
 

@@ -144,9 +144,10 @@ public class UserProfileActivity extends BaseActivity {
 
                 case ActivityIdList.BUY_POSTER_SET_ACTIVITY:
                     PurchasedPosterViewModel purchasedPosterViewModel = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
-
-                    ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModel);
-
+                    if ((boolean) Result.getData().get("IsAdd"))
+                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().AddViewModel(purchasedPosterViewModel);
+                    else
+                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModel);
                     break;
             }
         }
