@@ -83,7 +83,18 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
      * اکتیوتی والد
      */
     private int ParentActivity = ActivityIdList.BACK_TO_PREVIOUS_ACTIVITY;
+    /**
+     * در صورتی که می خواهیم دکمه Back اکتیوتی را نبندد این گزینه True کنید
+     */
+    private boolean DoNotFinishActivity = false;
 
+    /**
+     * تغییر نحوه خروج از برنامه با دکمه Back
+     * @param doNotFinishActivity
+     */
+    public void setDoNotFinishActivity(boolean doNotFinishActivity) {
+        DoNotFinishActivity = doNotFinishActivity;
+    }
 
     /**
      * منوی کشویی
@@ -616,9 +627,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     private void BackImageButtonBackToolbarClick() {
         if (ButtonBackToolbarListenerList != null)
             ButtonBackToolbarListenerList.ClickOnButtonBackToolbar();
-        if (IsMasterActivity(ParentActivity))
-            GoToMasterActivity(ParentActivity);
-        this.finish();
+        if (!DoNotFinishActivity){
+            if (IsMasterActivity(ParentActivity))
+                GoToMasterActivity(ParentActivity);
+            this.finish();
+        }
     }
 
     /**
