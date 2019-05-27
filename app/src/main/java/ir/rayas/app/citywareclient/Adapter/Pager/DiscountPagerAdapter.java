@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import java.util.HashMap;
 
-import ir.rayas.app.citywareclient.View.Fragment.Discount.ExpireDiscountFragment;
-import ir.rayas.app.citywareclient.View.Fragment.Discount.NewDiscountFragment;
-import ir.rayas.app.citywareclient.View.Fragment.Discount.UsageDiscountFragment;
+import ir.rayas.app.citywareclient.View.Fragment.Discount.CustomerExpireDiscountFragment;
+import ir.rayas.app.citywareclient.View.Fragment.Discount.CustomerNewDiscountFragment;
+import ir.rayas.app.citywareclient.View.Fragment.Discount.CustomerUsageDiscountFragment;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 
 
@@ -31,7 +31,7 @@ public class DiscountPagerAdapter extends FragmentPagerAdapter {
 
             case 2:
                 if (FragmentHashMap.get(2) == null) {
-                    NewDiscountFragment CurrentNewDiscount = new NewDiscountFragment();
+                    CustomerNewDiscountFragment CurrentNewDiscount = new CustomerNewDiscountFragment();
                     FragmentHashMap.put(2, CurrentNewDiscount);
                     ILoadDataHashMap.put(2, CurrentNewDiscount);
 
@@ -39,7 +39,7 @@ public class DiscountPagerAdapter extends FragmentPagerAdapter {
                 return FragmentHashMap.get(2);
             case 1:
                 if (FragmentHashMap.get(1) == null) {
-                    UsageDiscountFragment CurrentUsageDiscountFragment = new UsageDiscountFragment();
+                    CustomerUsageDiscountFragment CurrentUsageDiscountFragment = new CustomerUsageDiscountFragment();
                     FragmentHashMap.put(1, CurrentUsageDiscountFragment);
                     ILoadDataHashMap.put(1, CurrentUsageDiscountFragment);
 
@@ -47,9 +47,9 @@ public class DiscountPagerAdapter extends FragmentPagerAdapter {
                 return FragmentHashMap.get(1);
             case 0:
                 if (FragmentHashMap.get(0) == null) {
-                    ExpireDiscountFragment CurrentExpireDiscountFragment = new ExpireDiscountFragment();
-                    FragmentHashMap.put(0, CurrentExpireDiscountFragment);
-                    ILoadDataHashMap.put(0, CurrentExpireDiscountFragment);
+                    CustomerExpireDiscountFragment currentCustomerExpireDiscountFragment = new CustomerExpireDiscountFragment();
+                    FragmentHashMap.put(0, currentCustomerExpireDiscountFragment);
+                    ILoadDataHashMap.put(0, currentCustomerExpireDiscountFragment);
                 }
                 return FragmentHashMap.get(0);
         }

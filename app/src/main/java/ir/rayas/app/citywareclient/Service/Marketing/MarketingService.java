@@ -66,6 +66,30 @@ public class MarketingService implements IService {
         }.getType());
     }
 
+    public void GetAllCustomerValidDiscounts(int PageNumber) {
+        BaseService Current = new BaseService();
+        String controllerGetAllCustomerValidDiscounts = "GetAllCustomerValidDiscounts";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerGetAllCustomerValidDiscounts + "/" + ControllerPage + "/" + PageNumber;
+        Current.GetService(this, Url, ServiceMethodType.GetAllCustomerValidDiscounts, MarketingCustomerViewModel.class, new TypeToken<Feedback<List<MarketingCustomerViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetAllCustomerExpiredDiscounts(int PageNumber) {
+        BaseService Current = new BaseService();
+        String controllerGetAllCustomerExpiredDiscounts = "GetAllCustomerExpiredDiscounts";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerGetAllCustomerExpiredDiscounts + "/" + ControllerPage + "/" + PageNumber;
+        Current.GetService(this, Url, ServiceMethodType.GetAllCustomerExpiredDiscounts, MarketingCustomerViewModel.class, new TypeToken<Feedback<List<MarketingCustomerViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetAllCustomerUsedDiscounts(int PageNumber) {
+        BaseService Current = new BaseService();
+        String controllerGetAllCustomerUsedDiscounts = "GetAllCustomerUsedDiscounts";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerGetAllCustomerUsedDiscounts + "/" + ControllerPage + "/" + PageNumber;
+        Current.GetService(this, Url, ServiceMethodType.GetAllCustomerUsedDiscounts, MarketingCustomerViewModel.class, new TypeToken<Feedback<List<MarketingCustomerViewModel>>>() {
+        }.getType());
+    }
+
     public void GetMarketerCommission() {
         BaseService Current = new BaseService();
         String controllerMarketerCommission = "MarketerCommission";

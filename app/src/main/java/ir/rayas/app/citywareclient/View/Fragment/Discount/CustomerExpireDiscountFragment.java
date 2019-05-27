@@ -31,7 +31,7 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingCustomerViewMode
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ExpireDiscountFragment extends Fragment implements IResponseService, ILoadData {
+public class CustomerExpireDiscountFragment extends Fragment implements IResponseService, ILoadData {
 
     private DiscountActivity Context = null;
 
@@ -51,7 +51,7 @@ public class ExpireDiscountFragment extends Fragment implements IResponseService
         //دریافت اکتیوتی والد این فرگمین
         Context = (DiscountActivity) getActivity();
         // Inflate the layout for this fragment
-        View CurrentView = inflater.inflate(R.layout.fragment_expire_discount, container, false);
+        View CurrentView = inflater.inflate(R.layout.fragment_customer_expire_discount, container, false);
 
         //طرحبندی ویو
         CreateLayout(CurrentView);
@@ -68,7 +68,7 @@ public class ExpireDiscountFragment extends Fragment implements IResponseService
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(this);
-        MarketingService.GetCustomerPercents(PageNumber);
+        MarketingService.GetAllCustomerExpiredDiscounts(PageNumber);
     }
 
     /**
@@ -111,7 +111,7 @@ public class ExpireDiscountFragment extends Fragment implements IResponseService
         RefreshDiscountSwipeRefreshLayoutExpireDiscountFragment.setRefreshing(false);
         IsSwipe = false;
         try {
-            if (ServiceMethod == ServiceMethodType.CustomerPercentsGet) {
+            if (ServiceMethod == ServiceMethodType.GetAllCustomerExpiredDiscounts) {
                 Feedback<List<MarketingCustomerViewModel>> FeedBack = (Feedback<List<MarketingCustomerViewModel>>) Data;
 
 

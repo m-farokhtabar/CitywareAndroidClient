@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ir.rayas.app.citywareclient.View.Fragment.Discount.UsageDiscountFragment">
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.Discount.CustomerUsageDiscountFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/RefreshDiscountSwipeRefreshLayoutUsageDiscountFragment"

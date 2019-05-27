@@ -14,7 +14,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.DiscountRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.UsageDiscountRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -32,18 +31,17 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingCustomerViewMode
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UsageDiscountFragment extends Fragment implements IResponseService, ILoadData {
+public class CustomerNewDiscountFragment extends Fragment implements IResponseService, ILoadData {
 
     private DiscountActivity Context = null;
 
-    private SwipeRefreshLayout RefreshDiscountSwipeRefreshLayoutUsageDiscountFragment = null;
-    private TextViewPersian ShowEmptyDiscountTextViewUsageDiscountFragment = null;
+    private SwipeRefreshLayout RefreshDiscountSwipeRefreshLayoutNewDiscountFragment = null;
+    private TextViewPersian ShowEmptyDiscountTextViewNewDiscountFragment = null;
 
-    private UsageDiscountRecyclerViewAdapter usageDiscountRecyclerViewAdapter = null;
+    private DiscountRecyclerViewAdapter discountRecyclerViewAdapter = null;
 
     private boolean IsSwipe = false;
     private int PageNumber = 1;
-    private boolean IsLoadedDataForFirst = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,12 +50,15 @@ public class UsageDiscountFragment extends Fragment implements IResponseService,
         //دریافت اکتیوتی والد این فرگمین
         Context = (DiscountActivity) getActivity();
         // Inflate the layout for this fragment
-        View CurrentView = inflater.inflate(R.layout.fragment_usage_discount, container, false);
+        View CurrentView = inflater.inflate(R.layout.fragment_customer_new_discount, container, false);
 
         //طرحبندی ویو
         CreateLayout(CurrentView);
         //برای فهمیدن کد فرگنت به BusinessCommissionPagerAdapter مراجعه کنید
-        Context.setFragmentIndex(1);
+        Context.setFragmentIndex(2);
+
+        //دریافت اطلاعات از سرور
+        LoadData();
 
         return CurrentView;
     }
@@ -69,28 +70,28 @@ public class UsageDiscountFragment extends Fragment implements IResponseService,
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(this);
-        MarketingService.GetCustomerPercents(PageNumber);
+        MarketingService.GetAllCustomerValidDiscounts(PageNumber);
     }
 
     /**
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout(View CurrentView) {
-        ShowEmptyDiscountTextViewUsageDiscountFragment = CurrentView.findViewById(R.id.ShowEmptyDiscountTextViewUsageDiscountFragment);
-        RefreshDiscountSwipeRefreshLayoutUsageDiscountFragment = CurrentView.findViewById(R.id.RefreshDiscountSwipeRefreshLayoutUsageDiscountFragment);
-        ShowEmptyDiscountTextViewUsageDiscountFragment.setVisibility(View.GONE);
+        ShowEmptyDiscountTextViewNewDiscountFragment = CurrentView.findViewById(R.id.ShowEmptyDiscountTextViewNewDiscountFragment);
+        RefreshDiscountSwipeRefreshLayoutNewDiscountFragment = CurrentView.findViewById(R.id.RefreshDiscountSwipeRefreshLayoutNewDiscountFragment);
+        ShowEmptyDiscountTextViewNewDiscountFragment.setVisibility(View.GONE);
 
-        RecyclerView discountRecyclerViewUsageDiscountFragment = CurrentView.findViewById(R.id.DiscountRecyclerViewUsageDiscountFragment);
-        discountRecyclerViewUsageDiscountFragment.setHasFixedSize(true);
+        RecyclerView discountRecyclerViewNewDiscountFragment = CurrentView.findViewById(R.id.DiscountRecyclerViewNewDiscountFragment);
+        discountRecyclerViewNewDiscountFragment.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
-        discountRecyclerViewUsageDiscountFragment.setLayoutManager(LinearLayoutManager);
+        discountRecyclerViewNewDiscountFragment.setLayoutManager(LinearLayoutManager);
 
 
-        usageDiscountRecyclerViewAdapter = new UsageDiscountRecyclerViewAdapter(Context, null, discountRecyclerViewUsageDiscountFragment);
-        discountRecyclerViewUsageDiscountFragment.setAdapter(usageDiscountRecyclerViewAdapter);
+        discountRecyclerViewAdapter = new DiscountRecyclerViewAdapter(Context, null, discountRecyclerViewNewDiscountFragment);
+        discountRecyclerViewNewDiscountFragment.setAdapter(discountRecyclerViewAdapter);
 
 
-        RefreshDiscountSwipeRefreshLayoutUsageDiscountFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        RefreshDiscountSwipeRefreshLayoutNewDiscountFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 IsSwipe = true;
@@ -109,10 +110,10 @@ public class UsageDiscountFragment extends Fragment implements IResponseService,
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         Context.HideLoading();
-        RefreshDiscountSwipeRefreshLayoutUsageDiscountFragment.setRefreshing(false);
+        RefreshDiscountSwipeRefreshLayoutNewDiscountFragment.setRefreshing(false);
         IsSwipe = false;
         try {
-            if (ServiceMethod == ServiceMethodType.CustomerPercentsGet) {
+            if (ServiceMethod == ServiceMethodType.GetAllCustomerValidDiscounts) {
                 Feedback<List<MarketingCustomerViewModel>> FeedBack = (Feedback<List<MarketingCustomerViewModel>>) Data;
 
 
@@ -123,10 +124,10 @@ public class UsageDiscountFragment extends Fragment implements IResponseService,
                     if (ViewModelList != null) {
                         if (PageNumber == 1) {
                             if (ViewModelList.size() < 1) {
-                                ShowEmptyDiscountTextViewUsageDiscountFragment.setVisibility(View.VISIBLE);
+                                ShowEmptyDiscountTextViewNewDiscountFragment.setVisibility(View.VISIBLE);
                             } else {
-                                ShowEmptyDiscountTextViewUsageDiscountFragment.setVisibility(View.GONE);
-                                usageDiscountRecyclerViewAdapter.SetViewModelList(ViewModelList);
+                                ShowEmptyDiscountTextViewNewDiscountFragment.setVisibility(View.GONE);
+                                discountRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
                                 if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                     PageNumber = PageNumber + 1;
@@ -135,8 +136,8 @@ public class UsageDiscountFragment extends Fragment implements IResponseService,
                             }
 
                         } else {
-                            ShowEmptyDiscountTextViewUsageDiscountFragment.setVisibility(View.GONE);
-                            usageDiscountRecyclerViewAdapter.AddViewModelList(ViewModelList);
+                            ShowEmptyDiscountTextViewNewDiscountFragment.setVisibility(View.GONE);
+                            discountRecyclerViewAdapter.AddViewModelList(ViewModelList);
 
                             if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                 PageNumber = PageNumber + 1;
@@ -146,12 +147,12 @@ public class UsageDiscountFragment extends Fragment implements IResponseService,
                     }
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
                     if (PageNumber > 1) {
-                        ShowEmptyDiscountTextViewUsageDiscountFragment.setVisibility(View.GONE);
+                        ShowEmptyDiscountTextViewNewDiscountFragment.setVisibility(View.GONE);
                     } else {
-                        ShowEmptyDiscountTextViewUsageDiscountFragment.setVisibility(View.VISIBLE);
+                        ShowEmptyDiscountTextViewNewDiscountFragment.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    ShowEmptyDiscountTextViewUsageDiscountFragment.setVisibility(View.GONE);
+                    ShowEmptyDiscountTextViewNewDiscountFragment.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
@@ -167,13 +168,9 @@ public class UsageDiscountFragment extends Fragment implements IResponseService,
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            //برای فهمیدن کد فرگنت به UserProfilePagerAdapter مراجعه کنید
-            Context.setFragmentIndex(1);
-            if (!IsLoadedDataForFirst) {
-                IsSwipe = false;
-                IsLoadedDataForFirst = true;
-                //دریافت اطلاعات از سرور
-                LoadData();
+            if (Context != null) {
+                //برای فهمیدن کد فرگنت به BusinessCommissionPagerAdapter مراجعه کنید
+                Context.setFragmentIndex(2);
             }
         }
         super.setUserVisibleHint(isVisibleToUser);

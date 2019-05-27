@@ -2,10 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ir.rayas.app.citywareclient.View.Fragment.Discount.ExpireDiscountFragment">
+    tools:context="ir.rayas.app.citywareclient.View.Fragment.Discount.CustomerNewDiscountFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/RefreshDiscountSwipeRefreshLayoutExpireDiscountFragment"
+        android:id="@+id/RefreshDiscountSwipeRefreshLayoutNewDiscountFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible">
@@ -15,7 +15,7 @@
             android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/DiscountRecyclerViewExpireDiscountFragment"
+                android:id="@+id/DiscountRecyclerViewNewDiscountFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -23,14 +23,14 @@
                 android:dividerHeight="0dp" />
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                android:id="@+id/ShowEmptyDiscountTextViewExpireDiscountFragment"
+                android:id="@+id/ShowEmptyDiscountTextViewNewDiscountFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="16dp"
                 android:gravity="center"
-                android:text="@string/there_is_no_expire_discount"
+                android:text="@string/there_is_no_new_discount"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/FontWhiteColor"
                 android:visibility="gone" />
