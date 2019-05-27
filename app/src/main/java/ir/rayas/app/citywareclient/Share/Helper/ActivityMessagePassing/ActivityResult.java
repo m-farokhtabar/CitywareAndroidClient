@@ -13,9 +13,9 @@ public class ActivityResult {
 
     /**
      * ایجاد یک نتیجه از یک اکتیوتی به یک اکتیویتی دیگر
-     * @param FromActivityId
-     * @param ToActivityId
-     * @param Data
+     * @param FromActivityId به کدام اکتیوتی ارسال می شود
+     * @param ToActivityId اکتیویتی فعلی کدام است
+     * @param Data داده جهت ارسال
      */
     public ActivityResult(int FromActivityId, int ToActivityId, HashMap<String,Object> Data) {
         this.FromActivityId = FromActivityId;

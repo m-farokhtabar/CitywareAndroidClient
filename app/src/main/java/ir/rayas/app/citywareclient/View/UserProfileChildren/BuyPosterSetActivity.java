@@ -293,6 +293,7 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
                         ShowErrorInConnectDialog();
                     }
                 }
+                //تمدید پوستر
             } else if (ServiceMethod == ServiceMethodType.PurchasedPosterEdit) {
                 Feedback<PurchasedPosterViewModel> FeedBack = (Feedback<PurchasedPosterViewModel>) Data;
 
@@ -344,9 +345,13 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
     }
-
+    /**
+     * دریافت ویومدل پوستر تمدید شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
+     * @param ViewModel اطلاعات پوستر
+     */
     private void SendDataToParentActivity(PurchasedPosterViewModel ViewModel) {
         HashMap<String, Object> Output = new HashMap<>();
+        Output.put("IsAdd", false);
         Output.put("PurchasedPosterViewModel", ViewModel);
         ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
     }
