@@ -1,4 +1,4 @@
-package ir.rayas.app.citywareclient.View.Fragment.MarketerCommission;
+package ir.rayas.app.citywareclient.View.Fragment.Discount;
 
 
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.NoCommissionReceivedRecyclerViewAdapter;
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.ExpireDiscountRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -25,55 +25,71 @@ import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowMarketerCommissionDetailsActivity;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingBusinessManViewModel;
+import ir.rayas.app.citywareclient.View.MasterChildren.DiscountActivity;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingCustomerViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MarketerNoCommissionReceivedFragment extends Fragment implements IResponseService, ILoadData {
+public class ExpireDiscountFragment extends Fragment implements IResponseService, ILoadData {
 
-    private ShowMarketerCommissionDetailsActivity Context = null;
+    private DiscountActivity Context = null;
 
-    private SwipeRefreshLayout RefreshNoCommissionReceivedSwipeRefreshLayoutShowNoCommissionReceivedActivity = null;
-    private TextViewPersian ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity = null;
-    private NoCommissionReceivedRecyclerViewAdapter noCommissionReceivedRecyclerViewAdapter = null;
+    private SwipeRefreshLayout RefreshDiscountSwipeRefreshLayoutExpireDiscountFragment = null;
+    private TextViewPersian ShowEmptyDiscountTextViewExpireDiscountFragment = null;
+
+    private ExpireDiscountRecyclerViewAdapter expireDiscountRecyclerViewAdapter = null;
 
     private boolean IsSwipe = false;
-    private boolean IsLoadedDataForFirst = false;
     private int PageNumber = 1;
-
+    private boolean IsLoadedDataForFirst = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         //دریافت اکتیوتی والد این فرگمین
-        Context = (ShowMarketerCommissionDetailsActivity) getActivity();
+        Context = (DiscountActivity) getActivity();
         // Inflate the layout for this fragment
-        View CurrentView = inflater.inflate(R.layout.fragment_marketer_no_commission_received, container, false);
+        View CurrentView = inflater.inflate(R.layout.fragment_expire_discount, container, false);
 
         //طرحبندی ویو
         CreateLayout(CurrentView);
+        //برای فهمیدن کد فرگنت به BusinessCommissionPagerAdapter مراجعه کنید
+        Context.setFragmentIndex(0);
 
         return CurrentView;
-
     }
 
+    public void LoadData() {
+        if (!IsSwipe)
+            if (PageNumber == 1)
+                Context.ShowLoadingProgressBar();
+
+        Context.setRetryType(2);
+        MarketingService MarketingService = new MarketingService(this);
+        MarketingService.GetCustomerPercents(PageNumber);
+    }
+
+    /**
+     * تنظیمات مربوط به رابط کاربری این فرم
+     */
     private void CreateLayout(View CurrentView) {
-        ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity = CurrentView.findViewById(R.id.ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity);
-        RefreshNoCommissionReceivedSwipeRefreshLayoutShowNoCommissionReceivedActivity = CurrentView.findViewById(R.id.RefreshNoCommissionReceivedSwipeRefreshLayoutShowNoCommissionReceivedActivity);
-        ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
+        ShowEmptyDiscountTextViewExpireDiscountFragment = CurrentView.findViewById(R.id.ShowEmptyDiscountTextViewExpireDiscountFragment);
+        RefreshDiscountSwipeRefreshLayoutExpireDiscountFragment = CurrentView.findViewById(R.id.RefreshDiscountSwipeRefreshLayoutExpireDiscountFragment);
+        ShowEmptyDiscountTextViewExpireDiscountFragment.setVisibility(View.GONE);
 
-        RecyclerView noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity = CurrentView.findViewById(R.id.NoCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity);
-        noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity.setHasFixedSize(true);
+        RecyclerView discountRecyclerViewExpireDiscountFragment = CurrentView.findViewById(R.id.DiscountRecyclerViewExpireDiscountFragment);
+        discountRecyclerViewExpireDiscountFragment.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
-        noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity.setLayoutManager(LinearLayoutManager);
+        discountRecyclerViewExpireDiscountFragment.setLayoutManager(LinearLayoutManager);
 
-        noCommissionReceivedRecyclerViewAdapter = new NoCommissionReceivedRecyclerViewAdapter(Context, null, noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity);
-        noCommissionReceivedRecyclerViewShowNoCommissionReceivedActivity.setAdapter(noCommissionReceivedRecyclerViewAdapter);
 
-        RefreshNoCommissionReceivedSwipeRefreshLayoutShowNoCommissionReceivedActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        expireDiscountRecyclerViewAdapter = new ExpireDiscountRecyclerViewAdapter( null, discountRecyclerViewExpireDiscountFragment);
+        discountRecyclerViewExpireDiscountFragment.setAdapter(expireDiscountRecyclerViewAdapter);
+
+
+        RefreshDiscountSwipeRefreshLayoutExpireDiscountFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 IsSwipe = true;
@@ -83,18 +99,6 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
         });
     }
 
-    /**
-     * دریافت اطلاعات نحوای جهت پر کردن Recycle
-     */
-    public void LoadData() {
-        if (!IsSwipe)
-            if (PageNumber == 1)
-                Context.ShowLoadingProgressBar();
-
-        Context.setRetryType(2);
-        MarketingService MarketingService = new MarketingService(this);
-        MarketingService.GetAllNotReceivedMarketerCommission(PageNumber);
-    }
 
     /**
      * @param Data
@@ -104,24 +108,24 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         Context.HideLoading();
-        RefreshNoCommissionReceivedSwipeRefreshLayoutShowNoCommissionReceivedActivity.setRefreshing(false);
+        RefreshDiscountSwipeRefreshLayoutExpireDiscountFragment.setRefreshing(false);
         IsSwipe = false;
         try {
-            if (ServiceMethod == ServiceMethodType.NotReceivedMarketerCommissionGetAll) {
-                Feedback<List<MarketingBusinessManViewModel>> FeedBack = (Feedback<List<MarketingBusinessManViewModel>>) Data;
+            if (ServiceMethod == ServiceMethodType.CustomerPercentsGet) {
+                Feedback<List<MarketingCustomerViewModel>> FeedBack = (Feedback<List<MarketingCustomerViewModel>>) Data;
 
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
 
-                    final List<MarketingBusinessManViewModel> ViewModelList = FeedBack.getValue();
+                    final List<MarketingCustomerViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         if (PageNumber == 1) {
                             if (ViewModelList.size() < 1) {
-                                ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.VISIBLE);
+                                ShowEmptyDiscountTextViewExpireDiscountFragment.setVisibility(View.VISIBLE);
                             } else {
-                                ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
-                                noCommissionReceivedRecyclerViewAdapter.SetViewModelList(ViewModelList);
+                                ShowEmptyDiscountTextViewExpireDiscountFragment.setVisibility(View.GONE);
+                                expireDiscountRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
                                 if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                     PageNumber = PageNumber + 1;
@@ -130,8 +134,8 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
                             }
 
                         } else {
-                            ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
-                            noCommissionReceivedRecyclerViewAdapter.AddViewModelList(ViewModelList);
+                            ShowEmptyDiscountTextViewExpireDiscountFragment.setVisibility(View.GONE);
+                            expireDiscountRecyclerViewAdapter.AddViewModelList(ViewModelList);
 
                             if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                 PageNumber = PageNumber + 1;
@@ -141,12 +145,12 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
                     }
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
                     if (PageNumber > 1) {
-                        ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
+                        ShowEmptyDiscountTextViewExpireDiscountFragment.setVisibility(View.GONE);
                     } else {
-                        ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.VISIBLE);
+                        ShowEmptyDiscountTextViewExpireDiscountFragment.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    ShowEmptyNoCommissionReceivedTextViewShowNoCommissionReceivedActivity.setVisibility(View.GONE);
+                    ShowEmptyDiscountTextViewExpireDiscountFragment.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
@@ -163,7 +167,7 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             //برای فهمیدن کد فرگنت به UserProfilePagerAdapter مراجعه کنید
-            Context.setFragmentIndex(2);
+            Context.setFragmentIndex(0);
             if (!IsLoadedDataForFirst) {
                 IsSwipe = false;
                 IsLoadedDataForFirst = true;
@@ -173,6 +177,4 @@ public class MarketerNoCommissionReceivedFragment extends Fragment implements IR
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
-
 }
-

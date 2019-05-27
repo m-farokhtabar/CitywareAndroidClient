@@ -18,7 +18,6 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Service.Business.BookmarkService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
@@ -32,10 +31,8 @@ import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessPosterDetailsActivity;
 import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
-import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkOutViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
-import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 
 public class BusinessPosterInfoBookmarkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
@@ -45,11 +42,9 @@ public class BusinessPosterInfoBookmarkRecyclerViewAdapter extends RecyclerView.
     private RecyclerView Container = null;
 
 
-    private boolean IsBookmark;
     private int Position;
     private int BusinessId = 0;
 
-    private ImageView imageView;
 
 
     public BusinessPosterInfoBookmarkRecyclerViewAdapter(MainActivity Context, List<BusinessPosterInfoViewModel> ViewModel, RecyclerView Container) {
@@ -95,23 +90,21 @@ public class BusinessPosterInfoBookmarkRecyclerViewAdapter extends RecyclerView.
 
 
     public void SetViewModel() {
+        boolean IsDelete = false;
 
         for (int i = 0; i < ViewModelList.size(); i++) {
             if (BusinessId == ViewModelList.get(i).getBusinessId()) {
 
-                ViewModelList.get(i).setBookmark(IsBookmark);
-                if (IsBookmark) {
-                    imageView.setImageResource(R.drawable.ic_favorite_green_24dp);
-                } else {
-                    imageView.setImageResource(R.drawable.ic_favorite_border_24dp);
-                }
-
+                ViewModelList.remove(Position);
                 notifyDataSetChanged();
                 Container.invalidate();
-
+                IsDelete = true;
+                 break;
             }
         }
-
+        if (IsDelete){
+            SetViewModel();
+        }
     }
 
 
@@ -151,31 +144,18 @@ public class BusinessPosterInfoBookmarkRecyclerViewAdapter extends RecyclerView.
         }
 
 
-        if (ViewModelList.get(position).isBookmark())
-            viewHolder.BookmarkImageView.setImageResource(R.drawable.ic_favorite_green_24dp);
-        else
-            viewHolder.BookmarkImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
-
+        viewHolder.BookmarkImageView.setImageResource(R.drawable.ic_favorite_green_24dp);
 
 
         viewHolder.BookmarkImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                imageView = viewHolder.BookmarkImageView;
                 Position = position;
                 BookmarkService BookmarkService = new BookmarkService(BusinessPosterInfoBookmarkRecyclerViewAdapter.this);
 
-                if (ViewModelList.get(position).isBookmark()) {
-                    BookmarkService.Delete(ViewModelList.get(position).getBusinessId());
-                } else {
-                    AccountRepository AccountRepository = new AccountRepository(null);
-                    AccountViewModel AccountModel = AccountRepository.getAccount();
-                    BookmarkOutViewModel BookmarkOutViewModel = new BookmarkOutViewModel();
-                    BookmarkOutViewModel.setUserId(AccountModel.getUser().getId());
-                    BookmarkOutViewModel.setBusinessId(ViewModelList.get(position).getBusinessId());
-                    BookmarkService.Add(BookmarkOutViewModel);
-                }
+                BookmarkService.Delete(ViewModelList.get(position).getBusinessId());
+
             }
         });
 
@@ -229,31 +209,6 @@ public class BusinessPosterInfoBookmarkRecyclerViewAdapter extends RecyclerView.
                     BookmarkViewModel ViewModel = FeedBack.getValue();
                     if (ViewModel != null) {
 
-                        IsBookmark = false;
-                        ViewModelList.get(Position).setBookmark(IsBookmark);
-                        BusinessId = ViewModel.getBusinessId();
-                        SetViewModel();
-
-                    } else {
-                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    }
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        Context.ShowErrorInConnectDialog();
-                    }
-                }
-            } else if (ServiceMethod == ServiceMethodType.BookmarkAdd) {
-                Feedback<BookmarkViewModel> FeedBack = (Feedback<BookmarkViewModel>) Data;
-
-                if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
-                    Static.IsRefreshBookmark = true;
-                    BookmarkViewModel ViewModel = FeedBack.getValue();
-                    if (ViewModel != null) {
-
-                        IsBookmark = true;
-                        ViewModelList.get(Position).setBookmark(IsBookmark);
                         BusinessId = ViewModel.getBusinessId();
                         SetViewModel();
 

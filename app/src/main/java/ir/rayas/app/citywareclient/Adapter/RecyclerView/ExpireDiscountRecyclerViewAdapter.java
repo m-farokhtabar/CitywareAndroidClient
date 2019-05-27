@@ -1,6 +1,5 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,21 +17,17 @@ import java.util.List;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.View.MasterChildren.DiscountActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessDetailsActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowDiscountDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingCustomerViewModel;
 
 
-public class DiscountRecyclerViewAdapter extends RecyclerView.Adapter<DiscountRecyclerViewAdapter.ViewHolder> {
+
+public class ExpireDiscountRecyclerViewAdapter extends RecyclerView.Adapter<ExpireDiscountRecyclerViewAdapter.ViewHolder> {
 
     private List<MarketingCustomerViewModel> ViewModelList = null;
-    private DiscountActivity Context;
     private RecyclerView Container = null;
 
-    public DiscountRecyclerViewAdapter(DiscountActivity context, List<MarketingCustomerViewModel> ViewModel, RecyclerView Container) {
-        this.Context = context;
+    public ExpireDiscountRecyclerViewAdapter( List<MarketingCustomerViewModel> ViewModel, RecyclerView Container) {
         this.ViewModelList = ViewModel;
         this.Container = Container;
     }
@@ -94,26 +89,8 @@ public class DiscountRecyclerViewAdapter extends RecyclerView.Adapter<DiscountRe
         holder.ExpireDateLinearLayout.setVisibility(View.VISIBLE);
 
 
-        holder.DetailsBusinessButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent ShowBusinessDetailsIntent = Context.NewIntent(ShowBusinessDetailsActivity.class);
-                ShowBusinessDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
-                Context.startActivity(ShowBusinessDetailsIntent);
-
-            }
-        });
-
-        holder.DetailsDiscountButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent ShowDiscountDetailsIntent = Context.NewIntent(ShowDiscountDetailsActivity.class);
-                ShowDiscountDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
-                ShowDiscountDetailsIntent.putExtra("BusinessName", businessCommissionAndDiscountViewModel.getBusinessName());
-                Context.startActivity(ShowDiscountDetailsIntent);
-            }
-        });
-
+        holder.DetailsBusinessButton.setVisibility(View.GONE);
+        holder.DetailsDiscountButton.setVisibility(View.GONE);
 
     }
 

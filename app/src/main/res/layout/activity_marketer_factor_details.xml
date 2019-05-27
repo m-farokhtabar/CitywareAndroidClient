@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundWhiteColor"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        tools:ignore="UselessParent">
+
+        <include
+            android:id="@+id/BackToolBar"
+            layout="@layout/view_back_toolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/BackToolBar"
+            android:layout_above="@+id/Line2"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/TitleTextViewOrderActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/unit_all_price_is_toman"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/FontSemiDarkThemeColor" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/FontSemiDarkThemeColor"
+                tools:ignore="Suspicious0dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*"
+                    tools:ignore="UselessParent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        tools:ignore="UselessParent">
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="4"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:singleLine="false"
+                            android:text="@string/marketer_commission"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontBlackColor"
+                            android:textIsSelectable="false"
+                            tools:ignore="RtlHardcoded" />
+
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="5"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:singleLine="false"
+                            android:text="@string/price_with_out_currency"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontBlackColor"
+                            android:textIsSelectable="false"
+                            tools:ignore="RtlHardcoded" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="7"
+                            android:gravity="center|right"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@string/product_name"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontBlackColor"
+                            android:textIsSelectable="false"
+                            tools:ignore="HardcodedText,RtlHardcoded,SpUsage" />
+
+
+                    </TableRow>
+                </TableLayout>
+
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ProductListRecyclerViewMarketerFactorDetailsActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="4dp"
+                android:divider="@null"
+                android:dividerHeight="0dp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/Line2"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginTop="2dp"
+            android:layout_above="@+id/TotalLinearLayoutMarketerFactorDetailsActivity"
+            android:background="@color/LineTopColor" />
+
+        <LinearLayout
+            android:id="@+id/TotalLinearLayoutMarketerFactorDetailsActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/TotalPriceFactorTextViewMarketerFactorDetailsActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/FontBlackColor"
+                    tools:ignore="RtlHardcoded" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="right"
+                    android:text="@string/total_price_facture"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontSemiBlackColor"
+                    tools:ignore="InefficientWeight,RtlHardcoded" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/LineTopColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="2dp"
+                android:gravity="right"
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/FactorOfIncomeTextViewMarketerFactorDetailsActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/FontGreenColor"
+                    tools:ignore="RtlHardcoded" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="right"
+                    android:text="@string/marketer_commission"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontGreenColor"
+                    tools:ignore="RtlHardcoded" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

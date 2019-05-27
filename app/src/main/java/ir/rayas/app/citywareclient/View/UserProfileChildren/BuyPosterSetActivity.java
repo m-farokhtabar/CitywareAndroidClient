@@ -44,6 +44,7 @@ import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Poster.EditPurchasedPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterWithBookmarkStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Uploader.FileViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
@@ -276,11 +277,11 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
         HideLoading();
         try {
             if (ServiceMethod == ServiceMethodType.UserPosterGet) {
-                Feedback<PurchasedPosterViewModel> FeedBack = (Feedback<PurchasedPosterViewModel>) Data;
+                Feedback<PurchasedPosterWithBookmarkStatusViewModel> FeedBack = (Feedback<PurchasedPosterWithBookmarkStatusViewModel>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
-                    PurchasedPosterViewModel ViewModelList = FeedBack.getValue();
+                    PurchasedPosterWithBookmarkStatusViewModel ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         SetInformationToView(ViewModelList);
                     }
@@ -350,7 +351,7 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
         ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
     }
 
-    private void SetInformationToView(final PurchasedPosterViewModel ViewModel) {
+    private void SetInformationToView(final PurchasedPosterWithBookmarkStatusViewModel ViewModel) {
         TitlePosterEditTextBuyPosterSetActivity.setText(ViewModel.getTitle());
         DescriptionAbstractEditTextBuyPosterSetActivity.setText(ViewModel.getAbstractOfDescription());
         DescriptionEditTextBuyPosterSetActivity.setText(ViewModel.getDescription());

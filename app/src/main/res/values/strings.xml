@@ -594,6 +594,14 @@
     <string name="you_order_submit_successful">سفارش شما با موفقیت ثبت شد</string>
 
 
+    <string name="expire_discount">تخفیفات منقضی شده</string>
+    <string name="usage_discount">تخفیفات استفاده شده</string>
+    <string name="new_discount">تخفیفات جدید</string>
+    <string name="there_is_no_new_discount">تخفیفات جدید وجود ندارد</string>
+    <string name="there_is_no_usage_discount">تخفیفات استفاده شده وجود ندارد</string>
+    <string name="there_is_no_expire_discount">تخفیفات منقضی شده وجود ندارد</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

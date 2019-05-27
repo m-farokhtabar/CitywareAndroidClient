@@ -1,15 +1,15 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
+import ir.rayas.app.citywareclient.View.MarketerChildren.FactorDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
 
 
@@ -92,7 +93,11 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
         holder.DetailsBusinessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowDetailsFactureDialog(ViewModelList.get(position));
+
+                Intent FactureDetailsIntent = Context.NewIntent(FactorDetailsActivity.class);
+                FactureDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
+                Context.startActivity(FactureDetailsIntent);
+
 
             }
         });
@@ -162,42 +167,5 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
     }
 
 
-    private void ShowDetailsFactureDialog(MarketingPayedBusinessViewModel ViewModel) {
-
-        final Dialog DetailsBuyPackageDialog = new Dialog(Context);
-        DetailsBuyPackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        DetailsBuyPackageDialog.setContentView(R.layout.dialog_details_facture);
-
-//        final BusinessCommissionAndDiscountViewModel businessCommissionAndDiscountViewModel;
-//        Gson gson = new Gson();
-//        Type listType = new TypeToken<BusinessCommissionAndDiscountViewModel>() {
-//        }.getType();
-//        businessCommissionAndDiscountViewModel = gson.fromJson(ViewModelList.get(position).getPercents(), listType);
-
-
-        ButtonPersianView DialogOkButton = DetailsBuyPackageDialog.findViewById(R.id.DialogOkButton);
-        TextViewPersian PaidTypeTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidTypeTextView);
-        TextViewPersian PaidPriceTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidPriceTextView);
-        TextViewPersian TransactionNumberTextView = DetailsBuyPackageDialog.findViewById(R.id.TransactionNumberTextView);
-        TextViewPersian CreateDateTextView = DetailsBuyPackageDialog.findViewById(R.id.CreateDateTextView);
-        TextViewPersian PaidPriceTomanTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidPriceTomanTextView);
-        TextViewPersian PaidPriceTitleTextView = DetailsBuyPackageDialog.findViewById(R.id.PaidPriceTitleTextView);
-        LinearLayout TransactionNumberLinearLayout = DetailsBuyPackageDialog.findViewById(R.id.TransactionNumberLinearLayout);
-
-
-
-//        TransactionNumberTextView.setText(ViewModel.getTransactionNumber());
-//        CreateDateTextView.setText(ViewModel.getCreate());
-
-
-        DialogOkButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DetailsBuyPackageDialog.dismiss();
-            }
-        });
-
-        DetailsBuyPackageDialog.show();
-    }
 
 }

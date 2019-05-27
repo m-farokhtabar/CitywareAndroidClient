@@ -21,6 +21,7 @@ import ir.rayas.app.citywareclient.Share.Enum.CommissionBusinessType;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.View.MarketerChildren.MarketerFactorDetailsActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowCommissionDetailsActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowMarketerCommissionDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
@@ -89,6 +90,7 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
         holder.TicketNumberTextView.setText(ViewModelList.get(position).getTicket());
 
 
+
         if (CommissionBusinessType.NotSpecify.GetCommission() == ViewModelList.get(position).getStatus()) {
             holder.PriceTextView.setText(Context.getResources().getString(R.string.business_does_not_specify_a_commission));
 
@@ -107,9 +109,9 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
         holder.DetailsFactoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent ShowBusinessDetailsIntent = Context.NewIntent(ShowBusinessDetailsActivity.class);
-//                ShowBusinessDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
-//                Context.startActivity(ShowBusinessDetailsIntent);
+                Intent FactorDetailsIntent = Context.NewIntent(MarketerFactorDetailsActivity.class);
+                FactorDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
+                Context.startActivity(FactorDetailsIntent);
 
             }
         });

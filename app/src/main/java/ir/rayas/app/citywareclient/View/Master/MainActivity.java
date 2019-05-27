@@ -1,19 +1,26 @@
 package ir.rayas.app.citywareclient.View.Master;
 
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +32,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessPosterInfoBookmarkRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessPosterInfoRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.IsTopPosterRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
@@ -55,6 +63,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     private IsTopPosterRecyclerViewAdapter isTopPosterRecyclerViewAdapter = null;
     private BusinessPosterInfoRecyclerViewAdapter businessPosterInfoRecyclerViewAdapter = null;
+    private BusinessPosterInfoBookmarkRecyclerViewAdapter businessPosterInfoBookmarkRecyclerViewAdapter = null;
     private TextViewPersian MostVisitedTextViewMainActivity = null;
     private TextViewPersian StarredTextViewMainActivity = null;
     private TextViewPersian NewestTextViewMainActivity = null;
@@ -67,6 +76,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private TextView LineStarredTextViewMainActivity = null;
     private TextView LineMostVisitedTextViewMainActivity = null;
     private TextView LineBookmarkTextViewMainActivity = null;
+    private RecyclerView businessPosterInfoRecyclerViewMainActivity = null;
+    private RecyclerView BusinessPosterInfoBookmarkRecyclerViewMainActivity = null;
     private FrameLayout Line = null;
 
     private int PageNumber = 1;
@@ -158,6 +169,48 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void CreateLayout() {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        final int height = metrics.heightPixels;
+
+        int c = height - (3 * 168) + 30;
+
+        final CardView MenuCardViewMainActivity = findViewById(R.id.MenuCardViewMainActivity);
+        FloatingActionButton MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity = findViewById(R.id.MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity);
+        final RelativeLayout MenuRelativeLayoutMainActivity = findViewById(R.id.MenuRelativeLayoutMainActivity);
+
+        final ObjectAnimator ObjectAnimator1 = ObjectAnimator.ofFloat(MenuCardViewMainActivity, "y", c);
+        final ObjectAnimator ObjectAnimator2 = ObjectAnimator.ofFloat(MenuCardViewMainActivity, "y", height);
+
+        MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MenuRelativeLayoutMainActivity.setVisibility(View.VISIBLE);
+
+                ObjectAnimator1.setDuration(2000);
+                ObjectAnimator1.start();
+
+            }
+        });
+
+        MenuCardViewMainActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ObjectAnimator2.setDuration(2000);
+                ObjectAnimator2.start();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
+                    }
+                }, 2000);
+            }
+        });
+
         RecyclerView isTopPosterRecyclerViewMainActivity = findViewById(R.id.IsTopPosterRecyclerViewMainActivity);
         isTopPosterRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true));
         isTopPosterRecyclerViewMainActivity.setHasFixedSize(true);
@@ -166,12 +219,21 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewMainActivity.setAdapter(isTopPosterRecyclerViewAdapter);
 
 
-        RecyclerView businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
+        businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
         businessPosterInfoRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
         businessPosterInfoRecyclerViewMainActivity.setHasFixedSize(true);
         businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         businessPosterInfoRecyclerViewAdapter = new BusinessPosterInfoRecyclerViewAdapter(MainActivity.this, null, businessPosterInfoRecyclerViewMainActivity);
         businessPosterInfoRecyclerViewMainActivity.setAdapter(businessPosterInfoRecyclerViewAdapter);
+
+
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoBookmarkRecyclerViewMainActivity);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setHasFixedSize(true);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setNestedScrollingEnabled(false);
+        businessPosterInfoBookmarkRecyclerViewAdapter = new BusinessPosterInfoBookmarkRecyclerViewAdapter(MainActivity.this, null, BusinessPosterInfoBookmarkRecyclerViewMainActivity);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
+
 
         RadioGroup CategoryToggleRadioGroupMainActivity = findViewById(R.id.CategoryToggleRadioGroupMainActivity);
         RadioGroup RegionToggleRadioGroupMainActivity = findViewById(R.id.RegionToggleRadioGroupMainActivity);
@@ -378,13 +440,13 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         } else {
             RegionRadioButtonMainActivity.setText(getResources().getString(R.string.address));
 
-                if (userAddressViewModels.size() > 1) {
-                    latitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLatitude();
-                    longitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLongitude();
-                } else {
-                    latitude = null;
-                    longitude = null;
-                }
+            if (userAddressViewModels.size() > 1) {
+                latitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLatitude();
+                longitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLongitude();
+            } else {
+                latitude = null;
+                longitude = null;
+            }
 
         }
     }
@@ -424,9 +486,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                         if (PageNumber == 1) {
                             isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
-                            if (ViewModelList.size()>0){
+                            if (ViewModelList.size() > 0) {
                                 Line.setVisibility(View.VISIBLE);
-                            }   else {
+                            } else {
                                 Line.setVisibility(View.GONE);
                             }
                         } else {
@@ -435,7 +497,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                             Line.setVisibility(View.VISIBLE);
                         }
 
-                    }  else {
+                    } else {
                         Line.setVisibility(View.GONE);
                     }
                 } else {
@@ -474,9 +536,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                     final List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         if (PageNumberPoster == 1)
-                            businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
+                            businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
                         else
-                            businessPosterInfoRecyclerViewAdapter.AddViewModelList(ViewModelList);
+                            businessPosterInfoBookmarkRecyclerViewAdapter.AddViewModelList(ViewModelList);
                     }
                 } else {
                     if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
@@ -493,6 +555,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void NewestPoster() {
+        businessPosterInfoRecyclerViewMainActivity.setVisibility(View.VISIBLE);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setVisibility(View.GONE);
+
         LineNewestTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundThemeColor));
         LineStarredTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
         LineMostVisitedTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
@@ -511,12 +576,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         List<BusinessPosterInfoViewModel> ViewModelList = new ArrayList<>();
         businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
+        businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
         isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
         LoadData();
     }
 
     private void StarredPoster() {
+        businessPosterInfoRecyclerViewMainActivity.setVisibility(View.VISIBLE);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setVisibility(View.GONE);
 
         LineNewestTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
         LineStarredTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundThemeColor));
@@ -535,12 +603,16 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         List<BusinessPosterInfoViewModel> ViewModelList = new ArrayList<>();
         businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
+        businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
         isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
         LoadData();
     }
 
     private void MostVisitedPoster() {
+        businessPosterInfoRecyclerViewMainActivity.setVisibility(View.VISIBLE);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setVisibility(View.GONE);
+
         MostVisitedTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
         StarredTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
         NewestTextViewMainActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
@@ -558,12 +630,17 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         List<BusinessPosterInfoViewModel> ViewModelList = new ArrayList<>();
         businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
+        businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
         isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
         LoadData();
     }
 
     private void BookmarkPoster() {
+
+        businessPosterInfoRecyclerViewMainActivity.setVisibility(View.GONE);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setVisibility(View.VISIBLE);
+
 
         LineNewestTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
         LineStarredTextViewMainActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
@@ -582,6 +659,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         List<BusinessPosterInfoViewModel> ViewModelList = new ArrayList<>();
         businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
+        businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
         LoadDataBookmarkPoster();
     }
@@ -673,13 +751,10 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         PageNumber = 1;
         PageNumberPoster = 1;
 
-        
+
         LoadData();
 
     }
-
-
-
 
     @Override
     protected void onResume() {

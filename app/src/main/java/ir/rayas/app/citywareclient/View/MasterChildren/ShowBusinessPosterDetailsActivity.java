@@ -1,5 +1,6 @@
 package ir.rayas.app.citywareclient.View.MasterChildren;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -33,7 +34,7 @@ import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkOutViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterWithBookmarkStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 public class ShowBusinessPosterDetailsActivity extends BaseActivity implements IResponseService, ILoadData {
@@ -221,11 +222,11 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
         IsSwipe = false;
         try {
             if (ServiceMethod == ServiceMethodType.UserPosterGet) {
-                Feedback<PurchasedPosterViewModel> FeedBack = (Feedback<PurchasedPosterViewModel>) Data;
+                Feedback<PurchasedPosterWithBookmarkStatusViewModel> FeedBack = (Feedback<PurchasedPosterWithBookmarkStatusViewModel>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
-                    PurchasedPosterViewModel ViewModelList = FeedBack.getValue();
+                    PurchasedPosterWithBookmarkStatusViewModel ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         SetInformationToView(ViewModelList);
                     }
@@ -283,7 +284,8 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
 
     }
 
-    private void SetInformationToView(final PurchasedPosterViewModel ViewModel) {
+    @SuppressLint("SetJavaScriptEnabled")
+    private void SetInformationToView(final PurchasedPosterWithBookmarkStatusViewModel ViewModel) {
         TitleBusinessPosterTextViewShowBusinessPosterActivity.setText(ViewModel.getTitle());
         AbstractBusinessPosterTextViewShowBusinessPosterActivity.setText(ViewModel.getAbstractOfDescription());
 
@@ -301,7 +303,7 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
             BusinessImagePosterImageViewShowBusinessPosterDetailsActivity.setImageResource(R.drawable.image_default);
         }
 
-//        IsBookmark = ViewModel.
+        IsBookmark = ViewModel.isBookmark();
 
         if (IsBookmark)
             BookmarkImageViewShowBusinessPosterActivity.setImageResource(R.drawable.ic_bookmark_full_24dp);

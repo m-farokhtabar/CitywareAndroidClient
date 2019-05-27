@@ -58,10 +58,10 @@ public class MarketingService implements IService {
         }.getType());
     }
 
-    public void GetCustomerPercents() {
+    public void GetCustomerPercents(int PageNumber) {
         BaseService Current = new BaseService();
         String controllerCustomerPercents = "CustomerPercents";
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerCustomerPercents;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + controllerCustomerPercents + "/" + ControllerPage + "/" + PageNumber;
         Current.GetService(this, Url, ServiceMethodType.CustomerPercentsGet, MarketingCustomerViewModel.class, new TypeToken<Feedback<List<MarketingCustomerViewModel>>>() {
         }.getType());
     }

@@ -19,6 +19,7 @@ import ir.rayas.app.citywareclient.ViewModel.Poster.EditPurchasedPosterViewModel
 import ir.rayas.app.citywareclient.ViewModel.Poster.ExtendBuyPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PosterTypeViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterWithBookmarkStatusViewModel;
 
 
 public class PosterService implements IService {
@@ -46,9 +47,11 @@ public class PosterService implements IService {
     public void Get(int PosterId) {
         BaseService Current = new BaseService();
         String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + PosterId;
-        Current.GetService(this, Url, ServiceMethodType.UserPosterGet, PurchasedPosterViewModel.class, new TypeToken<Feedback<PurchasedPosterViewModel>>() {
+        Current.GetService(this, Url, ServiceMethodType.UserPosterGet, PurchasedPosterWithBookmarkStatusViewModel.class, new TypeToken<Feedback<PurchasedPosterWithBookmarkStatusViewModel>>() {
         }.getType());
     }
+
+
 
     public void GetAllExpired(int PageNumber) {
         BaseService Current = new BaseService();

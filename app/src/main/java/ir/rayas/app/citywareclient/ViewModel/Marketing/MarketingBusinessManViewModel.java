@@ -13,8 +13,13 @@ public class MarketingBusinessManViewModel {
     private String Ticket;
     private String UseTicketDate;
     private String Percents;
+    private String Factor;
     private int Status;
     private double Price;
+
+    public String getFactor() {
+        return Factor;
+    }
 
     public int getId() {
         return Id;
