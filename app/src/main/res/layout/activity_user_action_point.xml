@@ -210,7 +210,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="5dp"
-                                    android:text="5"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                     android:textColor="@color/FontSemiDarkThemeColor"
                                     tools:ignore="HardcodedText,TooDeepLayout" />
@@ -277,7 +276,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_marginTop="5dp"
-                                    android:text="3"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                     android:textColor="@color/FontSemiDarkThemeColor"
                                     tools:ignore="HardcodedText" />

@@ -24,6 +24,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 
 
 public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -65,6 +66,23 @@ public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         notifyDataSetChanged();
         Container.invalidate();
     }
+
+
+    /**
+     * اضافه مودن یک آدرس جدید به لیست
+     *
+     * @param ViewModel اطلاعات پوستر
+     */
+    public void AddViewModel(OutputPackageTransactionViewModel ViewModel) {
+        if (ViewModel != null) {
+            if (ViewModelList == null)
+                ViewModelList = new ArrayList<>();
+            ViewModelList.add(ViewModel);
+            notifyDataSetChanged();
+            Container.invalidate();
+        }
+    }
+
 
 
     @Override

@@ -62,7 +62,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:gravity="center"
-                            android:textAppearance="?android:textAppearanceLarge"
+                            android:textAppearance="?android:textAppearanceMedium"
                             android:textColor="@color/FontSemiDarkThemeColor"
                             android:textStyle="bold" />
 
@@ -109,7 +109,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="right"
-                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
                                     android:textColor="@color/FontSemiDarkThemeColor" />
 
 
@@ -337,7 +337,7 @@
                         android:layout_margin="8dp"
                         android:background="@drawable/selector_button_green_style"
                         android:gravity="center"
-                        android:text="@string/buy"
+                        android:text="@string/buy_poster"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="@color/FontWhiteColor" />
 

@@ -49,7 +49,7 @@ public class ShowMarketerCommissionDetailsActivity extends BaseActivity  {
             public void call() {
                 RetryButtonOnClick();
             }
-        }, R.string.marketing_and_Business_income);
+        }, R.string.marketer_commission);
 
 
         CreateLayout();

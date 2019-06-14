@@ -2,7 +2,6 @@ package ir.rayas.app.citywareclient.View.Share;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserSearchRecyclerViewAdapter;
@@ -24,8 +22,6 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
@@ -38,16 +34,7 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
     private String TextSearch = "";
     private int PageNumber = 1;
-    public int UserId = 0;
-    public String UserName = "";
 
-    public void setUserId(int userId) {
-        UserId = userId;
-    }
-
-    public void setUserName(String userName) {
-        UserName = userName;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +58,7 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
         ImageView SearchUserImageViewUserSearchActivity = findViewById(R.id.SearchUserImageViewUserSearchActivity);
         SearchUserEditTextUserSearchActivity = findViewById(R.id.SearchUserEditTextUserSearchActivity);
-        RecyclerView ShowUserListRecyclerViewUserSearchActivity = findViewById(R.id.ShowUserListRecyclerViewUserSearchActivity);
-        FloatingActionButton GetUserIdFloatingActionButtonUserSearchActivity = findViewById(R.id.GetUserIdFloatingActionButtonUserSearchActivity);
+        final RecyclerView ShowUserListRecyclerViewUserSearchActivity = findViewById(R.id.ShowUserListRecyclerViewUserSearchActivity);
 
         ShowUserListRecyclerViewUserSearchActivity.setLayoutManager(new LinearLayoutManager(UserSearchActivity.this));
         userSearchRecyclerViewAdapter = new UserSearchRecyclerViewAdapter(UserSearchActivity.this, null, ShowUserListRecyclerViewUserSearchActivity);
@@ -90,11 +76,14 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
+                    ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
 
                     TextSearch = s.toString();
                     PageNumber = 1;
                     LoadData();
 
+                }  else {
+                    ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.GONE);
                 }
             }
         });
@@ -106,19 +95,17 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                 String SearchOffer = SearchUserEditTextUserSearchActivity.getText().toString();
 
                 if (!SearchOffer.equals("")) {
+                    ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
+                    
                     TextSearch = SearchOffer;
                     PageNumber = 1;
                     LoadData();
+                }  else {
+                    ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.GONE);
                 }
             }
         });
 
-        GetUserIdFloatingActionButtonUserSearchActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                OnGetUserIdFloatingActionButtonClick();
-            }
-        });
     }
 
     public void LoadData() {
@@ -171,21 +158,6 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
         } catch (Exception e) {
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
-        }
-    }
-
-
-    private void OnGetUserIdFloatingActionButtonClick() {
-        if (UserId > 0) {
-            if (getIntent().getIntExtra("FromActivityId", -1) > -1) {
-                HashMap<String, Object> Output = new HashMap<>();
-                Output.put("UserName", UserName);
-                Output.put("UserId", UserId);
-                ActivityResultPassing.Push(new ActivityResult(getIntent().getIntExtra("FromActivityId", -1), getCurrentActivityId(), Output));
-            }
-            FinishCurrentActivity();
-        } else {
-            ShowToast(getResources().getString(R.string.please_enter_user_selection), Toast.LENGTH_LONG, MessageType.Warning);
         }
     }
 

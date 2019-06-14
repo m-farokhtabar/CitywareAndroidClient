@@ -90,6 +90,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * تغییر نحوه خروج از برنامه با دکمه Back
+     *
      * @param doNotFinishActivity
      */
     public void setDoNotFinishActivity(boolean doNotFinishActivity) {
@@ -204,9 +205,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             UserSettingImageButton.setTag(new WhichViewClicked(2, R.id.SettingButtonToolbar));
             UserSettingImageButton.setOnClickListener(this);
 
-            ImageButton NotificationImageButton = findViewById(R.id.NotificationButtonToolbar);
-            NotificationImageButton.setTag(new WhichViewClicked(2, R.id.NotificationButtonToolbar));
-            NotificationImageButton.setOnClickListener(this);
+            ImageButton UserProfileButtonToolbar = findViewById(R.id.UserProfileButtonToolbar);
+            UserProfileButtonToolbar.setTag(new WhichViewClicked(2, R.id.UserProfileButtonToolbar));
+            UserProfileButtonToolbar.setOnClickListener(this);
 
             ImageButton FavoriteButtonToolbar = findViewById(R.id.FavoriteButtonToolbar);
             FavoriteButtonToolbar.setTag(new WhichViewClicked(2, R.id.FavoriteButtonToolbar));
@@ -268,6 +269,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         navigationView = findViewById(R.id.DrawerNavigationView);
         if (navigationView != null) {
             HeaderView = navigationView.getHeaderView(0);
+            ImageView DrawerIconUserImageView = HeaderView.findViewById(R.id.DrawerIconUserImageView);
             DrawerNickNameTextView = HeaderView.findViewById(R.id.DrawerNickNameTextView);
             DrawerFullNameTextView = HeaderView.findViewById(R.id.DrawerFullNameTextView);
             ButtonPersianView DrawerSingOutButton = HeaderView.findViewById(R.id.DrawerSingOutButton);
@@ -275,6 +277,12 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 DrawerSingOutButton.setTag(new WhichViewClicked(3, 0));
                 DrawerSingOutButton.setOnClickListener(this);
             }
+
+            if (DrawerIconUserImageView != null) {
+                DrawerIconUserImageView.setTag(new WhichViewClicked(6, 0));
+                DrawerIconUserImageView.setOnClickListener(this);
+            }
+
 
             Menu RootMenu = navigationView.getMenu();
             for (int i = 0; i < RootMenu.size(); i++) {
@@ -466,8 +474,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             ItemMenu3.setOnClickListener(this);
             ItemMenu3.setTag(new WhichViewClicked(0, R.id.ItemMenu3));
             IconMenu3.setTypeface(Font.MasterIcon);
-            IconMenu3.setText("\uf007");
-            if (CurrentActivityId == ActivityIdList.USER_PROFILE_ACTIVITY) {
+            IconMenu3.setText("\uf09d");
+            if (CurrentActivityId == ActivityIdList.IRAN_CART_ACTIVITY) {
                 IconMenu3.setTextColor(LayoutUtility.GetColorFromResource(this, R.color.FontThemeColor));
                 TextMenu3.setTextColor(LayoutUtility.GetColorFromResource(this, R.color.FontThemeColor));
             } else {
@@ -599,6 +607,23 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         if (CurrentViewClicked.getViewId() == 5) {
             BasketImageButtonBackAndBasketToolbarClick();
         }
+
+        if (CurrentViewClicked.getViewId() == 6) {
+            OpenProfileClick();
+        }
+    }
+
+    private void OpenProfileClick(){
+
+        GoToMasterActivity(ActivityIdList.USER_PROFILE_ACTIVITY);
+        
+        DrawerLayout DrawerLayout = findViewById(R.id.MainDrawerLayout);
+        if (DrawerLayout != null) {
+            if (DrawerLayout.isDrawerOpen(GravityCompat.END)) {
+                DrawerLayout.closeDrawer(GravityCompat.END);
+            }
+        }
+
     }
 
     private void ToolbarOnItemClick(int ViewId) {
@@ -608,10 +633,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 Intent SettingIntent = NewIntent(SettingActivity.class);
                 startActivity(SettingIntent);
                 break;
-            //Notification
-            case R.id.NotificationButtonToolbar:
-                if (CurrentActivityId != ActivityIdList.NOTIFICATION_ACTIVITY)
-                    GoToMasterActivity(ActivityIdList.NOTIFICATION_ACTIVITY);
+            //UserProfile
+            case R.id.UserProfileButtonToolbar:
+                if (CurrentActivityId != ActivityIdList.USER_PROFILE_ACTIVITY)
+                    GoToMasterActivity(ActivityIdList.USER_PROFILE_ACTIVITY);
                 break;
             //Favorite
             case R.id.FavoriteButtonToolbar:
@@ -627,7 +652,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     private void BackImageButtonBackToolbarClick() {
         if (ButtonBackToolbarListenerList != null)
             ButtonBackToolbarListenerList.ClickOnButtonBackToolbar();
-        if (!DoNotFinishActivity){
+        if (!DoNotFinishActivity) {
             if (IsMasterActivity(ParentActivity))
                 GoToMasterActivity(ParentActivity);
             this.finish();
@@ -660,10 +685,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 if (CurrentActivityId != ActivityIdList.SEARCH_ACTIVITY)
                     GoToMasterActivity(ActivityIdList.SEARCH_ACTIVITY);
                 break;
-            //UserProfile
+            //IranCart
             case R.id.ItemMenu3:
-                if (CurrentActivityId != ActivityIdList.USER_PROFILE_ACTIVITY)
-                    GoToMasterActivity(ActivityIdList.USER_PROFILE_ACTIVITY);
+//                if (CurrentActivityId != ActivityIdList.USER_PROFILE_ACTIVITY)
+//                    GoToMasterActivity(ActivityIdList.USER_PROFILE_ACTIVITY);
                 break;
             //Commission
             case R.id.ItemMenu4:

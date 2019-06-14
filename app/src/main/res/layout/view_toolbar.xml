@@ -24,14 +24,14 @@
         android:background="@drawable/selector_image_button"
         android:src="@drawable/ic_setting_white" />
     <ImageButton
-        android:id="@+id/NotificationButtonToolbar"
+        android:id="@+id/UserProfileButtonToolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:padding="12dp"
-        android:contentDescription="@string/notifications"
+        android:contentDescription="@string/my_profile"
         android:background="@drawable/selector_image_button"
-        android:src="@drawable/ic_notification_white" />
+        android:src="@drawable/ic_person_white_24dp" />
 
     <ImageButton
         android:id="@+id/FavoriteButtonToolbar"

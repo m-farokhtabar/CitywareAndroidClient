@@ -47,10 +47,8 @@ public class ArchiveRecyclerViewAdapter extends RecyclerView.Adapter<ArchiveRecy
         TextViewPersian TicketNumberTextView;
         TextViewPersian UseDateTextView;
         TextViewPersian ExpireDateTextView;
-        TextViewPersian PriceTextView;
         RelativeLayout DiscountContainerRelativeLayout;
         ButtonPersianView DetailsBusinessButton;
-        ButtonPersianView DetailsNoCommissionReceivedButton;
         LinearLayout ExpireDateLinearLayout;
         LinearLayout UseDateLinearLayout;
 
@@ -60,14 +58,12 @@ public class ArchiveRecyclerViewAdapter extends RecyclerView.Adapter<ArchiveRecy
             DiscountContainerRelativeLayout = v.findViewById(R.id.DiscountContainerRelativeLayout);
             BusinessTitleTextView = v.findViewById(R.id.BusinessTitleTextView);
             DetailsBusinessButton = v.findViewById(R.id.DetailsBusinessButton);
-            DetailsNoCommissionReceivedButton = v.findViewById(R.id.DetailsNoCommissionReceivedButton);
             FullNameTextView = v.findViewById(R.id.FullNameTextView);
             TicketNumberTextView = v.findViewById(R.id.TicketNumberTextView);
             ExpireDateTextView = v.findViewById(R.id.ExpireDateTextView);
             UseDateTextView = v.findViewById(R.id.UseDateTextView);
             ExpireDateLinearLayout = v.findViewById(R.id.ExpireDateLinearLayout);
             UseDateLinearLayout = v.findViewById(R.id.UseDateLinearLayout);
-            PriceTextView = v.findViewById(R.id.PriceTextView);
 
         }
     }
@@ -95,12 +91,6 @@ public class ArchiveRecyclerViewAdapter extends RecyclerView.Adapter<ArchiveRecy
 
         holder.ExpireDateTextView.setText(ViewModelList.get(position).getTicketValidity());
 
-        if (CommissionBusinessType.NotSpecify.GetCommission() == ViewModelList.get(position).getStatus()) {
-            holder.PriceTextView.setText(Context.getResources().getString(R.string.business_does_not_specify_a_commission));
-
-        } else if (CommissionBusinessType.Specify.GetCommission() == ViewModelList.get(position).getStatus()) {
-            holder.PriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPrice()) + " " + Context.getResources().getString(R.string.toman));
-        }
 
         if (ViewModelList.get(position).getUseTicketDate().equals("") || ViewModelList.get(position).getUseTicketDate() == null) {
             holder.UseDateLinearLayout.setVisibility(View.GONE);
@@ -117,16 +107,6 @@ public class ArchiveRecyclerViewAdapter extends RecyclerView.Adapter<ArchiveRecy
                 ShowBusinessDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
                 Context.startActivity(ShowBusinessDetailsIntent);
 
-            }
-        });
-
-        holder.DetailsNoCommissionReceivedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent ShowCommissionDetailsIntent = Context.NewIntent(ShowCommissionDetailsActivity.class);
-                ShowCommissionDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
-                ShowCommissionDetailsIntent.putExtra("BusinessName", businessCommissionAndDiscountViewModel.getBusinessName());
-                Context.startActivity(ShowCommissionDetailsIntent);
             }
         });
 

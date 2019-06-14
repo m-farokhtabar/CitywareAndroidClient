@@ -78,6 +78,7 @@
     <string name="favourite">علاقمندی</string>
     <string name="commission">پورسانت</string>
     <string name="my_club">باشگاه</string>
+    <string name="cart_iran">ایران کارت</string>
 
     <!--متون مربوط منوی اصلی-->
     <string name="more">بیشتر</string>
@@ -307,11 +308,13 @@
 
     <!--متون مرتبط با پوستر-->
     <string name="poster_cost">هزینه پوستر</string>
+    <string name="paid_poster_cost">پرداختی های پوستر تاکنون</string>
     <string name="type_poster">نوع پوستر</string>
     <string name="priority">اولویت</string>
     <string name="expire_date">تاریخ انقضا</string>
     <string name="always_on_top">همیشه در بالا</string>
     <string name="extended">تمدید</string>
+    <string name="select_poster">انتخاب پوستر</string>
     <string name="my_posters">پوسترهای من</string>
     <string name="expire">منقضی شده</string>
     <string name="edit">ویرایش</string>
@@ -323,7 +326,8 @@
     <string name="buy">خرید</string>
     <string name="hours">ساعت</string>
     <string name="are_you_sure_you_want_to_extended_a_poster">آیا از تمدید پوستر مطمئن هستید؟</string>
-    <string name="choose_one_of_your_businesses">یکی از کسب و کارهای خود را انتخاب کنید</string>
+    <string name="choose_one_of_your_businesses">کسب و کارهای خود را جهت خرید پوستر انتخاب کنید</string>
+    <string name="select_businesses">لطفا کسب و کارهای خود را انتخاب کنید</string>
     <string name="specify_days_or_hours">روز یا ساعت را مشخص کنید.</string>
     <string name="receiving_this_prize_is_not_tailored_to_your_business">دریافت این جایزه متناسب با کسب و کار شما نمی باشد.</string>
 
@@ -341,6 +345,12 @@
     <string name="consumer_credit_per_hour">اعتبار مصرفی به ازای هر ساعت</string>
     <string name="payment_credit">اعتبار قابل پرداخت</string>
     <string name="poster_list_is_empty">لیست پوستر ها خالی است</string>
+    <string name="selector_business_buy_poster"> انتخاب کسب و کار برای خرید پوستر</string>
+    <string name="selector_business_for_income"> انتخاب کسب و کار برای مشاهده درآمد</string>
+    <string name="selector_business"> انتخاب کسب و کار </string>
+    <string name="my_business"> کسب و کارهای شما</string>
+    <string name="selector_business_for_buy_poster">مشخص نمایید این پوستر مربوط به کدام کسب و کار می باشد.</string>
+    <string name="selector_business_for_visit_income">مشخص نمایید درآمد مربوط به کدام کسب و کار را میخواهید مشاهده کنید.</string>
 
     <!--متون مرتبط با پکیج ها-->
     <string name="credit_price">اعتبار دریافتی</string>
@@ -545,7 +555,7 @@
     <!--متون مرتبط با  تجارت-->
     <string name="discounts_and_income">تخفیف و درآمد</string>
     <string name="commerce">تجارت</string>
-    <string name="get_discounts">دریافت تخفیفات</string>
+    <string name="get_discounts">تخفیفات مشتری</string>
     <string name="income_from_business">درآمد از کسب و کار</string>
     <string name="marketing_and_Business_income">بازاریابی و کسب و درآمد</string>
     <string name="details_discount">جزئیات تخفیف</string>

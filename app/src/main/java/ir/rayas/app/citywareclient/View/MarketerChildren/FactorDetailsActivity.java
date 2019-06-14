@@ -17,6 +17,7 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.Marketing_CustomerFactorDetailsViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.Marketing_CustomerFactorViewModel;
 
@@ -34,6 +35,14 @@ public class FactorDetailsActivity extends BaseActivity {
         setCurrentActivityId(ActivityIdList.FACTORE_DETAILS_ACTIVITY);
 
         FactorDetails = getIntent().getExtras().getString("FactureDetails");
+
+        //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
+        InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
+            @Override
+            public void call() {
+
+            }
+        }, R.string.details_factor);
 
         //ایجاد طرح بندی صفحه
         CreateLayout();

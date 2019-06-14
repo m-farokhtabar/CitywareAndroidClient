@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 
 import ir.rayas.app.citywareclient.View.Fragment.Poster.BuyPosterTypeFragment;
@@ -43,6 +44,18 @@ public class BuyPosterTypeActivity extends BaseActivity {
 
     public void setHours(int hours) {
         Hours = hours;
+    }
+
+
+    public String BusinessName = null;
+    public Integer BusinessId = null;
+
+    public String getBusinessName() {
+        return BusinessName;
+    }
+
+    public Integer getBusinessId() {
+        return BusinessId;
     }
 
     @Override
@@ -94,6 +107,22 @@ public class BuyPosterTypeActivity extends BaseActivity {
                 // getLoadDataByIndex(FragmentIndex).LoadData();
                 break;
         }
+    }
+
+    @Override
+    protected void onGetResult(ActivityResult Result) {
+        if (Result.getFromActivityId() == getCurrentActivityId()) {
+            switch (Result.getToActivityId()) {
+                case ActivityIdList.USER_BUSINESS_LIST_ACTIVITY:
+                    BusinessId = (int)Result.getData().get("BusinessId");
+                    String BusinessName = (String)Result.getData().get("BusinessName");
+
+                    BuyPosterTypeFragment buyPosterTypeFragment = new BuyPosterTypeFragment();
+                   // buyPosterTypeFragment.SetBusinessNameToButton(BusinessName,BusinessId);
+                    break;
+         }
+        }
+        super.onGetResult(Result);
     }
 
     @Override

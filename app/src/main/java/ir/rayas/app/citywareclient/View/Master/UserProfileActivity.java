@@ -1,5 +1,6 @@
 package ir.rayas.app.citywareclient.View.Master;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -15,9 +16,11 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserAddressFragment;
 import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserBusinessFragment;
+import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPackageFragment;
 import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPosterFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
@@ -27,6 +30,17 @@ public class UserProfileActivity extends BaseActivity {
     private AccountRepository AccountRepository = null;
     private int RetryType = 0;
     private int FragmentIndex = 0;
+
+    private boolean IsLoadPoster = false;
+    private boolean IsLoadPackage = false;
+
+    public void setLoadPoster(boolean loadPoster) {
+        IsLoadPoster = loadPoster;
+    }
+
+    public void setLoadPackage(boolean loadPackage) {
+        IsLoadPackage = loadPackage;
+    }
 
     /**
      * ثبت اطلعات یک
@@ -136,22 +150,61 @@ public class UserProfileActivity extends BaseActivity {
                 case ActivityIdList.BUSINESS_SET_ACTIVITY:
                     BusinessViewModel ViewModelBusiness = (BusinessViewModel) Result.getData().get("BusinessViewModel");
                     if ((boolean) Result.getData().get("IsAdd")) {
-                            ((UserBusinessFragment) Pager.getFragmentByIndex(2)).getBusinessListRecyclerViewAdapter().AddViewModel(ViewModelBusiness);
+                        ((UserBusinessFragment) Pager.getFragmentByIndex(2)).getBusinessListRecyclerViewAdapter().AddViewModel(ViewModelBusiness);
                     } else {
-                            ((UserBusinessFragment) Pager.getFragmentByIndex(2)).getBusinessListRecyclerViewAdapter().SetViewModel(ViewModelBusiness);
+                        ((UserBusinessFragment) Pager.getFragmentByIndex(2)).getBusinessListRecyclerViewAdapter().SetViewModel(ViewModelBusiness);
+                    }
+                    break;
+
+                case ActivityIdList.POSTER_TYPE_ACTIVITY:
+                    PurchasedPosterViewModel purchasedPosterViewModel = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
+                    if ((boolean) Result.getData().get("IsAdd")) {
+                        SetViewUserCredit((double) Result.getData().get("TotalPrice"), purchasedPosterViewModel, false);
+                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().AddViewModel(purchasedPosterViewModel);
+                    } else {
+                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModel);
+                    }
+                    break;
+
+                case ActivityIdList.PACKAGE_ACTIVITY:
+                    OutputPackageTransactionViewModel outputPackageTransactionViewModel = (OutputPackageTransactionViewModel) Result.getData().get("OutputPackageTransactionViewModel");
+                    if ((boolean) Result.getData().get("IsAdd")) {
+                        SetViewUserCreditPackage((double) Result.getData().get("TotalPrice"));
+                        ((UserPackageFragment) Pager.getFragmentByIndex(1)).getPackageRecyclerViewAdapter().AddViewModel(outputPackageTransactionViewModel);
                     }
                     break;
 
                 case ActivityIdList.BUY_POSTER_SET_ACTIVITY:
-                    PurchasedPosterViewModel purchasedPosterViewModel = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
-                    if ((boolean) Result.getData().get("IsAdd"))
-                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().AddViewModel(purchasedPosterViewModel);
-                    else
-                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModel);
+                    PurchasedPosterViewModel purchasedPosterViewModels = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
+                    ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModels);
+
                     break;
+
             }
         }
         super.onGetResult(Result);
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void SetViewUserCredit(double Price, PurchasedPosterViewModel ViewModel, boolean IsSet) {
+
+        ((UserPosterFragment) Pager.getFragmentByIndex(0)).SetViewUserCredit(Price, true);
+
+        if (IsLoadPackage)
+            ((UserPackageFragment) Pager.getFragmentByIndex(1)).SetViewUserCreditPackage(Price, false);
+
+        if (IsSet)
+            ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(ViewModel);
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void SetViewUserCreditPackage(double Price) {
+
+        ((UserPackageFragment) Pager.getFragmentByIndex(1)).SetViewUserCreditPackage(Price, true);
+
+        if (IsLoadPoster)
+            ((UserPosterFragment) Pager.getFragmentByIndex(0)).SetViewUserCredit(Price, false);
+
     }
 
     @Override

@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="@string/toman"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/FontSemiDarkThemeColor"
                     tools:ignore="RtlHardcoded" />
 
@@ -39,7 +39,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
                     android:gravity="center"
-                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/FontSemiDarkThemeColor"
                     android:textStyle="bold" />
 

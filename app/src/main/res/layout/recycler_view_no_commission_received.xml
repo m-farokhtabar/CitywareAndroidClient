@@ -33,7 +33,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="right"
                 android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/FontSemiDarkThemeColor"
                 tools:ignore="RtlHardcoded" />
         </RelativeLayout>

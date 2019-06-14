@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.View.Fragment.UserProfile;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -53,6 +54,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     private int PageNumberExpire = 1;
 
     private boolean IsFirst = false;
+    private double UserCredit = 0;
 
     public PosterValidRecyclerViewAdapter getPosterValidRecyclerViewAdapter() {
         return posterValidRecyclerViewAdapter;
@@ -163,6 +165,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         if (!IsSwipe)
             if (PageNumberValid == 1)
                 Context.ShowLoadingProgressBar();
+
+        Context.setLoadPoster(true);
 
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
@@ -295,8 +299,10 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
                     LoadDataValidPoster();
 
                     if (FeedBack.getValue() != null) {
-                        UserCreditTextViewUserPostersFragment.setText(Utility.GetIntegerNumberWithComma(FeedBack.getValue()));
+                        UserCredit = FeedBack.getValue();
+                        UserCreditTextViewUserPostersFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
                     } else {
+                        UserCredit = 0;
                         UserCreditTextViewUserPostersFragment.setText(Context.getResources().getString(R.string.zero));
                     }
 
@@ -314,6 +320,17 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    public void SetViewUserCredit(double Price,boolean IsPoster) {
+       if ( IsPoster) {
+           UserCredit = UserCredit - Price;
+       }else {
+           UserCredit = UserCredit + Price;
+       }
+
+        UserCreditTextViewUserPostersFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
+
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

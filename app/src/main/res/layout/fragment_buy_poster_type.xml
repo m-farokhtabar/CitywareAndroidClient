@@ -41,7 +41,7 @@
             android:layout_marginRight="16dp"
             android:gravity="center_vertical"
             android:text="@string/credit_now"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
 
@@ -73,7 +73,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="16dp"
             android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/FontSemiDarkThemeColor" />
 
     </LinearLayout>
@@ -126,20 +126,27 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/Line2FrameLayout"
+    <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+        android:id="@+id/SelectBusinessButtonBuyPosterTypeFragment"
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@+id/LinearPriceDialogBuyPosterTypeBuyPosterTypeFragment"
-        android:layout_margin="10dp"
-        android:background="@color/LineTopColor" />
+        android:background="@drawable/selector_button_theme_style"
+        android:text="@string/selector_business_buy_poster"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/FontWhiteColor"
+        android:textStyle="bold" />
 
 
     <LinearLayout
         android:id="@+id/LinearLayoutDayHoursPickerBuyPosterTypeFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Line2FrameLayout"
+        android:layout_below="@+id/SelectBusinessButtonBuyPosterTypeFragment"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"
@@ -248,6 +255,8 @@
     </LinearLayout>
 
 
+
+
     <LinearLayout
         android:id="@+id/ReturnAndNextLinearLayoutBuyPosterTypeFragment"
         android:layout_width="match_parent"
@@ -265,7 +274,7 @@
             android:layout_marginRight="4dp"
             android:layout_weight="0.5"
             android:background="@drawable/selector_button_green_style"
-            android:text="@string/continue_shopping_process"
+            android:text="@string/buy_poster"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/FontWhiteColor"
             android:textStyle="bold" />

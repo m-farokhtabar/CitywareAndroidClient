@@ -351,7 +351,6 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
      */
     private void SendDataToParentActivity(PurchasedPosterViewModel ViewModel) {
         HashMap<String, Object> Output = new HashMap<>();
-        Output.put("IsAdd", false);
         Output.put("PurchasedPosterViewModel", ViewModel);
         ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
     }

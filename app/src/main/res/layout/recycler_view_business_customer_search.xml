@@ -34,7 +34,7 @@
                 android:layout_toStartOf="@+id/FullNameTitleTextView"
                 android:layout_marginRight="8dp"
                 android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/FontSemiDarkThemeColor"
                 tools:ignore="RtlHardcoded" />
 

@@ -80,7 +80,13 @@ public class UserPrizeActivity extends BaseActivity implements IResponseService,
         TextViewPersian RemainingPointTextViewUserPrizeActivity = findViewById(R.id.RemainingPointTextViewUserPrizeActivity);
 
         ShowEmptyUserPrizeTextViewUserPrizeActivity.setVisibility(View.GONE);
-        RemainingPointTextViewUserPrizeActivity.setText(String.valueOf((int)Math.round(MyPoint)));
+
+        if (MyPoint == null) {
+            MyPoint = 0.0;
+            RemainingPointTextViewUserPrizeActivity.setText(String.valueOf((int) Math.round(MyPoint)));
+        } else {
+            RemainingPointTextViewUserPrizeActivity.setText(String.valueOf((int) Math.round(MyPoint)));
+        }
 
         UserPrizeRecyclerViewUserPrizeActivity = findViewById(R.id.UserPrizeRecyclerViewUserPrizeActivity);
         UserPrizeRecyclerViewUserPrizeActivity.setHasFixedSize(true);
@@ -139,8 +145,8 @@ public class UserPrizeActivity extends BaseActivity implements IResponseService,
                             Point = Point + ViewModelList.get(i).getPoint();
                         }
 
-                        PointsSpentTextViewUserPrizeActivity.setText(String.valueOf((int)Math.round(Point)));
-                        MyPointTextViewUserPrizeActivity.setText(String.valueOf((int)Math.round(Point + MyPoint)));
+                        PointsSpentTextViewUserPrizeActivity.setText(String.valueOf((int) Math.round(Point)));
+                        MyPointTextViewUserPrizeActivity.setText(String.valueOf((int) Math.round(Point + MyPoint)));
 
                     } else {
                         ShowEmptyUserPrizeTextViewUserPrizeActivity.setVisibility(View.VISIBLE);

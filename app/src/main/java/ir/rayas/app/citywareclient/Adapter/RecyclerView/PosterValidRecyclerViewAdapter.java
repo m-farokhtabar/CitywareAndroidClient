@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
@@ -35,6 +36,7 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.BuyPosterSetActivity;
 import ir.rayas.app.citywareclient.ViewModel.Poster.ExtendBuyPosterViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Poster.PosterTypeViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 
 
@@ -47,6 +49,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     private int Hours = 0;
     private int Day = 0;
     private double TotalPrice = 0.0;
+    private double Price = 0.0;
 
     private int Position = 0;
 
@@ -59,6 +62,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         this.Context = Context;
         this.Container = Container;
     }
+
     /**
      * اضافه مودن لیست جدید
      *
@@ -73,6 +77,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             Container.invalidate();
         }
     }
+
     /**
      * جایگزین نمودن لیست جدید
      *
@@ -84,6 +89,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         notifyDataSetChanged();
         Container.invalidate();
     }
+
     /**
      * اضافه مودن یک آدرس جدید به لیست
      *
@@ -98,17 +104,20 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             Container.invalidate();
         }
     }
+
     /**
      * ویرایش اطلاعات یک پوستر در لیست
+     *
      * @param ViewModel
      */
-    public void SetViewModel(PurchasedPosterViewModel ViewModel)
-    {
-        if (ViewModel!=null && ViewModelList!=null && ViewModelList.size()>0) {
+    public void SetViewModel(PurchasedPosterViewModel ViewModel) {
+        if (ViewModel != null && ViewModelList != null && ViewModelList.size() > 0) {
             for (PurchasedPosterViewModel Item : ViewModelList) {
                 if (Item.getId() == ViewModel.getId()) {
                     Item.setTitle(ViewModel.getTitle());
                     Item.setImagePathUrl(ViewModel.getImagePathUrl());
+                    Item.setExpireDate(ViewModel.getExpireDate());
+                    Item.setPosterPrice(ViewModel.getPosterPrice());
 
                 }
             }
@@ -161,8 +170,8 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             public void onClick(View view) {
                 Context.ShowLoadingProgressBar();
                 Position = position;
-                PackageService packageService = new PackageService(PosterValidRecyclerViewAdapter.this);
-                packageService.GetUserCredit();
+                PosterService PosterService = new PosterService(PosterValidRecyclerViewAdapter.this);
+                PosterService.GetPosterType(ViewModelList.get(position).getPosterTypeId());
             }
         });
 
@@ -220,14 +229,14 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
      */
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        Context.HideLoading();
+
         try {
             if (ServiceMethod == ServiceMethodType.UserCreditGet) {
                 Feedback<Double> FeedBack = (Feedback<Double>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                    Context.HideLoading();
                     if (FeedBack.getValue() != null) {
-
                         ShowDialogExtendedPosterType(ViewModelList.get(Position), FeedBack.getValue());
                     } else {
                         ShowDialogExtendedPosterType(ViewModelList.get(Position), 0);
@@ -241,15 +250,39 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 }
             } else if (ServiceMethod == ServiceMethodType.ExtendPosterEdit) {
                 Feedback<PurchasedPosterViewModel> FeedBack = (Feedback<PurchasedPosterViewModel>) Data;
-
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                Context.HideLoading();
+                if (FeedBack.getStatus() == FeedbackType.UpdatedSuccessful.getId()) {
 
                     if (FeedBack.getValue() != null) {
-                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+
+                        Context.SetViewUserCredit(TotalPrice,FeedBack.getValue(),true);
+                        TotalPrice = 0;
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        Context.ShowErrorInConnectDialog();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.PosterTypeGet) {
+
+                Feedback<PosterTypeViewModel> FeedBack = (Feedback<PosterTypeViewModel>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                    Static.IsRefreshBookmark = false;
+
+                    PosterTypeViewModel ViewModelList = FeedBack.getValue();
+                    if (ViewModelList != null) {
+                        Price = ViewModelList.getPrice();
+                        PackageService packageService = new PackageService(PosterValidRecyclerViewAdapter.this);
+                        packageService.GetUserCredit();
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        if (!(FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())) {
+                            Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                        }
                     } else {
                         Context.ShowErrorInConnectDialog();
                     }
@@ -344,7 +377,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             Line1FrameLayout.setVisibility(View.VISIBLE);
             PosterTypeTextView.setText(ViewModel.getTitle());
         }
-        priceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModel.getPosterPrice()));
+        priceTextView.setText(Utility.GetIntegerNumberWithComma(Price));
         YourCreditTextView.setText(Utility.GetIntegerNumberWithComma(UserCredit));
         TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
 
@@ -364,7 +397,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             public void onValueChange(NumberPicker numberPicker, int i, int newDay) {
                 Day = newDay;
                 double ConvertToHours = Day * 24;
-                PriceDay[0] = ConvertToHours * ViewModel.getPosterPrice();
+                PriceDay[0] = ConvertToHours * Price;
                 TotalPrice = PriceHours[0] + PriceDay[0];
                 TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
             }
@@ -374,7 +407,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int newHours) {
                 Hours = newHours;
-                PriceHours[0] = Hours * ViewModel.getPosterPrice();
+                PriceHours[0] = Hours * Price;
                 TotalPrice = PriceDay[0] + PriceHours[0];
                 TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
             }
@@ -389,13 +422,14 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 } else {
                     Context.ShowLoadingProgressBar();
                     PosterService PosterService = new PosterService(PosterValidRecyclerViewAdapter.this);
-                    PosterService.EditExtendPoster(MadeViewModel(Day + Hours));
+                    PosterService.EditExtendPoster(MadeViewModel((Day*24) + Hours));
 
                     ExtendedPosterTypeDialog.dismiss();
 
-                    TotalPrice = 0;
+
                     Day = 0;
                     Hours = 0;
+                    Price = 0;
 
                     HoursNumberPicker.setValue(0);
                     DayNumberPicker.setValue(0);

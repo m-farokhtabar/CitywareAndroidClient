@@ -11,6 +11,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.MasterChildren.DiscountActivity;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowMarketerCommissionDetailsActivity;
 import ir.rayas.app.citywareclient.View.Share.UserBusinessListActivity;
 
@@ -68,6 +69,10 @@ public class CommerceActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent UserBusinessListIntent = NewIntent(UserBusinessListActivity.class);
+                UserBusinessListIntent.putExtra("Title", getResources().getString(R.string.selector_business_for_income));
+                UserBusinessListIntent.putExtra("Description", getResources().getString(R.string.selector_business_for_visit_income));
+                UserBusinessListIntent.putExtra("IsParent", false);
+                UserBusinessListIntent.putExtra("activityIdList", ActivityIdList.SHOW_BUSINESS_COMMISSION_ACTIVITY);
                 startActivity(UserBusinessListIntent);
             }
         });

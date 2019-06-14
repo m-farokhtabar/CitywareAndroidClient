@@ -1,9 +1,10 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -17,10 +18,11 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Enum.PriorityType;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.View.Fragment.Poster.PosterTypeDetailsFragment;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PosterTypeActivity;
-import ir.rayas.app.citywareclient.View.UserProfileChildren.PosterTypeDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PosterTypeViewModel;
 
 
@@ -111,13 +113,20 @@ public class PosterTypeRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             viewHolder.DimensionPosterTypeLinearLayout.setVisibility(View.VISIBLE);
         }
 
-        viewHolder.PosterTypeRelativeLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.SelectPosterTypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent PosterTypeDetailsIntent = Context.NewIntent(PosterTypeDetailsActivity.class);
-                PosterTypeDetailsIntent.putExtra("PosterTypeId", ViewModelList.get(position).getId());
-                PosterTypeDetailsIntent.putExtra("Id", ViewModelList.get(position).getId());
-                Context.startActivity(PosterTypeDetailsIntent);
+
+                PosterTypeDetailsFragment posterTypeDetailsFragment = new PosterTypeDetailsFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("PosterTypeId", ViewModelList.get(position).getId());
+                posterTypeDetailsFragment.setArguments(bundle);
+
+                FragmentTransaction BasketListTransaction = Context. getSupportFragmentManager().beginTransaction();
+                BasketListTransaction.replace(R.id.PosterFrameLayoutPosterTypeActivity,posterTypeDetailsFragment);
+                BasketListTransaction.addToBackStack(null);
+                BasketListTransaction.commit();
             }
         });
 
@@ -139,6 +148,7 @@ public class PosterTypeRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         LinearLayout PosterTypePriorityLinearLayout;
         SwitchCompat PosterTypeAlwaysOnTopSwitch;
         RelativeLayout PosterTypeRelativeLayout;
+        ButtonPersianView SelectPosterTypeButton;
 
 
         PosterTypeViewHolder(View v) {
@@ -151,6 +161,7 @@ public class PosterTypeRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             PosterTypePriorityLinearLayout = v.findViewById(R.id.PosterTypePriorityLinearLayout);
             DimensionPosterTypeLinearLayout = v.findViewById(R.id.DimensionPosterTypeLinearLayout);
             PosterTypeRelativeLayout = v.findViewById(R.id.PosterTypeRelativeLayout);
+            SelectPosterTypeButton = v.findViewById(R.id.SelectPosterTypeButton);
 
         }
     }

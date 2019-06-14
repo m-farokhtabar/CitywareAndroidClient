@@ -1,8 +1,8 @@
 package ir.rayas.app.citywareclient.ViewModel.Club;
 
-/**
- * Created by Hajar on 3/29/2019.
- */
+import ir.rayas.app.citywareclient.ViewModel.Package.OutPackageViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
+
 
 public class UserConsumePointViewModel {
 
@@ -22,6 +22,25 @@ public class UserConsumePointViewModel {
 
     //تاریخ دریافت جایزه
     private String Create;
+
+    private OutputPackageTransactionViewModel PackageTransaction;
+    private OutPackageViewModel Package;
+
+    public OutputPackageTransactionViewModel getPackageTransaction() {
+        return PackageTransaction;
+    }
+
+    public void setPackageTransaction(OutputPackageTransactionViewModel packageTransaction) {
+        PackageTransaction = packageTransaction;
+    }
+
+    public OutPackageViewModel getPackage() {
+        return Package;
+    }
+
+    public void setPackage(OutPackageViewModel aPackage) {
+        Package = aPackage;
+    }
 
     public int getId() {
         return Id;

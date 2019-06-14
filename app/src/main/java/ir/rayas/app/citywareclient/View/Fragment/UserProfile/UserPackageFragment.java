@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.View.Fragment.UserProfile;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -50,7 +51,11 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     private int PageNumberClose = 1;
 
     private boolean IsFirst = false;
+    private double UserCredit = 0;
 
+    public PackageRecyclerViewAdapter getPackageRecyclerViewAdapter() {
+        return packageRecyclerViewAdapter;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -161,6 +166,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
         if (!IsSwipe)
             if (PageNumberOpen == 1)
                 Context.ShowLoadingProgressBar();
+
+        Context.setLoadPackage(true);
 
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
@@ -294,8 +301,10 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                     LoadDataOpenPackage();
 
                     if (FeedBack.getValue() != null) {
-                        UserCreditTextViewUserPackageFragment.setText(Utility.GetIntegerNumberWithComma(FeedBack.getValue()));
+                        UserCredit =  FeedBack.getValue();
+                        UserCreditTextViewUserPackageFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
                     } else {
+                        UserCredit = 0;
                         UserCreditTextViewUserPackageFragment.setText(Context.getResources().getString(R.string.zero));
                     }
 
@@ -311,6 +320,16 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
             Context.HideLoading();
             Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void SetViewUserCreditPackage(double Price, boolean IsPackage) {
+       if (IsPackage) {
+           UserCredit = UserCredit + Price;
+       }else {
+           UserCredit = UserCredit - Price;
+       }
+        UserCreditTextViewUserPackageFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
     }
 
 

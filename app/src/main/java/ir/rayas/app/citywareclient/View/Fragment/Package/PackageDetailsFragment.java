@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
+import java.util.HashMap;
+
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
@@ -24,6 +26,8 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
@@ -32,6 +36,7 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Club.RequestPrizeViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Club.UserConsumePointViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.PackageDetailsViewModel;
 
 public class PackageDetailsFragment extends Fragment implements IResponseService {
@@ -62,6 +67,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
 
     private String PackageName = "";
     private int Point = 0;
+    private double CreditPrice = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -197,7 +203,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
 
                     UserConsumePointViewModel ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
-                        ShowMessageBuyPrizeDialog();
+                        ShowMessageBuyPrizeDialog(ViewModelList.getPackageTransaction());
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -225,7 +231,8 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
 
         PackageNameTextViewPackageDetailsFragment.setText(ViewModel.getTitle());
         AbstractDescriptionPackageTextViewPackageDetailsFragment.setText(ViewModel.getAbstractOfDescription());
-        PriceTextViewPackageDetailsFragment.setText(Utility.GetIntegerNumberWithComma((int) ViewModel.getCreditPrice()));
+        CreditPrice = ViewModel.getCreditPrice();
+        PriceTextViewPackageDetailsFragment.setText(Utility.GetIntegerNumberWithComma((int)CreditPrice));
 
         if (ViewModel.isCanPurchaseByPoint()) {
             BuyPackageByPointRelativeLayoutPackageDetailsFragment.setVisibility(View.VISIBLE);
@@ -378,7 +385,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
     }
 
 
-    private void ShowMessageBuyPrizeDialog() {
+    private void ShowMessageBuyPrizeDialog(final OutputPackageTransactionViewModel ViewModel) {
 
         final Dialog OkBuyPrizePackageDialog = new Dialog(Context);
         OkBuyPrizePackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -394,11 +401,24 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
             public void onClick(View v) {
                 OkBuyPrizePackageDialog.dismiss();
 
+                SendDataToParentActivity(ViewModel);
                 Context.onBackPressed();
             }
         });
 
         OkBuyPrizePackageDialog.show();
+    }
+
+    /**
+     * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
+     * @param ViewModel اطلاعات پوستر
+     */
+    private void SendDataToParentActivity(OutputPackageTransactionViewModel ViewModel) {
+        HashMap<String, Object> Output = new HashMap<>();
+        Output.put("IsAdd", true);
+        Output.put("TotalPrice", CreditPrice);
+        Output.put("OutputPackageTransactionViewModel", ViewModel);
+        ActivityResultPassing.Push(new ActivityResult(Context.getParentActivity(), Context.getCurrentActivityId(), Output));
     }
 
 }

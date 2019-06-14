@@ -1,5 +1,7 @@
 package ir.rayas.app.citywareclient.View.Share;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserBusinessListRecyclerViewAdapter;
@@ -18,18 +21,36 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
+import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowMarketerCommissionDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 
 public class UserBusinessListActivity extends BaseActivity implements IResponseService {
 
-    private RecyclerView BusinessListRecyclerViewUserBusinessListActivity = null;
     private TextViewPersian ShowEmptyBusinessListTextViewUserBusinessListActivity = null;
-    private SwipeRefreshLayout RefreshBusinessListSwipeRefreshLayoutUserBusinessListActivity;
+    private SwipeRefreshLayout RefreshBusinessListSwipeRefreshLayoutUserBusinessListActivity = null;
+    private RecyclerView businessListRecyclerViewUserBusinessListActivity = null;
 
     private boolean IsSwipe = false;
+    private boolean IsParent = false;
+
+    private String Title = "";
+    private String Description = "";
+    private String BusinessName = "";
+    private int BusinessId = 0;
+    private int activityIdList = 0;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +65,16 @@ public class UserBusinessListActivity extends BaseActivity implements IResponseS
             public void call() {
                 RetryButtonOnClick();
             }
-        }, R.string.business);
+        }, R.string.my_business);
+
+        Title = getIntent().getExtras().getString("Title");
+        Description = getIntent().getExtras().getString("Description");
+        IsParent = getIntent().getExtras().getBoolean("IsParent");
+
+        if (!IsParent) {
+            activityIdList = getIntent().getExtras().getInt("activityIdList");
+        }
+
 
         //ایجاد طرحبندی صفحه
         CreateLayout();
@@ -72,21 +102,28 @@ public class UserBusinessListActivity extends BaseActivity implements IResponseS
     }
 
 
-
     /**
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout() {
         ShowEmptyBusinessListTextViewUserBusinessListActivity = findViewById(R.id.ShowEmptyBusinessListTextViewUserBusinessListActivity);
         RefreshBusinessListSwipeRefreshLayoutUserBusinessListActivity = findViewById(R.id.RefreshBusinessListSwipeRefreshLayoutUserBusinessListActivity);
-        BusinessListRecyclerViewUserBusinessListActivity = findViewById(R.id.BusinessListRecyclerViewUserBusinessListActivity);
-        BusinessListRecyclerViewUserBusinessListActivity.setHasFixedSize(true);
+        TextViewPersian TitleTextViewUserBusinessListActivity = findViewById(R.id.TitleTextViewUserBusinessListActivity);
+        TextViewPersian DescriptionTextViewUserBusinessListActivity = findViewById(R.id.DescriptionTextViewUserBusinessListActivity);
+        ButtonPersianView selectBusinessButtonUserBusinessListActivity = findViewById(R.id.SelectBusinessButtonUserBusinessListActivity);
+
+        TitleTextViewUserBusinessListActivity.setTypeface(Font.MasterLightFont);
+        TitleTextViewUserBusinessListActivity.setText(Title);
+        DescriptionTextViewUserBusinessListActivity.setText(Description);
+        ShowEmptyBusinessListTextViewUserBusinessListActivity.setVisibility(View.GONE);
+
+
+        businessListRecyclerViewUserBusinessListActivity = findViewById(R.id.BusinessListRecyclerViewUserBusinessListActivity);
+        businessListRecyclerViewUserBusinessListActivity.setHasFixedSize(true);
         //به دلیل اینکه من در هر سطر یک گزینه نیاز دارم
         LinearLayoutManager BusinessLinearLayoutManager = new LinearLayoutManager(this);
-        BusinessListRecyclerViewUserBusinessListActivity.setLayoutManager(BusinessLinearLayoutManager);
+        businessListRecyclerViewUserBusinessListActivity.setLayoutManager(BusinessLinearLayoutManager);
 
-
-        ShowEmptyBusinessListTextViewUserBusinessListActivity.setVisibility(View.GONE);
 
         RefreshBusinessListSwipeRefreshLayoutUserBusinessListActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -96,7 +133,43 @@ public class UserBusinessListActivity extends BaseActivity implements IResponseS
 
             }
         });
+
+        selectBusinessButtonUserBusinessListActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SelectBusinessButtonClick();
+            }
+        });
     }
+
+
+    private void SelectBusinessButtonClick() {
+        if (BusinessId != 0) {
+            if (IsParent) {
+                HashMap<String, Object> Output = new HashMap<>();
+                Output.put("BusinessId", BusinessId);
+                Output.put("BusinessName", BusinessName);
+                ActivityResultPassing.Push(new ActivityResult(getIntent().getIntExtra("FromActivityId", -1), getCurrentActivityId(), Output));
+
+                FinishCurrentActivity();
+            }  else {
+                if (activityIdList == 55){
+                    Intent ShowBusinessCommissionIntent = NewIntent(ShowBusinessCommissionActivity.class);
+                    ShowBusinessCommissionIntent.putExtra("BusinessName",BusinessName);
+                    startActivity(ShowBusinessCommissionIntent);
+                   finish();
+                }
+            }
+        } else {
+            ShowToast(getResources().getString(R.string.select_businesses), Toast.LENGTH_SHORT, MessageType.Warning);
+        }
+    }
+
+    public void SetBusinessNameToButton(String businessName, int businessId) {
+        BusinessId = businessId;
+        BusinessName = businessName;
+    }
+
 
     /**
      * @param Data
@@ -118,11 +191,12 @@ public class UserBusinessListActivity extends BaseActivity implements IResponseS
                     if (ViewModel != null) {
                         ShowEmptyBusinessListTextViewUserBusinessListActivity.setVisibility(View.GONE);
 
+
                         //تنظیمات مربوط به recycle کسب و کار
-                        UserBusinessListRecyclerViewAdapter userBusinessListRecyclerViewAdapter = new UserBusinessListRecyclerViewAdapter(UserBusinessListActivity.this, ViewModel);
-                        BusinessListRecyclerViewUserBusinessListActivity.setAdapter(userBusinessListRecyclerViewAdapter);
-                        userBusinessListRecyclerViewAdapter.notifyDataSetChanged();
-                        BusinessListRecyclerViewUserBusinessListActivity.invalidate();
+                        UserBusinessListRecyclerViewAdapter userBusinessListRecyclerViewAdapter = new UserBusinessListRecyclerViewAdapter(UserBusinessListActivity.this, ViewModel, businessListRecyclerViewUserBusinessListActivity);
+                        businessListRecyclerViewUserBusinessListActivity.setAdapter(userBusinessListRecyclerViewAdapter);
+
+
                     } else {
                         ShowEmptyBusinessListTextViewUserBusinessListActivity.setVisibility(View.VISIBLE);
                     }

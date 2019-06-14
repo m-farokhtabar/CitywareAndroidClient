@@ -8,11 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Share.UserSearchActivity;
 import ir.rayas.app.citywareclient.ViewModel.Search.OutUserSearchViewModel;
@@ -87,8 +92,8 @@ public class UserSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         viewHolder.UserNameRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context.setUserId(ViewModelList.get(position).getId());
-                Context.setUserName(UserName);
+
+                OnGetUserIdFloatingActionButtonClick(ViewModelList.get(position).getId(),UserName);
 
             }
         });
@@ -115,6 +120,20 @@ public class UserSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
         }
 
+    }
+
+    private void OnGetUserIdFloatingActionButtonClick(int UserId, String UserName) {
+        if (UserId > 0) {
+            if (Context.getIntent().getIntExtra("FromActivityId", -1) > -1) {
+                HashMap<String, Object> Output = new HashMap<>();
+                Output.put("UserName", UserName);
+                Output.put("UserId", UserId);
+                ActivityResultPassing.Push(new ActivityResult(Context.getIntent().getIntExtra("FromActivityId", -1), Context.getCurrentActivityId(), Output));
+            }
+            Context.FinishCurrentActivity();
+        } else {
+            Context.ShowToast(Context.getResources().getString(R.string.please_enter_user_selection), Toast.LENGTH_LONG, MessageType.Warning);
+        }
     }
 
 

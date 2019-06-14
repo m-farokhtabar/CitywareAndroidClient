@@ -12,8 +12,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -38,6 +36,8 @@ import ir.rayas.app.citywareclient.Adapter.RecyclerView.IsTopPosterRecyclerViewA
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
+import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Home.HomeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.QueryType;
@@ -78,6 +78,12 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private TextView LineBookmarkTextViewMainActivity = null;
     private RecyclerView businessPosterInfoRecyclerViewMainActivity = null;
     private RecyclerView BusinessPosterInfoBookmarkRecyclerViewMainActivity = null;
+    private RelativeLayout MenuRelativeLayoutMainActivity = null;
+    private CardView MenuCardViewMainActivity = null;
+    private TextViewPersian CategoryNameTextViewMainActivity = null;
+    private TextViewPersian AllCategoryTextViewMainActivity = null;
+    private TextViewPersian RegionNameTextViewMainActivity = null;
+    private TextViewPersian RegionAllTextViewMainActivity = null;
     private FrameLayout Line = null;
 
     private int PageNumber = 1;
@@ -98,6 +104,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     private boolean IsFirst = false;
 
+    private RegionRepository regionRepository = new RegionRepository();
+    private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +146,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     // اولین بار که صفحه لود میشود و تمام سرویس ها فراخوانی می شود
     private void LoadData() {
+
         ShowLoadingProgressBar();
 
         HomeService homeService = new HomeService(MainActivity.this);
@@ -169,19 +178,24 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void CreateLayout() {
-        Display display = getWindowManager().getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        final int height = metrics.heightPixels;
-
-        int c = height - (3 * 168) + 30;
-
-        final CardView MenuCardViewMainActivity = findViewById(R.id.MenuCardViewMainActivity);
+        RelativeLayout MenuClickRelativeLayoutMainActivity = findViewById(R.id.MenuClickRelativeLayoutMainActivity);
+        MenuCardViewMainActivity = findViewById(R.id.MenuCardViewMainActivity);
         FloatingActionButton MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity = findViewById(R.id.MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity);
-        final RelativeLayout MenuRelativeLayoutMainActivity = findViewById(R.id.MenuRelativeLayoutMainActivity);
+        MenuRelativeLayoutMainActivity = findViewById(R.id.MenuRelativeLayoutMainActivity);
+        CategoryNameTextViewMainActivity = findViewById(R.id.CategoryNameTextViewMainActivity);
+        AllCategoryTextViewMainActivity = findViewById(R.id.AllCategoryTextViewMainActivity);
+        RegionNameTextViewMainActivity = findViewById(R.id.RegionNameTextViewMainActivity);
+        RegionAllTextViewMainActivity = findViewById(R.id.RegionAllTextViewMainActivity);
 
-        final ObjectAnimator ObjectAnimator1 = ObjectAnimator.ofFloat(MenuCardViewMainActivity, "y", c);
-        final ObjectAnimator ObjectAnimator2 = ObjectAnimator.ofFloat(MenuCardViewMainActivity, "y", height);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ObjectAnimator animator = ObjectAnimator.ofFloat(MenuCardViewMainActivity, "y", MenuRelativeLayoutMainActivity.getHeight()).setDuration(2000);
+                animator.start();
+                MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
+            }
+        }, 500);
 
         MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,8 +203,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
                 MenuRelativeLayoutMainActivity.setVisibility(View.VISIBLE);
 
-                ObjectAnimator1.setDuration(2000);
-                ObjectAnimator1.start();
+                int TargetY = MenuRelativeLayoutMainActivity.getHeight() - MenuCardViewMainActivity.getLayoutParams().height;
+                ObjectAnimator animator = ObjectAnimator.ofFloat(MenuCardViewMainActivity, "y", MenuRelativeLayoutMainActivity.getHeight(), TargetY + 20).setDuration(2000);
+                animator.start();
 
             }
         });
@@ -199,8 +214,24 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             @Override
             public void onClick(View view) {
 
-                ObjectAnimator2.setDuration(2000);
-                ObjectAnimator2.start();
+                ObjectAnimator animator = ObjectAnimator.ofFloat(MenuCardViewMainActivity, "y", MenuRelativeLayoutMainActivity.getHeight()).setDuration(2000);
+                animator.start();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
+                    }
+                }, 2000);
+            }
+        });
+
+        MenuClickRelativeLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ObjectAnimator animator = ObjectAnimator.ofFloat(MenuCardViewMainActivity, "y", MenuRelativeLayoutMainActivity.getHeight()).setDuration(2000);
+                animator.start();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -400,13 +431,16 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
                 RegionAllRadioButtonMainActivity.setChecked(true);
                 RegionRadioButtonMainActivity.setChecked(false);
-                RegionRadioButtonMainActivity.setText(getResources().getString(R.string.region_name));
+//                RegionRadioButtonMainActivity.setText(getResources().getString(R.string.region_name));
+                RegionNameTextViewMainActivity.setText(getResources().getString(R.string.region_name));
                 ClickRegion = 0;
                 RegionId = null;
             } else {
                 RegionAllRadioButtonMainActivity.setChecked(false);
                 RegionRadioButtonMainActivity.setChecked(true);
-                RegionRadioButtonMainActivity.setText(userSettingViewModel.getRegionName());
+//                RegionRadioButtonMainActivity.setText(userSettingViewModel.getRegionName());
+
+                RegionNameTextViewMainActivity.setText( regionRepository.GetFullName(userSettingViewModel.getRegionId()));
                 ClickRegion = 1;
                 RegionId = userSettingViewModel.getRegionId();
             }
@@ -415,13 +449,16 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0) {
             CategoryAllRadioButtonMainActivity.setChecked(true);
             CategoryRadioButtonMainActivity.setChecked(false);
-            CategoryRadioButtonMainActivity.setText(getResources().getString(R.string.category_name));
+//            CategoryRadioButtonMainActivity.setText(getResources().getString(R.string.category_name));
+            CategoryNameTextViewMainActivity.setText(getResources().getString(R.string.category_name));
             ClickCategory = 0;
             BusinessCategoryId = null;
         } else {
             CategoryAllRadioButtonMainActivity.setChecked(false);
             CategoryRadioButtonMainActivity.setChecked(true);
-            CategoryRadioButtonMainActivity.setText(userSettingViewModel.getBusinessCategoryName());
+//            CategoryRadioButtonMainActivity.setText(userSettingViewModel.getBusinessCategoryName());
+
+            CategoryNameTextViewMainActivity.setText( businessCategoryRepository.GetFullName(userSettingViewModel.getBusinessCategoryId()));
             ClickCategory = 1;
             BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
         }

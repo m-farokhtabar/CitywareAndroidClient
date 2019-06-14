@@ -38,6 +38,7 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:text="@string/my_club"/>
     </android.support.v7.widget.LinearLayoutCompat>
+
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/ItemMenu4"
         android:layout_width="0dp"
@@ -69,6 +70,7 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:text="@string/commerce"/>
     </android.support.v7.widget.LinearLayoutCompat>
+
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/ItemMenu3"
         android:layout_width="0dp"
@@ -97,10 +99,11 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/my_profile"
+            android:text="@string/cart_iran"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:textColor="@color/FontGrayColor" />
     </android.support.v7.widget.LinearLayoutCompat>
+
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/ItemMenu2"
         android:layout_width="0dp"
@@ -132,6 +135,7 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:text="@string/search"/>
     </android.support.v7.widget.LinearLayoutCompat>
+
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/ItemMenu1"
         android:layout_width="0dp"

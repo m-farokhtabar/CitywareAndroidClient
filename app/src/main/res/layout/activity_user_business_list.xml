@@ -25,27 +25,65 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/BackToolBar">
 
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/BusinessListRecyclerViewUserBusinessListActivity"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
-                android:dividerHeight="0dp" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent">
 
-        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-            android:id="@+id/ShowEmptyBusinessListTextViewUserBusinessListActivity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:text="@string/no_business_for_showing_to_view"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="@color/FontSemiDarkThemeColor"
-            android:visibility="gone" />
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/TitleTextViewUserBusinessListActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="5dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/DescriptionTextViewUserBusinessListActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/TitleTextViewUserBusinessListActivity"
+                    android:layout_margin="5dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/BusinessListRecyclerViewUserBusinessListActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/SelectBusinessButtonUserBusinessListActivity"
+                    android:layout_below="@+id/DescriptionTextViewUserBusinessListActivity"
+                    android:scrollbars="vertical" />
+
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                    android:id="@+id/SelectBusinessButtonUserBusinessListActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/selector_button_theme_without_corner_and_shadow"
+                    android:text="@string/selector_business"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontWhiteColor" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/ShowEmptyBusinessListTextViewUserBusinessListActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="16dp"
+                    android:gravity="center"
+                    android:text="@string/no_business_for_showing_to_view"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/FontSemiDarkThemeColor"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
 
     </RelativeLayout>

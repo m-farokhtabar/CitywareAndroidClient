@@ -1,38 +1,98 @@
 package ir.rayas.app.citywareclient.View.UserProfileChildren;
 
-import android.support.v4.widget.SwipeRefreshLayout;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
-import java.util.List;
-
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.PosterTypeRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Service.IResponseService;
-import ir.rayas.app.citywareclient.Service.Package.PackageService;
-import ir.rayas.app.citywareclient.Service.Poster.PosterService;
-import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
-import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
-import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
-import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
-import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
-import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.Fragment.Poster.BuyPosterTypeFragment;
+import ir.rayas.app.citywareclient.View.Fragment.Poster.PosterTypeFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
-import ir.rayas.app.citywareclient.ViewModel.Poster.PosterTypeViewModel;
 
-public class PosterTypeActivity extends BaseActivity implements IResponseService {
+public class PosterTypeActivity extends BaseActivity {
 
-    private SwipeRefreshLayout RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity = null;
-    private TextViewPersian UserCreditTextViewPosterTypeActivity = null;
-    private PosterTypeRecyclerViewAdapter PosterTypeRecyclerViewAdapter = null;
+    private int RetryType = 0;
+    private int BusinessId = 0;
 
-    private int PageNumber = 1;
+    private int PosterTypeId;
+    private String PosterTypeName;
+    private String BusinessName;
+    private double PosterTypePrice;
+
+    private   int NewDay;
+    private  int NewHours;
+
+    public String getBusinessName() {
+        return BusinessName;
+    }
+
+    public int getBusinessId() {
+        return BusinessId;
+    }
+
+    public void setBusinessId(int businessId) {
+        BusinessId = businessId;
+    }
+
+    public void setBusinessName(String businessName) {
+        BusinessName = businessName;
+    }
+
+    public int getPosterTypeId() {
+        return PosterTypeId;
+    }
+
+    public void setPosterTypeId(int posterTypeId) {
+        PosterTypeId = posterTypeId;
+    }
+
+    public String getPosterTypeName() {
+        return PosterTypeName;
+    }
+
+    public void setPosterTypeName(String posterTypeName) {
+        PosterTypeName = posterTypeName;
+    }
+
+    public double getPosterTypePrice() {
+        return PosterTypePrice;
+    }
+
+    public void setPosterTypePrice(double posterTypePrice) {
+        PosterTypePrice = posterTypePrice;
+    }
+
+    public void setNewDay(int newDay) {
+        NewDay = newDay;
+    }
+
+    public void setNewHours(int newHours) {
+        NewHours = newHours;
+    }
+
+    public int getNewDay() {
+        return NewDay;
+    }
+
+    public int getNewHours() {
+        return NewHours;
+    }
+
+    /**
+     * ثبت اطلعات یک
+     * دریافت اطلاعات دو
+     *
+     * @param retryType
+     */
+    public void setRetryType(int retryType) {
+        RetryType = retryType;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,135 +107,62 @@ public class PosterTypeActivity extends BaseActivity implements IResponseService
             public void call() {
                 RetryButtonOnClick();
             }
-        }, R.string.poster_type);
+        }, R.string.buy_poster);
 
         //ایجاد طرحبندی صفحه
         CreateLayout();
 
-        LoadDataUserCredit();
     }
 
     /**
      * در صورتی که در ارتباط با اینترنت مشکلی بوجود آمده و کاربر دکمه تلاش مجدد را فشار داده است
      */
     private void RetryButtonOnClick() {
-        //دریافت اطلاعات
-        LoadDataUserCredit();
+        switch (RetryType) {
+            //ثبت اطلاعات
+            case 1:
+                HideLoading();
+                break;
+            //دریافت اطلاعات
+            case 2:
+                //getLoadDataByIndex(FragmentIndex).LoadData();
+                break;
+        }
     }
 
-    public void LoadDataUserCredit() {
-
-        ShowLoadingProgressBar();
-
-        PackageService packageService = new PackageService(this);
-        packageService.GetUserCredit();
-
-    }
-
-    /**
-     * دریافت اطلاعات نحوای جهت پر کردن Recycle
-     */
-    private void LoadData() {
-
-        PosterService PosterService = new PosterService(this);
-        PosterService.GetAllPosterType(PageNumber);
-    }
 
     /**
      * تنظیمات مربوط به رابط کاربری این فرم
      */
     private void CreateLayout() {
-        RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity = findViewById(R.id.RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity);
-        UserCreditTextViewPosterTypeActivity = findViewById(R.id.UserCreditTextViewPosterTypeActivity);
 
-        RecyclerView PosterTypeRecyclerViewPosterTypeActivity = findViewById(R.id.PosterTypeRecyclerViewPosterTypeActivity);
-        PosterTypeRecyclerViewPosterTypeActivity.setLayoutManager(new LinearLayoutManager(this));
-        PosterTypeRecyclerViewAdapter = new PosterTypeRecyclerViewAdapter(this, null, PosterTypeRecyclerViewPosterTypeActivity);
-        PosterTypeRecyclerViewPosterTypeActivity.setAdapter(PosterTypeRecyclerViewAdapter);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction PosterTypeTransaction = fragmentManager.beginTransaction();
+        PosterTypeTransaction.replace(R.id.PosterFrameLayoutPosterTypeActivity, new PosterTypeFragment());
+        PosterTypeTransaction.commit();
 
-        RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                PageNumber = 1;
-                LoadDataUserCredit();
-            }
-        });
     }
 
-    /**
-     * @param Data
-     * @param ServiceMethod
-     * @param <T>
-     */
+
+
     @Override
-    public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
+    protected void onGetResult(ActivityResult Result) {
+        if (Result.getFromActivityId() == getCurrentActivityId()) {
+            switch (Result.getToActivityId()) {
+                case ActivityIdList.USER_BUSINESS_LIST_ACTIVITY:
+                    BusinessId = (int)Result.getData().get("BusinessId");
+                    BusinessName = (String)Result.getData().get("BusinessName");
 
-        RefreshPosterTypeSwipeRefreshLayoutPosterTypeActivity.setRefreshing(false);
-        try {
-            if (ServiceMethod == ServiceMethodType.UserCreditGet) {
-                Feedback<Double> FeedBack = (Feedback<Double>) Data;
+                    FragmentTransaction BasketListTransaction = getSupportFragmentManager().beginTransaction();
+                    BasketListTransaction.replace(R.id.PosterFrameLayoutPosterTypeActivity, new BuyPosterTypeFragment());
+                    BasketListTransaction.commit();
 
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                    break;
 
-                    LoadData();
-
-                    if (FeedBack.getValue() != null) {
-                        UserCreditTextViewPosterTypeActivity.setText(Utility.GetIntegerNumberWithComma(FeedBack.getValue()));
-                    } else {
-                        UserCreditTextViewPosterTypeActivity.setText(getResources().getString(R.string.zero));
-                    }
-
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        ShowErrorInConnectDialog();
-                    }
-                }
-
-            } else if (ServiceMethod == ServiceMethodType.PosterTypeGetAll) {
-                HideLoading();
-                Feedback<List<PosterTypeViewModel>> FeedBack = (Feedback<List<PosterTypeViewModel>>) Data;
-
-
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-                    Static.IsRefreshBookmark = false;
-                    final List<PosterTypeViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null) {
-                        if (PageNumber == 1) {
-                            if (ViewModelList.size() > 0) {
-
-                                PosterTypeRecyclerViewAdapter.SetViewModelList(ViewModelList);
-
-                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
-                                    PageNumber = PageNumber + 1;
-                                    LoadData();
-                                }
-                            }
-
-                        } else {
-                            PosterTypeRecyclerViewAdapter.AddViewModelList(ViewModelList);
-
-                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
-                                PageNumber = PageNumber + 1;
-                                LoadData();
-                            }
-                        }
-                    }
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        ShowErrorInConnectDialog();
-                    }
-                }
             }
-        } catch (Exception e) {
-            HideLoading();
-            ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
+        super.onGetResult(Result);
     }
-
 
     @Override
     protected void onDestroy() {
