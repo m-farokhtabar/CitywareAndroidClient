@@ -82,8 +82,9 @@
             android:layout_below="@+id/HeaderPosterRelativeLayout"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
+            android:paddingBottom="8dp"
             android:layout_weight="1"
-            android:background="@color/BackgroundRedColorPrize"
+            android:background="@color/BackgroundLightRedColorPrize"
             android:orientation="horizontal"
             android:paddingTop="6dp"
             tools:ignore="DisableBaselineAlignment,ObsoleteLayoutParam">
@@ -162,48 +163,6 @@
                             android:textColor="@color/FontSemiBlackColor" />
                     </LinearLayout>
 
-                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:layout_gravity="right"
-                        android:text="@string/paid_poster_cost"
-                        android:singleLine="false"
-                        android:layout_marginTop="3dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/FontSemiBlackColor" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:layout_gravity="left"
-                        android:orientation="horizontal">
-
-                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="3dp"
-                            android:layout_marginRight="3dp"
-                            android:gravity="right"
-                            android:text="@string/toman"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/FontBlackColor" />
-
-                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                            android:id="@+id/PosterCostTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginRight="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="right"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/FontBlackColor" />
-
-
-                    </LinearLayout>
                 </LinearLayout>
 
 
@@ -237,9 +196,10 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/PosterLinearLayout"
             android:layout_weight="1"
-            android:background="@color/BackgroundRedColorPrize"
+            android:background="@color/BackgroundLightRedColorPrize"
             android:orientation="horizontal"
             android:padding="8dp"
+            android:visibility="gone"
             tools:ignore="DisableBaselineAlignment,ObsoleteLayoutParam">
 
             <LinearLayout

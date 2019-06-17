@@ -1,6 +1,5 @@
 package ir.rayas.app.citywareclient.View.Share;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowMarketerCommissionDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 
 public class UserBusinessListActivity extends BaseActivity implements IResponseService {
@@ -156,6 +154,7 @@ public class UserBusinessListActivity extends BaseActivity implements IResponseS
                 if (activityIdList == 55){
                     Intent ShowBusinessCommissionIntent = NewIntent(ShowBusinessCommissionActivity.class);
                     ShowBusinessCommissionIntent.putExtra("BusinessName",BusinessName);
+                    ShowBusinessCommissionIntent.putExtra("BusinessId",BusinessId);
                     startActivity(ShowBusinessCommissionIntent);
                    finish();
                 }

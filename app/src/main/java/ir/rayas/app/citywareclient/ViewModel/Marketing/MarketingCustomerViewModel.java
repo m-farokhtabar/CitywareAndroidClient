@@ -19,6 +19,7 @@ public class MarketingCustomerViewModel {
     private String Ticket;
     private String UseTicketDate;
     private String Percents;
+    private String Factor;
 
 
     public int getId() {
@@ -59,5 +60,9 @@ public class MarketingCustomerViewModel {
 
     public String getPercents() {
         return Percents;
+    }
+
+    public String getFactor() {
+        return Factor;
     }
 }

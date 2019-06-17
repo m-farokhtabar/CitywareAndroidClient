@@ -118,6 +118,8 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                     Item.setImagePathUrl(ViewModel.getImagePathUrl());
                     Item.setExpireDate(ViewModel.getExpireDate());
                     Item.setPosterPrice(ViewModel.getPosterPrice());
+                    Item.setCreate(ViewModel.getCreate());
+                    Item.setLastExtendOrBuyDate(ViewModel.getLastExtendOrBuyDate());
 
                 }
             }
@@ -148,7 +150,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         holder.BusinessNameTextView.setText(ViewModelList.get(position).getBusinessName());
         holder.ExpireDateTextView.setText(ViewModelList.get(position).getExpireDate());
-        holder.PosterCostTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPosterPrice()));
+      //  holder.PosterCostTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPosterPrice()));
 
 
         if (!ViewModelList.get(position).getImagePathUrl().equals("")) {
@@ -206,7 +208,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         TextViewPersian PosterTitleTextView;
         TextViewPersian BusinessNameTextView;
         TextViewPersian ExpireDateTextView;
-        TextViewPersian PosterCostTextView;
+     //   TextViewPersian PosterCostTextView;
         ImageView PosterImageView;
 
         PosterViewHolder(View v) {
@@ -218,7 +220,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             DetailsBuyPosterButton = v.findViewById(R.id.DetailsBuyPosterButton);
             PosterImageView = v.findViewById(R.id.PosterImageView);
             ExpireDateTextView = v.findViewById(R.id.ExpireDateTextView);
-            PosterCostTextView = v.findViewById(R.id.PosterCostTextView);
+         //   PosterCostTextView = v.findViewById(R.id.PosterCostTextView);
         }
     }
 
@@ -254,7 +256,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 if (FeedBack.getStatus() == FeedbackType.UpdatedSuccessful.getId()) {
 
                     if (FeedBack.getValue() != null) {
-
+                        Context.ShowToast(Context.getResources().getString(R.string.extend_poster_successful), Toast.LENGTH_LONG,MessageType.Info);
                         Context.SetViewUserCredit(TotalPrice,FeedBack.getValue(),true);
                         TotalPrice = 0;
                     }
@@ -323,7 +325,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         LinearLayout DimensionPosterLinearLayout = DetailsBuyPosterDialog.findViewById(R.id.DimensionPosterLinearLayout);
 
         PosterCostTextView.setText(Utility.GetIntegerNumberWithComma(ViewModel.getPosterPrice()));
-        CreateDateTextView.setText(ViewModel.getCreate());
+        CreateDateTextView.setText(ViewModel.getLastExtendOrBuyDate());
         PriorityTextView.setText(String.valueOf(ViewModel.getPriority()));
         AlwaysOnTopSwitch.setChecked(ViewModel.isTop());
 

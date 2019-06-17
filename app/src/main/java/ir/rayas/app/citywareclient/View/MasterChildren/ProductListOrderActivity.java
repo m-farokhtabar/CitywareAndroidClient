@@ -263,7 +263,7 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
                             productCommissionAndDiscountViewModel.setProductId(ProductList.get(i).getProductId());
                             productCommissionAndDiscountViewModel.setProductName(ProductList.get(i).getProductName());
                             productCommissionAndDiscountViewModel.setApplicationPercent(ProductList.get(i).getApplicationPercent());
-                            productCommissionAndDiscountViewModel.setPrice(0.0);
+                            productCommissionAndDiscountViewModel.setPrice(productViewModels.get(i).getPrice());
                             productCommissionAndDiscountViewModel.setTotalPrice(0.0);
                             productCommissionAndDiscountViewModel.setNumberOfOrder(0.0);
 

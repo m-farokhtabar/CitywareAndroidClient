@@ -58,13 +58,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp">
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/CustomerRecyclerViewCustomerSearchFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+               android:layout_margin="8dp"
                 android:divider="@null"
                 android:dividerHeight="0dp" />
 
@@ -79,7 +79,8 @@
                 android:text="@string/there_is_no_customer_to_show"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/FontSemiDarkThemeColor"
-                android:visibility="gone" />
+                android:visibility="gone"/>
+
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 

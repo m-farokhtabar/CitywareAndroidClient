@@ -18,6 +18,7 @@ import java.util.List;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
+import ir.rayas.app.citywareclient.View.MarketerChildren.CustomerFactorDetailsActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.DiscountActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowDiscountDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
@@ -97,14 +98,10 @@ public class UsageDiscountRecyclerViewAdapter extends RecyclerView.Adapter<Usage
         holder.DetailsBusinessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent ShowBusinessDetailsIntent = Context.NewIntent(ShowBusinessDetailsActivity.class);
-//                ShowBusinessDetailsIntent.putExtra("BusinessId",businessCommissionAndDiscountViewModel.getBusinessId());
-//                Context.startActivity(ShowBusinessDetailsIntent);
 
-
-//                Intent FactorDetailsIntent = Context.NewIntent(CustomerFactorDetailsActivity.class);
-//                FactorDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
-//                Context.startActivity(FactorDetailsIntent);
+                Intent FactorDetailsIntent = Context.NewIntent(CustomerFactorDetailsActivity.class);
+                FactorDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
+                Context.startActivity(FactorDetailsIntent);
 
 
             }

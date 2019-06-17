@@ -54,7 +54,8 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
         // Inflate the layout for this fragment
         View CurrentView = inflater.inflate(R.layout.fragment_business_commission_received, container, false);
 
-        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+//        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+        BusinessId = Context.getBusinessId();
         //طرحبندی ویو
         CreateLayout(CurrentView);
 

@@ -190,6 +190,20 @@
                     android:divider="@null"
                     android:dividerHeight="0dp" />
 
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/ShowEmptyProductTextViewOrderActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="16dp"
+                    android:gravity="center"
+                    android:text="@string/please_enter_product_or_products"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/FontSemiDarkThemeColor"
+                    android:visibility="gone"/>
+
                 <FrameLayout
                     android:id="@+id/Line2"
                     android:layout_width="match_parent"
@@ -197,7 +211,6 @@
                     android:layout_above="@+id/TotalLinearLayoutOrderActivity"
                     android:layout_marginBottom="8dp"
                     android:background="@color/LineTopColor" />
-
 
                 <LinearLayout
                     android:id="@+id/TotalLinearLayoutOrderActivity"

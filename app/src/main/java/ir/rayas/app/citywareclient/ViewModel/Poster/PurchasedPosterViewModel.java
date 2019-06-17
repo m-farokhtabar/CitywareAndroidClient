@@ -104,6 +104,8 @@ public class PurchasedPosterViewModel {
     ///جهت نمایش در صورت غیر فعال بودن در لیست غیر فعال شود
     private boolean IsActive;
 
+    private String LastExtendOrBuyDate;
+
 
     public int getId() {
         return Id;
@@ -279,5 +281,13 @@ public class PurchasedPosterViewModel {
 
     public void setActive(boolean active) {
         IsActive = active;
+    }
+
+    public String getLastExtendOrBuyDate() {
+        return LastExtendOrBuyDate;
+    }
+
+    public void setLastExtendOrBuyDate(String lastExtendOrBuyDate) {
+        LastExtendOrBuyDate = lastExtendOrBuyDate;
     }
 }

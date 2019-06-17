@@ -59,7 +59,8 @@ public class BusinessNoCommissionReceivedFragment extends Fragment implements IR
         // Inflate the layout for this fragment
         View CurrentView = inflater.inflate(R.layout.fragment_business_no_commission_received, container, false);
 
-        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+//        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+        BusinessId = Context.getBusinessId();
         //طرحبندی ویو
         CreateLayout(CurrentView);
 

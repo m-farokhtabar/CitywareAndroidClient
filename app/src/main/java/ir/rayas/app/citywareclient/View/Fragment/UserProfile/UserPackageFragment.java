@@ -53,6 +53,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     private boolean IsFirst = false;
     private double UserCredit = 0;
 
+    private boolean IsValid = true;
+
     public PackageRecyclerViewAdapter getPackageRecyclerViewAdapter() {
         return packageRecyclerViewAdapter;
     }
@@ -114,13 +116,19 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
             public void onRefresh() {
 
                 IsSwipe = true;
-                PageNumberOpen = 1;
-                PageNumberClose = 1;
+
+                if (IsValid) {
+                    PageNumberOpen = 1;
+                    ExpireAndValidatePackageSwitchUserPackageFragment.setChecked(true);
+                    LoadDataOpenPackage();
+                } else {
+                    PageNumberClose = 1;
+                    ExpireAndValidatePackageSwitchUserPackageFragment.setChecked(false);
+                    LoadDataClosePackage();
+                }
 
                 ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
-                ExpireAndValidatePackageSwitchUserPackageFragment.setChecked(true);
 
-                LoadData();
             }
         });
 
@@ -139,6 +147,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                 ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
 
                 if (isChecked) {
+
+                    IsValid = true;
                     if (!IsFirst)
                         LoadDataOpenPackage();
 
@@ -148,6 +158,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                     PackageCloseRecyclerViewUserPackageFragment.setVisibility(View.GONE);
 
                 } else {
+
+                    IsValid = false;
                     PackageOpenRecyclerViewUserPackageFragment.setVisibility(View.GONE);
                     PackageCloseRecyclerViewUserPackageFragment.setVisibility(View.VISIBLE);
 

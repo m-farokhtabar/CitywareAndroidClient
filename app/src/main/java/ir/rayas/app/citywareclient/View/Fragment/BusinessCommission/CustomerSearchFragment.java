@@ -58,7 +58,8 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
         // Inflate the layout for this fragment
         View CurrentView = inflater.inflate(R.layout.fragment_customer_search, container, false);
 
-        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+//      BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+        BusinessId = Context.getBusinessId();
         //طرحبندی ویو
         CreateLayout(CurrentView);
 

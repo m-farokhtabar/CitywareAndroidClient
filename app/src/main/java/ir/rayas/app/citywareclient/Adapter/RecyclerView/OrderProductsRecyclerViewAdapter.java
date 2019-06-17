@@ -158,19 +158,26 @@ public class OrderProductsRecyclerViewAdapter extends RecyclerView.Adapter<Order
             @Override
             public void onClick(View v) {
 
-                if (Double.parseDouble(CountProductTextView.getText().toString()) <=  0){
+                if (Double.parseDouble(CountProductTextView.getText().toString()) <= 0) {
                     Context.ShowToast(Context.getResources().getString(R.string.please_enter_order_quantity), Toast.LENGTH_LONG, MessageType.Warning);
-                }   else {
+                } else {
                     ProductCommissionAndDiscountModel ViewModel = new ProductCommissionAndDiscountModel();
                     ViewModel.setProductName(productCommissionAndDiscountModel.getProductName());
-                    ViewModel.setPrice(Double.parseDouble(UnitPriceProductTextView.getText().toString()));
+
+                    String Price ;
+                    if (UnitPriceProductTextView.getText().toString().contains(",")) {
+                        Price = UnitPriceProductTextView.getText().toString().replaceAll(",", "");
+                    } else {
+                        Price = UnitPriceProductTextView.getText().toString();
+                    }
+                    ViewModel.setPrice(Double.parseDouble(Price));
                     ViewModel.setNumberOfOrder(Double.parseDouble(CountProductTextView.getText().toString()));
                     ViewModel.setApplicationPercent(productCommissionAndDiscountModel.getApplicationPercent());
                     ViewModel.setCustomerPercent(productCommissionAndDiscountModel.getCustomerPercent());
                     ViewModel.setMarketerPercent(productCommissionAndDiscountModel.getMarketerPercent());
                     ViewModel.setProductId(productCommissionAndDiscountModel.getProductId());
 
-                    Double TotalPrice = Double.parseDouble(UnitPriceProductTextView.getText().toString()) * Double.parseDouble(CountProductTextView.getText().toString());
+                    Double TotalPrice = Double.parseDouble(Price) * Double.parseDouble(CountProductTextView.getText().toString());
                     ViewModel.setTotalPrice(TotalPrice);
 
                     SetViewModel(ViewModel);

@@ -21,10 +21,14 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
     private BusinessCommissionPagerAdapter Pager = null;
     private int RetryType = 0;
     private int FragmentIndex = 0;
+    private int BusinessId = 0;
 
     private String BusinessName ="";
     double TotalPrice = 0.0;
 
+    public int getBusinessId() {
+        return BusinessId;
+    }
 
     /**
      * ثبت اطلعات یک
@@ -50,6 +54,7 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
         setCurrentActivityId(ActivityIdList.SHOW_BUSINESS_COMMISSION_ACTIVITY);
 
         BusinessName =getIntent().getExtras().getString("BusinessName")  ;
+        BusinessId =getIntent().getExtras().getInt("BusinessId")  ;
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {

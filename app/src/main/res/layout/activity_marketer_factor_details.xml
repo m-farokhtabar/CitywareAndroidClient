@@ -75,7 +75,7 @@
                             android:gravity="center"
                             android:maxLines="2"
                             android:singleLine="false"
-                            android:text="@string/marketer_commission"
+                            android:text="@string/commission"
                             android:textAppearance="?android:textAppearanceSmall"
                             android:textColor="@color/FontBlackColor"
                             android:textIsSelectable="false"

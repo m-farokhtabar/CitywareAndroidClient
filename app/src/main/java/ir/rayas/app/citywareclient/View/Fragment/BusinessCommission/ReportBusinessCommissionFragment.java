@@ -57,7 +57,8 @@ public class ReportBusinessCommissionFragment extends Fragment implements IRespo
         //برای فهمیدن کد فرگنت به BusinessCommissionPagerAdapter مراجعه کنید
         Context.setFragmentIndex(4);
 
-        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+//      BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+        BusinessId = Context.getBusinessId();
 
         //دریافت اطلاعات از سرور
         LoadData();

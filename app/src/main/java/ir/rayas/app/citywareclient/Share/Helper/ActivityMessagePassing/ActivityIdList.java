@@ -69,5 +69,6 @@ public class ActivityIdList {
     public  static final int FACTORE_DETAILS_ACTIVITY  = 59;
     public  static final int MARKETER_FACTORE_DETAILS_ACTIVITY  = 60;
     public  static final int IRAN_CART_ACTIVITY  = 61;
+    public  static final int CUSTOMER_FACTORE_DETAILS_ACTIVITY   = 62;
 
 }

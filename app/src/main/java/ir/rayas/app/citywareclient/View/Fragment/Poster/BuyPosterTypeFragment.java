@@ -174,7 +174,7 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService,
                     if (TotalPrice == 0) {
                         Context.ShowToast(Context.getResources().getString(R.string.specify_days_or_hours), Toast.LENGTH_LONG, MessageType.Warning);
                     } else if (Context.getBusinessId() == 0) {
-                        Context.ShowToast(Context.getResources().getString(R.string.choose_one_of_your_businesses), Toast.LENGTH_LONG, MessageType.Warning);
+                        Context.ShowToast(Context.getResources().getString(R.string.choose_one_of_your_business), Toast.LENGTH_LONG, MessageType.Warning);
                     } else {
                         Hours = ((int) (TotalPrice / PosterTypePrice));
                         BuyPoster();
@@ -186,7 +186,7 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService,
                     if (Hours == 0) {
                         Context.ShowToast(Context.getResources().getString(R.string.specify_days_or_hours), Toast.LENGTH_LONG, MessageType.Warning);
                     } else if (Context.getBusinessId() == 0) {
-                        Context.ShowToast(Context.getResources().getString(R.string.choose_one_of_your_businesses), Toast.LENGTH_LONG, MessageType.Warning);
+                        Context.ShowToast(Context.getResources().getString(R.string.choose_one_of_your_business), Toast.LENGTH_LONG, MessageType.Warning);
                     } else {
                         BuyPoster();
 

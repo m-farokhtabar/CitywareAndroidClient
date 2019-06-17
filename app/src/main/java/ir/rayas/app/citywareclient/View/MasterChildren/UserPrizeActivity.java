@@ -20,7 +20,6 @@ import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
@@ -153,9 +152,11 @@ public class UserPrizeActivity extends BaseActivity implements IResponseService,
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())
+                        if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
                             ShowEmptyUserPrizeTextViewUserPrizeActivity.setVisibility(View.VISIBLE);
-                        else
+                            PointsSpentTextViewUserPrizeActivity.setText(getResources().getString(R.string.zero));
+                            MyPointTextViewUserPrizeActivity.setText(getResources().getString(R.string.zero));
+                        }else
                             ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
 
                     } else {

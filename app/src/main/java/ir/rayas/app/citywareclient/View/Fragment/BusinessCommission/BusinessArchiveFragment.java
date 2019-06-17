@@ -52,7 +52,8 @@ public class BusinessArchiveFragment extends Fragment implements IResponseServic
         // Inflate the layout for this fragment
         View CurrentView = inflater.inflate(R.layout.fragment_business_archive, container, false);
 
-        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+//        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+        BusinessId = Context.getBusinessId();
         //طرحبندی ویو
         CreateLayout(CurrentView);
 

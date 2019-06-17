@@ -327,6 +327,7 @@
     <string name="hours">ساعت</string>
     <string name="are_you_sure_you_want_to_extended_a_poster">آیا از تمدید پوستر مطمئن هستید؟</string>
     <string name="choose_one_of_your_businesses">کسب و کارهای خود را جهت خرید پوستر انتخاب کنید</string>
+    <string name="choose_one_of_your_business">کسب و کار خود را جهت خرید پوستر انتخاب کنید</string>
     <string name="select_businesses">لطفا کسب و کارهای خود را انتخاب کنید</string>
     <string name="specify_days_or_hours">روز یا ساعت را مشخص کنید.</string>
     <string name="receiving_this_prize_is_not_tailored_to_your_business">دریافت این جایزه متناسب با کسب و کار شما نمی باشد.</string>
@@ -488,6 +489,7 @@
     <string name="cash">نقدی</string>
     <string name="club_point">امتیاز باشگاه</string>
     <string name="buy_date">تاریخ خرید </string>
+    <string name="buy_date_poster">تاریخ آخرین خرید یا آخرین تمدید</string>
 
 
     <!--متون مرتبط با  باشگاه مشتریان-->
@@ -602,11 +604,13 @@
     <string name="report">گزارش</string>
     <string name="unit_all_price_is_toman">واحد تمامی مبالغ تومان می باشد</string>
     <string name="you_order_submit_successful">سفارش شما با موفقیت ثبت شد</string>
+    <string name="extend_poster_successful">پوستر شما با موفقیت تمدید شد</string>
+    <string name="please_enter_product_or_products">لطفا محصول یا محصولات خود را اضافه کنید</string>
 
 
-    <string name="expire_discount">تخفیفات منقضی شده</string>
-    <string name="usage_discount">تخفیفات استفاده شده</string>
-    <string name="new_discount">تخفیفات جدید</string>
+    <string name="expire_discount">منقضی شده</string>
+    <string name="usage_discount">استفاده شده</string>
+    <string name="new_discount">جدید</string>
     <string name="there_is_no_new_discount">تخفیفات جدید وجود ندارد</string>
     <string name="there_is_no_usage_discount">تخفیفات استفاده شده وجود ندارد</string>
     <string name="there_is_no_expire_discount">تخفیفات منقضی شده وجود ندارد</string>

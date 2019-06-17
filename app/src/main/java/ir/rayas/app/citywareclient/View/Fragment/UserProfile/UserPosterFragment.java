@@ -56,6 +56,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     private boolean IsFirst = false;
     private double UserCredit = 0;
 
+    private boolean IsValid = true;
+
     public PosterValidRecyclerViewAdapter getPosterValidRecyclerViewAdapter() {
         return posterValidRecyclerViewAdapter;
     }
@@ -113,12 +115,19 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
             public void onRefresh() {
 
                 IsSwipe = true;
-                PageNumberValid = 1;
-                PageNumberExpire = 1;
 
-                ExpireAndValidatePosterSwitchUserPostersFragment.setChecked(true);
+                if (IsValid) {
+                    PageNumberValid = 1;
+                    ExpireAndValidatePosterSwitchUserPostersFragment.setChecked(true);
+                    LoadDataValidPoster();
+                } else {
+                    PageNumberExpire = 1;
+                    ExpireAndValidatePosterSwitchUserPostersFragment.setChecked(false);
+                    LoadDataExpirePoster();
+                }
+
                 ShowEmptyTextViewUserPostersFragment.setVisibility(View.GONE);
-                LoadData();
+
             }
         });
 
@@ -138,6 +147,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
                 if (isChecked) {
 
+                    IsValid = true;
+
                     if (!IsFirst)
                         LoadDataValidPoster();
 
@@ -148,6 +159,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
 
                 } else {
+
+                    IsValid = false;
                     PosterValidRecyclerViewUserPostersFragment.setVisibility(View.GONE);
                     PosterExpiredRecyclerViewUserPackageFragment.setVisibility(View.VISIBLE);
 
@@ -321,12 +334,12 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     }
 
     @SuppressLint("SetTextI18n")
-    public void SetViewUserCredit(double Price,boolean IsPoster) {
-       if ( IsPoster) {
-           UserCredit = UserCredit - Price;
-       }else {
-           UserCredit = UserCredit + Price;
-       }
+    public void SetViewUserCredit(double Price, boolean IsPoster) {
+        if (IsPoster) {
+            UserCredit = UserCredit - Price;
+        } else {
+            UserCredit = UserCredit + Price;
+        }
 
         UserCreditTextViewUserPostersFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
 

@@ -41,6 +41,7 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
     private TextViewPersian TotalPriceFactoreTextViewOrderActivity = null;
     private TextViewPersian FactureOfIncomeTextViewOrderActivity = null;
     private TextViewPersian TotalPriceTextViewOrderActivity = null;
+    private TextViewPersian ShowEmptyProductTextViewOrderActivity = null;
     private LinearLayout TotalLinearLayoutOrderActivity = null;
     private FrameLayout Line2 = null;
 
@@ -96,6 +97,7 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
         FactureOfIncomeTextViewOrderActivity = findViewById(R.id.FactureOfIncomeTextViewOrderActivity);
         TotalPriceTextViewOrderActivity = findViewById(R.id.TotalPriceTextViewOrderActivity);
         TotalLinearLayoutOrderActivity = findViewById(R.id.TotalLinearLayoutOrderActivity);
+        ShowEmptyProductTextViewOrderActivity = findViewById(R.id.ShowEmptyProductTextViewOrderActivity);
         Line2 = findViewById(R.id.Line2);
         ButtonPersianView SubmitOrderButtonOrderActivity = findViewById(R.id.SubmitOrderButtonOrderActivity);
 
@@ -108,6 +110,7 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
         productListOrderRecyclerViewOrderActivity.setAdapter(productListOrderRecyclerViewAdapter);
 
         TotalLinearLayoutOrderActivity.setVisibility(View.GONE);
+        ShowEmptyProductTextViewOrderActivity.setVisibility(View.VISIBLE);
         Line2.setVisibility(View.GONE);
 
 
@@ -170,7 +173,7 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
             if (ServiceMethod == ServiceMethodType.AddCustomerFactorAdd) {
                 Feedback<Boolean> FeedBack = (Feedback<Boolean>) Data;
 
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
 
                     if (FeedBack.getValue() != null) {
                         if (FeedBack.getValue()) {
@@ -226,6 +229,7 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
 
         if (productCommissionAndDiscountModels.size() > 0) {
 
+            ShowEmptyProductTextViewOrderActivity.setVisibility(View.GONE);
             TotalLinearLayoutOrderActivity.setVisibility(View.VISIBLE);
             Line2.setVisibility(View.VISIBLE);
 
@@ -259,8 +263,11 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
         } else {
             TotalLinearLayoutOrderActivity.setVisibility(View.GONE);
             Line2.setVisibility(View.GONE);
+            ShowEmptyProductTextViewOrderActivity.setVisibility(View.VISIBLE);
         }
     }
+
+
 
 
     @Override

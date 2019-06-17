@@ -111,7 +111,7 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
         holder.BusinessNameTextView.setText(ViewModelList.get(position).getBusinessName());
         holder.ExpireDateTextView.setText(ViewModelList.get(position).getExpireDate());
-        holder.PosterCostTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPosterPrice()));
+     //   holder.PosterCostTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPosterPrice()));
 
 
         if (!ViewModelList.get(position).getImagePathUrl().equals("")) {
@@ -140,6 +140,8 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         });
 
         holder.EditPosterButton.setVisibility(View.GONE);
+        holder.DetailsBuyPosterButton.setVisibility(View.GONE);
+        holder.AttributePosterLinearLayout.setVisibility(View.GONE);
 
         holder.DetailsBuyPosterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,8 +166,9 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         TextViewPersian PosterTitleTextView;
         TextViewPersian BusinessNameTextView;
         TextViewPersian ExpireDateTextView;
-        TextViewPersian PosterCostTextView;
+      //  TextViewPersian PosterCostTextView;
         ImageView PosterImageView;
+        LinearLayout AttributePosterLinearLayout;
 
         PosterViewHolder(View v) {
             super(v);
@@ -176,7 +179,8 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             DetailsBuyPosterButton = v.findViewById(R.id.DetailsBuyPosterButton);
             PosterImageView = v.findViewById(R.id.PosterImageView);
             ExpireDateTextView = v.findViewById(R.id.ExpireDateTextView);
-            PosterCostTextView = v.findViewById(R.id.PosterCostTextView);
+          //  PosterCostTextView = v.findViewById(R.id.PosterCostTextView);
+            AttributePosterLinearLayout = v.findViewById(R.id.AttributePosterLinearLayout);
         }
     }
 
