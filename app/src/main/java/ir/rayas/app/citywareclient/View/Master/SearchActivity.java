@@ -41,6 +41,7 @@ import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Home.HomeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Search.SearchService;
+import ir.rayas.app.citywareclient.Service.User.UserAddressService;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.QueryType;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -75,6 +76,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
     private RecyclerView SearchRecyclerViewSearchActivity = null;
     private RecyclerView SearchResultRecyclerViewSearchActivity = null;
+    private TextViewPersian ShowEmptySearchTextViewSearchActivity = null;
 
     private SwitchCompat CategoryNameSwitchSearchActivity = null;
     private SwitchCompat RegionNameSwitchSearchActivity = null;
@@ -98,7 +100,6 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
     private String TextSearch = "";
 
-    private UserSettingViewModel userSettingViewModel = null;
     private List<UserAddressViewModel> userAddressViewModels = null;
 
     private LocalUserSettingViewModel localUserSettingViewModel = new LocalUserSettingViewModel();
@@ -108,6 +109,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
     private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
 
     private Dialog ShowAddressDialog;
+    private UserSettingViewModel userSettingViewModel = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,13 +144,23 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         GetSetting();
 
 
-        if (!userSettingViewModel.isUseGprsPoint())
+        if (!localSettingRepository.getLocalSetting().isUseGprsPoint())
             LoadData();
 
 
     }
 
     private void CreateLayout() {
+
+        AccountRepository ARepository = new AccountRepository(null);
+        AccountViewModel AccountViewModel = ARepository.getAccount();
+
+        userSettingViewModel = AccountViewModel.getUserSetting();
+
+        ShowEmptySearchTextViewSearchActivity = findViewById(R.id.ShowEmptySearchTextViewSearchActivity);
+        ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+
+
         //Hide And Show Menu Setting Start --------------------------------------------------------------------------
         FloatingActionButton MainMenuBottomCategoryAndRegionFloatingActionButtonSearchActivity = findViewById(R.id.MainMenuBottomCategoryAndRegionFloatingActionButtonSearchActivity);
         MenuRelativeLayoutSearchActivity = findViewById(R.id.MenuRelativeLayoutSearchActivity);
@@ -193,7 +205,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     BusinessCategoryId = null;
                 }
 
-                searchRecyclerViewAdapter.SetViewModelList(new ArrayList<SearchViewModel>());
+                searchRecyclerViewAdapter.ClearViewModelList();
 
                 if (!IsFirst) {
                     SetLocalSettingToRepository(BusinessCategoryId, RegionId);
@@ -211,6 +223,8 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                 if (isChecked) {
                     if (userSettingViewModel.isUseGprsPoint()) {
                         RegionId = null;
+                        latitude = localUserSettingViewModel.getLatitude();
+                        longitude = localUserSettingViewModel.getLongitude();
                     } else {
                         if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
                             RegionId = null;
@@ -220,11 +234,14 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     }
                 } else {
                     RegionId = null;
+                    latitude = null;
+                    longitude = null;
                 }
 
-                searchRecyclerViewAdapter.SetViewModelList(new ArrayList<SearchViewModel>());
+                searchRecyclerViewAdapter.ClearViewModelList();
 
                 if (!IsFirst) {
+                    MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
                     SetLocalSettingToRepository(BusinessCategoryId, RegionId);
                     LoadData();
                 }
@@ -237,20 +254,17 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
                 if (RegionNameSwitchSearchActivity.isChecked()) {
                     if (userSettingViewModel.isUseGprsPoint()) {
-                        if (userSettingViewModel.isUseGprsPoint()) {
 
-                            if (IsAddress) {
-                                //if off GPS
-                                // انتخاب آدرس کاربر
-                                ShowDialogAddress();
-                            } else {
-                                //if on GPS
-                                // نمایش دیالوگ مربوط  به انتخاب کیلومتر
-                                ShowGpsRangeInKm();
-                            }
+                        if (IsAddress) {
+                            //if off GPS
+                            // انتخاب آدرس کاربر
+                            ShowLoadingProgressBar();
+                            UserAddressService userAddressService = new UserAddressService(SearchActivity.this);
+                            userAddressService.GetAll();
                         } else {
-                            Intent SettingIntent = NewIntent(SettingActivity.class);
-                            startActivity(SettingIntent);
+                            //if on GPS
+                            // نمایش دیالوگ مربوط  به انتخاب کیلومتر
+                            ShowGpsRangeInKm();
                         }
                     } else {
                         Intent SettingIntent = NewIntent(SettingActivity.class);
@@ -350,7 +364,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         if (PageNumber == 1)
             ShowLoadingProgressBar();
 
-        if (userSettingViewModel.isUseGprsPoint())
+        if (localSettingRepository.getLocalSetting().isUseGprsPoint())
             if (IsClickYesGPS)
                 GetMyLocation();
 
@@ -367,14 +381,13 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
 
     private void GetSetting() {
+        if (localSettingRepository.getLocalSetting() == null) {
+            SetLocalSettingToRepository(userSettingViewModel.getBusinessCategoryId(), userSettingViewModel.getRegionId());
+            setInformationSettingToView();
+        } else {
+            GetLocalSetting();
+        }
 
-        AccountRepository ARepository = new AccountRepository(null);
-        AccountViewModel AccountViewModel = ARepository.getAccount();
-
-        userSettingViewModel = AccountViewModel.getUserSetting();
-        SetLocalSettingToRepository(userSettingViewModel.getBusinessCategoryId(), userSettingViewModel.getRegionId());
-
-        setInformationSettingToView();
     }
 
     private void GetLocalSetting() {
@@ -400,7 +413,6 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         }
 
 
-
         if (localUserSettingViewModel.isUseGprsPoint()) {
 
             if (!CurrentGps.IsPermissionEnabled()) {
@@ -418,7 +430,6 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
             GpsRangeInKm = 1;
             RegionId = null;
-            BusinessCategoryId = null;
 
         } else {
 
@@ -454,17 +465,26 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
             if (ServiceMethod == ServiceMethodType.BusinessPosterInfoGetAll) {
                 Feedback<List<BusinessPosterInfoViewModel>> FeedBack = (Feedback<List<BusinessPosterInfoViewModel>>) Data;
 
+
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
 
                     final List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
-
+                        if (PageNumber == 1) {
+                            if (ViewModelList.size() < 1) {
+                                ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
+                            } else {
+                                ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+                            }
+                        } else {
+                            ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+                        }
 
                         if (businessPosterInfoViewModelList == null)
                             businessPosterInfoViewModelList = new ArrayList<>();
-                        businessPosterInfoViewModelList.addAll(ViewModelList);
 
+                        businessPosterInfoViewModelList.addAll(ViewModelList);
 
                         List<SearchViewModel> ViewModel = GetListSort(businessPosterInfoViewModelList);
 
@@ -477,7 +497,6 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                                 }
                             }
                         }
-
                         searchRecyclerViewAdapter.SetViewModelList(ViewModel);
 
                         if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
@@ -486,48 +505,16 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                         }
 
                     }
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+                    } else {
+                        ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
+                    }
                 } else {
+                    ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        ShowErrorInConnectDialog();
-                    }
-                }
-
-
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-                    Static.IsRefreshBookmark = false;
-                    final List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
-
-                    if (ViewModelList != null) {
-
-
-                        if (businessPosterInfoViewModelList == null)
-                            businessPosterInfoViewModelList = new ArrayList<>();
-                        businessPosterInfoViewModelList.addAll(ViewModelList);
-
-                        List<SearchViewModel> ViewModel = GetListSort(businessPosterInfoViewModelList);
-
-                        for (int i = 0; i < ViewModel.size(); i++) {
-                            List<BusinessPosterInfoViewModel> businessPosterInfoViewModels = ViewModel.get(i).getBusinessPosterInfoViewModel();
-
-                            for (int j = 0; j < businessPosterInfoViewModels.size(); j++) {
-                                if (businessPosterInfoViewModels.get(j).getBusinessId() > 0) {
-                                    businessPosterInfoViewModelList.add(businessPosterInfoViewModels.get(j));
-                                }
-                            }
-                        }
-
-                        searchRecyclerViewAdapter.SetViewModelList(ViewModel);
-
-                    }
-
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        if (!(PageNumber > 1 && FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId())) {
-                            ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-
-                        }
                     } else {
                         ShowErrorInConnectDialog();
                     }
@@ -546,15 +533,20 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     if (ViewModel != null) {
                         if (PageNumber == 1) {
                             if (ViewModel.size() > 0) {
+                                ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                                 searchResultRecyclerViewAdapter.SetViewModelList(ViewModel);
 
                                 if (DefaultConstant.PageNumberSize == ViewModel.size()) {
                                     PageNumber = PageNumber + 1;
                                     LoadData();
                                 }
+                            } else {
+                                ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
                             }
 
                         } else {
+                            ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+
                             searchResultRecyclerViewAdapter.AddViewModelList(ViewModel);
 
                             if (DefaultConstant.PageNumberSize == ViewModel.size()) {
@@ -564,13 +556,38 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                         }
                     }
 
+                } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+                    } else {
+                        ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
+                    ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
                         ShowErrorInConnectDialog();
                         HideLoading();
+                    }
+                }
+            } else if (ServiceMethod == ServiceMethodType.UserGetAllAddress) {
+                Feedback<List<UserAddressViewModel>> FeedBack = (Feedback<List<UserAddressViewModel>>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    List<UserAddressViewModel> ViewModel = FeedBack.getValue();
+                    if (ViewModel != null) {
+                        //تنظیمات مربوط به recycle آدرس
+                        ShowDialogAddress(ViewModel);
+                    }
+
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
                     }
                 }
             }
@@ -780,8 +797,6 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
     private void ShowGpsRangeInKm() {
 
-        MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
-
         final Dialog GpsRangeDialog = new Dialog(SearchActivity.this);
         GpsRangeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         GpsRangeDialog.setContentView(R.layout.dialog_gps_range);
@@ -796,7 +811,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         SeekBar GpsRangeSeekBar = GpsRangeDialog.findViewById(R.id.GpsRangeSeekBar);
         GpsRangeEditText.setTypeface(typeface);
 
-        GpsRangeEditText.setText("1");
+        GpsRangeEditText.setText(String.valueOf(GpsRangeInKm));
 
         GpsRangeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -824,7 +839,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                 }
 
                 SetLocalSettingToRepository(BusinessCategoryId, RegionId);
-
+                MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
                 LoadData();
                 GpsRangeDialog.dismiss();
 
@@ -843,7 +858,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
             GpsCurrentLocation gpsCurrentLocation = new GpsCurrentLocation(this);
             latitude = gpsCurrentLocation.getLatitude();
             longitude = gpsCurrentLocation.getLongitude();
-            RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.km));
+            RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.by_location_km));
             GetMyLocation();
 
             IsAddress = false;
@@ -878,10 +893,12 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (CurrentGps.IsPermissionEnabled()) {
-            if (!CurrentGps.IsEnabled())
+            if (!CurrentGps.IsEnabled()) {
                 CurrentGps.ShowTurnOnGpsDialog(this, this, R.string.TurnOnLocation);
-            else
+            } else {
                 GetMyLocation();
+                LoadData();
+            }
         } else {
             LoadData();
         }
@@ -889,25 +906,32 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
     private void GetMyLocation() {
 
-        RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.km));
+        RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.by_location_km));
 
         GpsCurrentLocation gpsCurrentLocation = new GpsCurrentLocation(this);
         latitude = gpsCurrentLocation.getLatitude();
         longitude = gpsCurrentLocation.getLongitude();
     }
 
-    private void ShowDialogAddress() {
+    private void ShowDialogAddress(List<UserAddressViewModel> ViewModel) {
 
         ShowAddressDialog = new Dialog(SearchActivity.this);
         ShowAddressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         ShowAddressDialog.setContentView(R.layout.dialog_user_address);
 
         TextViewPersian HeaderTextView = ShowAddressDialog.findViewById(R.id.HeaderTextView);
+        TextViewPersian ShowEmptyUserAddressTextView = ShowAddressDialog.findViewById(R.id.ShowEmptyUserAddressTextView);
         HeaderTextView.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(SearchActivity.this, 1);
 
         RecyclerView UserAddressRecyclerView = ShowAddressDialog.findViewById(R.id.UserAddressRecyclerView);
 
-        UserAddressDialogSearchRecyclerViewAdapter userAddressDialogRecyclerViewAdapter = new UserAddressDialogSearchRecyclerViewAdapter(SearchActivity.this, userAddressViewModels);
+        if (ViewModel == null || ViewModel.size() == 0) {
+            ShowEmptyUserAddressTextView.setVisibility(View.VISIBLE);
+        } else {
+            ShowEmptyUserAddressTextView.setVisibility(View.GONE);
+        }
+
+        UserAddressDialogSearchRecyclerViewAdapter userAddressDialogRecyclerViewAdapter = new UserAddressDialogSearchRecyclerViewAdapter(SearchActivity.this, ViewModel);
         LinearLayoutManager BusinessOpenTimeLinearLayoutManager = new LinearLayoutManager(SearchActivity.this);
         UserAddressRecyclerView.setLayoutManager(BusinessOpenTimeLinearLayoutManager);
         UserAddressRecyclerView.setAdapter(userAddressDialogRecyclerViewAdapter);
@@ -946,7 +970,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         PageNumber = 1;
         MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
 
-        GetLocalSetting();
+        GetSetting();
 
     }
 
@@ -961,7 +985,6 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
     public void onLowMemory() {
         super.onLowMemory();
     }
-
 
     @Override
     public void onBackPressed() {

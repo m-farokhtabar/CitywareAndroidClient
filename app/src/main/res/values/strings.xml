@@ -552,7 +552,9 @@
     <string name="define_your_business_scope">محدوده ای  کسب و کار خود را مشخص کنید.</string>
     <string name="specify_the_scope_for_the_business_to_be_displayed">محدوده ای که می خواهید کسب و کار در آن نمایش داده شود را مشخص کنید.</string>
     <string name="km">کیلومتر</string>
-    <string name="by_location">موقعیت مکانی</string>
+    <string name="by_location_km">محدوده (5 کیلومتر)</string>
+    <string name="not_address_for_you">آدرسی برا شما ثبت نشده است</string>
+    <string name="not_exit">موردی وجود ندارد</string>
 
 
     <!--متون مرتبط با  تجارت-->

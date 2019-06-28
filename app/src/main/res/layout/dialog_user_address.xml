@@ -23,7 +23,20 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/UserAddressRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:divider="@null"
         android:dividerHeight="0dp" />
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:id="@+id/ShowEmptyUserAddressTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:visibility="visible"
+        android:textColor="@color/FontSemiDarkThemeColor"
+        android:text="@string/not_address_for_you"
+        android:textAppearance="?android:textAppearanceSmall" />
 </LinearLayout>

@@ -93,6 +93,16 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
         Container.invalidate();
     }
 
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
 
     public void SetViewModel() {
 

@@ -24,7 +24,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessPosterInfoBookmarkRecyclerViewAdapter;
@@ -39,6 +38,7 @@ import ir.rayas.app.citywareclient.Repository.LocalSettingRepository;
 import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Home.HomeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
+import ir.rayas.app.citywareclient.Service.User.UserAddressService;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.QueryType;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -151,6 +151,43 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     private void CreateLayout() {
 
+        AccountRepository ARepository = new AccountRepository(null);
+        AccountViewModel AccountViewModel = ARepository.getAccount();
+
+        userSettingViewModel = AccountViewModel.getUserSetting();
+
+
+
+        // Recycler View Poster Top, Poster, Bookmark Start------------------------------------------------------------------
+        Line = findViewById(R.id.Line);
+
+        RecyclerView isTopPosterRecyclerViewMainActivity = findViewById(R.id.IsTopPosterRecyclerViewMainActivity);
+        isTopPosterRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true));
+        isTopPosterRecyclerViewMainActivity.setHasFixedSize(true);
+        isTopPosterRecyclerViewMainActivity.setNestedScrollingEnabled(false);
+        isTopPosterRecyclerViewAdapter = new IsTopPosterRecyclerViewAdapter(MainActivity.this, null, isTopPosterRecyclerViewMainActivity);
+        isTopPosterRecyclerViewMainActivity.setAdapter(isTopPosterRecyclerViewAdapter);
+
+
+        businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
+        businessPosterInfoRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
+        businessPosterInfoRecyclerViewMainActivity.setHasFixedSize(true);
+        businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
+        businessPosterInfoRecyclerViewAdapter = new BusinessPosterInfoRecyclerViewAdapter(MainActivity.this, null, businessPosterInfoRecyclerViewMainActivity);
+        businessPosterInfoRecyclerViewMainActivity.setAdapter(businessPosterInfoRecyclerViewAdapter);
+
+
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoBookmarkRecyclerViewMainActivity);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setHasFixedSize(true);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setNestedScrollingEnabled(false);
+        businessPosterInfoBookmarkRecyclerViewAdapter = new BusinessPosterInfoBookmarkRecyclerViewAdapter(MainActivity.this, null, BusinessPosterInfoBookmarkRecyclerViewMainActivity);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
+
+        //End (Recycler View Poster Top, Poster, Bookmark)-----------------------------------------------------------------------------
+
+
+
         //Hide And Show Menu Setting Start --------------------------------------------------------------------------
         FloatingActionButton MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity = findViewById(R.id.MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity);
         MenuRelativeLayoutMainActivity = findViewById(R.id.MenuRelativeLayoutMainActivity);
@@ -196,8 +233,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                     BusinessCategoryId = null;
                 }
 
-                businessPosterInfoRecyclerViewAdapter.SetViewModelList(new ArrayList<BusinessPosterInfoViewModel>());
-                isTopPosterRecyclerViewAdapter.SetViewModelList(new ArrayList<BusinessPosterInfoViewModel>());
+                businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+                isTopPosterRecyclerViewAdapter.ClearViewModelList();
 
                 if (!IsFirst) {
                     SetLocalSettingToRepository(BusinessCategoryId, RegionId);
@@ -216,6 +253,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                 if (isChecked) {
                     if (userSettingViewModel.isUseGprsPoint()) {
                         RegionId = null;
+                        latitude = localUserSettingViewModel.getLatitude();
+                        longitude = localUserSettingViewModel.getLongitude();
                     } else {
                         if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
                             RegionId = null;
@@ -225,12 +264,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                     }
                 } else {
                     RegionId = null;
+                    latitude = null;
+                    longitude = null;
                 }
 
-                businessPosterInfoRecyclerViewAdapter.SetViewModelList(new ArrayList<BusinessPosterInfoViewModel>());
-                isTopPosterRecyclerViewAdapter.SetViewModelList(new ArrayList<BusinessPosterInfoViewModel>());
+                businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+                isTopPosterRecyclerViewAdapter.ClearViewModelList();
 
                 if (!IsFirst) {
+                    MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
                     SetLocalSettingToRepository(BusinessCategoryId, RegionId);
                     LoadData();
                 }
@@ -247,7 +289,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                         if (IsAddress) {
                             //if off GPS
                             // انتخاب آدرس کاربر
-                            ShowDialogAddress();
+                            ShowLoadingProgressBar();
+                            UserAddressService userAddressService = new UserAddressService(MainActivity.this);
+                            userAddressService.GetAll();
                         } else {
                             //if on GPS
                             // نمایش دیالوگ مربوط  به انتخاب کیلومتر
@@ -320,36 +364,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         });
         //End (Top Tab)------------------------------------------------------------------------------------------------
 
-
-        // Recycler View Poster Top, Poster, Bookmark Start------------------------------------------------------------------
-        Line = findViewById(R.id.Line);
-
-        RecyclerView isTopPosterRecyclerViewMainActivity = findViewById(R.id.IsTopPosterRecyclerViewMainActivity);
-        isTopPosterRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true));
-        isTopPosterRecyclerViewMainActivity.setHasFixedSize(true);
-        isTopPosterRecyclerViewMainActivity.setNestedScrollingEnabled(false);
-        isTopPosterRecyclerViewAdapter = new IsTopPosterRecyclerViewAdapter(MainActivity.this, null, isTopPosterRecyclerViewMainActivity);
-        isTopPosterRecyclerViewMainActivity.setAdapter(isTopPosterRecyclerViewAdapter);
-
-
-        businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
-        businessPosterInfoRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
-        businessPosterInfoRecyclerViewMainActivity.setHasFixedSize(true);
-        businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
-        businessPosterInfoRecyclerViewAdapter = new BusinessPosterInfoRecyclerViewAdapter(MainActivity.this, null, businessPosterInfoRecyclerViewMainActivity);
-        businessPosterInfoRecyclerViewMainActivity.setAdapter(businessPosterInfoRecyclerViewAdapter);
-
-
-        BusinessPosterInfoBookmarkRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoBookmarkRecyclerViewMainActivity);
-        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
-        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setHasFixedSize(true);
-        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setNestedScrollingEnabled(false);
-        businessPosterInfoBookmarkRecyclerViewAdapter = new BusinessPosterInfoBookmarkRecyclerViewAdapter(MainActivity.this, null, BusinessPosterInfoBookmarkRecyclerViewMainActivity);
-        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
-
-        //End (Recycler View Poster Top, Poster, Bookmark)-----------------------------------------------------------------------------
-
-
     }
 
 
@@ -387,16 +401,14 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         homeService.GetAllBookmark(PageNumberPoster);
     }
 
-
     private void GetSetting() {
+        if (localSettingRepository.getLocalSetting() == null) {
+            SetLocalSettingToRepository(userSettingViewModel.getBusinessCategoryId(), userSettingViewModel.getRegionId());
+            setInformationSettingToView();
+        } else {
+            GetLocalSetting();
+        }
 
-        AccountRepository ARepository = new AccountRepository(null);
-        AccountViewModel AccountViewModel = ARepository.getAccount();
-
-        userSettingViewModel = AccountViewModel.getUserSetting();
-        SetLocalSettingToRepository(userSettingViewModel.getBusinessCategoryId(), userSettingViewModel.getRegionId());
-
-        setInformationSettingToView();
     }
 
     private void GetLocalSetting() {
@@ -404,7 +416,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         localUserSettingViewModel = localSettingRepository.getLocalSetting();
         setInformationSettingToView();
     }
-
 
     private void setInformationSettingToView() {
 
@@ -440,7 +451,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
             GpsRangeInKm = 1;
             RegionId = null;
-            BusinessCategoryId = null;
 
         } else {
 
@@ -600,6 +610,24 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                         ShowErrorInConnectDialog();
                     }
                 }
+            } else if (ServiceMethod == ServiceMethodType.UserGetAllAddress) {
+                Feedback<List<UserAddressViewModel>> FeedBack = (Feedback<List<UserAddressViewModel>>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    List<UserAddressViewModel> ViewModel = FeedBack.getValue();
+                    if (ViewModel != null) {
+                        //تنظیمات مربوط به recycle آدرس
+                        ShowDialogAddress(ViewModel);
+                    }
+
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
             }
 
         } catch (Exception e) {
@@ -610,8 +638,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void ShowGpsRangeInKm() {
-
-        MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
 
         final Dialog GpsRangeDialog = new Dialog(MainActivity.this);
         GpsRangeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -627,7 +653,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         SeekBar GpsRangeSeekBar = GpsRangeDialog.findViewById(R.id.GpsRangeSeekBar);
         GpsRangeEditText.setTypeface(typeface);
 
-        GpsRangeEditText.setText("1");
+        GpsRangeEditText.setText(String.valueOf(GpsRangeInKm));
 
         GpsRangeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -655,6 +681,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                 }
 
                 SetLocalSettingToRepository(BusinessCategoryId, RegionId);
+                MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
 
                 LoadData();
 
@@ -665,7 +692,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         GpsRangeDialog.show();
     }
-
 
     private void NewestPoster() {
         businessPosterInfoRecyclerViewMainActivity.setVisibility(View.VISIBLE);
@@ -686,10 +712,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
 
-        List<BusinessPosterInfoViewModel> ViewModelList = new ArrayList<>();
-        businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
-        businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
-        isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelList);
+        businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+        isTopPosterRecyclerViewAdapter.ClearViewModelList();
+        businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
 
         LoadData();
     }
@@ -713,10 +738,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
 
-        List<BusinessPosterInfoViewModel> ViewModelList = new ArrayList<>();
-        businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
-        businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
-        isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelList);
+        businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+        isTopPosterRecyclerViewAdapter.ClearViewModelList();
+        businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
 
         LoadData();
     }
@@ -740,10 +764,10 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
 
-        List<BusinessPosterInfoViewModel> ViewModelList = new ArrayList<>();
-        businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
-        businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
-        isTopPosterRecyclerViewAdapter.SetViewModelList(ViewModelList);
+        businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+        isTopPosterRecyclerViewAdapter.ClearViewModelList();
+        businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
+
 
         LoadData();
     }
@@ -769,9 +793,10 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
 
-        List<BusinessPosterInfoViewModel> ViewModelList = new ArrayList<>();
-        businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
-        businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
+        businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+        isTopPosterRecyclerViewAdapter.ClearViewModelList();
+        businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
+
 
         LoadDataBookmarkPoster();
     }
@@ -785,7 +810,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             GpsCurrentLocation gpsCurrentLocation = new GpsCurrentLocation(this);
             latitude = gpsCurrentLocation.getLatitude();
             longitude = gpsCurrentLocation.getLongitude();
-            RegionNameTextViewMainActivity.setText(getResources().getString(R.string.km));
+            RegionNameTextViewMainActivity.setText(getResources().getString(R.string.by_location_km));
             GetMyLocation();
 
             IsAddress = false;
@@ -820,10 +845,12 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (CurrentGps.IsPermissionEnabled()) {
-            if (!CurrentGps.IsEnabled())
+            if (!CurrentGps.IsEnabled()) {
                 CurrentGps.ShowTurnOnGpsDialog(this, this, R.string.TurnOnLocation);
-            else
+            } else {
                 GetMyLocation();
+                LoadData();
+            }
         } else {
             LoadData();
         }
@@ -831,7 +858,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     private void GetMyLocation() {
 
-        RegionNameTextViewMainActivity.setText(getResources().getString(R.string.km));
+        RegionNameTextViewMainActivity.setText(getResources().getString(R.string.by_location_km));
 
         GpsCurrentLocation gpsCurrentLocation = new GpsCurrentLocation(this);
         latitude = gpsCurrentLocation.getLatitude();
@@ -839,18 +866,25 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
 
-    private void ShowDialogAddress() {
+    private void ShowDialogAddress(List<UserAddressViewModel> ViewModel) {
 
         ShowAddressDialog = new Dialog(MainActivity.this);
         ShowAddressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         ShowAddressDialog.setContentView(R.layout.dialog_user_address);
 
         TextViewPersian HeaderTextView = ShowAddressDialog.findViewById(R.id.HeaderTextView);
+        TextViewPersian ShowEmptyUserAddressTextView = ShowAddressDialog.findViewById(R.id.ShowEmptyUserAddressTextView);
         HeaderTextView.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(MainActivity.this, 1);
 
         RecyclerView UserAddressRecyclerView = ShowAddressDialog.findViewById(R.id.UserAddressRecyclerView);
 
-        UserAddressDialogRecyclerViewAdapter userAddressDialogRecyclerViewAdapter = new UserAddressDialogRecyclerViewAdapter(MainActivity.this, userAddressViewModels);
+        if (ViewModel == null || ViewModel.size() == 0){
+            ShowEmptyUserAddressTextView.setVisibility(View.VISIBLE);
+        }else {
+            ShowEmptyUserAddressTextView.setVisibility(View.GONE);
+        }
+
+        UserAddressDialogRecyclerViewAdapter userAddressDialogRecyclerViewAdapter = new UserAddressDialogRecyclerViewAdapter(MainActivity.this, ViewModel);
         LinearLayoutManager BusinessOpenTimeLinearLayoutManager = new LinearLayoutManager(MainActivity.this);
         UserAddressRecyclerView.setLayoutManager(BusinessOpenTimeLinearLayoutManager);
         UserAddressRecyclerView.setAdapter(userAddressDialogRecyclerViewAdapter);
@@ -885,11 +919,10 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         PageNumberPoster = 1;
         MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
 
-        GetLocalSetting();
+        GetSetting();
 
         NewestPoster();
     }
-
 
     @Override
     protected void onResume() {

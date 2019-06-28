@@ -43,7 +43,7 @@ import ir.rayas.app.citywareclient.ViewModel.Etc.EventOrNewsViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
-public class IntroduceActivity extends BaseActivity implements IResponseService,IResponseTurnOnGpsDialog {
+public class IntroduceActivity extends BaseActivity implements IResponseService, IResponseTurnOnGpsDialog {
 
     private ImageView IntroduceBannerImageView = null;
     private int LoadDataCounter = 0;
@@ -149,17 +149,21 @@ public class IntroduceActivity extends BaseActivity implements IResponseService,
         AccountRepository ARepository = new AccountRepository(null);
         AccountViewModel AccountViewModel = ARepository.getAccount();
 
-        if (AccountViewModel.getUserSetting().isUseGprsPoint()){
-            if (CurrentGps.IsMapAlreadyToUse(this, this, R.string.turn_on_location_show_business_inside)) {
+        if (AccountViewModel != null) {
+            if (AccountViewModel.getUserSetting().isUseGprsPoint()) {
+                if (CurrentGps.IsMapAlreadyToUse(this, this, R.string.turn_on_location_show_business_inside)) {
+                    GoToNextPage();
+                }
+            } else {
                 GoToNextPage();
             }
-        } else {
+        }else {
             GoToNextPage();
         }
     }
 
 
-    private void GoToNextPage(){
+    private void GoToNextPage() {
 
         if (GoToWhichActivity == 0) {
             Intent ActivityIntent = new Intent(this, DescriptionAppActivity.class);
@@ -234,7 +238,6 @@ public class IntroduceActivity extends BaseActivity implements IResponseService,
                         ViewModel = new ArrayList<>();
                         ArrayAddressString = new Gson().toJson(ViewModel);
                     }
-
 
 
                 } else {

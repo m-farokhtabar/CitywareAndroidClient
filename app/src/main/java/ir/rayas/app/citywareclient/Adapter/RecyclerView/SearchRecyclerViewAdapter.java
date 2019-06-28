@@ -71,6 +71,16 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
 
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
     @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
