@@ -1,24 +1,43 @@
 package ir.rayas.app.citywareclient.View.Master;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.SearchRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.SearchResultRecyclerViewAdapter;
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserAddressDialogSearchRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
+import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
+import ir.rayas.app.citywareclient.Repository.LocalSettingRepository;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Home.HomeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Search.SearchService;
@@ -29,16 +48,26 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.Gps;
+import ir.rayas.app.citywareclient.Share.Helper.GpsCurrentLocation;
+import ir.rayas.app.citywareclient.Share.Helper.IResponseTurnOnGpsDialog;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
+import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
+import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.View.Initializer.IntroduceActivity;
+import ir.rayas.app.citywareclient.View.MasterChildren.SettingActivity;
 import ir.rayas.app.citywareclient.ViewModel.Search.SearchResultViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Search.SearchViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Setting.LocalUserSettingViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Setting.UserSettingViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
+import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
-public class SearchActivity extends BaseActivity implements IResponseService {
+public class SearchActivity extends BaseActivity implements IResponseService, IResponseTurnOnGpsDialog {
 
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter = null;
     private SearchResultRecyclerViewAdapter searchResultRecyclerViewAdapter = null;
@@ -47,8 +76,13 @@ public class SearchActivity extends BaseActivity implements IResponseService {
     private RecyclerView SearchRecyclerViewSearchActivity = null;
     private RecyclerView SearchResultRecyclerViewSearchActivity = null;
 
+    private SwitchCompat CategoryNameSwitchSearchActivity = null;
+    private SwitchCompat RegionNameSwitchSearchActivity = null;
+    private TextViewPersian CategoryNameTextViewSearchActivity = null;
+    private TextViewPersian RegionNameTextViewSearchActivity = null;
+    private RelativeLayout MenuRelativeLayoutSearchActivity = null;
+
     private int PageNumber = 1;
-    private UserSettingViewModel userSettingViewModel = null;
     private List<BusinessPosterInfoViewModel> businessPosterInfoViewModelList = null;
 
     private Integer RegionId = null;
@@ -57,7 +91,23 @@ public class SearchActivity extends BaseActivity implements IResponseService {
     private Double latitude = null;
     private Double longitude = null;
 
+    private boolean IsFirst = false;
+    private boolean IsClickYesGPS = false;
+    private boolean IsAddress = false;
+    private Gps CurrentGps = null;
+
     private String TextSearch = "";
+
+    private UserSettingViewModel userSettingViewModel = null;
+    private List<UserAddressViewModel> userAddressViewModels = null;
+
+    private LocalUserSettingViewModel localUserSettingViewModel = new LocalUserSettingViewModel();
+    private LocalSettingRepository localSettingRepository = new LocalSettingRepository();
+
+    private RegionRepository regionRepository = new RegionRepository();
+    private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
+
+    private Dialog ShowAddressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +118,9 @@ public class SearchActivity extends BaseActivity implements IResponseService {
         setCurrentActivityId(ActivityIdList.SEARCH_ACTIVITY);
 
         Static.IsRefreshBookmark = true;
+        IsFirst = true;
+        //کلاس کنترل و مدیریت GPS
+        CurrentGps = new Gps();
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -77,15 +130,152 @@ public class SearchActivity extends BaseActivity implements IResponseService {
             }
         }, R.string.search);
 
+        String ArrayAddressString = IntroduceActivity.getArrayAddressString();
+        Type listType = new TypeToken<List<UserAddressViewModel>>() {
+        }.getType();
+        userAddressViewModels = new Gson().fromJson(ArrayAddressString, listType);
+
+        //ایجاد طرحبندی صفحه
         CreateLayout();
 
         //گرفتن تنظیمات کاربر از حافظه
         GetSetting();
 
+
+        if (!userSettingViewModel.isUseGprsPoint())
+            LoadData();
+
+
     }
 
     private void CreateLayout() {
+        //Hide And Show Menu Setting Start --------------------------------------------------------------------------
+        FloatingActionButton MainMenuBottomCategoryAndRegionFloatingActionButtonSearchActivity = findViewById(R.id.MainMenuBottomCategoryAndRegionFloatingActionButtonSearchActivity);
+        MenuRelativeLayoutSearchActivity = findViewById(R.id.MenuRelativeLayoutSearchActivity);
+        CategoryNameSwitchSearchActivity = findViewById(R.id.CategoryNameSwitchSearchActivity);
+        CategoryNameTextViewSearchActivity = findViewById(R.id.CategoryNameTextViewSearchActivity);
+        RegionNameTextViewSearchActivity = findViewById(R.id.RegionNameTextViewSearchActivity);
+        RegionNameSwitchSearchActivity = findViewById(R.id.RegionNameSwitchSearchActivity);
 
+        MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
+
+        MainMenuBottomCategoryAndRegionFloatingActionButtonSearchActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IsFirst = false;
+                if (MenuRelativeLayoutSearchActivity.getVisibility() == View.GONE) {
+                    MenuRelativeLayoutSearchActivity.setVisibility(View.VISIBLE);
+                } else {
+                    MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        MenuRelativeLayoutSearchActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
+            }
+        });
+
+        CategoryNameSwitchSearchActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                PageNumber = 1;
+
+                if (isChecked) {
+                    if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0)
+                        BusinessCategoryId = null;
+                    else
+                        BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
+
+                } else {
+                    BusinessCategoryId = null;
+                }
+
+                searchRecyclerViewAdapter.SetViewModelList(new ArrayList<SearchViewModel>());
+
+                if (!IsFirst) {
+                    SetLocalSettingToRepository(BusinessCategoryId, RegionId);
+                    LoadData();
+                    MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        RegionNameSwitchSearchActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                PageNumber = 1;
+
+                if (isChecked) {
+                    if (userSettingViewModel.isUseGprsPoint()) {
+                        RegionId = null;
+                    } else {
+                        if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
+                            RegionId = null;
+                        } else {
+                            RegionId = userSettingViewModel.getRegionId();
+                        }
+                    }
+                } else {
+                    RegionId = null;
+                }
+
+                searchRecyclerViewAdapter.SetViewModelList(new ArrayList<SearchViewModel>());
+
+                if (!IsFirst) {
+                    SetLocalSettingToRepository(BusinessCategoryId, RegionId);
+                    LoadData();
+                }
+            }
+        });
+
+        RegionNameTextViewSearchActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (RegionNameSwitchSearchActivity.isChecked()) {
+                    if (userSettingViewModel.isUseGprsPoint()) {
+                        if (userSettingViewModel.isUseGprsPoint()) {
+
+                            if (IsAddress) {
+                                //if off GPS
+                                // انتخاب آدرس کاربر
+                                ShowDialogAddress();
+                            } else {
+                                //if on GPS
+                                // نمایش دیالوگ مربوط  به انتخاب کیلومتر
+                                ShowGpsRangeInKm();
+                            }
+                        } else {
+                            Intent SettingIntent = NewIntent(SettingActivity.class);
+                            startActivity(SettingIntent);
+                        }
+                    } else {
+                        Intent SettingIntent = NewIntent(SettingActivity.class);
+                        startActivity(SettingIntent);
+                    }
+                }
+            }
+        });
+
+        CategoryNameTextViewSearchActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (CategoryNameSwitchSearchActivity.isChecked()) {
+                    Intent SettingIntent = NewIntent(SettingActivity.class);
+                    startActivity(SettingIntent);
+
+                }
+            }
+        });
+
+        //End (Hide And Show Menu Setting) --------------------------------------------------------------------------
+
+
+        //Search Start -------------------------------------------------------------------------------------------
         ImageView SearchImageViewSearchActivity = findViewById(R.id.SearchImageViewSearchActivity);
         final EditTextPersian SearchEditTextSearchActivity = findViewById(R.id.SearchEditTextSearchActivity);
         RefreshSearchSwipeRefreshLayoutSearchActivity = findViewById(R.id.RefreshSearchSwipeRefreshLayoutSearchActivity);
@@ -146,17 +336,23 @@ public class SearchActivity extends BaseActivity implements IResponseService {
                 SearchEditTextSearchActivity.setText("");
                 SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
                 SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
-                
+
                 HomeService service = new HomeService(SearchActivity.this);
                 service.GetAll(QueryType.Search.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumber);
             }
         });
+
+        // End (Search) --------------------------------------------------------------------------------------
 
     }
 
     public void LoadData() {
         if (PageNumber == 1)
             ShowLoadingProgressBar();
+
+        if (userSettingViewModel.isUseGprsPoint())
+            if (IsClickYesGPS)
+                GetMyLocation();
 
         HomeService service = new HomeService(this);
         service.GetAll(QueryType.Search.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumber);
@@ -171,37 +367,80 @@ public class SearchActivity extends BaseActivity implements IResponseService {
 
 
     private void GetSetting() {
+
         AccountRepository ARepository = new AccountRepository(null);
         AccountViewModel AccountViewModel = ARepository.getAccount();
 
         userSettingViewModel = AccountViewModel.getUserSetting();
+        SetLocalSettingToRepository(userSettingViewModel.getBusinessCategoryId(), userSettingViewModel.getRegionId());
 
         setInformationSettingToView();
     }
 
+    private void GetLocalSetting() {
+
+        localUserSettingViewModel = localSettingRepository.getLocalSetting();
+        setInformationSettingToView();
+    }
+
     private void setInformationSettingToView() {
-        if (userSettingViewModel.isUseGprsPoint()) {
+
+        if (localUserSettingViewModel.getBusinessCategoryId() == null || localUserSettingViewModel.getBusinessCategoryId() == 0) {
+
+            CategoryNameSwitchSearchActivity.setChecked(false);
+
+            CategoryNameTextViewSearchActivity.setText(getResources().getString(R.string.category_name));
+            BusinessCategoryId = null;
+        } else {
+
+            CategoryNameSwitchSearchActivity.setChecked(true);
+
+            CategoryNameTextViewSearchActivity.setText(businessCategoryRepository.GetFullName(localUserSettingViewModel.getBusinessCategoryId()));
+            BusinessCategoryId = localUserSettingViewModel.getBusinessCategoryId();
+        }
+
+
+
+        if (localUserSettingViewModel.isUseGprsPoint()) {
+
+            if (!CurrentGps.IsPermissionEnabled()) {
+                CurrentGps.ShowPermissionDialog(this);
+            } else {
+                if (!CurrentGps.IsEnabled()) {
+                    CurrentGps.ShowTurnOnGpsDialog(this, this, R.string.TurnOnLocation);
+                } else {
+                    GetMyLocation();
+                    IsAddress = false;
+                    LoadData();
+                }
+            }
+            RegionNameSwitchSearchActivity.setChecked(true);
 
             GpsRangeInKm = 1;
             RegionId = null;
+            BusinessCategoryId = null;
 
         } else {
+
+            IsAddress = false;
 
             GpsRangeInKm = null;
             latitude = null;
             longitude = null;
 
-            if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
+            if (localUserSettingViewModel.getRegionId() == null || localUserSettingViewModel.getRegionId() == 0) {
+
+                RegionNameSwitchSearchActivity.setChecked(false);
+
+                RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.region_name));
                 RegionId = null;
             } else {
-                RegionId = userSettingViewModel.getRegionId();
-            }
-        }
+                RegionNameSwitchSearchActivity.setChecked(true);
 
-        if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0) {
-            BusinessCategoryId = null;
-        } else {
-            BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
+                RegionNameTextViewSearchActivity.setText(regionRepository.GetFullName(localUserSettingViewModel.getRegionId()));
+                RegionId = localUserSettingViewModel.getRegionId();
+            }
+
         }
 
     }
@@ -527,6 +766,168 @@ public class SearchActivity extends BaseActivity implements IResponseService {
         return searchViewModelList;
     }
 
+    private void SetLocalSettingToRepository(Integer businessCategoryId, Integer regionId) {
+
+        localUserSettingViewModel.setBusinessCategoryId(businessCategoryId);
+        localUserSettingViewModel.setRegionId(regionId);
+        localUserSettingViewModel.setGpsRangeInKm(GpsRangeInKm);
+        localUserSettingViewModel.setUseGprsPoint(userSettingViewModel.isUseGprsPoint());
+        localUserSettingViewModel.setLatitude(latitude);
+        localUserSettingViewModel.setLongitude(longitude);
+
+        localSettingRepository.setLocalSetting(localUserSettingViewModel);
+    }
+
+    private void ShowGpsRangeInKm() {
+
+        MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
+
+        final Dialog GpsRangeDialog = new Dialog(SearchActivity.this);
+        GpsRangeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        GpsRangeDialog.setContentView(R.layout.dialog_gps_range);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/iransanslight.ttf");
+
+        TextViewPersian HeaderColorDialog = GpsRangeDialog.findViewById(R.id.HeaderColorDialog);
+        HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(SearchActivity.this, 1);
+
+        ButtonPersianView DialogOkButton = GpsRangeDialog.findViewById(R.id.DialogOkButton);
+        final EditText GpsRangeEditText = GpsRangeDialog.findViewById(R.id.GpsRangeEditText);
+        SeekBar GpsRangeSeekBar = GpsRangeDialog.findViewById(R.id.GpsRangeSeekBar);
+        GpsRangeEditText.setTypeface(typeface);
+
+        GpsRangeEditText.setText("1");
+
+        GpsRangeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                GpsRangeEditText.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        DialogOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (GpsRangeEditText.getText().toString().equals("")) {
+                    GpsRangeInKm = 1;
+                } else {
+                    GpsRangeInKm = Integer.parseInt(GpsRangeEditText.getText().toString());
+                }
+
+                SetLocalSettingToRepository(BusinessCategoryId, RegionId);
+
+                LoadData();
+                GpsRangeDialog.dismiss();
+
+            }
+        });
+
+        GpsRangeDialog.show();
+    }
+
+    @Override
+    public void OnDismissTurnOnGpsDialog(boolean IsClickYes) {
+
+        IsClickYesGPS = IsClickYes;
+
+        if (IsClickYes) {
+            GpsCurrentLocation gpsCurrentLocation = new GpsCurrentLocation(this);
+            latitude = gpsCurrentLocation.getLatitude();
+            longitude = gpsCurrentLocation.getLongitude();
+            RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.km));
+            GetMyLocation();
+
+            IsAddress = false;
+
+            LoadData();
+
+        } else {
+            RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.address));
+
+            IsAddress = true;
+
+            if (userAddressViewModels == null || userAddressViewModels.size() == 0) {
+                latitude = null;
+                longitude = null;
+            } else if (userAddressViewModels.size() > 1) {
+                latitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLatitude();
+                longitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLongitude();
+            }
+
+            LoadData();
+        }
+    }
+
+    /**
+     * زمانی که پنجره دسترسی به Gps می آید و کاربر باید انتخاب کند که اجازه می دهد ا خیر
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (CurrentGps.IsPermissionEnabled()) {
+            if (!CurrentGps.IsEnabled())
+                CurrentGps.ShowTurnOnGpsDialog(this, this, R.string.TurnOnLocation);
+            else
+                GetMyLocation();
+        } else {
+            LoadData();
+        }
+    }
+
+    private void GetMyLocation() {
+
+        RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.km));
+
+        GpsCurrentLocation gpsCurrentLocation = new GpsCurrentLocation(this);
+        latitude = gpsCurrentLocation.getLatitude();
+        longitude = gpsCurrentLocation.getLongitude();
+    }
+
+    private void ShowDialogAddress() {
+
+        ShowAddressDialog = new Dialog(SearchActivity.this);
+        ShowAddressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ShowAddressDialog.setContentView(R.layout.dialog_user_address);
+
+        TextViewPersian HeaderTextView = ShowAddressDialog.findViewById(R.id.HeaderTextView);
+        HeaderTextView.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(SearchActivity.this, 1);
+
+        RecyclerView UserAddressRecyclerView = ShowAddressDialog.findViewById(R.id.UserAddressRecyclerView);
+
+        UserAddressDialogSearchRecyclerViewAdapter userAddressDialogRecyclerViewAdapter = new UserAddressDialogSearchRecyclerViewAdapter(SearchActivity.this, userAddressViewModels);
+        LinearLayoutManager BusinessOpenTimeLinearLayoutManager = new LinearLayoutManager(SearchActivity.this);
+        UserAddressRecyclerView.setLayoutManager(BusinessOpenTimeLinearLayoutManager);
+        UserAddressRecyclerView.setAdapter(userAddressDialogRecyclerViewAdapter);
+
+        ShowAddressDialog.show();
+    }
+
+    public void GetLatLngAddress(Double Latitude, Double Longitude) {
+        MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
+
+        latitude = Latitude;
+        longitude = Longitude;
+
+        ShowAddressDialog.dismiss();
+
+        SetLocalSettingToRepository(BusinessCategoryId, RegionId);
+
+        LoadData();
+
+    }
 
     @Override
     protected void onResume() {
@@ -534,10 +935,19 @@ public class SearchActivity extends BaseActivity implements IResponseService {
         // برای اینکه بفهمیم چه زمانی نیاز به رفرش صفحه داریم
         if (Static.IsRefreshBookmark) {
             PageNumber = 1;
-            //دریافت کسب و کارهای بوک مارک شده
-            LoadData();
 
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        PageNumber = 1;
+        MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
+
+        GetLocalSetting();
+
     }
 
     @Override

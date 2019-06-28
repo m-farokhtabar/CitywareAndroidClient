@@ -38,7 +38,7 @@
             android:layout_gravity="left|center_vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:gravity="left|center_vertical"
+            android:gravity="center_horizontal"
             android:orientation="horizontal"
             tools:ignore="RtlHardcoded">
 
@@ -49,16 +49,16 @@
                 android:layout_marginRight="8dp"
                 android:gravity="bottom"
                 android:text="@string/km"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/FontSemiBlackColor"
                 tools:ignore="RtlHardcoded" />
 
             <EditText
                 android:id="@+id/GpsRangeEditText"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/define_your_business_scope"
                 android:inputType="number"
+                android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/FontSemiBlackColor" />
 

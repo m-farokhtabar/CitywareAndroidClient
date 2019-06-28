@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+        android:id="@+id/HeaderTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BackgroundThemeColor"
+        android:gravity="center"
+        android:paddingBottom="13dp"
+        android:paddingTop="13dp"
+        android:text="@string/address"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/FontWhiteColor"
+        tools:ignore="HardcodedText,SpUsage" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/UserAddressRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp" />
+</LinearLayout>

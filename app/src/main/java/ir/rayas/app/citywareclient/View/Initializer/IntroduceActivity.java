@@ -3,6 +3,7 @@ package ir.rayas.app.citywareclient.View.Initializer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,11 +15,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserAddressRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
-import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
-import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Etc.EventOrNewsService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Setting.SettingService;
@@ -32,6 +30,8 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.Gps;
+import ir.rayas.app.citywareclient.Share.Helper.IResponseTurnOnGpsDialog;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
@@ -39,16 +39,13 @@ import ir.rayas.app.citywareclient.View.Login.DescriptionAppActivity;
 import ir.rayas.app.citywareclient.View.Login.HowToSearchInAppGpsOrRegionActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
-import ir.rayas.app.citywareclient.ViewModel.Definition.BusinessCategoryViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Definition.RegionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Etc.EventOrNewsViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
-public class IntroduceActivity extends BaseActivity implements IResponseService {
+public class IntroduceActivity extends BaseActivity implements IResponseService,IResponseTurnOnGpsDialog {
 
     private ImageView IntroduceBannerImageView = null;
-    private ButtonPersianView IntroduceButton = null;
     private int LoadDataCounter = 0;
     private int MaxLoadData = 2;
     /**
@@ -60,8 +57,16 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
     private String SViewModel = null;
     private EventOrNewsViewModel EViewModel = null;
 
-    private String ArrayAddressString = "";
+    public static String ArrayAddressString = "";
+    private Gps CurrentGps = null;
 
+    public static String getArrayAddressString() {
+        return ArrayAddressString;
+    }
+
+    public static void setArrayAddressString(String arrayAddressString) {
+        ArrayAddressString = arrayAddressString;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,10 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
                 LoadData();
             }
         }, 0);
+
+        //کلاس کنترل و مدیریت GPS
+        CurrentGps = new Gps();
+
         //ایجاد طرح بندی صفحه
         CreateLayout();
         //دریافت اطلاعات از سرور
@@ -96,8 +105,8 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
                 OnImageViewOnClick();
             }
         });
-        IntroduceButton = findViewById(R.id.IntroduceButton);
-        IntroduceButton.setOnClickListener(new View.OnClickListener() {
+        ButtonPersianView introduceButton = findViewById(R.id.IntroduceButton);
+        introduceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 OnButtonClick();
@@ -137,6 +146,21 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
     }
 
     private void OnButtonClick() {
+        AccountRepository ARepository = new AccountRepository(null);
+        AccountViewModel AccountViewModel = ARepository.getAccount();
+
+        if (AccountViewModel.getUserSetting().isUseGprsPoint()){
+            if (CurrentGps.IsMapAlreadyToUse(this, this, R.string.turn_on_location_show_business_inside)) {
+                GoToNextPage();
+            }
+        } else {
+            GoToNextPage();
+        }
+    }
+
+
+    private void GoToNextPage(){
+
         if (GoToWhichActivity == 0) {
             Intent ActivityIntent = new Intent(this, DescriptionAppActivity.class);
             startActivity(ActivityIntent);
@@ -152,6 +176,33 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
             }
         }
         finish();
+    }
+
+    @Override
+    public void OnDismissTurnOnGpsDialog(boolean IsClickYes) {
+        if (!IsClickYes) {
+            GoToNextPage();
+        }
+    }
+
+    /**
+     * زمانی که پنجره دسترسی به Gps می آید و کاربر باید انتخاب کند که اجازه می دهد ا خیر
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (CurrentGps.IsPermissionEnabled()) {
+            if (!CurrentGps.IsEnabled())
+                CurrentGps.ShowTurnOnGpsDialog(this, this, R.string.turn_on_location_show_business_inside);
+            else
+                GoToNextPage();
+        } else {
+            ShowToast(getResources().getString(R.string.app_permission_denied), Toast.LENGTH_LONG, MessageType.Warning);
+        }
     }
 
     @Override
@@ -183,6 +234,8 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
                         ViewModel = new ArrayList<>();
                         ArrayAddressString = new Gson().toJson(ViewModel);
                     }
+
+
 
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -275,4 +328,6 @@ public class IntroduceActivity extends BaseActivity implements IResponseService 
     public void onLowMemory() {
         super.onLowMemory();
     }
+
+
 }

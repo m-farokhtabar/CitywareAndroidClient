@@ -122,12 +122,212 @@
 
         </RelativeLayout>
 
+
+        <RelativeLayout
+            android:id="@+id/MainMenuBottomCategoryAndRegionRelativeLayoutMainActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/MainMenuBottom">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/MainMenuBottomCategoryAndRegionFloatingActionButtonSearchActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu"
+                android:layout_margin="16dp"
+                app:backgroundTint="@color/ButtonBackgroundThemeColor" />
+        </RelativeLayout>
+
         <include
             android:id="@+id/MainMenuBottom"
             layout="@layout/main_menu_bar_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:id="@+id/MenuRelativeLayoutSearchActivity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#2f000000"
+                android:layout_above="@+id/MenuCardViewSearchActivity"
+                android:id="@+id/MenuClickRelativeLayoutSearchActivity"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/MenuCardViewSearchActivity"
+                android:layout_width="match_parent"
+                android:layout_height="168dp"
+                android:layout_alignParentBottom="true"
+                app:cardBackgroundColor="#ffffff"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:gravity="right|center_vertical"
+                        android:orientation="horizontal"
+                        tools:ignore="RtlHardcoded,UselessParent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="تنظیمات نمایش و جستجو"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/FontSemiDarkThemeColor" />
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/ic_setting"
+                            tools:ignore="ContentDescription" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/LineTopColor" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginBottom="8dp"
+                        android:gravity="right|center_vertical">
+
+
+                        <ImageView
+                            android:id="@+id/IconCategoryNameImageViewSearchActivity"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:adjustViewBounds="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/ic_store_black_24dp"
+                            tools:ignore="ContentDescription" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/CategoryNameTextViewSearchActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/IconCategoryNameImageViewSearchActivity"
+                            android:text="نام صنف یا رسته"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontSemiBlackColor" />
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/CategoryNameSwitchSearchActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_toLeftOf="@+id/CategoryNameTextViewSearchActivity"
+                            android:gravity="right|center_vertical"
+                            android:scaleX="1.3"
+                            android:scaleY="1.3"
+                            android:theme="@style/SwitchCompatTheme" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/CategoryNameSwitchSearchActivity"
+                            android:text="همه اصناف"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontSemiBlackColor"
+                            android:id="@+id/AllCategoryTextViewSearchActivity"/>
+
+
+                    </RelativeLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="45dp"
+                        android:background="@color/LineTopColor" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginBottom="18dp"
+                        android:gravity="right|center_vertical">
+
+
+                        <ImageView
+                            android:id="@+id/IconRegionNameImageViewSearchActivity"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:adjustViewBounds="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/ic_person_pin_circle_black_24dp"
+                            tools:ignore="ContentDescription" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/RegionNameTextViewSearchActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/IconRegionNameImageViewSearchActivity"
+                            android:text="نام منطقه"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontSemiBlackColor" />
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/RegionNameSwitchSearchActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_toLeftOf="@+id/RegionNameTextViewSearchActivity"
+                            android:gravity="right|center_vertical"
+                            android:scaleX="1.3"
+                            android:scaleY="1.3"
+                            android:theme="@style/SwitchCompatTheme" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/RegionNameSwitchSearchActivity"
+                            android:text="همه مناطق"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontSemiBlackColor"
+                            android:id="@+id/RegionAllTextViewSearchActivity"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

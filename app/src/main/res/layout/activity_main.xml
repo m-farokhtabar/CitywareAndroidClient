@@ -143,7 +143,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/MainMenuBottomCategoryAndRegionLinearLayoutMainActivity"
+        android:layout_above="@+id/MainMenuBottom"
         android:layout_below="@+id/LineTab"
         android:scrollbars="none">
 
@@ -194,124 +194,6 @@
     </android.support.v4.widget.NestedScrollView>
 
 
-    <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/MainMenuBottomCategoryAndRegionLinearLayoutMainActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/MainMenuBottom"
-        android:background="@color/BackgroundWhiteColor"
-        android:visibility="gone"
-        android:weightSum="2">
-
-        <android.support.v7.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_item_bottom_menu"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <RadioGroup
-                android:id="@+id/CategoryToggleRadioGroupMainActivity"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/toggle_out_line"
-                android:checkedButton="@+id/offer"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <RadioButton
-                    android:id="@+id/CategoryAllRadioButtonMainActivity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_weight="0.3"
-                    android:background="@drawable/selector_toggle_radio_button"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="@string/all"
-                    android:textColor="#fff" />
-
-                <RadioButton
-                    android:id="@+id/CategoryRadioButtonMainActivity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_weight="0.7"
-                    android:background="@drawable/selector_toggle_radio_button"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/category_name"
-                    android:textColor="#fff" />
-            </RadioGroup>
-        </android.support.v7.widget.LinearLayoutCompat>
-
-        <android.support.v7.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_item_bottom_menu"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <RadioGroup
-                android:id="@+id/RegionToggleRadioGroupMainActivity"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/toggle_out_line"
-                android:checkedButton="@+id/offer"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <RadioButton
-                    android:id="@+id/RegionAllRadioButtonMainActivity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_weight="0.3"
-                    android:background="@drawable/selector_toggle_radio_button"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="@string/all"
-                    android:textColor="#fff" />
-
-                <RadioButton
-                    android:id="@+id/RegionRadioButtonMainActivity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_weight="0.7"
-                    android:background="@drawable/selector_toggle_radio_button"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/region_name"
-                    android:textColor="#fff" />
-            </RadioGroup>
-        </android.support.v7.widget.LinearLayoutCompat>
-
-
-    </android.support.v7.widget.LinearLayoutCompat>
-
     <RelativeLayout
         android:id="@+id/MainMenuBottomCategoryAndRegionRelativeLayoutMainActivity"
         android:layout_width="wrap_content"
@@ -328,6 +210,7 @@
     </RelativeLayout>
 
     <include
+        android:id="@+id/MainMenuBottom"
         layout="@layout/main_menu_bar_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -339,7 +222,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -353,7 +236,6 @@
             android:layout_width="match_parent"
             android:layout_height="168dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="-168dp"
             app:cardBackgroundColor="#ffffff"
             app:cardCornerRadius="10dp">
 

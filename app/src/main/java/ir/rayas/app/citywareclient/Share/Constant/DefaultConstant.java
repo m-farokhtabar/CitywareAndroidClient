@@ -57,4 +57,6 @@ public class DefaultConstant {
      * تعداد آیتم های نمایش در صفحه
      */
     public static int PageNumberSize = 10;
+
+    public static String LocalSettingKey = "LocalSetting";
 }

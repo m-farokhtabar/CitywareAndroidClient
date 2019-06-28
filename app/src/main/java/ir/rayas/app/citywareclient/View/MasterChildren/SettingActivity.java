@@ -1,6 +1,5 @@
 package ir.rayas.app.citywareclient.View.MasterChildren;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -9,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,6 +17,7 @@ import ir.rayas.app.citywareclient.Adapter.Spinner.DeliveryStateInSearchSpinnerA
 import ir.rayas.app.citywareclient.Adapter.Spinner.SearchTypeSpinnerAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
+import ir.rayas.app.citywareclient.Repository.LocalSettingRepository;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Setting.UserSettingService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -34,14 +33,13 @@ import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.Share.SelectBusinessCategoryActivity;
 import ir.rayas.app.citywareclient.View.Share.SelectRegionActivity;
+import ir.rayas.app.citywareclient.ViewModel.Setting.LocalUserSettingViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Setting.UserSettingViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 
 public class SettingActivity extends BaseActivity implements IResponseService, ILoadData, AdapterView.OnItemSelectedListener {
 
-    private ButtonPersianView SelectRegionButtonSettingActivity = null;
-    private ButtonPersianView SelectCategoryButtonSettingActivity = null;
     private TextViewPersian SelectRegionNameTextViewSettingActivity = null;
     private TextViewPersian SelectCategoryNameTextViewSettingActivity = null;
     private SwitchCompat SearchLocationSwitchSettingActivity = null;
@@ -51,6 +49,9 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     private boolean IsLocationSearch = false;
     private Integer RegionId = null;
     private Integer CategoryId = null;
+    private Integer FirstRegionId = null;
+    private Integer FirstCategoryId = null;
+
 
     private List<String> SearchType = new ArrayList<>();
     private List<String> DeliveryStateInSearch = new ArrayList<>();
@@ -86,8 +87,8 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
 
     private void CreateLayout() {
 
-        SelectRegionButtonSettingActivity = findViewById(R.id.SelectRegionButtonSettingActivity);
-        SelectCategoryButtonSettingActivity = findViewById(R.id.SelectCategoryButtonSettingActivity);
+        ButtonPersianView selectRegionButtonSettingActivity = findViewById(R.id.SelectRegionButtonSettingActivity);
+        ButtonPersianView selectCategoryButtonSettingActivity = findViewById(R.id.SelectCategoryButtonSettingActivity);
         SelectRegionNameTextViewSettingActivity = findViewById(R.id.SelectRegionNameTextViewSettingActivity);
         SelectCategoryNameTextViewSettingActivity = findViewById(R.id.SelectCategoryNameTextViewSettingActivity);
         SearchLocationSwitchSettingActivity = findViewById(R.id.SearchLocationSwitchSettingActivity);
@@ -99,7 +100,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         SearchTypeSpinnerSettingActivity.setOnItemSelectedListener(this);
         SearchStateSpinnerSettingActivity.setOnItemSelectedListener(this);
 
-        SelectRegionButtonSettingActivity.setOnClickListener(new View.OnClickListener() {
+        selectRegionButtonSettingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //SettingActivity.this
@@ -108,7 +109,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             }
         });
 
-        SelectCategoryButtonSettingActivity.setOnClickListener(new View.OnClickListener() {
+        selectCategoryButtonSettingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent SelectBusinessCategoryIntent = NewIntent(SelectBusinessCategoryActivity.class);
@@ -164,7 +165,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         if (SearchLocationSwitchSettingActivity.isChecked()) {
             ServiceCall();
         } else {
-            if (RegionId!=null && RegionId > 0) {
+            if (RegionId != null && RegionId > 0) {
                 ServiceCall();
             } else {
                 ShowToast(getResources().getString(R.string.please_select_region_or_location), Toast.LENGTH_LONG, MessageType.Warning);
@@ -274,6 +275,9 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                         accountViewModel.setUserSetting(ViewModel);
                         AccountRepository.setAccount(accountViewModel);
                         //----------------------------------------------------------
+
+                        SetLocalSettingToRepository(ViewModel.getBusinessCategoryId(), ViewModel.getRegionId(), ViewModel.isUseGprsPoint());
+
                         FinishCurrentActivity();
                     } else {
                         ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
@@ -297,13 +301,13 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         if (Result.getFromActivityId() == getCurrentActivityId()) {
             switch (Result.getToActivityId()) {
                 case ActivityIdList.SELECT_REGION_ACTIVITY:
-                    RegionId = (int)Result.getData().get("RegionId");
-                    String RegionName = (String)Result.getData().get("RegionName");
+                    RegionId = (int) Result.getData().get("RegionId");
+                    String RegionName = (String) Result.getData().get("RegionName");
                     SelectRegionNameTextViewSettingActivity.setText(RegionName);
                     break;
                 case ActivityIdList.SELECT_BUSINESS_CATEGORY_ACTIVITY:
-                    CategoryId = (int)Result.getData().get("BusinessCategoryId");
-                    String CategoryName = (String)Result.getData().get("BusinessCategoryName");
+                    CategoryId = (int) Result.getData().get("BusinessCategoryId");
+                    String CategoryName = (String) Result.getData().get("BusinessCategoryName");
                     SelectCategoryNameTextViewSettingActivity.setText(CategoryName);
                     break;
             }
@@ -322,9 +326,37 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         SelectCategoryNameTextViewSettingActivity.setText(ViewModel.getBusinessCategoryName());
 
         RegionId = ViewModel.getRegionId();
+        FirstRegionId = ViewModel.getRegionId();
         CategoryId = ViewModel.getBusinessCategoryId();
+        FirstCategoryId = ViewModel.getBusinessCategoryId();
         IsLocationSearch = ViewModel.isUseGprsPoint();
         SearchLocationSwitchSettingActivity.setChecked(IsLocationSearch);
+    }
+
+    private void SetLocalSettingToRepository(Integer businessCategoryId, Integer regionId, boolean useGprsPoint) {
+
+        LocalUserSettingViewModel localUserSettingViewModel = new LocalUserSettingViewModel();
+        LocalSettingRepository localSettingRepository = new LocalSettingRepository();
+
+        if (FirstCategoryId != businessCategoryId)
+            localUserSettingViewModel.setBusinessCategoryId(businessCategoryId);
+        else
+            localUserSettingViewModel.setBusinessCategoryId(localSettingRepository.getLocalSetting().getBusinessCategoryId());
+
+        if (FirstRegionId != regionId)
+            localUserSettingViewModel.setRegionId(regionId);
+        else
+            localUserSettingViewModel.setRegionId(localSettingRepository.getLocalSetting().getRegionId());
+
+
+            localUserSettingViewModel.setUseGprsPoint(useGprsPoint);
+
+
+        localUserSettingViewModel.setGpsRangeInKm(localSettingRepository.getLocalSetting().getGpsRangeInKm());
+        localUserSettingViewModel.setLatitude(localSettingRepository.getLocalSetting().getLatitude());
+        localUserSettingViewModel.setLongitude(localSettingRepository.getLocalSetting().getLongitude());
+
+        localSettingRepository.setLocalSetting(localUserSettingViewModel);
     }
 
     @Override
