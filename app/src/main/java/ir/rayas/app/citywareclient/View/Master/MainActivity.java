@@ -156,8 +156,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         userSettingViewModel = AccountViewModel.getUserSetting();
 
-
-
         // Recycler View Poster Top, Poster, Bookmark Start------------------------------------------------------------------
         Line = findViewById(R.id.Line);
 
@@ -185,7 +183,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
 
         //End (Recycler View Poster Top, Poster, Bookmark)-----------------------------------------------------------------------------
-
 
 
         //Hide And Show Menu Setting Start --------------------------------------------------------------------------
@@ -284,7 +281,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             public void onClick(View view) {
 
                 if (RegionNameSwitchMainActivity.isChecked()) {
-                    if (userSettingViewModel.isUseGprsPoint()) {
+                    if (localUserSettingViewModel.isUseGprsPoint()) {
 
                         if (IsAddress) {
                             //if off GPS
@@ -422,11 +419,14 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         if (localUserSettingViewModel.getBusinessCategoryId() == null || localUserSettingViewModel.getBusinessCategoryId() == 0) {
 
             CategoryNameSwitchMainActivity.setChecked(false);
-
-            CategoryNameTextViewMainActivity.setText(getResources().getString(R.string.category_name));
             BusinessCategoryId = null;
-        } else {
 
+            if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0)
+                CategoryNameTextViewMainActivity.setText(getResources().getString(R.string.category_name));
+            else
+                CategoryNameTextViewMainActivity.setText(businessCategoryRepository.GetFullName(userSettingViewModel.getBusinessCategoryId()));
+
+        } else {
             CategoryNameSwitchMainActivity.setChecked(true);
 
             CategoryNameTextViewMainActivity.setText(businessCategoryRepository.GetFullName(localUserSettingViewModel.getBusinessCategoryId()));
@@ -463,9 +463,13 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             if (localUserSettingViewModel.getRegionId() == null || localUserSettingViewModel.getRegionId() == 0) {
 
                 RegionNameSwitchMainActivity.setChecked(false);
-
-                RegionNameTextViewMainActivity.setText(getResources().getString(R.string.region_name));
                 RegionId = null;
+
+                if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0)
+                    RegionNameTextViewMainActivity.setText(getResources().getString(R.string.region_name));
+                else
+                    RegionNameTextViewMainActivity.setText(regionRepository.GetFullName(userSettingViewModel.getRegionId()));
+
             } else {
                 RegionNameSwitchMainActivity.setChecked(true);
 
@@ -577,6 +581,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                 }
             } else if (ServiceMethod == ServiceMethodType.BookmarkPosterInfoGetAll) {
                 Feedback<List<BusinessPosterInfoViewModel>> FeedBack = (Feedback<List<BusinessPosterInfoViewModel>>) Data;
+                
+                Line.setVisibility(View.GONE);
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
                     Static.IsRefreshBookmark = false;
@@ -878,9 +884,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         RecyclerView UserAddressRecyclerView = ShowAddressDialog.findViewById(R.id.UserAddressRecyclerView);
 
-        if (ViewModel == null || ViewModel.size() == 0){
+        if (ViewModel == null || ViewModel.size() == 0) {
             ShowEmptyUserAddressTextView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             ShowEmptyUserAddressTextView.setVisibility(View.GONE);
         }
 
@@ -915,6 +921,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     protected void onRestart() {
         super.onRestart();
 
+        AccountRepository ARepository = new AccountRepository(null);
+        userSettingViewModel = ARepository.getAccount().getUserSetting();
+
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
         MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
@@ -927,6 +936,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     @Override
     protected void onResume() {
         super.onResume();
+
         // برای اینکه بفهمیم چه زمانی نیاز به رفرش صفحه داریم
         if (Static.IsRefreshBookmark) {
             PageNumberPosterTop = 1;

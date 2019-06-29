@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.FactorStatus;
@@ -40,6 +41,7 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
     private BusinessFactorListActivity Context;
     private RecyclerView Container = null;
     private List<FactorViewModel> ViewModelList = null;
+    private RegionRepository regionRepository = new RegionRepository();
 
 
     private int Position;

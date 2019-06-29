@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.View.Fragment.Package;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessListForPackageRecyclerViewAdapter;
@@ -23,7 +25,11 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutPackageViewModel;
@@ -58,8 +64,10 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
     }
 
     private void CreateLayout(View CurrentView) {
+        ButtonPersianView SelectBusinessButtonBusinessListForPackageFragment = CurrentView.findViewById(R.id.SelectBusinessButtonBusinessListForPackageFragment);
         ShowEmptyBusinessListTextViewBusinessListForPackageFragment = CurrentView.findViewById(R.id.ShowEmptyBusinessListTextViewBusinessListForPackageFragment);
         RefreshBusinessListSwipeRefreshLayoutBusinessListForPackageFragment = CurrentView.findViewById(R.id.RefreshBusinessListSwipeRefreshLayoutBusinessListForPackageFragment);
+
         BusinessListRecyclerViewBusinessListForPackageFragment = CurrentView.findViewById(R.id.BusinessListRecyclerViewBusinessListForPackageFragment);
         BusinessListRecyclerViewBusinessListForPackageFragment.setHasFixedSize(true);
         //به دلیل اینکه من در هر سطر یک گزینه نیاز دارم
@@ -76,6 +84,13 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
 
             }
         });
+
+        SelectBusinessButtonBusinessListForPackageFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SelectBusinessButtonClick();
+            }
+        });
     }
 
     public void LoadData() {
@@ -86,6 +101,23 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
         businessService.GetAll();
 
     }
+
+    private void SelectBusinessButtonClick() {
+        if (Context.getBusinessId() != 0) {
+            Bundle BusinessIdBundle = new Bundle();
+            BusinessIdBundle.putInt("BusinessId",Context.getBusinessId());
+            PackageListFragment packageListFragment = new PackageListFragment();
+            packageListFragment.setArguments(BusinessIdBundle);
+
+            FragmentTransaction PackageListTransaction = Context.getSupportFragmentManager().beginTransaction();
+            PackageListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageListFragment);
+            PackageListTransaction.addToBackStack(null);
+            PackageListTransaction.commit();
+        } else {
+            Context.ShowToast(getResources().getString(R.string.select_businesses), Toast.LENGTH_SHORT, MessageType.Warning);
+        }
+    }
+
 
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
@@ -105,28 +137,28 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
                         ShowEmptyBusinessListTextViewBusinessListForPackageFragment.setVisibility(View.GONE);
 
                         //تنظیمات مربوط به recycle کسب و کار
-                        BusinessListForPackageRecyclerViewAdapter businessListForPackageRecyclerViewAdapter = new BusinessListForPackageRecyclerViewAdapter(Context, ViewModel);
+                        BusinessListForPackageRecyclerViewAdapter businessListForPackageRecyclerViewAdapter = new BusinessListForPackageRecyclerViewAdapter(Context, ViewModel,BusinessListRecyclerViewBusinessListForPackageFragment);
                         BusinessListRecyclerViewBusinessListForPackageFragment.setAdapter(businessListForPackageRecyclerViewAdapter);
-                        businessListForPackageRecyclerViewAdapter.notifyDataSetChanged();
-                        BusinessListRecyclerViewBusinessListForPackageFragment.invalidate();
-
-
-                        businessListForPackageRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
-                            @Override
-                            public void onItemClick(int position, View v) {
-
-                                    Bundle BusinessIdBundle = new Bundle();
-                                    BusinessIdBundle.putInt("BusinessId", ViewModel.get(position).getId());
-                                    PackageListFragment packageListFragment = new PackageListFragment();
-                                    packageListFragment.setArguments(BusinessIdBundle);
-
-                                    FragmentTransaction PackageListTransaction = Context.getSupportFragmentManager().beginTransaction();
-                                    PackageListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageListFragment);
-                                    PackageListTransaction.addToBackStack(null);
-                                    PackageListTransaction.commit();
-
-                            }
-                        });
+//                        businessListForPackageRecyclerViewAdapter.notifyDataSetChanged();
+//                        BusinessListRecyclerViewBusinessListForPackageFragment.invalidate();
+//
+//
+//                        businessListForPackageRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
+//                            @Override
+//                            public void onItemClick(int position, View v) {
+//
+//                                    Bundle BusinessIdBundle = new Bundle();
+//                                    BusinessIdBundle.putInt("BusinessId", ViewModel.get(position).getId());
+//                                    PackageListFragment packageListFragment = new PackageListFragment();
+//                                    packageListFragment.setArguments(BusinessIdBundle);
+//
+//                                    FragmentTransaction PackageListTransaction = Context.getSupportFragmentManager().beginTransaction();
+//                                    PackageListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, packageListFragment);
+//                                    PackageListTransaction.addToBackStack(null);
+//                                    PackageListTransaction.commit();
+//
+//                            }
+//                        });
                     } else {
                         ShowEmptyBusinessListTextViewBusinessListForPackageFragment.setVisibility(View.VISIBLE);
                     }

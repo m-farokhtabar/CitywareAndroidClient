@@ -80,6 +80,7 @@
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/FontSemiDarkThemeColor"
                     android:visibility="gone" />
+
             </RelativeLayout>
 
 

@@ -150,7 +150,7 @@ public class IntroduceActivity extends BaseActivity implements IResponseService,
         AccountViewModel AccountViewModel = ARepository.getAccount();
 
         if (AccountViewModel != null) {
-            if (AccountViewModel.getUserSetting().isUseGprsPoint()) {
+            if (AccountViewModel.getUserSetting()!= null && AccountViewModel.getUserSetting().isUseGprsPoint()) {
                 if (CurrentGps.IsMapAlreadyToUse(this, this, R.string.turn_on_location_show_business_inside)) {
                     GoToNextPage();
                 }

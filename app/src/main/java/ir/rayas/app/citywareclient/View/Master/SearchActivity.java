@@ -401,11 +401,14 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         if (localUserSettingViewModel.getBusinessCategoryId() == null || localUserSettingViewModel.getBusinessCategoryId() == 0) {
 
             CategoryNameSwitchSearchActivity.setChecked(false);
-
-            CategoryNameTextViewSearchActivity.setText(getResources().getString(R.string.category_name));
             BusinessCategoryId = null;
-        } else {
 
+            if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0)
+                CategoryNameTextViewSearchActivity.setText(getResources().getString(R.string.category_name));
+            else
+                CategoryNameTextViewSearchActivity.setText(businessCategoryRepository.GetFullName(userSettingViewModel.getBusinessCategoryId()));
+
+        } else {
             CategoryNameSwitchSearchActivity.setChecked(true);
 
             CategoryNameTextViewSearchActivity.setText(businessCategoryRepository.GetFullName(localUserSettingViewModel.getBusinessCategoryId()));
@@ -432,7 +435,6 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
             RegionId = null;
 
         } else {
-
             IsAddress = false;
 
             GpsRangeInKm = null;
@@ -442,16 +444,19 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
             if (localUserSettingViewModel.getRegionId() == null || localUserSettingViewModel.getRegionId() == 0) {
 
                 RegionNameSwitchSearchActivity.setChecked(false);
-
-                RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.region_name));
                 RegionId = null;
+
+                if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0)
+                    RegionNameTextViewSearchActivity.setText(getResources().getString(R.string.region_name));
+                else
+                    RegionNameTextViewSearchActivity.setText(regionRepository.GetFullName(userSettingViewModel.getRegionId()));
+
             } else {
                 RegionNameSwitchSearchActivity.setChecked(true);
 
                 RegionNameTextViewSearchActivity.setText(regionRepository.GetFullName(localUserSettingViewModel.getRegionId()));
                 RegionId = localUserSettingViewModel.getRegionId();
             }
-
         }
 
     }
@@ -966,6 +971,9 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
     @Override
     protected void onRestart() {
         super.onRestart();
+
+        AccountRepository ARepository = new AccountRepository(null);
+        userSettingViewModel = ARepository.getAccount().getUserSetting();
 
         PageNumber = 1;
         MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);

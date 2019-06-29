@@ -60,7 +60,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/HeaderPackageRelativeLayout"
-            android:background="@color/BackgroundRedColorPrize"
+            android:background="@color/BackgroundLightRedColorPrize"
             android:orientation="vertical"
             android:padding="8dp"
             android:weightSum="1">

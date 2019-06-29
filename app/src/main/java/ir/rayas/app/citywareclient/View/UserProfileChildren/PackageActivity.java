@@ -19,7 +19,17 @@ public class PackageActivity extends BaseActivity {
     }
 
     public String ValueIntent = "";
+    public String BusinessName = "";
     public int PackageId = 0;
+    public int BusinessId = 0;
+
+    public String getBusinessName() {
+        return BusinessName;
+    }
+
+    public int getBusinessId() {
+        return BusinessId;
+    }
 
     public String getValueIntent() {
         return ValueIntent;
@@ -65,6 +75,12 @@ public class PackageActivity extends BaseActivity {
             BusinessListTransaction.commit();
 
     }
+
+    public void SetBusinessNameToButton(String businessName, int businessId) {
+        BusinessId = businessId;
+        BusinessName = businessName;
+    }
+
 
     /**
      * رویداد زمانی اجرا  می شود که کاربر دکمه تلاش مجدد را ضار دهد

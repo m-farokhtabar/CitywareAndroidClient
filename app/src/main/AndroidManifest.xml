@@ -321,23 +321,28 @@
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".View.MasterChildren.OrderActivity"
+        <activity
+            android:name=".View.MasterChildren.OrderActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".View.MasterChildren.ProductListOrderActivity"
+        <activity
+            android:name=".View.MasterChildren.ProductListOrderActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".View.MarketerChildren.FactorDetailsActivity"
+        <activity
+            android:name=".View.MarketerChildren.FactorDetailsActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".View.MarketerChildren.MarketerFactorDetailsActivity"
+        <activity
+            android:name=".View.MarketerChildren.MarketerFactorDetailsActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".View.MarketerChildren.CustomerFactorDetailsActivity"
+        <activity
+            android:name=".View.MarketerChildren.CustomerFactorDetailsActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

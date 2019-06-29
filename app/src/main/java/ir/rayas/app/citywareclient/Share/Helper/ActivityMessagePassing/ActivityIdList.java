@@ -56,10 +56,7 @@ public class ActivityIdList {
     public  static final int COMMERCE_ACTIVITY  = 45;
     public  static final int DISCOUNT_DETAILS_ACTIVITY  = 46;
     public  static final int SHOW_MARKETER_COMMISSION_ACTIVITY  = 47;
-    public  static final int NOT_RECEIVED_COMMISSION_ACTIVITY  = 48;
-    public  static final int RECEIVED_COMMISSION_ACTIVITY  = 49;
-    public  static final int NEW_SUGGESTION_MARKETER_COMMISSION_ACTIVITY  = 50;
-    public  static final int ARCHIVES_ACTIVITY  = 51;
+    public  static final int DISCOUNT_ACTIVITY  = 48;
     public  static final int SHOW_COMMISSION_DETAILS_ACTIVITY  = 52;
     public  static final int SEARCH_ACTIVITY  = 53;
     public  static final int USER_BUSINESS_LIST_ACTIVITY  = 54;

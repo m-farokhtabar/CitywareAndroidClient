@@ -46,9 +46,6 @@ public class UserBusinessListActivity extends BaseActivity implements IResponseS
     private int activityIdList = 0;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessListForFactorRecyclerViewAdapter;
@@ -23,17 +22,14 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 
 public class BusinessListForFactorActivity extends BaseActivity implements IResponseService {
 
     private RecyclerView BusinessListRecyclerViewBusinessListForFactorActivity = null;
     private TextViewPersian ShowEmptyBusinessListTextViewBusinessListForFactorActivity = null;
     private SwipeRefreshLayout RefreshBusinessListSwipeRefreshLayoutBusinessListForFactorActivity;
-    private BusinessListForFactorRecyclerViewAdapter BusinessListForFactorRecyclerViewAdapter = null;
 
     private boolean IsSwipe = false;
-    private List<FactorStatusViewModel> FactorStatusViewModel = new ArrayList<>();
 
 
     @Override
@@ -71,12 +67,11 @@ public class BusinessListForFactorActivity extends BaseActivity implements IResp
      */
     private void LoadData() {
         if (!IsSwipe)
-                ShowLoadingProgressBar();
+            ShowLoadingProgressBar();
 
         BusinessService businessService = new BusinessService(this);
         businessService.GetAll();
     }
-
 
 
     /**
@@ -125,9 +120,9 @@ public class BusinessListForFactorActivity extends BaseActivity implements IResp
                         ShowEmptyBusinessListTextViewBusinessListForFactorActivity.setVisibility(View.GONE);
 
                         //تنظیمات مربوط به recycle کسب و کار
-                        BusinessListForFactorRecyclerViewAdapter = new BusinessListForFactorRecyclerViewAdapter(BusinessListForFactorActivity.this, ViewModel, BusinessListRecyclerViewBusinessListForFactorActivity);
-                        BusinessListRecyclerViewBusinessListForFactorActivity.setAdapter(BusinessListForFactorRecyclerViewAdapter);
-                        BusinessListForFactorRecyclerViewAdapter.notifyDataSetChanged();
+                        BusinessListForFactorRecyclerViewAdapter businessListForFactorRecyclerViewAdapter = new BusinessListForFactorRecyclerViewAdapter(BusinessListForFactorActivity.this, ViewModel, BusinessListRecyclerViewBusinessListForFactorActivity);
+                        BusinessListRecyclerViewBusinessListForFactorActivity.setAdapter(businessListForFactorRecyclerViewAdapter);
+                        businessListForFactorRecyclerViewAdapter.notifyDataSetChanged();
                         BusinessListRecyclerViewBusinessListForFactorActivity.invalidate();
                     } else {
                         ShowEmptyBusinessListTextViewBusinessListForFactorActivity.setVisibility(View.VISIBLE);

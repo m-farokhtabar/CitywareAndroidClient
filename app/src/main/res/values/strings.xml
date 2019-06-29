@@ -348,10 +348,12 @@
     <string name="poster_list_is_empty">لیست پوستر ها خالی است</string>
     <string name="selector_business_buy_poster"> انتخاب کسب و کار برای خرید پوستر</string>
     <string name="selector_business_for_income"> انتخاب کسب و کار برای مشاهده درآمد</string>
+    <string name="selector_business_for_package"> انتخاب کسب و کار برای مشاهده و خرید پکیج</string>
     <string name="selector_business"> انتخاب کسب و کار </string>
     <string name="my_business"> کسب و کارهای شما</string>
     <string name="selector_business_for_buy_poster">مشخص نمایید این پوستر مربوط به کدام کسب و کار می باشد.</string>
     <string name="selector_business_for_visit_income">مشخص نمایید درآمد مربوط به کدام کسب و کار را میخواهید مشاهده کنید.</string>
+    <string name="selector_business_for_visit_package">مشخص نمایید پکیج های مربوط به کدام کسب و کار را میخواهید مشاهده کنید.</string>
 
     <!--متون مرتبط با پکیج ها-->
     <string name="credit_price">اعتبار دریافتی</string>

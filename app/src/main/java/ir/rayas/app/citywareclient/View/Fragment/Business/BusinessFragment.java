@@ -27,6 +27,8 @@ import java.util.StringTokenizer;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
+import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Business.BusinessService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -91,6 +93,9 @@ public class BusinessFragment extends Fragment implements IResponseService, ILoa
     int Month = 0;
     int Day = 0;
 
+    private RegionRepository regionRepository = new RegionRepository();
+    private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
+
     //جهت ارسال به اکتیویتی لیست کسب و کار ها تا در صورت ویرایش کاربر آیتم مورد نظر نیز در لیست ویرایش شود
     private BusinessViewModel OutputViewModel = null;
 
@@ -110,6 +115,7 @@ public class BusinessFragment extends Fragment implements IResponseService, ILoa
      */
     public void setRegionId(int regionId) {
         RegionId = regionId;
+        RegionNameTextViewUserBusinessSetActivity.setText(regionRepository.GetFullName(RegionId));
     }
 
     /**
@@ -118,7 +124,7 @@ public class BusinessFragment extends Fragment implements IResponseService, ILoa
      * @param Name نام منطقه
      */
     public void setRegionName(String Name) {
-        RegionNameTextViewUserBusinessSetActivity.setText(Name);
+      //  RegionNameTextViewUserBusinessSetActivity.setText(Name);
     }
 
     /**
@@ -128,6 +134,7 @@ public class BusinessFragment extends Fragment implements IResponseService, ILoa
      */
     public void setBusinessCategoryId(int businessCategoryId) {
         BusinessCategoryId = businessCategoryId;
+        BusinessCategoryNameTextViewUserBusinessSetActivity.setText(businessCategoryRepository.GetFullName(BusinessCategoryId));
     }
 
     /**
@@ -136,7 +143,7 @@ public class BusinessFragment extends Fragment implements IResponseService, ILoa
      * @param Name نام رسته یا دسته
      */
     public void setBusinessCategoryName(String Name) {
-        BusinessCategoryNameTextViewUserBusinessSetActivity.setText(Name);
+       // BusinessCategoryNameTextViewUserBusinessSetActivity.setText(Name);
     }
 
     /**
@@ -726,10 +733,10 @@ public class BusinessFragment extends Fragment implements IResponseService, ILoa
 
     private void SetBusinessToView(BusinessViewModel businessViewModel) {
         RegionId = businessViewModel.getRegionId();
-        RegionNameTextViewUserBusinessSetActivity.setText(businessViewModel.getRegionName());
+        RegionNameTextViewUserBusinessSetActivity.setText(regionRepository.GetFullName(RegionId));
 
         BusinessCategoryId = businessViewModel.getBusinessCategoryId();
-        BusinessCategoryNameTextViewUserBusinessSetActivity.setText(businessViewModel.getBusinessCategoryName());
+        BusinessCategoryNameTextViewUserBusinessSetActivity.setText(businessCategoryRepository.GetFullName(BusinessCategoryId));
 
         TitleEditTextUserBusinessSetActivity.setText(businessViewModel.getTitle());
         BusinessTitleEditTextUserBusinessSetActivity.setText(businessViewModel.getJobTitle());

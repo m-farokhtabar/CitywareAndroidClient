@@ -16,7 +16,7 @@
         android:gravity="right"
         android:orientation="horizontal"
         android:weightSum="1"
-        tools:ignore="RtlHardcoded">
+        tools:ignore="RtlHardcoded,UselessParent">
 
 
         <LinearLayout

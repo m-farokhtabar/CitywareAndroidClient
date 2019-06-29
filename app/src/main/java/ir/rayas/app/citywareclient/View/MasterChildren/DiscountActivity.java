@@ -38,7 +38,7 @@ public class DiscountActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discounts);
 
-        setCurrentActivityId(ActivityIdList.USER_PRIZE_ACTIVITY);
+        setCurrentActivityId(ActivityIdList.DISCOUNT_ACTIVITY);
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {

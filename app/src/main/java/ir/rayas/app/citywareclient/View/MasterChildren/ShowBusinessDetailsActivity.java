@@ -1,5 +1,6 @@
 package ir.rayas.app.citywareclient.View.MasterChildren;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -31,6 +32,8 @@ import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessDetailsOpenTimeR
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
+import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Business.BookmarkService;
 import ir.rayas.app.citywareclient.Service.Business.BusinessContactService;
 import ir.rayas.app.citywareclient.Service.Business.BusinessOpenTimeService;
@@ -87,6 +90,9 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
     private String Description;
     private AccountViewModel AccountModel;
     private boolean IsBookmark = false;
+
+    private RegionRepository regionRepository = new RegionRepository();
+    private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -459,11 +465,12 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void SetBusinessToView(final BusinessViewModel ViewModel) {
 
         BusinessNameTextViewShowBusinessDetailsActivity.setText(ViewModel.getTitle());
         BusinessJobTitleTextViewShowBusinessDetailsActivity.setText(ViewModel.getJobTitle());
-        CategoryNameTextViewShowBusinessDetailsActivity.setText(ViewModel.getBusinessCategoryName());
+        CategoryNameTextViewShowBusinessDetailsActivity.setText(businessCategoryRepository.GetFullName(ViewModel.getBusinessCategoryId()));
         IsOpenSwitchShowBusinessDetailsActivity.setChecked(ViewModel.isOpen());
         HasDeliverySwitchShowBusinessDetailsActivity.setChecked(ViewModel.isHasDelivery());
         EstablishmentTextViewShowBusinessDetailsActivity.setText(ViewModel.getEstablishment());
@@ -481,12 +488,12 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         else
             PostalCodeTextViewShowBusinessDetailsActivity.setText("-");
 
-        String Address;
-        if (!ViewModel.getRegionName().equals(""))
-            Address = ViewModel.getRegionName() + " - " + ViewModel.getAddress();
-        else
-            Address = ViewModel.getAddress();
-        AddressTextViewShowBusinessDetailsActivity.setText(Address);
+//        String Address;
+//        if (!ViewModel.getRegionName().equals(""))
+//            Address = ViewModel.getRegionName() + " - " + ViewModel.getAddress();
+//        else
+//            Address = ViewModel.getAddress();
+        AddressTextViewShowBusinessDetailsActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId())+ " - " + ViewModel.getAddress());
 
         String ProductImage;
         if (!ViewModel.getImagePathUrl().equals("")) {

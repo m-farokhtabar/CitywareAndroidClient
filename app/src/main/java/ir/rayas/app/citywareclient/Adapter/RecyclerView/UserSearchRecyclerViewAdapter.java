@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
+import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Share.UserSearchActivity;
 import ir.rayas.app.citywareclient.ViewModel.Search.OutUserSearchViewModel;
 
@@ -80,14 +83,23 @@ public class UserSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         final UserSearchViewHolder viewHolder = (UserSearchViewHolder) holder;
 
 
-
         String Name = ViewModelList.get(position).getName();
         String Family = ViewModelList.get(position).getFamily();
         final String UserName = Name + " " + Family;
-        final String NickName = ViewModelList.get(position).getNickName();
 
-        viewHolder.UserNameTextView.setText(UserName + " - " + NickName);
+        viewHolder.NickNameTextView.setText(ViewModelList.get(position).getNickName());
+        viewHolder.UserNameTextView.setText(UserName );
         viewHolder.UserNameTextView.setTag(ViewModelList.get(position).getId());
+
+        int ScreenWidth = LayoutUtility.GetWidthAccordingToScreen(Context, 6)-40;
+
+        viewHolder.UserImageView.getLayoutParams().width = ScreenWidth-30;
+        viewHolder.UserImageView.getLayoutParams().height = ScreenWidth-30;
+
+        viewHolder.UserLinearLayout.getLayoutParams().width = ScreenWidth;
+        viewHolder.UserLinearLayout.getLayoutParams().height = ScreenWidth;
+
+
 
         viewHolder.UserNameRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,13 +122,19 @@ public class UserSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private class UserSearchViewHolder extends RecyclerView.ViewHolder  {
 
         TextViewPersian UserNameTextView;
+        TextViewPersian NickNameTextView;
         RelativeLayout UserNameRelativeLayout;
+        ImageView UserImageView;
+        LinearLayout UserLinearLayout;
 
         UserSearchViewHolder(View v) {
             super(v);
 
             UserNameTextView = v.findViewById(R.id.UserNameTextView);
+            NickNameTextView = v.findViewById(R.id.NickNameTextView);
             UserNameRelativeLayout = v.findViewById(R.id.UserNameRelativeLayout);
+            UserImageView = v.findViewById(R.id.UserImageView);
+            UserLinearLayout = v.findViewById(R.id.UserLinearLayout);
 
         }
 

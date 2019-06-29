@@ -106,11 +106,9 @@
                     android:orientation="vertical"
                     tools:ignore="InefficientWeight,NestedWeights,RtlHardcoded,UselessParent">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content">
 
                         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                             android:id="@+id/BusinessNameTextView"
@@ -120,6 +118,10 @@
                             android:layout_marginLeft="4dp"
                             android:layout_marginRight="8dp"
                             android:layout_marginEnd="8dp"
+                            android:layout_toLeftOf="@+id/TitleBusinessTextView"
+                            android:singleLine="true"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentLeft="true"
                             android:gravity="right"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/FontBlackColor" />
@@ -128,11 +130,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:id="@+id/TitleBusinessTextView"
                             android:text="@string/business"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@color/FontSemiBlackColor" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"

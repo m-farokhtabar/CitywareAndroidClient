@@ -1,5 +1,6 @@
 package ir.rayas.app.citywareclient.View.Share;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import ir.rayas.app.citywareclient.Adapter.Spinner.FactorStatusSpinnerAdapter;
 import ir.rayas.app.citywareclient.Adapter.ViewModel.FactorStatusAdapterViewModel;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Business.BusinessContactService;
 import ir.rayas.app.citywareclient.Service.Business.BusinessOpenTimeService;
 import ir.rayas.app.citywareclient.Service.Factor.FactorStatusService;
@@ -63,12 +65,9 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private TextViewPersian DescriptionUserFactorTextViewUserFactorDetailActivity = null;
     private TextViewPersian BusinessDescriptionTextViewUserFactorDetailActivity = null;
     private EditText UserDescriptionEditTextUserFactorDetailActivity = null;
-    private TextViewPersian ShowMapBusinessIconTextViewUserFactorDetailActivity = null;
-    private TextViewPersian ContactIconTextViewUserFactorDetailActivity = null;
     private TextViewPersian BusinessAddressTextViewUserFactorDetailActivity = null;
     private TextViewPersian StatusFactorTextViewUserFactorDetailActivity = null;
     private CardView BusinessDescriptionCardViewUserFactorDetailActivity = null;
-    private RelativeLayout UserDescriptionRelativeLayoutUserFactorDetailActivity = null;
     private LinearLayout ShowMapLinearLayoutUserFactorDetailActivity = null;
     private Spinner StatusFactorSpinnerUserFactorDetailActivity = null;
 
@@ -83,13 +82,11 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private String FactorStatusTitle = "";
     private boolean IsChangeDescription = false;
 
-    private UserFactorBusinessOpenTimeRecyclerViewAdapter userFactorBusinessOpenTimeRecyclerViewAdapter = null;
-    private UserFactorBusinessContactRecyclerViewAdapter userFactorBusinessContactRecyclerViewAdapter = null;
-
     private List<FactorItemViewModel> ItemList = new ArrayList<>();
     private List<FactorStatusViewModel> FactorStatusViewModels = new ArrayList<>();
     private List<FactorStatusAdapterViewModel> FactorStatusAdapterViewModel = new ArrayList<>();
 
+    private RegionRepository regionRepository = new RegionRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,13 +142,12 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         DescriptionUserFactorTextViewUserFactorDetailActivity = findViewById(R.id.DescriptionUserFactorTextViewUserFactorDetailActivity);
         BusinessDescriptionTextViewUserFactorDetailActivity = findViewById(R.id.BusinessDescriptionTextViewUserFactorDetailActivity);
         BusinessDescriptionCardViewUserFactorDetailActivity = findViewById(R.id.BusinessDescriptionCardViewUserFactorDetailActivity);
-        UserDescriptionRelativeLayoutUserFactorDetailActivity = findViewById(R.id.UserDescriptionRelativeLayoutUserFactorDetailActivity);
         UserDescriptionEditTextUserFactorDetailActivity = findViewById(R.id.UserDescriptionEditTextUserFactorDetailActivity);
         ShowMapLinearLayoutUserFactorDetailActivity = findViewById(R.id.ShowMapLinearLayoutUserFactorDetailActivity);
         RelativeLayout ContactRelativeLayoutUserFactorDetailActivity = findViewById(R.id.ContactRelativeLayoutUserFactorDetailActivity);
         RelativeLayout OpenTimeRelativeLayoutUserFactorDetailActivity = findViewById(R.id.OpenTimeRelativeLayoutUserFactorDetailActivity);
-        ShowMapBusinessIconTextViewUserFactorDetailActivity = findViewById(R.id.ShowMapBusinessIconTextViewUserFactorDetailActivity);
-        ContactIconTextViewUserFactorDetailActivity = findViewById(R.id.ContactIconTextViewUserFactorDetailActivity);
+        TextViewPersian showMapBusinessIconTextViewUserFactorDetailActivity = findViewById(R.id.ShowMapBusinessIconTextViewUserFactorDetailActivity);
+        TextViewPersian contactIconTextViewUserFactorDetailActivity = findViewById(R.id.ContactIconTextViewUserFactorDetailActivity);
         BusinessAddressTextViewUserFactorDetailActivity = findViewById(R.id.BusinessAddressTextViewUserFactorDetailActivity);
         TextViewPersian OpenTimeIconTextViewUserFactorDetailActivity = findViewById(R.id.OpenTimeIconTextViewUserFactorDetailActivity);
         StatusFactorSpinnerUserFactorDetailActivity = findViewById(R.id.StatusFactorSpinnerUserFactorDetailActivity);
@@ -160,11 +156,11 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         ButtonPersianView ShowProductButtonUserFactorDetailActivity = findViewById(R.id.ShowProductButtonUserFactorDetailActivity);
         ButtonPersianView EditButtonUserFactorDetailActivity = findViewById(R.id.EditButtonUserFactorDetailActivity);
 
-        ContactIconTextViewUserFactorDetailActivity.setTypeface(Font.MasterIcon);
-        ContactIconTextViewUserFactorDetailActivity.setText("\uf095");
+        contactIconTextViewUserFactorDetailActivity.setTypeface(Font.MasterIcon);
+        contactIconTextViewUserFactorDetailActivity.setText("\uf095");
 
-        ShowMapBusinessIconTextViewUserFactorDetailActivity.setTypeface(Font.MasterIcon);
-        ShowMapBusinessIconTextViewUserFactorDetailActivity.setText("\uf041");
+        showMapBusinessIconTextViewUserFactorDetailActivity.setTypeface(Font.MasterIcon);
+        showMapBusinessIconTextViewUserFactorDetailActivity.setText("\uf041");
 
         OpenTimeIconTextViewUserFactorDetailActivity.setTypeface(Font.MasterIcon);
         OpenTimeIconTextViewUserFactorDetailActivity.setText("\uf017");
@@ -425,13 +421,14 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         return ViewModel;
     }
 
+    @SuppressLint("SetTextI18n")
     private void SetInformationToView(FactorViewModel ViewModelList) {
 
         BusinessNameTextViewUserFactorDetailActivity.setText(ViewModelList.getBusinessName());
         CreateDateUserFactorTextViewUserFactorDetailActivity.setText(ViewModelList.getCreate());
         NumberOfOrderItemsUserFactorTextViewUserFactorDetailActivity.setText(String.valueOf(ViewModelList.getItemList().size()));
         UserFactorCodeTextViewUserFactorDetailActivity.setText(String.valueOf(ViewModelList.getId()));
-        BusinessAddressTextViewUserFactorDetailActivity.setText(ViewModelList.getBusinessAddress());
+        BusinessAddressTextViewUserFactorDetailActivity.setText(regionRepository.GetFullName(ViewModelList.getRegionId()) + " - " + ViewModelList.getBusinessAddress());
 
         BusinessId = ViewModelList.getBusinessId();
         Latitude = ViewModelList.getBusinessLatitude();
@@ -558,7 +555,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         ShowBusinessDetailsDialog.setContentView(R.layout.dialog_business_open_time);
 
         RecyclerView BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity = ShowBusinessDetailsDialog.findViewById(R.id.BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity);
-        userFactorBusinessOpenTimeRecyclerViewAdapter = new UserFactorBusinessOpenTimeRecyclerViewAdapter(UserFactorDetailActivity.this, R.layout.recycler_view_dialog_open_time, ViewModel, BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity);
+        UserFactorBusinessOpenTimeRecyclerViewAdapter userFactorBusinessOpenTimeRecyclerViewAdapter = new UserFactorBusinessOpenTimeRecyclerViewAdapter(UserFactorDetailActivity.this, R.layout.recycler_view_dialog_open_time, ViewModel, BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity);
         LinearLayoutManager BusinessOpenTimeLinearLayoutManager = new LinearLayoutManager(UserFactorDetailActivity.this);
         BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity.setLayoutManager(BusinessOpenTimeLinearLayoutManager);
         BusinessOpenTimeRecyclerViewShowBusinessDetailsActivity.setAdapter(userFactorBusinessOpenTimeRecyclerViewAdapter);
@@ -576,7 +573,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         TextViewPersian HeaderTextViewShowBusinessDetailsActivity = ShowBusinessDetailsDialog.findViewById(R.id.HeaderTextViewShowBusinessDetailsActivity);
         HeaderTextViewShowBusinessDetailsActivity.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(UserFactorDetailActivity.this, 1);
         RecyclerView BusinessContactRecyclerViewShowBusinessDetailsActivity = ShowBusinessDetailsDialog.findViewById(R.id.BusinessContactRecyclerViewShowBusinessDetailsActivity);
-        userFactorBusinessContactRecyclerViewAdapter = new UserFactorBusinessContactRecyclerViewAdapter(UserFactorDetailActivity.this, ViewModel, BusinessContactRecyclerViewShowBusinessDetailsActivity);
+        UserFactorBusinessContactRecyclerViewAdapter userFactorBusinessContactRecyclerViewAdapter = new UserFactorBusinessContactRecyclerViewAdapter(UserFactorDetailActivity.this, ViewModel, BusinessContactRecyclerViewShowBusinessDetailsActivity);
         LinearLayoutManager BusinessOpenTimeLinearLayoutManager = new LinearLayoutManager(UserFactorDetailActivity.this);
         BusinessContactRecyclerViewShowBusinessDetailsActivity.setLayoutManager(BusinessOpenTimeLinearLayoutManager);
         BusinessContactRecyclerViewShowBusinessDetailsActivity.setAdapter(userFactorBusinessContactRecyclerViewAdapter);

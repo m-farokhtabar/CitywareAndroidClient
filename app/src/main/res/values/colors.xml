@@ -89,7 +89,7 @@
     <color name="BackgroundRedGrayColorPrize">#a81616</color>
     <color name="BackgroundRedLightColorPrize">#e70a0a</color>
     <color name="BackgroundRedColorPrize">#f9e0e0</color>
-    <color name="BackgroundLightRedColorPrize">#FFFDF4F4</color>
+    <color name="BackgroundLightRedColorPrize">#fdf9f9</color>
     <color name="BackgroundYellowColorPrize">#FEF5E7</color>
     <color name="BackgroundProgressLightPrize">#bc51aebc</color>
     <color name="BackgroundProgressDarkPrize">#005662</color>

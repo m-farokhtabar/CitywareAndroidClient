@@ -7,15 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.Share.MyClickListener;
+import ir.rayas.app.citywareclient.Adapter.ViewModel.IsSelectBusinessListAdapterViewModel;
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Share.MapActivity;
+import ir.rayas.app.citywareclient.View.Share.UserBusinessListActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 
@@ -27,112 +33,136 @@ public class BusinessListForPackageRecyclerViewAdapter extends RecyclerView.Adap
     private PackageActivity Context;
     private MyClickListener myClickListener;
 
-    public BusinessListForPackageRecyclerViewAdapter(PackageActivity context, List<BusinessViewModel> ViewModel) {
+    private RecyclerView Container = null;
+    private List<IsSelectBusinessListAdapterViewModel> ViewModel = new ArrayList<>();
+
+    private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
+
+    private RadioButton LastSelectedRadioButton = null;
+    private int LastSelectedPosition = -1;
+
+    private String SelectBusinessName = "";
+    private int SelectBusinessId;
+
+    public BusinessListForPackageRecyclerViewAdapter(PackageActivity context, List<BusinessViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
         this.ViewModelList = ViewModel;
+
+        this.Container = Container;
+
+        ConvertUserBusinessViewModelToBasketAddressAdapterViewModel(ViewModelList);
     }
 
+    private void ConvertUserBusinessViewModelToBasketAddressAdapterViewModel(List<BusinessViewModel> ViewModels) {
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        // each data item is just a string in this case
+        ViewModel = new ArrayList<>();
 
-        TextViewPersian UserBusinessTitleTextView;
-        TextViewPersian CategoryNameTextViewUserBusiness;
-        TextViewPersian ConfirmStateTextViewUserBusiness;
-        TextViewPersian ShowMapBusinessIconTextViewUserBusiness;
-        TextViewPersian ConfirmStateTitleTextViewUserBusiness;
-        TextViewPersian AddressTextViewUserBusiness;
-        TextViewPersian ShowMapBusinessTextViewUserBusiness;
-        LinearLayout ShowMapLinearLayoutUserBusiness;
+        for (int i = 0; i < ViewModels.size(); i++) {
+            IsSelectBusinessListAdapterViewModel isSelectBusinessListAdapterViewModel = new IsSelectBusinessListAdapterViewModel();
+            isSelectBusinessListAdapterViewModel.setBusinessName(ViewModels.get(i).getTitle());
+            isSelectBusinessListAdapterViewModel.setBusinessId(ViewModels.get(i).getId());
+            isSelectBusinessListAdapterViewModel.setBusinessCategoryId(ViewModels.get(i).getBusinessCategoryId());
 
-
-        public ViewHolder(View v) {
-            super(v);
-
-            UserBusinessTitleTextView = v.findViewById(R.id.UserBusinessTitleTextView);
-            CategoryNameTextViewUserBusiness = v.findViewById(R.id.CategoryNameTextViewUserBusiness);
-            ConfirmStateTextViewUserBusiness = v.findViewById(R.id.ConfirmStateTextViewUserBusiness);
-            ShowMapBusinessIconTextViewUserBusiness = v.findViewById(R.id.ShowMapBusinessIconTextViewUserBusiness);
-            ShowMapLinearLayoutUserBusiness = v.findViewById(R.id.ShowMapLinearLayoutUserBusiness);
-            ConfirmStateTitleTextViewUserBusiness = v.findViewById(R.id.ConfirmStateTitleTextViewUserBusiness);
-            AddressTextViewUserBusiness = v.findViewById(R.id.AddressTextViewUserBusiness);
-            ShowMapBusinessTextViewUserBusiness = v.findViewById(R.id.ShowMapBusinessTextViewUserBusiness);
-
-            v.setOnClickListener(this);
+            ViewModel.add(isSelectBusinessListAdapterViewModel);
         }
 
-        @Override
-        public void onClick(View v) {
-            myClickListener.onItemClick(getPosition(), v);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextViewPersian BusinessTitleTextView;
+        TextViewPersian BusinessCategoryTextView;
+        RelativeLayout BusinessContainerRelativeLayout;
+        RadioButton RegionSelectedRadioButton;
+
+
+        ViewHolder(View v) {
+            super(v);
+
+            BusinessTitleTextView = v.findViewById(R.id.BusinessTitleTextView);
+            BusinessCategoryTextView = v.findViewById(R.id.BusinessCategoryTextView);
+            BusinessContainerRelativeLayout = v.findViewById(R.id.BusinessContainerRelativeLayout);
+            RegionSelectedRadioButton = v.findViewById(R.id.RegionSelectedRadioButton);
+
+
+            RegionSelectedRadioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (LastSelectedPosition > -1)
+                        ViewModel.get(LastSelectedPosition).IsSelected = false;
+
+                    if (LastSelectedRadioButton != null)
+                        LastSelectedRadioButton.setChecked(false);
+
+                    if (LastSelectedPosition != getAdapterPosition()) {
+                        LastSelectedPosition = getAdapterPosition();
+                        ViewModel.get(LastSelectedPosition).IsSelected = true;
+                        SelectBusinessName = ViewModel.get(LastSelectedPosition).getBusinessName();
+                        SelectBusinessId = ViewModel.get(LastSelectedPosition).getBusinessId();
+                        LastSelectedRadioButton = (RadioButton) view;
+                        LastSelectedRadioButton.setChecked(true);
+                    } else {
+                        LastSelectedPosition = -1;
+                        SelectBusinessName = "";
+                        SelectBusinessId = 0;
+                        LastSelectedRadioButton = null;
+                    }
+
+                    Context.SetBusinessNameToButton(SelectBusinessName,SelectBusinessId);
+                }
+
+            });
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_business_list, parent, false);
+        View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_my_business_list, parent, false);
         return new ViewHolder(CurrentView);
     }
 
 
     @SuppressLint("NewApi")
     @Override
-    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        holder.UserBusinessTitleTextView.setText(ViewModelList.get(position).getTitle());
-        holder.CategoryNameTextViewUserBusiness.setText(ViewModelList.get(position).getBusinessCategoryName());
-        holder.ConfirmStateTextViewUserBusiness.setText(ViewModelList.get(position).getConfirmTypeName());
+    public void onBindViewHolder(final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
-        holder.ShowMapBusinessIconTextViewUserBusiness.setTypeface(Font.MasterIcon);
-        holder.ShowMapBusinessIconTextViewUserBusiness.setText("\uf041");
+        holder.BusinessTitleTextView.setText(ViewModel.get(position).getBusinessName());
+        String CategoryName = businessCategoryRepository.GetFullName(ViewModel.get(position).getBusinessCategoryId());
+        holder.BusinessCategoryTextView.setText(CategoryName);
 
-        String Address = ViewModelList.get(position).getRegionName() + " - " + ViewModelList.get(position).getAddress();
-        holder.AddressTextViewUserBusiness.setText(Address);
+        holder.RegionSelectedRadioButton.setChecked(ViewModel.get(position).getSelected());
 
-        if (ViewModelList.get(position).getLatitude() > 0 && ViewModelList.get(position).getLongitude() > 0) {
-            holder.ShowMapLinearLayoutUserBusiness.setVisibility(View.VISIBLE);
-        } else {
-            holder.ShowMapLinearLayoutUserBusiness.setVisibility(View.GONE);
+    }
+
+
+
+    /**
+     * اضافه مودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void AddViewModelList(List<BusinessViewModel> ViewModel) {
+        if (ViewModel != null) {
+            if (ViewModelList == null)
+                ViewModelList = new ArrayList<>();
+            ViewModelList.addAll(ViewModel);
+            notifyDataSetChanged();
+            Container.invalidate();
         }
+    }
 
-
-
-        if (ViewModelList.get(position).isActive()) {
-
-            holder.ShowMapLinearLayoutUserBusiness.setEnabled(true);
-            holder.ShowMapLinearLayoutUserBusiness.setClickable(true);
-            holder.ShowMapBusinessTextViewUserBusiness.setTextColor(Context.getResources().getColor(R.color.FontSemiDarkThemeColor));
-            holder.ShowMapBusinessIconTextViewUserBusiness.setTextColor(Context.getResources().getColor(R.color.FontSemiDarkThemeColor));
-
-            if (ViewModelList.get(position).getConfirmTypeId() == 3) {
-                holder.ConfirmStateTitleTextViewUserBusiness.setTextColor(Context.getResources().getColor(R.color.FontGreenColor));
-                holder.ConfirmStateTextViewUserBusiness.setTextColor(Context.getResources().getColor(R.color.FontGreenColor));
-            } else if (ViewModelList.get(position).getConfirmTypeId() == 4) {
-                holder.ConfirmStateTitleTextViewUserBusiness.setTextColor(Context.getResources().getColor(R.color.FontRedColor));
-                holder.ConfirmStateTextViewUserBusiness.setTextColor(Context.getResources().getColor(R.color.FontRedColor));
-            } else {
-                holder.ConfirmStateTitleTextViewUserBusiness.setTextColor(Context.getResources().getColor(R.color.FontSemiBlackColor));
-                holder.ConfirmStateTextViewUserBusiness.setTextColor(Context.getResources().getColor(R.color.FontBlackColor));
-            }
-
-            holder.ShowMapLinearLayoutUserBusiness.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent MapIntent = Context.NewIntent(MapActivity.class);
-                    MapIntent.putExtra("Latitude", ViewModelList.get(position).getLatitude());
-                    MapIntent.putExtra("Longitude", ViewModelList.get(position).getLongitude());
-                    MapIntent.putExtra("Going", 2);
-                    Context.startActivity(MapIntent);
-                }
-            });
-        } else {
-
-            holder.ShowMapLinearLayoutUserBusiness.setEnabled(false);
-            holder.ShowMapLinearLayoutUserBusiness.setClickable(false);
-            holder.ShowMapBusinessTextViewUserBusiness.setTextColor(LayoutUtility.GetColorFromResource(Context, R.color.FontSemiBlackColor));
-            holder.ShowMapBusinessIconTextViewUserBusiness.setTextColor(LayoutUtility.GetColorFromResource(Context, R.color.FontSemiBlackColor));
-        }
-
-
+    /**
+     * جایگزین نمودن لیست جدید
+     *
+     * @param ViewModel
+     */
+    public void SetViewModelList(List<BusinessViewModel> ViewModel) {
+        ViewModelList = new ArrayList<>();
+        ViewModelList.addAll(ViewModel);
+        notifyDataSetChanged();
+        Container.invalidate();
     }
 
     @Override
@@ -145,7 +175,4 @@ public class BusinessListForPackageRecyclerViewAdapter extends RecyclerView.Adap
         return Output;
     }
 
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        this.myClickListener = myClickListener;
-    }
 }

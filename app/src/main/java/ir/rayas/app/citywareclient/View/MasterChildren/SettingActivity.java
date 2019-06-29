@@ -17,7 +17,9 @@ import ir.rayas.app.citywareclient.Adapter.Spinner.DeliveryStateInSearchSpinnerA
 import ir.rayas.app.citywareclient.Adapter.Spinner.SearchTypeSpinnerAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
+import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
 import ir.rayas.app.citywareclient.Repository.LocalSettingRepository;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Setting.UserSettingService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -59,6 +61,9 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     private Integer DeliveryStateInSearchPosition;
 
     private AccountRepository AccountRepository = null;
+
+    private RegionRepository regionRepository = new RegionRepository();
+    private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
 
 
     @Override
@@ -268,6 +273,9 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                     if (ViewModel != null) {
                         ViewModel.setRegionName(SelectRegionNameTextViewSettingActivity.getText().toString());
                         ViewModel.setBusinessCategoryName(SelectCategoryNameTextViewSettingActivity.getText().toString());
+
+                        SetLocalSettingToRepository(ViewModel.getBusinessCategoryId(), ViewModel.getRegionId(), ViewModel.isUseGprsPoint());
+
                         //پر کردن ویو با اطلاعات دریافتی
                         SetInformationToView(ViewModel);
                         //  ---------------------- اپدیت اکانت کاربر  ------------------------------
@@ -275,9 +283,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                         accountViewModel.setUserSetting(ViewModel);
                         AccountRepository.setAccount(accountViewModel);
                         //----------------------------------------------------------
-
-                        SetLocalSettingToRepository(ViewModel.getBusinessCategoryId(), ViewModel.getRegionId(), ViewModel.isUseGprsPoint());
-
+                        
                         FinishCurrentActivity();
                     } else {
                         ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
@@ -303,12 +309,12 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                 case ActivityIdList.SELECT_REGION_ACTIVITY:
                     RegionId = (int) Result.getData().get("RegionId");
                     String RegionName = (String) Result.getData().get("RegionName");
-                    SelectRegionNameTextViewSettingActivity.setText(RegionName);
+                    SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(RegionId));
                     break;
                 case ActivityIdList.SELECT_BUSINESS_CATEGORY_ACTIVITY:
                     CategoryId = (int) Result.getData().get("BusinessCategoryId");
                     String CategoryName = (String) Result.getData().get("BusinessCategoryName");
-                    SelectCategoryNameTextViewSettingActivity.setText(CategoryName);
+                    SelectCategoryNameTextViewSettingActivity.setText(businessCategoryRepository.GetFullName(CategoryId));
                     break;
             }
         }
@@ -322,8 +328,8 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         SearchTypeSpinnerSettingActivity.setSelection(SearchTypePosition);
         SearchStateSpinnerSettingActivity.setSelection(DeliveryStateInSearchPosition);
 
-        SelectRegionNameTextViewSettingActivity.setText(ViewModel.getRegionName());
-        SelectCategoryNameTextViewSettingActivity.setText(ViewModel.getBusinessCategoryName());
+        SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
+        SelectCategoryNameTextViewSettingActivity.setText(businessCategoryRepository.GetFullName(ViewModel.getBusinessCategoryId()));
 
         RegionId = ViewModel.getRegionId();
         FirstRegionId = ViewModel.getRegionId();

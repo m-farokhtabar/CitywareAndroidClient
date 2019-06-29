@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Business.BusinessService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -31,9 +32,6 @@ import ir.rayas.app.citywareclient.View.UserProfileChildren.BusinessSetActivity;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 
-/**
- * Created by Hajar on 8/7/2018.
- */
 
 public class BusinessListRecyclerViewAdapter extends RecyclerView.Adapter<BusinessListRecyclerViewAdapter.ViewHolder> implements IResponseService {
 
@@ -41,6 +39,8 @@ public class BusinessListRecyclerViewAdapter extends RecyclerView.Adapter<Busine
     private RecyclerView Container = null;
     private UserProfileActivity Context;
     private int Position;
+
+    private RegionRepository regionRepository = new RegionRepository();
 
     public BusinessListRecyclerViewAdapter(UserProfileActivity context, List<BusinessViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
@@ -51,19 +51,19 @@ public class BusinessListRecyclerViewAdapter extends RecyclerView.Adapter<Busine
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextViewPersian UserDeleteBusinessIconTextView;
-        public ButtonPersianView UserEditBusinessButton;
-        public TextViewPersian UserBusinessTitleTextView;
-        public TextViewPersian JobTextViewUserBusiness;
-        public TextViewPersian KeyWordTextViewUserBusiness;
-        public TextViewPersian ConfirmStateTextViewUserBusiness;
-        public TextViewPersian ShowMapBusinessIconTextViewUserBusiness;
-        public TextViewPersian ConfirmStateTitleTextViewUserBusiness;
-        public TextViewPersian AddressTextViewUserBusiness;
-        public TextViewPersian ShowMapBusinessTextViewUserBusiness;
-        public LinearLayout ShowMapLinearLayoutUserBusiness;
-        public SwitchCompat IsOpenSwitchUserBusiness;
-        public SwitchCompat HasDeliverySwitchUserBusiness;
+         TextViewPersian UserDeleteBusinessIconTextView;
+         ButtonPersianView UserEditBusinessButton;
+         TextViewPersian UserBusinessTitleTextView;
+         TextViewPersian JobTextViewUserBusiness;
+         TextViewPersian KeyWordTextViewUserBusiness;
+         TextViewPersian ConfirmStateTextViewUserBusiness;
+         TextViewPersian ShowMapBusinessIconTextViewUserBusiness;
+         TextViewPersian ConfirmStateTitleTextViewUserBusiness;
+         TextViewPersian AddressTextViewUserBusiness;
+         TextViewPersian ShowMapBusinessTextViewUserBusiness;
+         LinearLayout ShowMapLinearLayoutUserBusiness;
+         SwitchCompat IsOpenSwitchUserBusiness;
+         SwitchCompat HasDeliverySwitchUserBusiness;
 
         public ViewHolder(View v) {
             super(v);
@@ -87,12 +87,11 @@ public class BusinessListRecyclerViewAdapter extends RecyclerView.Adapter<Busine
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_user_business, parent, false);
-        ViewHolder CurrentViewHolder = new ViewHolder(CurrentView);
-        return CurrentViewHolder;
+        return new ViewHolder(CurrentView);
     }
 
 
-    @SuppressLint("NewApi")
+    @SuppressLint({"NewApi", "SetTextI18n"})
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.UserBusinessTitleTextView.setText(ViewModelList.get(position).getTitle());
@@ -108,8 +107,9 @@ public class BusinessListRecyclerViewAdapter extends RecyclerView.Adapter<Busine
         holder.ShowMapBusinessIconTextViewUserBusiness.setTypeface(Font.MasterIcon);
         holder.ShowMapBusinessIconTextViewUserBusiness.setText("\uf041");
 
-        String Address = ViewModelList.get(position).getRegionName() + " - " + ViewModelList.get(position).getAddress();
-        holder.AddressTextViewUserBusiness.setText(Address);
+//        String Address = ViewModelList.get(position).getRegionName() + " - " + ViewModelList.get(position).getAddress();
+
+        holder.AddressTextViewUserBusiness.setText(regionRepository.GetFullName(ViewModelList.get(position).getRegionId())+ " - " + ViewModelList.get(position).getAddress());
 
         if (ViewModelList.get(position).getLatitude() > 0 && ViewModelList.get(position).getLongitude() > 0) {
             holder.ShowMapLinearLayoutUserBusiness.setVisibility(View.VISIBLE);
@@ -210,7 +210,7 @@ public class BusinessListRecyclerViewAdapter extends RecyclerView.Adapter<Busine
         return Output;
     }
 
-    public void ShowBusinessDeleteDialog(final int Position) {
+    private void ShowBusinessDeleteDialog(final int Position) {
 
         final Dialog BusinessDeleteDialog = new Dialog(Context);
         BusinessDeleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
