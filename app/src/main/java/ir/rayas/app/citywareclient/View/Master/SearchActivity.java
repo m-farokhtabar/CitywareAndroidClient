@@ -25,7 +25,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -323,6 +325,13 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     SearchRecyclerViewSearchActivity.setVisibility(View.GONE);
 
                     TextSearch = s.toString();
+
+                    try {
+                        String Temp = URLEncoder.encode(TextSearch, "utf-8");
+                        TextSearch = Temp;
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                     PageNumber = 1;
                     LoadDataSearch();
 

@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +112,12 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
 
                 if (s.length() != 0) {
                     TextSearch = s.toString();
+                    try {
+                        String Temp = URLEncoder.encode(TextSearch, "utf-8");
+                        TextSearch = Temp;
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     TextSearch = "";
                 }

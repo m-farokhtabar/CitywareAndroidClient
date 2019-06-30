@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserSearchRecyclerViewAdapter;
@@ -79,6 +81,14 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                     ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
 
                     TextSearch = s.toString();
+
+                    try {
+                        String Temp = URLEncoder.encode(TextSearch, "utf-8");
+                        TextSearch = Temp;
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
                     PageNumber = 1;
                     LoadData();
 
@@ -98,6 +108,14 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                     ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
                     
                     TextSearch = SearchOffer;
+
+                    try {
+                        String Temp = URLEncoder.encode(TextSearch, "utf-8");
+                        TextSearch = Temp;
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
                     PageNumber = 1;
                     LoadData();
                 }  else {
