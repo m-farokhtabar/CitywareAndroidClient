@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,6 +30,9 @@ import ir.rayas.app.citywareclient.View.Master.MainActivity;
 import ir.rayas.app.citywareclient.ViewModel.Notification.NotificationListViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 import ir.rayas.app.citywareclient.R;
+
+import static ir.rayas.app.citywareclient.Share.Constant.DefaultConstant.FCM;
+import static ir.rayas.app.citywareclient.Share.Constant.DefaultConstant.FCM_TOPIC_CUSTOMERS;
 
 public class ConfirmTrackingCodeActivity extends BaseActivity implements IResponseService {
 
@@ -190,6 +195,10 @@ public class ConfirmTrackingCodeActivity extends BaseActivity implements IRespon
                     AccountViewModel ViewModel = FeedBack.getValue();
                     if (ViewModel != null) {
 
+                        if (!getUserCustomer())
+                            // با این کد همه کاربران عضو تاپیک customers میشن و با انتخاب این تاپیک نوتیفیکیشن  برای همه کاربران ارسال میشود.
+                            FirebaseMessaging.getInstance().subscribeToTopic(FCM_TOPIC_CUSTOMERS);
+
                         AccountRepository Repository = new AccountRepository(this);
                         AccountViewModel Account = Repository.getAccount();
                         if (Account != null) {
@@ -230,6 +239,10 @@ public class ConfirmTrackingCodeActivity extends BaseActivity implements IRespon
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
 
+    }
+
+    private boolean getUserCustomer() {
+        return getSharedPreferences(FCM, 0).getBoolean(FCM_TOPIC_CUSTOMERS, false);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class DefaultConstant {
      * زمان پیش فرض برای فعال کردن مجدد ارسال پیام مجدد
      * به میلی ثانیه
      */
-    public static int DefaultDelayForEnabledReSendMessage = 10*60*1000;
+    public static int DefaultDelayForEnabledReSendMessage = 10 * 60 * 1000;
     /**
      * کد مجوز برای دریافت مجوز استفاده از لوکیشن برنامه
      */
@@ -59,4 +59,11 @@ public class DefaultConstant {
     public static int PageNumberSize = 10;
 
     public static String LocalSettingKey = "LocalSetting";
+
+
+    final public static String FCM = "firebase_service";
+    final public static String FCM_Registered = "firebase_service_registered";
+    final public static String FCM_ACTION_NEW_NOTIFICATION = "NEW_NOTIFICATION";
+    final public static String FCM_ACTION_CLICK_NOTIFICATION = "CLICK_NOTIFICATION";
+    final public static String FCM_TOPIC_CUSTOMERS = "customers";
 }
