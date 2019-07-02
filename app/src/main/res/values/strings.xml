@@ -525,6 +525,7 @@
 
     <!--متون مرتبط با  معرفی کسب و کار-->
     <string name="marketer_commission">پورسانت بازاریاب</string>
+    <string name="marketer_commission_details">معرفی مشتریان به کسب و کار</string>
     <string name="discount_customer">تخفیف مشتری</string>
     <string name="other_products_not_listed">سایر محصولات و خدماتی که در لیست وجود ندارد</string>
     <string name="introducing_to_friends">معرفی به دوستان</string>
@@ -563,7 +564,9 @@
     <string name="discounts_and_income">تخفیف و درآمد</string>
     <string name="commerce">تجارت</string>
     <string name="get_discounts">تخفیفات مشتری</string>
+    <string name="get_discounts_details">کسب و کارهای معرفی شده</string>
     <string name="income_from_business">درآمد از کسب و کار</string>
+    <string name="income_from_business_details">مشتریان معرفی شده به کسب و کار</string>
     <string name="marketing_and_Business_income">بازاریابی و کسب و درآمد</string>
     <string name="details_discount">جزئیات تخفیف</string>
     <string name="state">وضعیت</string>
@@ -623,5 +626,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

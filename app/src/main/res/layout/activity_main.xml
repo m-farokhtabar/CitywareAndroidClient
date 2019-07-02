@@ -227,7 +227,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/MenuCardViewMainActivity"
                 android:layout_width="match_parent"
-                android:layout_height="168dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="-5dp"
                 android:layout_marginRight="-5dp"
                 android:layout_marginLeft="-5dp"
@@ -307,14 +307,14 @@
                         <android.support.v7.widget.SwitchCompat
                             android:id="@+id/CategoryNameSwitchMainActivity"
                             android:layout_width="wrap_content"
-                            android:layout_height="45dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:layout_toLeftOf="@+id/CategoryNameTextViewMainActivity"
                             android:gravity="right|center_vertical"
-                            android:scaleX="1.3"
-                            android:scaleY="1.3"
+                            android:scaleX="1.1"
+                            android:scaleY="1.1"
                             android:theme="@style/SwitchCompatTheme" />
 
                         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
@@ -370,14 +370,14 @@
                         <android.support.v7.widget.SwitchCompat
                             android:id="@+id/RegionNameSwitchMainActivity"
                             android:layout_width="wrap_content"
-                            android:layout_height="45dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:layout_toLeftOf="@+id/RegionNameTextViewMainActivity"
                             android:gravity="right|center_vertical"
-                            android:scaleX="1.3"
-                            android:scaleY="1.3"
+                            android:scaleX="1.1"
+                            android:scaleY="1.1"
                             android:theme="@style/SwitchCompatTheme" />
 
                         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian

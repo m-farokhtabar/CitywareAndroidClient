@@ -80,6 +80,8 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                 if (s.length() != 0) {
                     ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
 
+                    userSearchRecyclerViewAdapter.ClearViewModelList();
+
                     TextSearch = s.toString();
 
                     try {
@@ -106,7 +108,8 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
                 if (!SearchOffer.equals("")) {
                     ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
-                    
+
+                    userSearchRecyclerViewAdapter.ClearViewModelList();
                     TextSearch = SearchOffer;
 
                     try {

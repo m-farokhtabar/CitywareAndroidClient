@@ -128,6 +128,16 @@ public class NewSuggestionBusinessCommissionRecyclerViewAdapter extends Recycler
         Container.invalidate();
     }
 
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
 
     @Override
     public int getItemCount() {

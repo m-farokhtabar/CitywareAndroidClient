@@ -8,6 +8,7 @@
     <color name="BackgroundGrayColor">#ffcccccc</color>
     <color name="BackgroundThemeColor">#ff102770</color>
     <color name="BackgroundLightColor">#ffeeeeee</color>
+    <color name="BackgroundLight">#f7f7f7</color>
     <color name="BackgroundThemeLightColor">#991f96f2</color>
     <color name="LoadingBarColor">#ff102770</color>
     <color name="LoadingBarNotificationBackgroundColor">#ff1e003d</color>
@@ -95,5 +96,8 @@
     <color name="BackgroundProgressDarkPrize">#005662</color>
     <color name="BackgroundGreenColorPrize">#e6f2e1</color>
     <color name="BackgroundBlueColorPrize">#d8ebf9</color>
+    <color name="SquareBlueBackgroundMarketing">#a7f5f6fb</color>
+    <color name="SquareBlueBackgroundIncome">#f8faf5</color>
+    <color name="SquareBlueBackgroundGetDiscount">#fef9f5</color>
 
 </resources>

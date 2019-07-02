@@ -154,7 +154,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/MenuCardViewSearchActivity"
                 android:layout_width="match_parent"
-                android:layout_height="168dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="-5dp"
                 android:layout_marginRight="-5dp"
@@ -175,14 +175,15 @@
                         android:layout_marginTop="8dp"
                         android:gravity="right|center_vertical"
                         android:orientation="horizontal"
-                        tools:ignore="RtlHardcoded,UselessParent">
+                        tools:ignore="RtlHardcoded,UseCompoundDrawables,UselessParent">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="تنظیمات نمایش و جستجو"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/FontSemiDarkThemeColor" />
+                            android:textColor="@color/FontSemiDarkThemeColor"
+                            tools:ignore="HardcodedText" />
 
                         <ImageView
                             android:layout_width="30dp"
@@ -234,14 +235,14 @@
                         <android.support.v7.widget.SwitchCompat
                             android:id="@+id/CategoryNameSwitchSearchActivity"
                             android:layout_width="wrap_content"
-                            android:layout_height="45dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:layout_toLeftOf="@+id/CategoryNameTextViewSearchActivity"
                             android:gravity="right|center_vertical"
-                            android:scaleX="1.3"
-                            android:scaleY="1.3"
+                            android:scaleX="1.1"
+                            android:scaleY="1.1"
                             android:theme="@style/SwitchCompatTheme" />
 
                         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
@@ -297,14 +298,14 @@
                         <android.support.v7.widget.SwitchCompat
                             android:id="@+id/RegionNameSwitchSearchActivity"
                             android:layout_width="wrap_content"
-                            android:layout_height="45dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:layout_toLeftOf="@+id/RegionNameTextViewSearchActivity"
                             android:gravity="right|center_vertical"
-                            android:scaleX="1.3"
-                            android:scaleY="1.3"
+                            android:scaleX="1.1"
+                            android:scaleY="1.1"
                             android:theme="@style/SwitchCompatTheme" />
 
                         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian

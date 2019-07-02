@@ -106,8 +106,8 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 IsSwipe = true;
-                List<MarketingBusinessViewModel> ViewModelList = new ArrayList<>();
-                newSuggestionBusinessCommissionRecyclerViewAdapter.SetViewModelList(ViewModelList);
+
+                newSuggestionBusinessCommissionRecyclerViewAdapter.ClearViewModelList();
                 PageNumber = 1;
 
                 if (s.length() != 0) {

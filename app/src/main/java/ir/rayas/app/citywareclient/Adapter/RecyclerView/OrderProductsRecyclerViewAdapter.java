@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -164,25 +166,25 @@ public class OrderProductsRecyclerViewAdapter extends RecyclerView.Adapter<Order
                     ProductCommissionAndDiscountModel ViewModel = new ProductCommissionAndDiscountModel();
                     ViewModel.setProductName(productCommissionAndDiscountModel.getProductName());
 
-                    String Price ;
-                    if (UnitPriceProductTextView.getText().toString().contains(",")) {
-                        Price = UnitPriceProductTextView.getText().toString().replaceAll(",", "");
-                    } else {
-                        Price = UnitPriceProductTextView.getText().toString();
+                    Double Price = null;
+                    try {
+                        Price = DecimalFormat.getNumberInstance().parse(UnitPriceProductTextView.getText().toString()).doubleValue();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                    ViewModel.setPrice(Double.parseDouble(Price));
-                    ViewModel.setNumberOfOrder(Double.parseDouble(CountProductTextView.getText().toString()));
+
+                    ViewModel.setPrice(Price);
+                    ViewModel.setNumberOfOrder(Double.valueOf(CountProductTextView.getText().toString()));
                     ViewModel.setApplicationPercent(productCommissionAndDiscountModel.getApplicationPercent());
                     ViewModel.setCustomerPercent(productCommissionAndDiscountModel.getCustomerPercent());
                     ViewModel.setMarketerPercent(productCommissionAndDiscountModel.getMarketerPercent());
                     ViewModel.setProductId(productCommissionAndDiscountModel.getProductId());
 
-                    Double TotalPrice = Double.parseDouble(Price) * Double.parseDouble(CountProductTextView.getText().toString());
+                    Double TotalPrice =Price * Double.valueOf(CountProductTextView.getText().toString());
                     ViewModel.setTotalPrice(TotalPrice);
 
                     SetViewModel(ViewModel);
-
-
+                    
                     SendDataToParentActivity(productCommissionAndDiscountModel);
 //        //این قسمت به دلیل SingleInstance بودن Parent بایستی مطمئن شوبم که اکتیویتی Parent بعد از اتمام این اکتیویتی دوباره صدا  زده می شود
 //        //در حالت خروج از برنامه و ورود دوباره این اکتیوتی ممکن است Parent خود را گم کند
