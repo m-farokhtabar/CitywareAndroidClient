@@ -27,21 +27,21 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
-import ir.rayas.app.citywareclient.ViewModel.Notification.NotificationListViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 import ir.rayas.app.citywareclient.R;
 
-import static ir.rayas.app.citywareclient.Share.Constant.DefaultConstant.FCM;
-import static ir.rayas.app.citywareclient.Share.Constant.DefaultConstant.FCM_TOPIC_CUSTOMERS;
 
 public class ConfirmTrackingCodeActivity extends BaseActivity implements IResponseService {
 
     private EditTextPersian TrackingCodeEditText = null;
-    private ButtonPersianView ConfirmButton = null;
     private ButtonPersianView ReSendMessageButton = null;
     private TextViewPersian TimerCounterTextView = null;
     private long CellPhone = 0;
     private int Counter = 0;
+
+
+    final public static String FCM = "firebase_service";
+    final public static String FCM_TOPIC_CUSTOMERS = "customers";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +76,8 @@ public class ConfirmTrackingCodeActivity extends BaseActivity implements IRespon
         TimerCounterTextView = findViewById(R.id.TimerCounterTextView);
 
 
-        ConfirmButton = findViewById(R.id.ConfirmButton);
-        ConfirmButton.setOnClickListener(new View.OnClickListener() {
+        ButtonPersianView confirmButton = findViewById(R.id.ConfirmButton);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 OnConfirmButtonClick();
@@ -195,7 +195,7 @@ public class ConfirmTrackingCodeActivity extends BaseActivity implements IRespon
                     AccountViewModel ViewModel = FeedBack.getValue();
                     if (ViewModel != null) {
 
-                        if (!getUserCustomer())
+
                             // با این کد همه کاربران عضو تاپیک customers میشن و با انتخاب این تاپیک نوتیفیکیشن  برای همه کاربران ارسال میشود.
                             FirebaseMessaging.getInstance().subscribeToTopic(FCM_TOPIC_CUSTOMERS);
 

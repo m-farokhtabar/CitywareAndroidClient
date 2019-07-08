@@ -324,6 +324,8 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
                     SearchRecyclerViewSearchActivity.setVisibility(View.GONE);
 
+                    searchResultRecyclerViewAdapter.ClearViewModelList();
+
                     TextSearch = s.toString();
 
                     try {
@@ -337,6 +339,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
                 } else {
                     RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(false);
+                    ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                     SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
                     SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
                 }
@@ -347,6 +350,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         SearchImageViewSearchActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                searchResultRecyclerViewAdapter.ClearViewModelList();
                 LoadDataSearch();
             }
         });
@@ -487,7 +491,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     if (ViewModelList != null) {
                         if (PageNumber == 1) {
                             if (ViewModelList.size() < 1) {
-                                ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
+                                ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                             } else {
                                 ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                             }
@@ -523,7 +527,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     if (PageNumber > 1) {
                         ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                     } else {
-                        ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
+                        ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                     }
                 } else {
                     ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);

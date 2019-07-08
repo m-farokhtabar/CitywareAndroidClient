@@ -45,7 +45,6 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.SuggestionInfoViewModel;
 public class CommissionActivity extends BaseActivity implements IResponseService {
 
     private RecyclerView ShowProductListRecyclerViewCommissionActivity = null;
-    private CardView CommissionProductCardViewCommissionActivity = null;
     private TextViewPersian MarketingCommissionTextViewCommissionActivity = null;
     private TextViewPersian CustomerPercentTextViewCommissionActivity = null;
     private CardView UserNameCardViewCommissionActivity = null;
@@ -88,7 +87,6 @@ public class CommissionActivity extends BaseActivity implements IResponseService
         ButtonPersianView UserSelectionButtonCommissionActivity = findViewById(R.id.UserSelectionButtonCommissionActivity);
         TextViewPersian TitleBusinessTextViewCommissionActivity = findViewById(R.id.TitleBusinessTextViewCommissionActivity);
         MessageTextViewCommissionActivity = findViewById(R.id.MessageTextViewCommissionActivity);
-        CommissionProductCardViewCommissionActivity = findViewById(R.id.CommissionProductCardViewCommissionActivity);
         MarketingCommissionTextViewCommissionActivity = findViewById(R.id.MarketingCommissionTextViewCommissionActivity);
         CustomerPercentTextViewCommissionActivity = findViewById(R.id.CustomerPercentTextViewCommissionActivity);
         UserNameCardViewCommissionActivity = findViewById(R.id.UserNameCardViewCommissionActivity);
@@ -321,24 +319,25 @@ public class CommissionActivity extends BaseActivity implements IResponseService
         businessCommissionAndDiscountViewModel = gson.fromJson(ViewModel.getPercents(), listType);
 
 
-        String ShareMessage = "";
+        String ShareMessage;
 
         String ShareBusinessName = "";
         String ShareBusinessAddress = "";
-        String ShareMarketerPercent = "";
-        String ShareCustomerPercent = "";
+//        String ShareMarketerPercent = "";
+//        String ShareCustomerPercent = "";
 
         if (businessCommissionAndDiscountViewModel != null) {
             ShareBusinessName = getResources().getString(R.string.business_title) + " " + businessCommissionAndDiscountViewModel.getBusinessName() + "\n";
             ShareBusinessAddress = getResources().getString(R.string.address) + " " + businessCommissionAndDiscountViewModel.getBusinessAddress() + "\n";
-            ShareMarketerPercent = getResources().getString(R.string.marketer_commission) + " " + businessCommissionAndDiscountViewModel.getMarketerPercent() + " " + getResources().getString(R.string.percent) + "\n";
-            ShareCustomerPercent = getResources().getString(R.string.discount_customer) + " " + businessCommissionAndDiscountViewModel.getCustomerPercent() + " " + getResources().getString(R.string.percent) + "\n";
+//            ShareMarketerPercent = getResources().getString(R.string.marketer_commission) + " " + businessCommissionAndDiscountViewModel.getMarketerPercent() + " " + getResources().getString(R.string.percent) + "\n";
+//            ShareCustomerPercent = getResources().getString(R.string.discount_customer) + " " + businessCommissionAndDiscountViewModel.getCustomerPercent() + " " + getResources().getString(R.string.percent) + "\n";
         }
 
         String ShareTicket = getResources().getString(R.string.ticket_number) + " " + ViewModel.getTicket() + "\n";
         String ShareExpireDate = getResources().getString(R.string.expire_date) + " " + ViewModel.getTicketValidity() + "\n";
 
-        ShareMessage = ShareBusinessName + ShareBusinessAddress + ShareMarketerPercent + ShareCustomerPercent + ShareTicket + ShareExpireDate;
+//        ShareMessage = ShareBusinessName + ShareBusinessAddress + ShareMarketerPercent + ShareCustomerPercent + ShareTicket + ShareExpireDate;
+        ShareMessage = ShareBusinessName + ShareBusinessAddress  + ShareTicket + ShareExpireDate;
 
 
         intent.putExtra(Intent.EXTRA_TEXT, ShareMessage);

@@ -35,114 +35,142 @@
                 android:textColor="@color/FontSemiDarkThemeColor"
                 tools:ignore="RtlHardcoded" />
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/CommissionProductCardViewCommissionActivity"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:elevation="5dp"
-                tools:ignore="UnusedAttribute">
+                android:layout_marginTop="6dp"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/BackgroundBlueColorPrize"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*"
+                    tools:ignore="UselessParent">
 
-                    <RelativeLayout
-                        android:id="@+id/HeaderAddressRelativeLayout"
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:background="@color/BackgroundColorHeaderAddressLayout">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        tools:ignore="UselessParent">
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="3"
+                            android:gravity="center"
+                            android:singleLine="false"
+                            android:text="@string/commission"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontBlackColor"
+                            android:textIsSelectable="false"
+                            tools:ignore="RtlHardcoded" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="3"
+                            android:gravity="center"
+                            android:singleLine="false"
+                            android:text="@string/discount"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontBlackColor"
+                            android:textIsSelectable="false"
+                            tools:ignore="HardcodedText,RtlHardcoded,SpUsage" />
+
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="8"
+                            android:gravity="center|right"
+                            android:singleLine="true"
+                            android:text="@string/product_name"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontBlackColor"
+                            android:textIsSelectable="false"
+                            tools:ignore="HardcodedText,RtlHardcoded,SpUsage" />
+
+
+                    </TableRow>
+                </TableLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@color/BackgroundLight"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*"
+                    tools:ignore="UselessParent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        tools:ignore="UselessParent">
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/MarketingCommissionTextViewCommissionActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="3"
+                            android:gravity="center"
+                            android:singleLine="false"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontSemiBlackColor"
+                            android:textIsSelectable="false"
+                            tools:ignore="RtlHardcoded" />
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/CustomerPercentTextViewCommissionActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_span="3"
+                            android:gravity="center"
+                            android:singleLine="false"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:textColor="@color/FontSemiBlackColor"
+                            android:textIsSelectable="false"
+                            tools:ignore="HardcodedText,RtlHardcoded,SpUsage" />
+
 
                         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                             android:id="@+id/ProductNameTextViewCommissionActivity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginStart="8dp"
-                            android:gravity="right|center_vertical"
+                            android:layout_span="8"
+                            android:gravity="center|right"
                             android:singleLine="true"
                             android:text="@string/other_products_not_listed"
-                            android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/FontSemiDarkThemeColor"
-                            tools:ignore="HardcodedText,RtlHardcoded" />
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_margin="8dp"
-                        android:gravity="right"
-                        android:orientation="horizontal"
-                        tools:ignore="RtlHardcoded">
-
-                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                            android:id="@+id/MarketingCommissionTextViewCommissionActivity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp"
-                            android:gravity="right"
-                            android:singleLine="true"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/FontBlackColor"
-                            tools:ignore="RtlHardcoded" />
-
-                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:text="@string/marketer_commission"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textAppearance="?android:textAppearanceSmall"
                             android:textColor="@color/FontSemiBlackColor"
-                            tools:ignore="RtlHardcoded" />
-                    </LinearLayout>
+                            android:textIsSelectable="false"
+                            tools:ignore="HardcodedText,RtlHardcoded,SpUsage" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginStart="8dp"
-                        android:gravity="right"
-                        android:orientation="horizontal"
-                        tools:ignore="RtlHardcoded">
 
-                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                            android:id="@+id/CustomerPercentTextViewCommissionActivity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp"
-                            android:gravity="right"
-                            android:singleLine="true"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/FontBlackColor"
-                            tools:ignore="RtlHardcoded" />
+                    </TableRow>
+                </TableLayout>
 
-                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:text="@string/discount_customer"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@color/FontSemiBlackColor"
-                            tools:ignore="RtlHardcoded" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                 android:id="@+id/MessageTextViewCommissionActivity"
@@ -150,19 +178,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:layout_margin="16dp"
+                android:gravity="center"
                 android:singleLine="false"
                 android:text="@string/message_product_null"
-                android:gravity="center"
-                android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/FontSemiDarkThemeColor"
+                android:visibility="gone"
                 tools:ignore="RtlHardcoded" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ShowProductListRecyclerViewCommissionActivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:divider="@null"
                 android:dividerHeight="0dp" />
 
@@ -182,10 +209,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:gravity="right|center_vertical"
                 android:layout_gravity="right|center_vertical"
-                android:orientation="horizontal">
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                     android:id="@+id/UserNameTextViewCommissionActivity"
@@ -195,7 +222,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:gravity="right|center_vertical"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/FontSemiDarkThemeColor"
                     tools:ignore="RtlHardcoded" />
 
@@ -205,7 +232,7 @@
                     android:layout_gravity="right|center_vertical"
                     android:gravity="right|center_vertical"
                     android:text="@string/introducing_to"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/FontSemiDarkThemeColor"
                     tools:ignore="RtlHardcoded" />
 

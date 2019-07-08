@@ -194,7 +194,9 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
         ApplicationPercent = businessCommissionAndDiscountViewModel.getApplicationPercent();
         MarketerPercent = businessCommissionAndDiscountViewModel.getMarketerPercent();
         CustomerPercent = businessCommissionAndDiscountViewModel.getCustomerPercent();
-        OtherProductMarketerPercentTextViewProductListOrderActivity.setText(MarketerPercent + " " + getResources().getString(R.string.percent));
+        double Percent = MarketerPercent +   businessCommissionAndDiscountViewModel.getApplicationPercent();
+
+        OtherProductMarketerPercentTextViewProductListOrderActivity.setText(Percent + " " + getResources().getString(R.string.percent));
         OtherProductCustomerPercentTextViewProductListOrderActivity.setText(CustomerPercent + " " + getResources().getString(R.string.percent));
 
         List<ProductCommissionAndDiscountModel> ResultProductList = new ArrayList<>();
@@ -234,6 +236,7 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
                     ProductCommissionAndDiscountModel productCommissionAndDiscountViewModel = new ProductCommissionAndDiscountModel();
                     productCommissionAndDiscountViewModel.setCustomerPercent(businessCommissionAndDiscountViewModel.getCustomerPercent());
                     productCommissionAndDiscountViewModel.setMarketerPercent(businessCommissionAndDiscountViewModel.getMarketerPercent());
+                    productCommissionAndDiscountViewModel.setApplicationPercent(businessCommissionAndDiscountViewModel.getApplicationPercent());
                     productCommissionAndDiscountViewModel.setProductId(productViewModels.get(i).getId());
                     productCommissionAndDiscountViewModel.setProductName(productViewModels.get(i).getName());
                     productCommissionAndDiscountViewModel.setApplicationPercent(businessCommissionAndDiscountViewModel.getApplicationPercent());
@@ -260,6 +263,7 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
                             ProductCommissionAndDiscountModel productCommissionAndDiscountViewModel = new ProductCommissionAndDiscountModel();
                             productCommissionAndDiscountViewModel.setCustomerPercent(ProductList.get(i).getCustomerPercent());
                             productCommissionAndDiscountViewModel.setMarketerPercent(ProductList.get(i).getMarketerPercent());
+                            productCommissionAndDiscountViewModel.setApplicationPercent(ProductList.get(i).getApplicationPercent());
                             productCommissionAndDiscountViewModel.setProductId(ProductList.get(i).getProductId());
                             productCommissionAndDiscountViewModel.setProductName(ProductList.get(i).getProductName());
                             productCommissionAndDiscountViewModel.setApplicationPercent(ProductList.get(i).getApplicationPercent());
@@ -289,6 +293,7 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
                         ProductCommissionAndDiscountModel productCommissionAndDiscountViewModel = new ProductCommissionAndDiscountModel();
                         productCommissionAndDiscountViewModel.setCustomerPercent(ProductList.get(j).getCustomerPercent());
                         productCommissionAndDiscountViewModel.setMarketerPercent(ProductList.get(j).getMarketerPercent());
+                        productCommissionAndDiscountViewModel.setApplicationPercent(ProductList.get(j).getApplicationPercent());
                         productCommissionAndDiscountViewModel.setProductId(ProductList.get(j).getProductId());
                         productCommissionAndDiscountViewModel.setProductName(ProductList.get(j).getProductName());
                         productCommissionAndDiscountViewModel.setApplicationPercent(ProductList.get(j).getApplicationPercent());
@@ -313,6 +318,7 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
                         ProductCommissionAndDiscountModel productCommissionAndDiscountViewModel = new ProductCommissionAndDiscountModel();
                         productCommissionAndDiscountViewModel.setCustomerPercent(businessCommissionAndDiscountViewModel.getCustomerPercent());
                         productCommissionAndDiscountViewModel.setMarketerPercent(businessCommissionAndDiscountViewModel.getMarketerPercent());
+                        productCommissionAndDiscountViewModel.setApplicationPercent(businessCommissionAndDiscountViewModel.getApplicationPercent());
                         productCommissionAndDiscountViewModel.setProductId(productViewModels.get(j).getId());
                         productCommissionAndDiscountViewModel.setProductName(productViewModels.get(j).getName());
                         productCommissionAndDiscountViewModel.setApplicationPercent(businessCommissionAndDiscountViewModel.getApplicationPercent());

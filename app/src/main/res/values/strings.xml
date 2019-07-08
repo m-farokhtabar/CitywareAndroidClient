@@ -416,6 +416,7 @@
     <string name="number_of_order_items">تعداد اقلام سفارش</string>
     <string name="your_basket_is_empty">سبد خرید شما خالی است</string>
     <string name="order_quantity">میزان سفارش</string>
+    <string name="order">سفارش</string>
     <string name="order_quantity_product"> میزان سفارش محصول</string>
     <string name="please_enter_order_quantity">لطفا میزان سفارش را مشخص کنید</string>
     <string name="show_basket"> سبد خرید</string>
@@ -527,7 +528,8 @@
     <string name="marketer_commission">پورسانت بازاریاب</string>
     <string name="marketer_commission_details">معرفی مشتریان به کسب و کار</string>
     <string name="discount_customer">تخفیف مشتری</string>
-    <string name="other_products_not_listed">سایر محصولات و خدماتی که در لیست وجود ندارد</string>
+    <string name="discount">تخفیف</string>
+    <string name="other_products_not_listed">سایر محصولات و خدمات</string>
     <string name="introducing_to_friends">معرفی به دوستان</string>
     <string name="user_selection">انتخاب کاربر</string>
     <string name="introducing_to">معرفی به</string>
@@ -542,6 +544,8 @@
     <string name="facture_of_income">درآمد از فاکتور</string>
     <string name="operation">عملیات</string>
     <string name="message_product_null">تمامی محصولات و خدمات این کسب و کار با استفاده از پورسانت و تخفیفی که در بالا مشاهده می کنید محاسبه می گردد</string>
+    <string name="message_commission_product_null">تمامی محصولات و خدمات این کسب و کار با استفاده از پورسانت  که در بالا مشاهده می کنید محاسبه می گردد</string>
+    <string name="message_discount_product_null">تمامی محصولات و خدمات این کسب و کار با استفاده از تخفیف که در بالا مشاهده می کنید محاسبه می گردد</string>
     <string name="please_refer_to_the_business_menu_for_additional_information">لطفا جهت دریافت اطلاعات تکمیلی به منوی کسب و کار های معرفی شده مراجعه فرمایید</string>
 
 

@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     tools:ignore="UnusedAttribute">
 
-
     <TableLayout
         android:id="@+id/TitleTableLayout"
         android:layout_width="match_parent"
@@ -30,9 +29,8 @@
                 android:layout_height="wrap_content"
                 android:layout_span="3"
                 android:gravity="center"
-                android:maxLines="2"
                 android:singleLine="false"
-                android:text="@string/marketer_commission"
+                android:text="@string/commission"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/FontBlackColor"
                 android:textIsSelectable="false"
@@ -44,9 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_span="3"
                 android:gravity="center"
-                android:maxLines="2"
                 android:singleLine="false"
-                android:text="@string/discount_customer"
+                android:text="@string/discount"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/FontBlackColor"
                 android:textIsSelectable="false"
@@ -59,7 +56,6 @@
                 android:layout_gravity="center|right"
                 android:layout_span="10"
                 android:gravity="center|right"
-                android:maxLines="1"
                 android:singleLine="true"
                 android:text="@string/service_product_name"
                 android:textAppearance="?android:textAppearanceSmall"

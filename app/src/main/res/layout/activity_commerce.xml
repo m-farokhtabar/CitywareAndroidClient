@@ -42,6 +42,7 @@
 
                     <RelativeLayout
                         android:id="@+id/MarketerCommissionRelativeLayoutCommerceActivity"
+                        android:background="@drawable/selector_button_white_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -115,6 +116,7 @@
                     <RelativeLayout
                         android:id="@+id/IncomeFromBusinessRelativeLayoutCommerceActivity"
                         android:layout_width="match_parent"
+                        android:background="@drawable/selector_button_white_style"
                         android:layout_height="wrap_content">
 
                         <ImageView
@@ -188,6 +190,7 @@
                     <RelativeLayout
                         android:id="@+id/GetDiscountsRelativeLayoutCommerceActivity"
                         android:layout_width="match_parent"
+                        android:background="@drawable/selector_button_white_style"
                         android:layout_height="wrap_content">
 
                         <ImageView

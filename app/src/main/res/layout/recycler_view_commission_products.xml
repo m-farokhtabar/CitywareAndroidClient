@@ -8,7 +8,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginTop="6dp"
         android:background="@color/LineTopColor"
         tools:ignore="Suspicious0dp" />
 
@@ -18,6 +17,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginBottom="6dp"
         android:gravity="center_vertical"
         android:shrinkColumns="*"
         android:stretchColumns="*">
@@ -29,27 +29,13 @@
             tools:ignore="UselessParent">
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                android:id="@+id/MarketerCommissionTextView"
+                android:id="@+id/MarketingCommissionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_span="4"
+                android:layout_span="3"
                 android:gravity="center"
                 android:singleLine="false"
                 android:text="@string/commission"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="@color/FontSemiBlackColor"
-                android:textIsSelectable="false"
-                tools:ignore="RtlHardcoded" />
-
-
-            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                android:id="@+id/PriceTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="5"
-                android:gravity="center"
-                android:singleLine="false"
-                android:text="@string/price_with_out_currency"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/FontSemiBlackColor"
                 android:textIsSelectable="false"
@@ -59,7 +45,7 @@
                 android:id="@+id/ProductNameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_span="7"
+                android:layout_span="8"
                 android:gravity="center|right"
                 android:singleLine="false"
                 android:text="@string/product_name"

@@ -1,6 +1,8 @@
 package ir.rayas.app.citywareclient.ViewModel.Notification;
 
 
+import java.util.List;
+
 /** مشخصات یک نوتیفیکیشن
  * Created by Programmer on 1/3/2019.
  */
@@ -41,6 +43,16 @@ public class NotificationViewModel {
      * تاریخ انقضاء
      */
     private String ExpireDate;
+
+    private List<Integer> UserIdList;
+
+    public List<Integer> getUserIdList() {
+        return UserIdList;
+    }
+
+    public void setUserIdList(List<Integer> userIdList) {
+        UserIdList = userIdList;
+    }
 
     public int getId() {
         return Id;

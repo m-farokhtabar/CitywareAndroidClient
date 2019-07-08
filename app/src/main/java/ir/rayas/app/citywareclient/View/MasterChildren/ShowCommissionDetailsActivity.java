@@ -2,10 +2,8 @@ package ir.rayas.app.citywareclient.View.MasterChildren;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -29,8 +27,6 @@ public class ShowCommissionDetailsActivity extends BaseActivity implements IResp
 
 
     private RecyclerView ShowProductListRecyclerViewShowCommissionDetailsActivity = null;
-    private CardView CommissionProductCardViewShowCommissionDetailsActivity = null;
-    private CardView TitleProductCardViewShowCommissionDetailsActivity = null;
     private TextViewPersian MarketerPercentTextViewShowCommissionDetailsActivity = null;
     private TextViewPersian AddressTextViewShowCommissionDetailsActivity = null;
 
@@ -64,10 +60,8 @@ public class ShowCommissionDetailsActivity extends BaseActivity implements IResp
     private void CreateLayout() {
 
         TextViewPersian TitleBusinessTextViewShowCommissionDetailsActivity = findViewById(R.id.TitleBusinessTextViewShowCommissionDetailsActivity);
-        CommissionProductCardViewShowCommissionDetailsActivity = findViewById(R.id.CommissionProductCardViewShowCommissionDetailsActivity);
         MarketerPercentTextViewShowCommissionDetailsActivity = findViewById(R.id.MarketerPercentTextViewShowCommissionDetailsActivity);
         AddressTextViewShowCommissionDetailsActivity = findViewById(R.id.AddressTextViewShowCommissionDetailsActivity);
-        TitleProductCardViewShowCommissionDetailsActivity = findViewById(R.id.TitleProductCardViewShowCommissionDetailsActivity);
 
 
         ShowProductListRecyclerViewShowCommissionDetailsActivity = findViewById(R.id.ShowProductListRecyclerViewShowCommissionDetailsActivity);
@@ -104,11 +98,7 @@ public class ShowCommissionDetailsActivity extends BaseActivity implements IResp
                         if (ViewModel.getProductList() != null) {
                             List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
 
-                            if (ViewModelList.size() > 0) {
-                                TitleProductCardViewShowCommissionDetailsActivity.setVisibility(View.VISIBLE);
-                            } else {
-                                TitleProductCardViewShowCommissionDetailsActivity.setVisibility(View.GONE);
-                            }
+
 
                             CommissionProductsRecyclerViewAdapter commissionProductsRecyclerViewAdapter = new CommissionProductsRecyclerViewAdapter(ShowCommissionDetailsActivity.this, ViewModelList);
                             ShowProductListRecyclerViewShowCommissionDetailsActivity.setAdapter(commissionProductsRecyclerViewAdapter);
@@ -117,8 +107,6 @@ public class ShowCommissionDetailsActivity extends BaseActivity implements IResp
                             MarketerPercentTextViewShowCommissionDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
                             AddressTextViewShowCommissionDetailsActivity.setText(ViewModel.getBusinessAddress());
 
-                    } else {
-                        TitleProductCardViewShowCommissionDetailsActivity.setVisibility(View.GONE);
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {

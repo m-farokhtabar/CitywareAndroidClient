@@ -76,7 +76,8 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
         holder.CustomerPercentTextView.setText(Utility.GetIntegerNumberWithComma(DiscountPrice));
 
         double MarketingCommission = (TotalPrice * ViewModelList.get(position).getMarketerPercent()) / 100;
-        holder.MarketingCommissionTextView.setText(Utility.GetIntegerNumberWithComma(MarketingCommission));
+        double ApplicationCommission = (TotalPrice * ViewModelList.get(position).getApplicationPercent()) / 100;
+        holder.MarketingCommissionTextView.setText(Utility.GetIntegerNumberWithComma(MarketingCommission+ApplicationCommission));
 
 
         holder.TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
@@ -87,6 +88,8 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
         holder.DeleteOrderIconTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Context.SetproductCommissionAndDiscountModels(position);
 
                 ViewModelList.remove(position);
                 notifyDataSetChanged();

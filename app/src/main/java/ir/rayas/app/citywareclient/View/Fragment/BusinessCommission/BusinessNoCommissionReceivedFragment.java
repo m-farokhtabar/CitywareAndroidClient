@@ -35,7 +35,7 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessVie
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BusinessNoCommissionReceivedFragment extends Fragment implements IResponseService, ILoadData {
+public class  BusinessNoCommissionReceivedFragment extends Fragment implements IResponseService, ILoadData {
 
     private ShowBusinessCommissionActivity Context = null;
 

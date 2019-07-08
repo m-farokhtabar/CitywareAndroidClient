@@ -212,10 +212,11 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
                     TotalLinearLayoutOrderActivity.setVisibility(View.VISIBLE);
                     Line2.setVisibility(View.VISIBLE);
 
-                    if (productCommissionAndDiscountModels.size() == 0)
+                    if (productCommissionAndDiscountModels.size() == 0) {
                         productListOrderRecyclerViewAdapter.SetViewModel(ViewModel);
-                    else
+                    } else {
                         productListOrderRecyclerViewAdapter.AddViewModel(ViewModel);
+                    }
 
 
                     SetViewFooter(productCommissionAndDiscountModels);
@@ -223,6 +224,12 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
             }
         }
         super.onGetResult(Result);
+    }
+
+    public void SetproductCommissionAndDiscountModels(int Position){
+
+        productCommissionAndDiscountModels.remove(Position);
+
     }
 
     public void SetViewFooter(List<ProductCommissionAndDiscountModel> productCommissionAndDiscountModels) {

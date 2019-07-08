@@ -3,10 +3,8 @@ package ir.rayas.app.citywareclient.View.MasterChildren;
 import android.annotation.SuppressLint;
 
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import android.widget.Toast;
 
@@ -31,8 +29,6 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
 
 
     private RecyclerView ShowProductListRecyclerViewShowDiscountDetailsActivity = null;
-    private CardView CommissionProductCardViewShowDiscountDetailsActivity = null;
-    private CardView TitleProductCardViewShowDiscountDetailsActivity = null;
     private TextViewPersian CustomerPercentTextViewShowDiscountDetailsActivity = null;
     private TextViewPersian AddressTextViewShowDiscountDetailsActivity = null;
 
@@ -65,10 +61,8 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
     private void CreateLayout() {
 
         TextViewPersian TitleBusinessTextViewShowDiscountDetailsActivity = findViewById(R.id.TitleBusinessTextViewShowDiscountDetailsActivity);
-        CommissionProductCardViewShowDiscountDetailsActivity = findViewById(R.id.CommissionProductCardViewShowDiscountDetailsActivity);
         CustomerPercentTextViewShowDiscountDetailsActivity = findViewById(R.id.CustomerPercentTextViewShowDiscountDetailsActivity);
         AddressTextViewShowDiscountDetailsActivity = findViewById(R.id.AddressTextViewShowDiscountDetailsActivity);
-        TitleProductCardViewShowDiscountDetailsActivity = findViewById(R.id.TitleProductCardViewShowDiscountDetailsActivity);
 
 
         ShowProductListRecyclerViewShowDiscountDetailsActivity = findViewById(R.id.ShowProductListRecyclerViewShowDiscountDetailsActivity);
@@ -105,11 +99,6 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
                         if (ViewModel.getProductList() != null) {
                             List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
 
-                            if (ViewModelList.size() > 0) {
-                                TitleProductCardViewShowDiscountDetailsActivity.setVisibility(View.VISIBLE);
-                            } else {
-                                TitleProductCardViewShowDiscountDetailsActivity.setVisibility(View.GONE);
-                            }
 
                             DiscountProductRecyclerViewAdapter discountProductRecyclerViewAdapter = new DiscountProductRecyclerViewAdapter(ShowDiscountDetailsActivity.this, ViewModelList);
                             ShowProductListRecyclerViewShowDiscountDetailsActivity.setAdapter(discountProductRecyclerViewAdapter);
@@ -117,8 +106,6 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
 
                         CustomerPercentTextViewShowDiscountDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
                         AddressTextViewShowDiscountDetailsActivity.setText(ViewModel.getBusinessAddress());
-                    } else {
-                        TitleProductCardViewShowDiscountDetailsActivity.setVisibility(View.GONE);
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {

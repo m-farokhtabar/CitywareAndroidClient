@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -28,24 +27,20 @@ public class DiscountProductRecyclerViewAdapter extends RecyclerView.Adapter<Dis
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TextViewPersian ProductNameTextView;
-        TextViewPersian MarketingCommissionTextView;
         TextViewPersian CustomerPercentTextView;
-        LinearLayout MarketingCommissionLinearLayout;
 
 
         ViewHolder(View v) {
             super(v);
             ProductNameTextView = v.findViewById(R.id.ProductNameTextView);
-            MarketingCommissionTextView = v.findViewById(R.id.MarketingCommissionTextView);
             CustomerPercentTextView = v.findViewById(R.id.CustomerPercentTextView);
-            MarketingCommissionLinearLayout = v.findViewById(R.id.MarketingCommissionLinearLayout);
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_commission_product, parent, false);
+        View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_discount_product, parent, false);
         return new ViewHolder(CurrentView);
     }
 
@@ -53,7 +48,6 @@ public class DiscountProductRecyclerViewAdapter extends RecyclerView.Adapter<Dis
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        holder.MarketingCommissionLinearLayout.setVisibility(View.GONE);
         holder.ProductNameTextView.setText(ViewModelList.get(position).getProductName());
         holder.CustomerPercentTextView.setText(String.valueOf(ViewModelList.get(position).getCustomerPercent()) + " " + Context.getResources().getString(R.string.percent));
     }

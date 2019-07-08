@@ -70,8 +70,9 @@ public class OrderProductsRecyclerViewAdapter extends RecyclerView.Adapter<Order
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.ProductNameTextView.setText(ViewModelList.get(position).getProductName());
-
-        holder.MarketerPercentTextView.setText(ViewModelList.get(position).getMarketerPercent() + " " + Context.getResources().getString(R.string.percent));
+        double Percent = ViewModelList.get(position).getMarketerPercent() + ViewModelList.get(position).getApplicationPercent();
+        Percent = Math.round(Percent*Math.pow(10,2))/Math.pow(10,2);
+        holder.MarketerPercentTextView.setText(Percent + " " + Context.getResources().getString(R.string.percent));
         holder.CustomerPercentTextView.setText(ViewModelList.get(position).getCustomerPercent() + " " + Context.getResources().getString(R.string.percent));
 
 
@@ -180,11 +181,11 @@ public class OrderProductsRecyclerViewAdapter extends RecyclerView.Adapter<Order
                     ViewModel.setMarketerPercent(productCommissionAndDiscountModel.getMarketerPercent());
                     ViewModel.setProductId(productCommissionAndDiscountModel.getProductId());
 
-                    Double TotalPrice =Price * Double.valueOf(CountProductTextView.getText().toString());
+                    Double TotalPrice = Price * Double.valueOf(CountProductTextView.getText().toString());
                     ViewModel.setTotalPrice(TotalPrice);
 
                     SetViewModel(ViewModel);
-                    
+
                     SendDataToParentActivity(productCommissionAndDiscountModel);
 //        //این قسمت به دلیل SingleInstance بودن Parent بایستی مطمئن شوبم که اکتیویتی Parent بعد از اتمام این اکتیویتی دوباره صدا  زده می شود
 //        //در حالت خروج از برنامه و ورود دوباره این اکتیوتی ممکن است Parent خود را گم کند

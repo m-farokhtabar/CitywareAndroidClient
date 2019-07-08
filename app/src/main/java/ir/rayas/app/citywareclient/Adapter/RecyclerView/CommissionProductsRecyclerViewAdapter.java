@@ -30,21 +30,19 @@ public class CommissionProductsRecyclerViewAdapter  extends RecyclerView.Adapter
         // each data item is just a string in this case
         TextViewPersian ProductNameTextView;
         TextViewPersian MarketingCommissionTextView;
-        LinearLayout CustomerPercentLinearLayout;
 
 
         ViewHolder(View v) {
             super(v);
             ProductNameTextView = v.findViewById(R.id.ProductNameTextView);
             MarketingCommissionTextView = v.findViewById(R.id.MarketingCommissionTextView);
-            CustomerPercentLinearLayout = v.findViewById(R.id.CustomerPercentLinearLayout);
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_commission_product, parent, false);
+        View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_commission_products, parent, false);
         return new ViewHolder(CurrentView);
     }
 
@@ -52,7 +50,6 @@ public class CommissionProductsRecyclerViewAdapter  extends RecyclerView.Adapter
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        holder.CustomerPercentLinearLayout.setVisibility(View.GONE);
         holder.ProductNameTextView.setText(ViewModelList.get(position).getProductName());
         holder.MarketingCommissionTextView.setText(String.valueOf(ViewModelList.get(position).getCustomerPercent()) + " " + Context.getResources().getString(R.string.percent));
     }
