@@ -86,6 +86,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private String FactorStatusTitle = "";
     private boolean IsChangeDescription = false;
     private boolean IsChange = false;
+    private boolean IsFirst = false;
 
     private List<FactorItemViewModel> ItemList = new ArrayList<>();
     private List<FactorStatusViewModel> FactorStatusViewModels = new ArrayList<>();
@@ -103,6 +104,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
         FactorId = getIntent().getExtras().getInt("FactorId");
         IsChange = false;
+        IsFirst = true;
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -388,7 +390,11 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
             case R.id.StatusFactorSpinnerUserFactorDetailActivity: {
 
                 StatusFactor = FactorStatusAdapterViewModel.get(i).getId();
-                StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
+                if (IsFirst)
+                    StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusTitle);
+                else
+                    StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
+
 
                 //نمایش ایکون کنار spinner تنها در انتخاب یک position خاص یا اولین position
                 ImageView ArrowDropDownImageView = view.findViewById(R.id.ArrowDropDownImageView);
@@ -400,6 +406,8 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                     ArrowDropDownImageView.setVisibility(View.GONE);
                 }
                 //--------------------------------------------------------------------------
+
+                IsFirst = false;
                 break;
             }
         }
@@ -542,9 +550,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
                 for (int i = 0; i < ViewModel.size(); i++) {
 
-                    if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                    else if (ViewModel.get(i).getStatus() == FactorStatus.Received.getId())
+                    if (ViewModel.get(i).getStatus() == FactorStatus.Received.getId())
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
                 }
             } else {
@@ -554,8 +560,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
                     else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByUser.getId())
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                    else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+
                 }
             }
         }

@@ -75,6 +75,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
     private String FactorStatusTitle = "";
     private boolean IsChangeDescription = false;
     private boolean IsChange = false;
+    private boolean IsFirst = false;
     private String PhoneNumber = "";
 
     private List<FactorItemViewModel> ItemList = new ArrayList<>();
@@ -91,6 +92,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
         FactorId = getIntent().getExtras().getInt("FactorId");
         IsChange = false;
+        IsFirst = true;
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -255,6 +257,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                     if (FeedBack.getValue()) {
                         FactorStatusId = StatusFactor;
                         IsChange = true;
+                        IsFirst = true;
 
                         SetInformationToSpinner(FactorStatusViewModels);
 
@@ -287,6 +290,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
                     if (FeedBack.getValue()) {
                         IsChange = true;
+                        IsFirst = true;
                         BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString());
                     } else {
                         BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(Description);
@@ -313,7 +317,10 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
             case R.id.StatusFactorSpinnerBusinessFactorDetailActivity: {
 
                 StatusFactor = FactorStatusAdapterViewModel.get(i).getId();
-                StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
+                if (IsFirst)
+                    StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusTitle);
+                else
+                    StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
 
                 //نمایش ایکون کنار spinner تنها در انتخاب یک position خاص یا اولین position
                 ImageView ArrowDropDownImageView = view.findViewById(R.id.ArrowDropDownImageView);
@@ -325,6 +332,8 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                     ArrowDropDownImageView.setVisibility(View.GONE);
                 }
                 //--------------------------------------------------------------------------
+
+                IsFirst = false;
                 break;
             }
         }
@@ -477,7 +486,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
             EditButtonBusinessFactorDetailActivity.setVisibility(View.VISIBLE);
 
 
-            if (StatusFactor == FactorStatus.Ordering.getId() + 1 || StatusFactor == FactorStatus.Etc.getId() + 1 || StatusFactor == FactorStatus.NotShow.getId() + 1) {
+            if (StatusFactor == FactorStatus.Ordering.getId() + 1 ||  StatusFactor == FactorStatus.NotShow.getId() + 1) {
 
                 for (int i = 0; i < ViewModel.size(); i++) {
 
@@ -493,10 +502,9 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
                     else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                    else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+
                 }
-            } else  if (StatusFactor == FactorStatus.Reviewing.getId() + 1) {
+            } else if (StatusFactor == FactorStatus.Reviewing.getId() + 1) {
 
                 for (int i = 0; i < ViewModel.size(); i++) {
                     if (ViewModel.get(i).getStatus() == FactorStatus.Preparing.getId())
@@ -509,10 +517,9 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
                     else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                    else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+
                 }
-            }  else  if (StatusFactor == FactorStatus.Preparing.getId() + 1) {
+            } else if (StatusFactor == FactorStatus.Preparing.getId() + 1) {
 
                 for (int i = 0; i < ViewModel.size(); i++) {
                     if (ViewModel.get(i).getStatus() == FactorStatus.DeliveredToCourier.getId())
@@ -523,10 +530,9 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
                     else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                    else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+
                 }
-            }else if (StatusFactor == FactorStatus.DeliveredToCourier.getId() + 1) {
+            } else if (StatusFactor == FactorStatus.DeliveredToCourier.getId() + 1) {
 
                 for (int i = 0; i < ViewModel.size(); i++) {
 
@@ -536,10 +542,9 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
                     else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                    else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+
                 }
-            }  else  if (StatusFactor == FactorStatus.Sending.getId() + 1) {
+            } else if (StatusFactor == FactorStatus.Sending.getId() + 1) {
 
                 for (int i = 0; i < ViewModel.size(); i++) {
 
@@ -547,8 +552,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
                     else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
                         FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                    else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+
                 }
             }
 
