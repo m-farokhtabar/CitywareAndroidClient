@@ -85,7 +85,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private int FactorStatusId = 0;
     private String FactorStatusTitle = "";
     private boolean IsChangeDescription = false;
-    private boolean   IsChange = false;
+    private boolean IsChange = false;
 
     private List<FactorItemViewModel> ItemList = new ArrayList<>();
     private List<FactorStatusViewModel> FactorStatusViewModels = new ArrayList<>();
@@ -102,7 +102,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         setCurrentActivityId(ActivityIdList.USER_FACTOR_DETAIL_ACTIVITY);
 
         FactorId = getIntent().getExtras().getInt("FactorId");
-        IsChange= false;
+        IsChange = false;
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -329,7 +329,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                     if (FeedBack.getValue()) {
 
                         FactorStatusId = StatusFactor;
-                        IsChange= true;
+                        IsChange = true;
 
                         SetInformationToSpinner(FactorStatusViewModels);
 
@@ -361,7 +361,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                     ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
 
                     if (FeedBack.getValue()) {
-                        IsChange= true;
+                        IsChange = true;
                         UserDescriptionEditTextUserFactorDetailActivity.setText(UserDescriptionEditTextUserFactorDetailActivity.getText().toString());
                     } else {
                         UserDescriptionEditTextUserFactorDetailActivity.setText(Description);
@@ -528,38 +528,35 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
             }
         }
 
-        if (StatusFactor == FactorStatus.Received.getId()+1 || StatusFactor == FactorStatus.CanceledByUser.getId()+1 || StatusFactor == FactorStatus.CanceledByBusiness.getId()+1) {
+        if (StatusFactor == FactorStatus.Received.getId() + 1 || StatusFactor == FactorStatus.CanceledByUser.getId() + 1 || StatusFactor == FactorStatus.CanceledByBusiness.getId() + 1) {
             StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.GONE);
             EditButtonUserFactorDetailActivity.setVisibility(View.GONE);
 
         } else {
             StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.VISIBLE);
             EditButtonUserFactorDetailActivity.setVisibility(View.VISIBLE);
-        }
 
-        if (StatusFactor == FactorStatus.DeliveredToCourier.getId()+1 || StatusFactor == FactorStatus.Delivered.getId()+1 ||
-                StatusFactor == FactorStatus.Sending.getId()) {
 
-            for (int i = 0; i < ViewModel.size(); i++) {
+            if (StatusFactor == FactorStatus.DeliveredToCourier.getId() + 1 || StatusFactor == FactorStatus.Delivered.getId() + 1 ||
+                    StatusFactor == FactorStatus.Sending.getId()) {
 
-                if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                else if (ViewModel.get(i).getStatus() == FactorStatus.Received.getId())
-                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-            }
-        }
+                for (int i = 0; i < ViewModel.size(); i++) {
 
-        if (StatusFactor == FactorStatus.Ordering.getId()+1 || StatusFactor == FactorStatus.NotShow.getId()+1 ||
-                StatusFactor == FactorStatus.Reviewing.getId()+1 || StatusFactor == FactorStatus.Etc.getId()+1 || StatusFactor == FactorStatus.Preparing.getId()+1) {
+                    if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
+                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                    else if (ViewModel.get(i).getStatus() == FactorStatus.Received.getId())
+                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                }
+            } else {
+                for (int i = 0; i < ViewModel.size(); i++) {
 
-            for (int i = 0; i < ViewModel.size(); i++) {
-
-                if (ViewModel.get(i).getStatus() == FactorStatus.Received.getId())
-                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByUser.getId())
-                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-                else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                    if (ViewModel.get(i).getStatus() == FactorStatus.Received.getId())
+                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                    else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByUser.getId())
+                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                    else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
+                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                }
             }
         }
 
