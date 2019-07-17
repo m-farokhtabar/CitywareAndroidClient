@@ -57,6 +57,7 @@ import ir.rayas.app.citywareclient.View.MasterChildren.SettingActivity;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.View.Share.BusinessListForFactorActivity;
+import ir.rayas.app.citywareclient.View.Share.UserBusinessListActivity;
 import ir.rayas.app.citywareclient.View.Share.UserFactorListActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PosterTypeActivity;
@@ -744,9 +745,18 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case ActivityIdList.BUSINESS_LIST_FOR_FACTOR_ACTIVITY:
-                Intent BusinessListForFactorIntent = new Intent(this, BusinessListForFactorActivity.class);
+//                Intent BusinessListForFactorIntent = new Intent(this, BusinessListForFactorActivity.class);
+//                BusinessListForFactorIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
+//                startActivity(BusinessListForFactorIntent);
+
+                Intent BusinessListForFactorIntent = NewIntent(UserBusinessListActivity.class);
                 BusinessListForFactorIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
+                BusinessListForFactorIntent.putExtra("Title", getResources().getString(R.string.selector_business_for_factore));
+                BusinessListForFactorIntent.putExtra("Description", getResources().getString(R.string.selector_business_for_visit_factore));
+                BusinessListForFactorIntent.putExtra("IsParent", false);
+                BusinessListForFactorIntent.putExtra("activityIdList", ActivityIdList.BUSINESS_FACTOR_LIST_ACTIVITY);
                 startActivity(BusinessListForFactorIntent);
+
                 break;
             case ActivityIdList.CLUB_USERS_ACTIVITY:
                 Intent ClubUsersIntent = new Intent(this, ClubUsersActivity.class);

@@ -12,6 +12,7 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.DiscountProductRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -105,7 +106,9 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
                         }
 
                         CustomerPercentTextViewShowDiscountDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
-                        AddressTextViewShowDiscountDetailsActivity.setText(ViewModel.getBusinessAddress());
+
+                        RegionRepository regionRepository = new RegionRepository();
+                        AddressTextViewShowDiscountDetailsActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {

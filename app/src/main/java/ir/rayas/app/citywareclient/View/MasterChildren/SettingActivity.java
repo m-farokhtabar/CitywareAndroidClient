@@ -283,7 +283,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                         accountViewModel.setUserSetting(ViewModel);
                         AccountRepository.setAccount(accountViewModel);
                         //----------------------------------------------------------
-                        
+
                         FinishCurrentActivity();
                     } else {
                         ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
@@ -328,8 +328,11 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         SearchTypeSpinnerSettingActivity.setSelection(SearchTypePosition);
         SearchStateSpinnerSettingActivity.setSelection(DeliveryStateInSearchPosition);
 
-        SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
-        SelectCategoryNameTextViewSettingActivity.setText(businessCategoryRepository.GetFullName(ViewModel.getBusinessCategoryId()));
+        if (ViewModel.getRegionId() != null)
+            SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
+
+        if (ViewModel.getBusinessCategoryId() != null)
+            SelectCategoryNameTextViewSettingActivity.setText(businessCategoryRepository.GetFullName(ViewModel.getBusinessCategoryId()));
 
         RegionId = ViewModel.getRegionId();
         FirstRegionId = ViewModel.getRegionId();
@@ -355,7 +358,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             localUserSettingViewModel.setRegionId(localSettingRepository.getLocalSetting().getRegionId());
 
 
-            localUserSettingViewModel.setUseGprsPoint(useGprsPoint);
+        localUserSettingViewModel.setUseGprsPoint(useGprsPoint);
 
 
         localUserSettingViewModel.setGpsRangeInKm(localSettingRepository.getLocalSetting().getGpsRangeInKm());

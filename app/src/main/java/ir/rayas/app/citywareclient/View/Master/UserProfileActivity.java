@@ -6,6 +6,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 
+import java.util.List;
+
 import ir.rayas.app.citywareclient.Adapter.Pager.UserProfilePagerAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
@@ -177,7 +179,8 @@ public class UserProfileActivity extends BaseActivity {
                 case ActivityIdList.BUY_POSTER_SET_ACTIVITY:
                     PurchasedPosterViewModel purchasedPosterViewModels = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
                     ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModels);
-
+                    List<PurchasedPosterViewModel> ViewModelList = ((UserPosterFragment) Pager.getFragmentByIndex(0)). getPosterValidRecyclerViewAdapter().getViewModelListSort();
+                    ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SortViewModelList(ViewModelList);
                     break;
 
             }

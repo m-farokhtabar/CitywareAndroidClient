@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.NewSuggestionBusinessCommissionRecyclerViewAdapter;
@@ -50,6 +49,10 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
     private SwipeRefreshLayout RefreshCustomerSwipeRefreshLayoutCustomerSearchFragment = null;
     private TextViewPersian ShowEmptyCustomerTextViewCustomerSearchFragment = null;
     private NewSuggestionBusinessCommissionRecyclerViewAdapter newSuggestionBusinessCommissionRecyclerViewAdapter = null;
+
+    public NewSuggestionBusinessCommissionRecyclerViewAdapter getNewSuggestionBusinessCommissionRecyclerViewAdapter() {
+        return newSuggestionBusinessCommissionRecyclerViewAdapter;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -205,6 +208,15 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
         } catch (Exception e) {
             Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
+    }
+
+    public void ShowViewMessageEmpty(int SizeViewModel) {
+
+        if (SizeViewModel > 0)
+            ShowEmptyCustomerTextViewCustomerSearchFragment.setVisibility(View.GONE);
+        else
+            ShowEmptyCustomerTextViewCustomerSearchFragment.setVisibility(View.VISIBLE);
+
     }
 
 

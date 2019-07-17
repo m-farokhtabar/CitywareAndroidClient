@@ -17,7 +17,7 @@ import ir.rayas.app.citywareclient.ViewModel.Basket.QuickOrderItemViewModel;
  * Created by Hajar on 2/18/2019.
  */
 
-public class QuickBasketRecyclerViewAdapter extends RecyclerView.Adapter<QuickBasketRecyclerViewAdapter.ViewHolder>  {
+public class QuickBasketRecyclerViewAdapter extends RecyclerView.Adapter<QuickBasketRecyclerViewAdapter.ViewHolder> {
 
     private List<QuickOrderItemViewModel> ViewModelList = null;
     private RecyclerView Container = null;
@@ -82,6 +82,16 @@ public class QuickBasketRecyclerViewAdapter extends RecyclerView.Adapter<QuickBa
         return Output;
     }
 
+
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() > 0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
 
 
 }

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.ProductListOrderRecyclerViewAdapter;
@@ -23,6 +24,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
@@ -49,6 +51,7 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
     List<Marketing_CustomerFactorDetailsViewModel> marketing_customerFactorDetailsViewModels = new ArrayList<>();
 
     private int BusinessId = 0;
+    private int Position = 0;
     private int MarketerId = 0;
     private String Percents = "";
     private String Ticket = "";
@@ -66,6 +69,7 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
         MarketerId = getIntent().getExtras().getInt("MarketerId");
         Percents = getIntent().getExtras().getString("Percents");
         Ticket = getIntent().getExtras().getString("Ticket");
+        Position = getIntent().getExtras().getInt("position");
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -178,7 +182,9 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
                     if (FeedBack.getValue() != null) {
                         if (FeedBack.getValue()) {
                             ShowToast(getResources().getString(R.string.you_order_submit_successful), Toast.LENGTH_LONG, MessageType.Info);
-                            onBackPressed();
+                            SendDataToParentActivity();
+                            FinishCurrentActivity();
+                           // onBackPressed();
                         } else {
                             ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                         }
@@ -240,16 +246,19 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
             TotalLinearLayoutOrderActivity.setVisibility(View.VISIBLE);
             Line2.setVisibility(View.VISIBLE);
 
-            double MarketingCommission = 0;
-            double CustomerDiscount = 0;
-            double TotalPriceFacture = 0;
-            double PayablePrice = 0;
+            int MarketingCommission = 0;
+            int CustomerDiscount = 0;
+            int TotalPriceFacture = 0;
+            int PayablePrice = 0;
 
             for (int i = 0; i < productCommissionAndDiscountModels.size(); i++) {
 
-                double TotalPrice = productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder();
-                CustomerDiscount = CustomerDiscount + (TotalPrice * productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100;
-                MarketingCommission = MarketingCommission + (TotalPrice * productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100;
+                int TotalPrice = (int)(productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder());
+                CustomerDiscount = CustomerDiscount + (int)((TotalPrice * productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100);
+
+                int percent = (int) ((TotalPrice * productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100)+
+                        (int)((TotalPrice * productCommissionAndDiscountModels.get(i).getApplicationPercent()) / 100) ;
+                MarketingCommission = MarketingCommission + percent;
                 PayablePrice = (PayablePrice + TotalPrice) - CustomerDiscount;
                 TotalPriceFacture = TotalPriceFacture + TotalPrice;
 
@@ -273,6 +282,14 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
             ShowEmptyProductTextViewOrderActivity.setVisibility(View.VISIBLE);
         }
     }
+
+    private void SendDataToParentActivity() {
+
+        HashMap<String, Object> Output = new HashMap<>();
+        Output.put("Position", Position);
+        ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
+    }
+
 
 
 

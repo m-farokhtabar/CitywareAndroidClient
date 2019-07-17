@@ -93,6 +93,7 @@ public class NewSuggestionBusinessCommissionRecyclerViewAdapter extends Recycler
                 OrderIntent.putExtra("Percents", ViewModelList.get(position).getPercents());
                 OrderIntent.putExtra("Ticket", ViewModelList.get(position).getTicket());
                 OrderIntent.putExtra("MarketerId", ViewModelList.get(position).getId());
+                OrderIntent.putExtra("Position", position);
                 Context.startActivity(OrderIntent);
 
             }
@@ -136,6 +137,14 @@ public class NewSuggestionBusinessCommissionRecyclerViewAdapter extends Recycler
                 Container.invalidate();
             }
         }
+    }
+
+    public void DeleteViewModeList(int Position){
+        ViewModelList.remove(Position);
+        notifyDataSetChanged();
+        Container.invalidate();
+
+        Context.ShowViewMessageEmpty(ViewModelList.size());
     }
 
 

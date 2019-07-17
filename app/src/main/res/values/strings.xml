@@ -249,6 +249,7 @@
     <string name="toman">تومان</string>
     <string name="toman_hours">تومان/ساعت</string>
     <string name="description">توضیحات</string>
+    <string name="description_full">توضیحات تکمیلی سفارش جهت ارسال به کسب و کار</string>
     <string name="product_delete">حذف محصول</string>
     <string name="description_product_delete">آیا مطمئن هستید که محصول مورد نظر حذف شود؟</string>
     <string name="warning_product_delete">با حذف محصول تمامی تصاویر، فروش ها و اطلاعات مرتبط نیز حذف می گردد.</string>
@@ -274,6 +275,8 @@
     <string name="order_must_be_greater_than_zero">ترتیب نمایش باید بزرگتر از صفر باشد</string>
     <string name="commission_should_be_between_zero_to_hundred">پورسانت باید بین ۰ تا ۱۰۰ باشد</string>
     <string name="select_image">انتخاب تصویر</string>
+    <string name="selector_business_for_factore"> انتخاب کسب و کار برای مشاهده فاکتور</string>
+    <string name="selector_business_for_visit_factore">مشخص نمایید فاکتور مربوط به کدام کسب و کار را میخواهید مشاهده کنید.</string>
 
 
     <!--متون مرتبط با روزهای هفته-->
@@ -441,6 +444,8 @@
     <string name="price_paid_customer">مبلغ پرداختی مشتری</string>
     <string name="submit">ثبت</string>
     <string name="select_product_service">انتخاب محصول/خدمات</string>
+    <string name="select_address">انتخاب آدرس</string>
+    <string name="please_select_address_for_order">لطفا آدرس را جهت دریافت سفارش انتخاب نمایید.</string>
 
 
     <!--متون مرتبط با  فاکتور-->
@@ -458,6 +463,8 @@
     <string name="contact_us">اطلاعات تماس</string>
     <string name="zero">0</string>
     <string name="customer_order_will_be_delivered_to_the_business_address">سفارش مشتری در آدرس کسب و کار تحویل گرفته خواهد شد</string>
+    <string name="cancel_by_user">کنسل شده توسط کاربر</string>
+    <string name="cancel_by_business">کنسل شده توسط کسب و کار</string>
 
 
     <!--متون مرتبط با  پکیج-->

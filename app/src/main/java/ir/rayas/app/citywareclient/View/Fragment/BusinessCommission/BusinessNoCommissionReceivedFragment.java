@@ -35,7 +35,7 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessVie
 /**
  * A simple {@link Fragment} subclass.
  */
-public class  BusinessNoCommissionReceivedFragment extends Fragment implements IResponseService, ILoadData {
+public class BusinessNoCommissionReceivedFragment extends Fragment implements IResponseService, ILoadData {
 
     private ShowBusinessCommissionActivity Context = null;
 
@@ -49,7 +49,12 @@ public class  BusinessNoCommissionReceivedFragment extends Fragment implements I
     private boolean IsLoadedDataForFirst = false;
     private int BusinessId = 0;
     private int PageNumber = 1;
-    
+
+    public boolean IsLoad = false;
+
+    public boolean isLoad() {
+        return IsLoad;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,8 +64,10 @@ public class  BusinessNoCommissionReceivedFragment extends Fragment implements I
         // Inflate the layout for this fragment
         View CurrentView = inflater.inflate(R.layout.fragment_business_no_commission_received, container, false);
 
-//        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
+        //BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
         BusinessId = Context.getBusinessId();
+
+        IsLoad = true;
         //طرحبندی ویو
         CreateLayout(CurrentView);
 
@@ -181,8 +188,8 @@ public class  BusinessNoCommissionReceivedFragment extends Fragment implements I
     }
 
     @SuppressLint("SetTextI18n")
-    public void SetViewPriceInFooter(double TotalPrice) {
-        TotalPriceFactoreTextViewBusinessNoCommissionReceivedFragment.setText(Utility.GetIntegerNumberWithComma(TotalPrice)+ " " + Context.getResources().getString(R.string.toman));
+    public void SetViewPriceInFooter(int TotalPrice) {
+        TotalPriceFactoreTextViewBusinessNoCommissionReceivedFragment.setText(Utility.GetIntegerNumberWithComma(TotalPrice) + " " + Context.getResources().getString(R.string.toman));
 
         if (TotalPrice <= 0)
             TotalLinearLayoutBusinessNoCommissionReceivedFragment.setVisibility(View.GONE);

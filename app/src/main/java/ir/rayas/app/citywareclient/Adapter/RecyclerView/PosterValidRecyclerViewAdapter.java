@@ -44,7 +44,12 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
     private UserProfileActivity Context;
     private RecyclerView Container = null;
-    private List<PurchasedPosterViewModel> ViewModelList = null;
+    public List<PurchasedPosterViewModel> ViewModelList = null;
+    private List<PurchasedPosterViewModel> ViewModelListSort = null;
+
+    public List<PurchasedPosterViewModel> getViewModelListSort() {
+        return ViewModelListSort;
+    }
 
     private int Hours = 0;
     private int Day = 0;
@@ -72,7 +77,11 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         if (ViewModel != null) {
             if (ViewModelList == null)
                 ViewModelList = new ArrayList<>();
+            if (ViewModelListSort == null)
+                ViewModelListSort = new ArrayList<>();
+
             ViewModelList.addAll(ViewModel);
+            ViewModelListSort.addAll(ViewModel);
             notifyDataSetChanged();
             Container.invalidate();
         }
@@ -85,10 +94,47 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
      */
     public void SetViewModelList(List<PurchasedPosterViewModel> ViewModel) {
         ViewModelList = new ArrayList<>();
+        ViewModelListSort = new ArrayList<>();
+        ViewModelList.addAll(ViewModel);
+        ViewModelListSort.addAll(ViewModel);
+        notifyDataSetChanged();
+        Container.invalidate();
+    }
+
+
+
+    public void SortViewModelList(List<PurchasedPosterViewModel> ViewModel) {
+        ClearViewModelList();
+
+        if (ViewModel != null) {
+            for (int i = 0; i < ViewModel.size() - 1; i++) {
+                for (int j = i + 1; j < ViewModel.size(); j++) {
+                    if (ViewModel.get(i).getOrder() < ViewModel.get(j).getOrder()) {
+                        PurchasedPosterViewModel temp = ViewModel.get(i);
+                        ViewModel.set(i, ViewModel.get(j));
+                        ViewModel.set(j, temp);
+                    }
+                }
+            }
+        }
+
+        ViewModelList = new ArrayList<>();
         ViewModelList.addAll(ViewModel);
         notifyDataSetChanged();
         Container.invalidate();
     }
+
+
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
 
     /**
      * اضافه مودن یک آدرس جدید به لیست
@@ -123,6 +169,14 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
                 }
             }
+
+            for (int i=0; i<ViewModelListSort.size();i++){
+                 if (ViewModel.getId() == ViewModelListSort.get(i).getId()){
+                     ViewModelListSort.remove(i);
+                     ViewModelListSort.add(ViewModel);
+                 }
+            }
+
             notifyDataSetChanged();
             Container.invalidate();
         }

@@ -164,7 +164,8 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
      *
      * @param ViewModel
      */
-    public void AddViewModelList(List<FactorViewModel> ViewModel) {
+    public void AddViewModelList(List<FactorViewModel> ViewModel, List<FactorStatusViewModel> FactorStatusViewModel) {
+        this.FactorStatusViewModel = FactorStatusViewModel;
         if (ViewModel != null) {
             if (ViewModelList == null)
                 ViewModelList = new ArrayList<>();
@@ -179,7 +180,8 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
      *
      * @param ViewModel
      */
-    public void SetViewModelList(List<FactorViewModel> ViewModel) {
+    public void SetViewModelList(List<FactorViewModel> ViewModel, List<FactorStatusViewModel> FactorStatusViewModel) {
+        this.FactorStatusViewModel = FactorStatusViewModel;
         ViewModelList = new ArrayList<>();
         ViewModelList.addAll(ViewModel);
         notifyDataSetChanged();

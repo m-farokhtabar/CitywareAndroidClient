@@ -581,7 +581,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                 }
             } else if (ServiceMethod == ServiceMethodType.BookmarkPosterInfoGetAll) {
                 Feedback<List<BusinessPosterInfoViewModel>> FeedBack = (Feedback<List<BusinessPosterInfoViewModel>>) Data;
-                
+
                 Line.setVisibility(View.GONE);
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
@@ -914,7 +914,11 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
+        if (MenuRelativeLayoutMainActivity.getVisibility() == View.VISIBLE)
+            MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
+        else
+            super.onBackPressed();
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.CommissionProductsRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -98,14 +99,13 @@ public class ShowCommissionDetailsActivity extends BaseActivity implements IResp
                         if (ViewModel.getProductList() != null) {
                             List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
 
-
-
                             CommissionProductsRecyclerViewAdapter commissionProductsRecyclerViewAdapter = new CommissionProductsRecyclerViewAdapter(ShowCommissionDetailsActivity.this, ViewModelList);
                             ShowProductListRecyclerViewShowCommissionDetailsActivity.setAdapter(commissionProductsRecyclerViewAdapter);
                         }
 
-                            MarketerPercentTextViewShowCommissionDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
-                            AddressTextViewShowCommissionDetailsActivity.setText(ViewModel.getBusinessAddress());
+                        MarketerPercentTextViewShowCommissionDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
+                        RegionRepository regionRepository = new RegionRepository();
+                        AddressTextViewShowCommissionDetailsActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
 
                     }
                 } else {

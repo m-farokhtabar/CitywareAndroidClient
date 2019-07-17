@@ -7,10 +7,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import java.util.HashMap;
+
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketDeliveryFragment;
 import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketListFragment;
@@ -135,6 +138,8 @@ public class BasketActivity extends BaseActivity  {
 
     @Override
     public void onBackPressed() {
+
+
 
         int count = getFragmentManager().getBackStackEntryCount();
 

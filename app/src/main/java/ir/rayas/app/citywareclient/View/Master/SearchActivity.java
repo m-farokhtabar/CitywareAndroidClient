@@ -1009,6 +1009,9 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (MenuRelativeLayoutSearchActivity.getVisibility() == View.VISIBLE)
+            MenuRelativeLayoutSearchActivity.setVisibility(View.GONE);
+        else
+            super.onBackPressed();
     }
 }

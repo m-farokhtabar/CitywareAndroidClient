@@ -91,6 +91,7 @@
                     android:hint="@string/please_enter_price_toman"
                     android:imeOptions="actionNext"
                     android:maxLength="@integer/Price"
+                    android:inputType="number"
                     android:nextFocusDown="@id/InventoryEditTextProductFragment"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColorHint="@color/TextHintColor"

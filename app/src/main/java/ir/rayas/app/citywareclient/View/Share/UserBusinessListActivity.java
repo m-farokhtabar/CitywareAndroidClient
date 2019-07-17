@@ -154,6 +154,10 @@ public class UserBusinessListActivity extends BaseActivity implements IResponseS
                     ShowBusinessCommissionIntent.putExtra("BusinessId",BusinessId);
                     startActivity(ShowBusinessCommissionIntent);
                    finish();
+                } else if (activityIdList == 28){
+                    Intent EditBusinessIconIntent = NewIntent(BusinessFactorListActivity.class);
+                    EditBusinessIconIntent.putExtra("BusinessId", BusinessId);
+                    startActivity(EditBusinessIconIntent);
                 }
             }
         } else {

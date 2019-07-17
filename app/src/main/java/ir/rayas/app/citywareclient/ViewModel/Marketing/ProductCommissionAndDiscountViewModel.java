@@ -47,4 +47,5 @@ public class ProductCommissionAndDiscountViewModel {
     public void setApplicationPercent(double applicationPercent) {
         ApplicationPercent = applicationPercent;
     }
+
 }

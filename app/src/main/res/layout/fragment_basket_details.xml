@@ -105,7 +105,7 @@
 
             </RelativeLayout>
 
-            <EditText
+            <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
                 android:id="@+id/DescriptionEditTextBasketDetailsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                 android:gravity="right|top"
                 android:focusable="true"
                 android:backgroundTint="@android:color/transparent"
-                android:hint="@string/description"
+                android:hint="@string/description_full"
                 android:inputType="textMultiLine"
                 android:singleLine="true"
                 android:textAppearance="?android:textAppearanceSmall"

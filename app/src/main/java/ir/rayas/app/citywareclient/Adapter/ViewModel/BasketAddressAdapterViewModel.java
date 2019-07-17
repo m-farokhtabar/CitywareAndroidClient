@@ -1,12 +1,12 @@
 package ir.rayas.app.citywareclient.Adapter.ViewModel;
 
-/**
- * Created by Hajar on 2/15/2019.
- */
+
 
 public class BasketAddressAdapterViewModel {
 
     public String Address = "";
+    public String PostalCode = "";
+    public int UserAddressId ;
     public Boolean IsSelected = false;
 
     public String getAddress() {
@@ -23,5 +23,21 @@ public class BasketAddressAdapterViewModel {
 
     public void setSelected(Boolean selected) {
         IsSelected = selected;
+    }
+
+    public String getPostalCode() {
+        return PostalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        PostalCode = postalCode;
+    }
+
+    public int getUserAddressId() {
+        return UserAddressId;
+    }
+
+    public void setUserAddressId(int userAddressId) {
+        UserAddressId = userAddressId;
     }
 }

@@ -6,14 +6,17 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
+
 import ir.rayas.app.citywareclient.Adapter.Pager.BusinessCommissionPagerAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.BusinessCommission.BusinessNoCommissionReceivedFragment;
+import ir.rayas.app.citywareclient.View.Fragment.BusinessCommission.CustomerSearchFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 
 public class ShowBusinessCommissionActivity extends BaseActivity {
@@ -23,8 +26,8 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
     private int FragmentIndex = 0;
     private int BusinessId = 0;
 
-    private String BusinessName ="";
-    double TotalPrice = 0.0;
+    private String BusinessName = "";
+    int TotalPrice = 0;
 
     public int getBusinessId() {
         return BusinessId;
@@ -53,8 +56,8 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
         //تنظیم کد اکتیویتی جاری جهت شناسایی برای استفاده در کلاس پایه و یا دریافت و ارسال اطلاعات مابین اکتیویتی ها
         setCurrentActivityId(ActivityIdList.SHOW_BUSINESS_COMMISSION_ACTIVITY);
 
-        BusinessName =getIntent().getExtras().getString("BusinessName")  ;
-        BusinessId =getIntent().getExtras().getInt("BusinessId")  ;
+        BusinessName = getIntent().getExtras().getString("BusinessName");
+        BusinessId = getIntent().getExtras().getInt("BusinessId");
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -91,7 +94,7 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
         ViewPager ProfileViewpager = findViewById(R.id.BusinessCommissionViewpagerShowBusinessCommissionActivity);
         TabLayout ProfileTabLayout = findViewById(R.id.BusinessCommissionTabLayoutShowBusinessCommissionActivity);
 
-        String[] TabNames = new String[]{ getString(R.string.archives), getString(R.string.commission_paid), getString(R.string.commission_un_paid),  getString(R.string.customer_search),getString(R.string.report)};
+        String[] TabNames = new String[]{getString(R.string.archives), getString(R.string.commission_paid), getString(R.string.commission_un_paid), getString(R.string.customer_search), getString(R.string.report)};
         Pager = new BusinessCommissionPagerAdapter(getSupportFragmentManager(), TabNames);
         ProfileViewpager.setAdapter(Pager);
         //تعداد فرگمنت هایی که می تواند باز بماند در viewPager
@@ -124,7 +127,7 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
 
 
     @SuppressLint("SetTextI18n")
-    public void SetViewPriceInFooter(double Price, boolean IsAdd) {
+    public void SetViewPriceInFooter(int Price, boolean IsAdd) {
 
         if (IsAdd) {
             TotalPrice = TotalPrice + Price;
@@ -133,8 +136,32 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
         }
 
         ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).SetViewPriceInFooter(TotalPrice);
-
     }
+
+    @Override
+    protected void onGetResult(ActivityResult Result) {
+        if (Result.getFromActivityId() == getCurrentActivityId()) {
+            switch (Result.getToActivityId()) {
+
+                case ActivityIdList.ORDER_ACTIVITY:
+
+                    int Position = (Integer) Result.getData().get("Position");
+                    ((CustomerSearchFragment) Pager.getFragmentByIndex(3)).getNewSuggestionBusinessCommissionRecyclerViewAdapter().DeleteViewModeList(Position);
+
+                    if (((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).isLoad())
+                        ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).LoadData();
+
+                    break;
+            }
+        }
+        super.onGetResult(Result);
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void ShowViewMessageEmpty(int SizeViewModel) {
+        ((CustomerSearchFragment) Pager.getFragmentByIndex(3)).ShowViewMessageEmpty(SizeViewModel);
+    }
+
 
     @Override
     protected void onDestroy() {

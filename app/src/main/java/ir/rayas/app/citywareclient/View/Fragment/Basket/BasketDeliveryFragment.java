@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BasketUserAddressRecyclerViewAdapter;
@@ -26,8 +27,11 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.UserAddressSetActivity;
 import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
@@ -108,19 +112,31 @@ public class BasketDeliveryFragment extends Fragment implements IResponseService
         NextButtonBasketDeliveryFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Context.basketSummeryViewModel.setCurrentAddress(basketUserAddressRecyclerViewAdapter.getSelectAddress());
-                Context.basketSummeryViewModel.setUserLatitude(basketUserAddressRecyclerViewAdapter.getLatitude());
-                Context.basketSummeryViewModel.setUserLongitude(basketUserAddressRecyclerViewAdapter.getLongitude());
-                BasketSummeryFragment basketSummeryFragment = new BasketSummeryFragment();
-                FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
-                BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketSummeryFragment);
-                BasketListTransaction.addToBackStack(null);
-                BasketListTransaction.commit();
+                SelectNextButtonClick();
             }
         });
 
     }
+
+
+    private void SelectNextButtonClick() {
+        if (basketUserAddressRecyclerViewAdapter.getUserAddressId() != 0) {
+
+            Context.basketSummeryViewModel.setCurrentAddress(basketUserAddressRecyclerViewAdapter.getSelectAddress());
+            Context.basketSummeryViewModel.setUserAddressId(basketUserAddressRecyclerViewAdapter.getUserAddressId());
+            Context.basketSummeryViewModel.setLastSelectedPositionAddress(basketUserAddressRecyclerViewAdapter.getLastSelectedPosition());
+            Context.basketSummeryViewModel.setUserLatitude(basketUserAddressRecyclerViewAdapter.getLatitude());
+            Context.basketSummeryViewModel.setUserLongitude(basketUserAddressRecyclerViewAdapter.getLongitude());
+            BasketSummeryFragment basketSummeryFragment = new BasketSummeryFragment();
+            FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
+            BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketSummeryFragment);
+            BasketListTransaction.addToBackStack(null);
+            BasketListTransaction.commit();
+        } else {
+            Context.ShowToast(getResources().getString(R.string.please_select_address_for_order), Toast.LENGTH_SHORT, MessageType.Warning);
+        }
+    }
+
 
     public void LoadData() {
         if (!IsSwipe)

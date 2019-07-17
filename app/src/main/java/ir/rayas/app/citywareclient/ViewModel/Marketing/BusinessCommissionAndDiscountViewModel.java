@@ -5,6 +5,7 @@ import java.util.List;
 public class BusinessCommissionAndDiscountViewModel {
 
     private int BusinessId;
+    private int RegionId;
     private String BusinessName;
     private String BusinessAddress;
     private double MarketerPercent;
@@ -67,5 +68,13 @@ public class BusinessCommissionAndDiscountViewModel {
 
     public void setProductList(List<ProductCommissionAndDiscountViewModel> productList) {
         ProductList = productList;
+    }
+
+    public int getRegionId() {
+        return RegionId;
+    }
+
+    public void setRegionId(int regionId) {
+        RegionId = regionId;
     }
 }

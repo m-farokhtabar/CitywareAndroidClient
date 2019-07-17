@@ -1,7 +1,6 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,18 +20,14 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowProductDetailsActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
 
-/**
- * Created by Hajar on 2/3/2019.
- */
+
 
 public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<BasketItemListRecyclerViewAdapter.ViewHolder> implements IResponseService {
 
@@ -52,15 +47,15 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextViewPersian BasketItemProductNameTextView;
-        public TextViewPersian BasketItemQuantityTextView;
-        public TextViewPersian BasketItemTotalPriceTextView;
-        public TextViewPersian BasketItemPriceTextView;
-        public TextViewPersian BasketItemTotalPriceTomanTextView;
-        public TextViewPersian BasketItemPriceTomanTextView;
-        public ButtonPersianView OrderItemDeleteButton;
-        public ImageView ImageBasketItemImageView;
-        public CardView AddOrMinBasketItemQuantityImageView;
+         TextViewPersian BasketItemProductNameTextView;
+         TextViewPersian BasketItemQuantityTextView;
+         TextViewPersian BasketItemTotalPriceTextView;
+         TextViewPersian BasketItemPriceTextView;
+         TextViewPersian BasketItemTotalPriceTomanTextView;
+         TextViewPersian BasketItemPriceTomanTextView;
+         ButtonPersianView OrderItemDeleteButton;
+         ImageView ImageBasketItemImageView;
+         CardView AddOrMinBasketItemQuantityImageView;
 
 
         public ViewHolder(View v) {
@@ -83,8 +78,7 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View CurrentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_basket_list_item, parent, false);
-        ViewHolder CurrentViewHolder = new ViewHolder(CurrentView);
-        return CurrentViewHolder;
+        return new ViewHolder(CurrentView);
     }
 
     @Override
@@ -103,7 +97,7 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
             holder.BasketItemTotalPriceTextView.setText(Context.getResources().getString(R.string.unknown));
 
             CountQuickItem = CountQuickItem + 1;
-            Context.basketSummeryViewModel.setQuickItem(true);
+       //     Context.basketSummeryViewModel.setQuickItem(true);
 
         } else {
 

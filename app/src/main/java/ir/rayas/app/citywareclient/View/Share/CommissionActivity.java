@@ -23,6 +23,7 @@ import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.CommissionProductRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -47,6 +48,7 @@ public class CommissionActivity extends BaseActivity implements IResponseService
     private RecyclerView ShowProductListRecyclerViewCommissionActivity = null;
     private TextViewPersian MarketingCommissionTextViewCommissionActivity = null;
     private TextViewPersian CustomerPercentTextViewCommissionActivity = null;
+    private TextViewPersian AddressTextViewCommissionActivity = null;
     private CardView UserNameCardViewCommissionActivity = null;
     private TextViewPersian UserNameTextViewCommissionActivity = null;
     private TextViewPersian MessageTextViewCommissionActivity = null;
@@ -91,6 +93,7 @@ public class CommissionActivity extends BaseActivity implements IResponseService
         CustomerPercentTextViewCommissionActivity = findViewById(R.id.CustomerPercentTextViewCommissionActivity);
         UserNameCardViewCommissionActivity = findViewById(R.id.UserNameCardViewCommissionActivity);
         UserNameTextViewCommissionActivity = findViewById(R.id.UserNameTextViewCommissionActivity);
+        AddressTextViewCommissionActivity = findViewById(R.id.AddressTextViewCommissionActivity);
 
         UserNameCardViewCommissionActivity.setVisibility(View.GONE);
         MessageTextViewCommissionActivity.setVisibility(View.GONE);
@@ -167,6 +170,9 @@ public class CommissionActivity extends BaseActivity implements IResponseService
 
                             CommissionProductRecyclerViewAdapter commissionProductRecyclerViewAdapter = new CommissionProductRecyclerViewAdapter(CommissionActivity.this, ViewModelList);
                             ShowProductListRecyclerViewCommissionActivity.setAdapter(commissionProductRecyclerViewAdapter);
+
+                            RegionRepository regionRepository = new RegionRepository();
+                            AddressTextViewCommissionActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
                         } else {
                             MessageTextViewCommissionActivity.setVisibility(View.VISIBLE);
                         }
@@ -325,10 +331,11 @@ public class CommissionActivity extends BaseActivity implements IResponseService
         String ShareBusinessAddress = "";
 //        String ShareMarketerPercent = "";
 //        String ShareCustomerPercent = "";
-
+        
+        RegionRepository regionRepository = new RegionRepository();
         if (businessCommissionAndDiscountViewModel != null) {
             ShareBusinessName = getResources().getString(R.string.business_title) + " " + businessCommissionAndDiscountViewModel.getBusinessName() + "\n";
-            ShareBusinessAddress = getResources().getString(R.string.address) + " " + businessCommissionAndDiscountViewModel.getBusinessAddress() + "\n";
+            ShareBusinessAddress = getResources().getString(R.string.address) + " " + regionRepository.GetFullName(businessCommissionAndDiscountViewModel.getRegionId()) + "\n";
 //            ShareMarketerPercent = getResources().getString(R.string.marketer_commission) + " " + businessCommissionAndDiscountViewModel.getMarketerPercent() + " " + getResources().getString(R.string.percent) + "\n";
 //            ShareCustomerPercent = getResources().getString(R.string.discount_customer) + " " + businessCommissionAndDiscountViewModel.getCustomerPercent() + " " + getResources().getString(R.string.percent) + "\n";
         }

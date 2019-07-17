@@ -248,6 +248,7 @@ public class AddQuickBasketActivity extends BaseActivity implements IResponseSer
         DialogContinueShoppingProcessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                quickBasketRecyclerViewAdapter.ClearViewModelList();
                 DialogOrder.dismiss();
             }
         });
@@ -259,9 +260,9 @@ public class AddQuickBasketActivity extends BaseActivity implements IResponseSer
                 BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(BasketIntent);
 
-                ItemList = new ArrayList<>();
-                quickBasketRecyclerViewAdapter = new QuickBasketRecyclerViewAdapter(AddQuickBasketActivity.this, ItemList, ProductNameRecyclerViewAddQuickBasketActivity);
-                ProductNameRecyclerViewAddQuickBasketActivity.setAdapter(quickBasketRecyclerViewAdapter);
+
+                quickBasketRecyclerViewAdapter.ClearViewModelList();
+
 
                 DialogOrder.dismiss();
             }

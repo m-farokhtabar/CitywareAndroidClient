@@ -22,6 +22,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
@@ -140,7 +141,7 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
                                 ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.VISIBLE);
                             } else {
                                 ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.GONE);
-                                BusinessFactorListRecyclerViewAdapter.SetViewModelList(ViewModelList);
+                                BusinessFactorListRecyclerViewAdapter.SetViewModelList(ViewModelList,FactorStatusViewModel);
 
                                 if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                     PageNumber = PageNumber + 1;
@@ -150,7 +151,7 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
 
                         } else {
                             ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.GONE);
-                            BusinessFactorListRecyclerViewAdapter.AddViewModelList(ViewModelList);
+                            BusinessFactorListRecyclerViewAdapter.AddViewModelList(ViewModelList,FactorStatusViewModel);
 
                             if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                 PageNumber = PageNumber + 1;
@@ -196,6 +197,22 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
+    }
+
+    @Override
+    protected void onGetResult(ActivityResult Result) {
+        if (Result.getFromActivityId() == getCurrentActivityId()) {
+            switch (Result.getToActivityId()) {
+                case ActivityIdList.BUSINESS_FACTOR_DETAIL_ACTIVITY:
+
+                    ShowLoadingProgressBar();
+                    PageNumber = 1;
+                    LoadDataFactor();
+
+                    break;
+            }
+        }
+        super.onGetResult(Result);
     }
 
     @Override

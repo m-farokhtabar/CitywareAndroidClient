@@ -12,13 +12,42 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/ReturnAndNextLinearLayoutBasketDeliveryFragment">
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/AddressRecyclerViewBasketDeliveryFragment"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="0dp" />
+            android:layout_height="match_parent">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/TitleTextViewBasketDeliveryFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/select_address"
+                android:layout_margin="5dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/DescriptionTextViewBasketDeliveryFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/please_select_address_for_order"
+                android:layout_below="@+id/TitleTextViewBasketDeliveryFragment"
+                android:layout_margin="5dp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/AddressRecyclerViewBasketDeliveryFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/DescriptionTextViewBasketDeliveryFragment"
+                android:divider="@null"
+                android:dividerHeight="0dp" />
+
+        </RelativeLayout>
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
@@ -31,9 +60,6 @@
         android:layout_marginLeft="16dp"
         android:src="@drawable/ic_add_white_24"
         app:backgroundTint="@color/ButtonBackgroundThemeColor" />
-
-
-
 
 
     <LinearLayout
@@ -68,7 +94,6 @@
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/FontWhiteColor"
             android:textStyle="bold" />
-
 
 
     </LinearLayout>

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import java.util.ArrayList;
@@ -27,11 +26,20 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
     private int LastSelectedPosition = -1;
     private RadioButton LastSelectedRadioButton = null;
     private String SelectAddress = "";
+    private int UserAddressId = 0;
 
     private boolean IsFirst = true;
 
     public String getSelectAddress() {
         return SelectAddress;
+    }
+
+    public int getUserAddressId() {
+        return UserAddressId;
+    }
+
+    public int getLastSelectedPosition() {
+        return LastSelectedPosition;
     }
 
     private double Latitude;
@@ -62,13 +70,10 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
 
         for (int i = 0; i < ViewModels.size(); i++) {
             BasketAddressAdapterViewModel basketAddressAdapterViewModel = new BasketAddressAdapterViewModel();
-            if (ViewModelList.get(i).getPostalCode().equals("")) {
-                basketAddressAdapterViewModel.setAddress(ViewModels.get(i).getCurrentAddress());
-            } else {
-                String PostalCode = Context.getResources().getString(R.string.postal_code) + " " + ViewModels.get(i).getPostalCode();
-                basketAddressAdapterViewModel.setAddress(ViewModels.get(i).getCurrentAddress() + " - " + PostalCode);
-            }
 
+            basketAddressAdapterViewModel.setAddress(ViewModels.get(i).getCurrentAddress());
+            basketAddressAdapterViewModel.setPostalCode(ViewModels.get(i).getPostalCode());
+            basketAddressAdapterViewModel.setUserAddressId(ViewModels.get(i).getId());
 
             ViewModel.add(basketAddressAdapterViewModel);
         }
@@ -78,26 +83,21 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TextViewPersian UserAddressTextView;
+        TextViewPersian PostalCodeTextView;
         RadioButton AddressSelectedRadioButton;
-        LinearLayout UserAddressContainerLinearLayout;
 
         public ViewHolder(View v) {
             super(v);
             UserAddressTextView = v.findViewById(R.id.UserAddressTextView);
+            PostalCodeTextView = v.findViewById(R.id.PostalCodeTextView);
             AddressSelectedRadioButton = v.findViewById(R.id.AddressSelectedRadioButton);
-            UserAddressContainerLinearLayout = v.findViewById(R.id.UserAddressContainerLinearLayout);
 
 
-//            ViewModel.get(ViewModelList.size() - 1).setSelected(true);
-//            SelectAddress = ViewModel.get(ViewModelList.size() - 1).getAddress();
-//            Latitude = ViewModelList.get(ViewModelList.size() - 1).getLatitude();
-//            Longitude = ViewModelList.get(ViewModelList.size() - 1).getLongitude();
-//            LastSelectedPosition = ViewModelList.size() - 1;
-//
 
             AddressSelectedRadioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
 
                     if (LastSelectedPosition > -1)
                         ViewModel.get(LastSelectedPosition).IsSelected = false;
@@ -106,14 +106,26 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
                         LastSelectedRadioButton.setChecked(false);
 
                     if (LastSelectedPosition != getAdapterPosition()) {
+
+                        AddressSelectedRadioButton.setChecked(false);
+
                         LastSelectedPosition = getAdapterPosition();
                         ViewModel.get(LastSelectedPosition).IsSelected = true;
-                        SelectAddress = ViewModel.get(LastSelectedPosition).getAddress();
+
+                        if (ViewModel.get(LastSelectedPosition).getPostalCode().equals("")) {
+                            SelectAddress = ViewModel.get(LastSelectedPosition).getAddress();
+                        } else {
+                            String PostalCode = Context.getResources().getString(R.string.postal_code) + " " + ViewModel.get(LastSelectedPosition).getPostalCode();
+                            SelectAddress = ViewModel.get(LastSelectedPosition).getAddress() + " - " + PostalCode;
+                        }
+
+                        UserAddressId = ViewModel.get(LastSelectedPosition).getUserAddressId();
                         LastSelectedRadioButton = (RadioButton) view;
                         LastSelectedRadioButton.setChecked(true);
                     } else {
                         LastSelectedPosition = -1;
                         SelectAddress = "";
+                        UserAddressId = 0;
                         LastSelectedRadioButton = null;
                     }
                 }
@@ -134,7 +146,12 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
     public void onBindViewHolder(final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         holder.UserAddressTextView.setText(ViewModel.get(position).getAddress());
+        holder.PostalCodeTextView.setText(ViewModel.get(position).getPostalCode());
         holder.AddressSelectedRadioButton.setChecked(ViewModel.get(position).getSelected());
+
+//        if (ViewModel.get(position).getUserAddressId() == Context.basketSummeryViewModel.getUserAddressId())
+//            holder.AddressSelectedRadioButton.setChecked(true);
+
 
     }
 

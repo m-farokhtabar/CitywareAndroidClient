@@ -22,6 +22,7 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
+import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
@@ -61,6 +62,9 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
         ButtonPersianView SelectBusinessButtonBusinessListForPackageFragment = CurrentView.findViewById(R.id.SelectBusinessButtonBusinessListForPackageFragment);
         ShowEmptyBusinessListTextViewBusinessListForPackageFragment = CurrentView.findViewById(R.id.ShowEmptyBusinessListTextViewBusinessListForPackageFragment);
         RefreshBusinessListSwipeRefreshLayoutBusinessListForPackageFragment = CurrentView.findViewById(R.id.RefreshBusinessListSwipeRefreshLayoutBusinessListForPackageFragment);
+        TextViewPersian TitleTextViewBusinessListForPackageFragment = CurrentView.findViewById(R.id.TitleTextViewBusinessListForPackageFragment);
+
+        TitleTextViewBusinessListForPackageFragment.setTypeface(Font.MasterLightFont);
 
         BusinessListRecyclerViewBusinessListForPackageFragment = CurrentView.findViewById(R.id.BusinessListRecyclerViewBusinessListForPackageFragment);
         BusinessListRecyclerViewBusinessListForPackageFragment.setHasFixedSize(true);
@@ -99,7 +103,7 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
     private void SelectBusinessButtonClick() {
         if (Context.getBusinessId() != 0) {
             Bundle BusinessIdBundle = new Bundle();
-            BusinessIdBundle.putInt("BusinessId",Context.getBusinessId());
+            BusinessIdBundle.putInt("BusinessId", Context.getBusinessId());
             PackageListFragment packageListFragment = new PackageListFragment();
             packageListFragment.setArguments(BusinessIdBundle);
 
@@ -131,7 +135,7 @@ public class BusinessListForPackageFragment extends Fragment implements IRespons
                         ShowEmptyBusinessListTextViewBusinessListForPackageFragment.setVisibility(View.GONE);
 
                         //تنظیمات مربوط به recycle کسب و کار
-                        BusinessListForPackageRecyclerViewAdapter businessListForPackageRecyclerViewAdapter = new BusinessListForPackageRecyclerViewAdapter(Context, ViewModel,BusinessListRecyclerViewBusinessListForPackageFragment);
+                        BusinessListForPackageRecyclerViewAdapter businessListForPackageRecyclerViewAdapter = new BusinessListForPackageRecyclerViewAdapter(Context, ViewModel, BusinessListRecyclerViewBusinessListForPackageFragment);
                         BusinessListRecyclerViewBusinessListForPackageFragment.setAdapter(businessListForPackageRecyclerViewAdapter);
 //                        businessListForPackageRecyclerViewAdapter.notifyDataSetChanged();
 //                        BusinessListRecyclerViewBusinessListForPackageFragment.invalidate();

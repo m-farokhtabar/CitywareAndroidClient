@@ -67,7 +67,7 @@
                 android:background="@drawable/view_button_normal_theme_style"
                 android:gravity="center"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:text="@string/continue_shopping_process"
+                android:text="@string/back"
                 android:textColor="@color/FontWhiteColor" />
 
             <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView

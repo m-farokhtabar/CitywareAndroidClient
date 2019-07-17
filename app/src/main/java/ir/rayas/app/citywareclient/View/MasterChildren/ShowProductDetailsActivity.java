@@ -500,6 +500,7 @@ public class ShowProductDetailsActivity extends BaseActivity implements IRespons
         DialogShowBasketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DialogOrder.dismiss();
                 Intent BasketIntent = new Intent(ShowProductDetailsActivity.this, BasketActivity.class);
                 BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(BasketIntent);

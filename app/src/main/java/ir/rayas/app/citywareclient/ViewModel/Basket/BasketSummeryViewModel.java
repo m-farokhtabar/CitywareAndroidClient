@@ -13,6 +13,8 @@ public class BasketSummeryViewModel {
     private int BasketCount;
     private int UserId;
     private int BasketId;
+    private int UserAddressId;
+    private int LastSelectedPositionAddress;
     private String BasketName;
     private int PriceDelivery;
     private boolean BusinessIsDelivery;
@@ -25,6 +27,21 @@ public class BasketSummeryViewModel {
     private double BasketLongitude;
     private boolean IsQuickItem;
 
+    public int getLastSelectedPositionAddress() {
+        return LastSelectedPositionAddress;
+    }
+
+    public void setLastSelectedPositionAddress(int lastSelectedPositionAddress) {
+        LastSelectedPositionAddress = lastSelectedPositionAddress;
+    }
+
+    public int getUserAddressId() {
+        return UserAddressId;
+    }
+
+    public void setUserAddressId(int userAddressId) {
+        UserAddressId = userAddressId;
+    }
 
     public int getBusinessId() {
         return BusinessId;

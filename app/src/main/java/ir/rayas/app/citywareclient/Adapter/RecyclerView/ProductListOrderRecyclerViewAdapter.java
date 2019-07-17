@@ -70,18 +70,17 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
 
         holder.ProductNameTextView.setText(ViewModelList.get(position).getProductName());
 
-       double TotalPrice =   ViewModelList.get(position).getPrice() *   ViewModelList.get(position).getNumberOfOrder();
+        int TotalPrice = (int) (ViewModelList.get(position).getPrice() * ViewModelList.get(position).getNumberOfOrder());
 
-        double DiscountPrice = (TotalPrice * ViewModelList.get(position).getCustomerPercent()) / 100;
+        int DiscountPrice = (int) ((TotalPrice * ViewModelList.get(position).getCustomerPercent()) / 100);
         holder.CustomerPercentTextView.setText(Utility.GetIntegerNumberWithComma(DiscountPrice));
 
-        double MarketingCommission = (TotalPrice * ViewModelList.get(position).getMarketerPercent()) / 100;
-        double ApplicationCommission = (TotalPrice * ViewModelList.get(position).getApplicationPercent()) / 100;
-        holder.MarketingCommissionTextView.setText(Utility.GetIntegerNumberWithComma(MarketingCommission+ApplicationCommission));
+        int MarketingCommission = (int) ((TotalPrice * ViewModelList.get(position).getMarketerPercent()) / 100);
+        int ApplicationCommission = (int) ((TotalPrice * ViewModelList.get(position).getApplicationPercent()) / 100);
+        holder.MarketingCommissionTextView.setText(Utility.GetIntegerNumberWithComma(MarketingCommission + ApplicationCommission));
 
 
         holder.TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
-
         holder.NumberOfOrderTextView.setText(String.valueOf(ViewModelList.get(position).getNumberOfOrder()));
 
 
@@ -146,14 +145,14 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
 
     public void DeleteViewModel(int position) {
 
-            ViewModelList.remove(position);
-            notifyDataSetChanged();
-            Container.invalidate();
-      
+        ViewModelList.remove(position);
+        notifyDataSetChanged();
+        Container.invalidate();
+
     }
 
 
-    private void SendDataToParentActivity(boolean IsDelete,int Position) {
+    private void SendDataToParentActivity(boolean IsDelete, int Position) {
 
         HashMap<String, Object> Output = new HashMap<>();
         Output.put("IsDelete", IsDelete);

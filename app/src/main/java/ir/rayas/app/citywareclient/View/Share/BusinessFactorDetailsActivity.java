@@ -1,6 +1,6 @@
 package ir.rayas.app.citywareclient.View.Share;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.Spinner.FactorStatusSpinnerAdapter;
-import ir.rayas.app.citywareclient.Adapter.Spinner.SexTypeSpinnerAdapter;
 import ir.rayas.app.citywareclient.Adapter.ViewModel.FactorStatusAdapterViewModel;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
@@ -38,7 +37,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
-import ir.rayas.app.citywareclient.ViewModel.Definition.SexTypeViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.DescriptionFactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
@@ -63,6 +61,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
     private LinearLayout ShowMapLinearLayoutBusinessFactorDetailActivity = null;
     private LinearLayout UserCellPhoneLinearLayoutBusinessFactorDetailActivity = null;
     private CardView UserDescriptionCardViewBusinessFactorDetailActivity = null;
+    private ButtonPersianView EditButtonBusinessFactorDetailActivity = null;
 
     private double Latitude = 0;
     private double Longitude = 0;
@@ -142,7 +141,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         UserCellPhoneLinearLayoutBusinessFactorDetailActivity = findViewById(R.id.UserCellPhoneLinearLayoutBusinessFactorDetailActivity);
 
         ButtonPersianView ShowProductButtonBusinessFactorDetailActivity = findViewById(R.id.ShowProductButtonBusinessFactorDetailActivity);
-        ButtonPersianView EditButtonBusinessFactorDetailActivity = findViewById(R.id.EditButtonBusinessFactorDetailActivity);
+        EditButtonBusinessFactorDetailActivity = findViewById(R.id.EditButtonBusinessFactorDetailActivity);
 
 
         ShowMapBusinessIconTextViewBusinessFactorDetailActivity.setTypeface(Font.MasterIcon);
@@ -247,7 +246,12 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
                 if (FeedBack.getStatus() == FeedbackType.UpdatedSuccessful.getId()) {
                     ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+
                     if (FeedBack.getValue()) {
+                        FactorStatusId = StatusFactor;
+
+                        SetInformationToSpinner(FactorStatusViewModels);
+
                         StatusFactorTextViewBusinessFactorDetailActivity.setText(StatusFactorTextViewBusinessFactorDetailActivity.getText().toString());
                         if (IsChangeDescription) {
                             BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString());
@@ -274,6 +278,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
                 if (FeedBack.getStatus() == FeedbackType.UpdatedSuccessful.getId()) {
                     ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+
                     if (FeedBack.getValue()) {
                         BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString());
                     } else {
@@ -348,6 +353,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         return ViewModel;
     }
 
+    @SuppressLint("SetTextI18n")
     private void SetInformationToView(FactorViewModel ViewModelList) {
 
         UserNameTextViewBusinessFactorDetailActivity.setText(ViewModelList.getUserFullName());
@@ -426,7 +432,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
             BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(ViewModelList.getBusinessDescription());
         }
 
-        if (ViewModelList.getUserAddress() == null || ViewModelList.getUserAddress().equals("")){
+        if (ViewModelList.getUserAddress() == null || ViewModelList.getUserAddress().equals("")) {
             UserAddressTextViewBusinessFactorDetailActivity.setText(getResources().getString(R.string.customer_order_will_be_delivered_to_the_business_address));
             ShowMapLinearLayoutBusinessFactorDetailActivity.setVisibility(View.GONE);
         } else {
@@ -435,11 +441,10 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         }
 
 
-
         if (ViewModelList.getFactorStatusId() >= 0)
             StatusFactorSpinnerBusinessFactorDetailActivity.setSelection(SetPositionToSpinnerUserFactorStatus(ViewModelList.getFactorStatusId(), FactorStatusAdapterViewModel));
 
-
+        StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusTitle);
     }
 
     private void SetInformationToSpinner(List<FactorStatusViewModel> ViewModel) {
@@ -454,26 +459,101 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                 StatusFactorTextViewBusinessFactorDetailActivity.setText(ViewModel.get(i).getTitle());
                 FactorStatusTitle = ViewModel.get(i).getTitle();
             }
-
-            if (StatusFactor == FactorStatus.Received.getId() || StatusFactor == FactorStatus.CanceledByUser.getId() || StatusFactor == FactorStatus.CanceledByBusiness.getId() || StatusFactor == FactorStatus.Delivered.getId()) {
-                StatusFactorSpinnerBusinessFactorDetailActivity.setVisibility(View.GONE);
-            }else {
-                StatusFactorSpinnerBusinessFactorDetailActivity.setVisibility(View.VISIBLE);
-            }
-
-            if (ViewModel.get(i).getStatus() == FactorStatus.Preparing.getId())
-                FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-            else if (ViewModel.get(i).getStatus() == FactorStatus.DeliveredToCourier.getId())
-                FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-            else if (ViewModel.get(i).getStatus() == FactorStatus.Sending.getId())
-                FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-            else if (ViewModel.get(i).getStatus() == FactorStatus.Delivered.getId())
-                FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-            else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
-                FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
-            else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
-                FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
         }
+
+        if (StatusFactor == FactorStatus.Received.getId()+1 || StatusFactor == FactorStatus.CanceledByUser.getId()+1 ||
+                StatusFactor == FactorStatus.CanceledByBusiness.getId()+1 || StatusFactor == FactorStatus.Delivered.getId()+1) {
+            StatusFactorSpinnerBusinessFactorDetailActivity.setVisibility(View.GONE);
+            EditButtonBusinessFactorDetailActivity.setVisibility(View.GONE);
+        } else {
+            StatusFactorSpinnerBusinessFactorDetailActivity.setVisibility(View.VISIBLE);
+            EditButtonBusinessFactorDetailActivity.setVisibility(View.VISIBLE);
+        }
+
+        if (StatusFactor == FactorStatus.Ordering.getId()+1 || StatusFactor == FactorStatus.Etc.getId()+1 || StatusFactor == FactorStatus.NotShow.getId()+1) {
+
+            for (int i = 0; i < ViewModel.size(); i++) {
+
+                if (ViewModel.get(i).getStatus() == FactorStatus.Reviewing.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Preparing.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.DeliveredToCourier.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Sending.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Delivered.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+            }
+        }
+
+        if (StatusFactor == FactorStatus.Reviewing.getId()+1) {
+
+            for (int i = 0; i < ViewModel.size(); i++) {
+                if (ViewModel.get(i).getStatus() == FactorStatus.Preparing.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.DeliveredToCourier.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Sending.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Delivered.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+            }
+        }
+
+        if (StatusFactor == FactorStatus.Preparing.getId()+1) {
+
+            for (int i = 0; i < ViewModel.size(); i++) {
+                if (ViewModel.get(i).getStatus() == FactorStatus.DeliveredToCourier.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Sending.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Delivered.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+            }
+        }
+
+        if (StatusFactor == FactorStatus.DeliveredToCourier.getId()+1) {
+
+            for (int i = 0; i < ViewModel.size(); i++) {
+
+                if (ViewModel.get(i).getStatus() == FactorStatus.Sending.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Delivered.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+            }
+        }
+
+
+        if (StatusFactor == FactorStatus.Sending.getId()+1) {
+
+            for (int i = 0; i < ViewModel.size(); i++) {
+
+                if (ViewModel.get(i).getStatus() == FactorStatus.Delivered.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByBusiness.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                else if (ViewModel.get(i).getStatus() == FactorStatus.Etc.getId())
+                    FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+            }
+        }
+
 
         FactorStatusSpinnerAdapter factorStatusSpinnerAdapter = new FactorStatusSpinnerAdapter(BusinessFactorDetailsActivity.this, FactorStatusAdapterViewModel);
         StatusFactorSpinnerBusinessFactorDetailActivity.setAdapter(factorStatusSpinnerAdapter);
