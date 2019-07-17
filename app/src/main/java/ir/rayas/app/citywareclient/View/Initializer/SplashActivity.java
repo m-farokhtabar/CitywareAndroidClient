@@ -26,6 +26,7 @@ import ir.rayas.app.citywareclient.Share.Constant.LayoutConstant;
 import ir.rayas.app.citywareclient.Share.Layout.View.ProgressBarView;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Definition.BusinessCategoryViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Definition.RegionViewModel;
 
@@ -37,6 +38,14 @@ public class SplashActivity extends BaseActivity implements IResponseService {
         setContentView(R.layout.activity_splash);
         //تنظیم فونت برنامه
         Font.SetFont(AppController.getInstance());
+
+        //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
+        InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
+            @Override
+            public void call() {
+                LoadData();
+            }
+        }, 0);
         //ایجاد طرحبندی صفحه
         CreateLayout();
         //تایمر جهت نمایش صفحه splash
