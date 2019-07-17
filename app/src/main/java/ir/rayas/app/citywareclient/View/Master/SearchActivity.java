@@ -374,15 +374,15 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
     }
 
     public void LoadData() {
-        if (PageNumber == 1)
-            ShowLoadingProgressBar();
-
-        if (localSettingRepository.getLocalSetting().isUseGprsPoint())
-            if (IsClickYesGPS)
-                GetMyLocation();
-
-        HomeService service = new HomeService(this);
-        service.GetAll(QueryType.Search.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumber);
+//        if (PageNumber == 1)
+//            ShowLoadingProgressBar();
+//
+//        if (localSettingRepository.getLocalSetting().isUseGprsPoint())
+//            if (IsClickYesGPS)
+//                GetMyLocation();
+//
+//        HomeService service = new HomeService(this);
+      //  service.GetAll(QueryType.Search.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumber);
 
     }
 
@@ -485,9 +485,9 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-                    Static.IsRefreshBookmark = false;
+                 //   Static.IsRefreshBookmark = false;
 
-                    final List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
+                    List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         if (PageNumber == 1) {
                             if (ViewModelList.size() < 1) {
