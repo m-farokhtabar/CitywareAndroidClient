@@ -103,7 +103,7 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
 
         RecyclerView factorListRecyclerViewBusinessFactorListActivity = findViewById(R.id.FactorListRecyclerViewBusinessFactorListActivity);
         factorListRecyclerViewBusinessFactorListActivity.setLayoutManager(new LinearLayoutManager(this));
-        BusinessFactorListRecyclerViewAdapter = new BusinessFactorListRecyclerViewAdapter(this, null,FactorStatusViewModel, factorListRecyclerViewBusinessFactorListActivity);
+        BusinessFactorListRecyclerViewAdapter = new BusinessFactorListRecyclerViewAdapter(this, null, FactorStatusViewModel, factorListRecyclerViewBusinessFactorListActivity);
         factorListRecyclerViewBusinessFactorListActivity.setAdapter(BusinessFactorListRecyclerViewAdapter);
 
         RefreshFactorListSwipeRefreshLayoutBusinessFactorListActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -141,7 +141,7 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
                                 ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.VISIBLE);
                             } else {
                                 ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.GONE);
-                                BusinessFactorListRecyclerViewAdapter.SetViewModelList(ViewModelList,FactorStatusViewModel);
+                                BusinessFactorListRecyclerViewAdapter.SetViewModelList(ViewModelList, FactorStatusViewModel);
 
                                 if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                     PageNumber = PageNumber + 1;
@@ -151,7 +151,7 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
 
                         } else {
                             ShowEmptyFactorListTextViewBusinessFactorListActivity.setVisibility(View.GONE);
-                            BusinessFactorListRecyclerViewAdapter.AddViewModelList(ViewModelList,FactorStatusViewModel);
+                            BusinessFactorListRecyclerViewAdapter.AddViewModelList(ViewModelList, FactorStatusViewModel);
 
                             if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                 PageNumber = PageNumber + 1;
@@ -174,12 +174,12 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
                     }
                 }
 
-            }  else if (ServiceMethod == ServiceMethodType.FactorStatusGetAll) {
+            } else if (ServiceMethod == ServiceMethodType.FactorStatusGetAll) {
                 Feedback<List<FactorStatusViewModel>> FeedBack = (Feedback<List<FactorStatusViewModel>>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
-                    FactorStatusViewModel =  new ArrayList<>();
+                    FactorStatusViewModel = new ArrayList<>();
                     FactorStatusViewModel = FeedBack.getValue();
 
                     LoadDataFactor();
@@ -205,9 +205,12 @@ public class BusinessFactorListActivity extends BaseActivity implements IRespons
             switch (Result.getToActivityId()) {
                 case ActivityIdList.BUSINESS_FACTOR_DETAIL_ACTIVITY:
 
-                    ShowLoadingProgressBar();
-                    PageNumber = 1;
-                    LoadDataFactor();
+                    boolean IsChange = (Boolean) Result.getData().get("IsChange");
+                    if (IsChange) {
+                        ShowLoadingProgressBar();
+                        PageNumber = 1;
+                        LoadDataFactor();
+                    }
 
                     break;
             }

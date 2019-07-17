@@ -25,17 +25,10 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserAddressFragment;
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserBusinessFragment;
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPackageFragment;
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPosterFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
-import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
-import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
+
 
 public class UserFactorListActivity extends BaseActivity implements IResponseService {
 
@@ -211,10 +204,12 @@ public class UserFactorListActivity extends BaseActivity implements IResponseSer
         if (Result.getFromActivityId() == getCurrentActivityId()) {
             switch (Result.getToActivityId()) {
                 case ActivityIdList.USER_FACTOR_DETAIL_ACTIVITY:
-
-                    ShowLoadingProgressBar();
-                    PageNumber = 1;
-                    LoadDataFactor();
+                    boolean IsChange = (Boolean) Result.getData().get("IsChange");
+                    if (IsChange) {
+                        ShowLoadingProgressBar();
+                        PageNumber = 1;
+                        LoadDataFactor();
+                    }
 
                     break;
             }

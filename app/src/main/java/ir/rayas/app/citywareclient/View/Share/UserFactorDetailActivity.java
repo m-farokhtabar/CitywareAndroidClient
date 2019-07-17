@@ -85,6 +85,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private int FactorStatusId = 0;
     private String FactorStatusTitle = "";
     private boolean IsChangeDescription = false;
+    private boolean   IsChange = false;
 
     private List<FactorItemViewModel> ItemList = new ArrayList<>();
     private List<FactorStatusViewModel> FactorStatusViewModels = new ArrayList<>();
@@ -101,6 +102,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         setCurrentActivityId(ActivityIdList.USER_FACTOR_DETAIL_ACTIVITY);
 
         FactorId = getIntent().getExtras().getInt("FactorId");
+        IsChange= false;
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -327,6 +329,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                     if (FeedBack.getValue()) {
 
                         FactorStatusId = StatusFactor;
+                        IsChange= true;
 
                         SetInformationToSpinner(FactorStatusViewModels);
 
@@ -358,6 +361,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                     ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
 
                     if (FeedBack.getValue()) {
+                        IsChange= true;
                         UserDescriptionEditTextUserFactorDetailActivity.setText(UserDescriptionEditTextUserFactorDetailActivity.getText().toString());
                     } else {
                         UserDescriptionEditTextUserFactorDetailActivity.setText(Description);
@@ -645,6 +649,12 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
     }
 
+    private void SendDataToParentActivity() {
+        HashMap<String, Object> Output = new HashMap<>();
+        Output.put("IsChange", IsChange);
+        ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -659,6 +669,8 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
     @Override
     public void onBackPressed() {
+
+        SendDataToParentActivity();
         super.onBackPressed();
     }
 }

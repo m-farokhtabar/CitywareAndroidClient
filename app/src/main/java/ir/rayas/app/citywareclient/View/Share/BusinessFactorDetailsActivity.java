@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.Spinner.FactorStatusSpinnerAdapter;
@@ -31,6 +32,8 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
@@ -71,6 +74,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
     private int FactorStatusId = 0;
     private String FactorStatusTitle = "";
     private boolean IsChangeDescription = false;
+    private boolean IsChange = false;
     private String PhoneNumber = "";
 
     private List<FactorItemViewModel> ItemList = new ArrayList<>();
@@ -86,6 +90,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         setCurrentActivityId(ActivityIdList.BUSINESS_FACTOR_DETAIL_ACTIVITY);
 
         FactorId = getIntent().getExtras().getInt("FactorId");
+        IsChange = false;
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -249,6 +254,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
                     if (FeedBack.getValue()) {
                         FactorStatusId = StatusFactor;
+                        IsChange= true;
 
                         SetInformationToSpinner(FactorStatusViewModels);
 
@@ -280,6 +286,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                     ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
 
                     if (FeedBack.getValue()) {
+                        IsChange= true;
                         BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString());
                     } else {
                         BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(Description);
@@ -610,6 +617,12 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         onLowMemory();
     }
 
+    private void SendDataToParentActivity() {
+        HashMap<String, Object> Output = new HashMap<>();
+        Output.put("IsChange", IsChange);
+        ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
+    }
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -617,6 +630,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
     @Override
     public void onBackPressed() {
+        SendDataToParentActivity();
         super.onBackPressed();
     }
 
