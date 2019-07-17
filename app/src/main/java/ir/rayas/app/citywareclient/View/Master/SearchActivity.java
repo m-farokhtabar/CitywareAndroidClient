@@ -364,8 +364,8 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                 SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
                 SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
 
-                HomeService service = new HomeService(SearchActivity.this);
-                service.GetAll(QueryType.Search.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumber);
+//                HomeService service = new HomeService(SearchActivity.this);
+//                service.GetAll(QueryType.Search.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumber);
             }
         });
 
