@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.Service.Package;
 
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -13,9 +14,11 @@ import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.ViewModel.Basket.StandardOrderItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutPackageViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.PackageDetailsViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Package.PurchasePackageViewModel;
 
 
 public class PackageService implements IService {
@@ -73,6 +76,18 @@ public class PackageService implements IService {
         String actionBusiness = "Business";
         String Url = DefaultConstant.BaseUrlWebService + "/" + ActionPackage + "/" + actionAll + "/" + actionBusiness + "/" + BusinessId;
         Current.GetService(this, Url, ServiceMethodType.PackageListGetAll, OutPackageViewModel.class, new TypeToken<Feedback<List<OutPackageViewModel>>>() {
+        }.getType());
+    }
+
+
+    public void Add(PurchasePackageViewModel ViewModel) {
+        String Controller = "Package/Purchase";
+
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + Controller ;
+        Gson gson = new Gson();
+        String JsonViewModel = gson.toJson(ViewModel);
+        Current.PostService(this, Url, JsonViewModel, ServiceMethodType.PaymentPackage, PurchasePackageViewModel.class, new TypeToken<Feedback<OutputPackageTransactionViewModel>>() {
         }.getType());
     }
 

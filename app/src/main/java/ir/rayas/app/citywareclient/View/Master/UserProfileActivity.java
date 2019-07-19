@@ -171,8 +171,10 @@ public class UserProfileActivity extends BaseActivity {
                 case ActivityIdList.PACKAGE_ACTIVITY:
                     OutputPackageTransactionViewModel outputPackageTransactionViewModel = (OutputPackageTransactionViewModel) Result.getData().get("OutputPackageTransactionViewModel");
                     if ((boolean) Result.getData().get("IsAdd")) {
-                        SetViewUserCreditPackage((double) Result.getData().get("TotalPrice"));
-                        ((UserPackageFragment) Pager.getFragmentByIndex(1)).getPackageRecyclerViewAdapter().AddViewModel(outputPackageTransactionViewModel);
+                        if (outputPackageTransactionViewModel.isActive()) {
+                            SetViewUserCreditPackage((double) Result.getData().get("TotalPrice"));
+                            ((UserPackageFragment) Pager.getFragmentByIndex(1)).getPackageRecyclerViewAdapter().AddViewModel(outputPackageTransactionViewModel);
+                        }
                     }
                     break;
 

@@ -11,10 +11,6 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +21,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
 import ir.rayas.app.citywareclient.View.MarketerChildren.FactorDetailsActivity;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
 
 
@@ -112,19 +107,20 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
         ViewModel.add(marketingPayedBusinessAdapterViewModel);
 
         holder.BusinessCommissionSelectedRadioButton.setChecked(ViewModel.get(position).getSelected());
-
+//        holder.BusinessCommissionSelectedRadioButton.setChecked(false);
 
 
         holder.BusinessCommissionSelectedRadioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (ViewModel.get(position).getSelected()){
+                if (ViewModel.get(position).getSelected()) {
                     ViewModel.get(position).setSelected(false);
-                }  else {
+                } else {
                     ViewModel.get(position).setSelected(true);
                 }
-                Context.SetViewPriceInFooter((int)ViewModelList.get(position).getPrice(),ViewModel.get(position).getSelected());
+                //   Context.SetViewPriceInFooter((int)ViewModelList.get(position).getPrice(),ViewModel.get(position).getSelected());
+                Context.SetViewPriceInFooter(ViewModelList.get(position), ViewModel.get(position).getSelected(), position);
                 holder.BusinessCommissionSelectedRadioButton.setChecked(ViewModel.get(position).getSelected());
             }
         });
@@ -160,6 +156,24 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
         Container.invalidate();
     }
 
+    public void ClearViewModelList() {
+
+        for (int i = 0; i < ViewModelList.size(); i++) {
+            MarketingPayedBusinessAdapterViewModel marketingPayedBusinessAdapterViewModel = new MarketingPayedBusinessAdapterViewModel();
+            marketingPayedBusinessAdapterViewModel.setSelected(false);
+
+            ViewModel.add(marketingPayedBusinessAdapterViewModel);
+        }
+
+        if (ViewModelList != null) {
+            if (ViewModelList.size() > 0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
     @Override
     public int getItemCount() {
         int Output;
@@ -169,7 +183,6 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
             Output = ViewModelList.size();
         return Output;
     }
-
 
 
 }

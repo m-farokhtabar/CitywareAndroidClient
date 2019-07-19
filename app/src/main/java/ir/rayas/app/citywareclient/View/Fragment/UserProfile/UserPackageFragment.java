@@ -218,13 +218,21 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                     Static.IsRefreshBookmark = false;
 
                     final List<OutputPackageTransactionViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null) {
+
+                    List<OutputPackageTransactionViewModel> outputPackageTransactionViewModels = new ArrayList<>();
+                    for (int i=0;i<ViewModelList.size();i++){
+                        if (ViewModelList.get(i).isActive()){
+                            outputPackageTransactionViewModels.add(ViewModelList.get(i));
+                        }
+                    }
+
+                    if (outputPackageTransactionViewModels != null) {
                         if (PageNumberOpen == 1) {
-                            if (ViewModelList.size() < 1) {
+                            if (outputPackageTransactionViewModels.size() < 1) {
                                 ShowEmptyTextViewUserPackageFragment.setVisibility(View.VISIBLE);
                             } else {
                                 ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
-                                packageRecyclerViewAdapter.SetViewModelList(ViewModelList);
+                                packageRecyclerViewAdapter.SetViewModelList(outputPackageTransactionViewModels);
 
                                 if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                     PageNumberOpen = PageNumberOpen + 1;
@@ -234,7 +242,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
 
                         } else {
                             ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
-                            packageRecyclerViewAdapter.AddViewModelList(ViewModelList);
+                            packageRecyclerViewAdapter.AddViewModelList(outputPackageTransactionViewModels);
 
                             if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
                                 PageNumberOpen = PageNumberOpen + 1;

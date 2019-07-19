@@ -44,6 +44,11 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
     private TextViewPersian ShowEmptyCommissionReceivedTextViewBusinessCommissionReceivedFragment = null;
     private  BusinessCommissionReceivedRecyclerViewAdapter CommissionReceivedRecyclerViewAdapter = null;
 
+    public boolean IsLoad = false;
+
+    public boolean isLoad() {
+        return IsLoad;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,8 +61,11 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
 
 //        BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
         BusinessId = Context.getBusinessId();
+
         //طرحبندی ویو
         CreateLayout(CurrentView);
+
+        IsLoad = true;
 
         return CurrentView;
     }
@@ -94,11 +102,21 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
     public void LoadData() {
         if (!IsSwipe)
             if (PageNumber == 1)
-            Context.ShowLoadingProgressBar();
+                Context.ShowLoadingProgressBar();
 
         Context.setRetryType(2);
         MarketingService MarketingService = new MarketingService(BusinessCommissionReceivedFragment.this);
         MarketingService.GetAllPayedBusinessCommission(BusinessId,PageNumber);
+    }
+
+    /**
+     * دریافت اطلاعات نحوای جهت پر کردن Recycle
+     */
+    public void LoadDataRefresh() {
+
+        Context.setRetryType(2);
+        MarketingService MarketingService = new MarketingService(BusinessCommissionReceivedFragment.this);
+        MarketingService.GetAllPayedBusinessCommission(BusinessId,1);
     }
 
     /**

@@ -3,6 +3,7 @@ package ir.rayas.app.citywareclient.View.Fragment.Package;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -33,6 +34,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.View.MasterChildren.PaymentPackageActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
 import ir.rayas.app.citywareclient.ViewModel.Club.RequestPrizeViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Club.UserConsumePointViewModel;
@@ -278,7 +280,14 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         BuyPackageByCashRelativeLayoutPackageDetailsFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowBuyPackageOnlineDialog((int) ViewModel.getPayablePrice(), ViewModel.getTitle());
+
+                Intent PaymentPackageIntent = Context.NewIntent(PaymentPackageActivity.class);
+                PaymentPackageIntent.putExtra("PricePayable",(int) ViewModel.getPayablePrice());
+                PaymentPackageIntent.putExtra("PackageName", ViewModel.getTitle());
+                PaymentPackageIntent.putExtra("PackageId",PackageId);
+                Context.startActivity(PaymentPackageIntent);
+
+                //ShowBuyPackageOnlineDialog((int) ViewModel.getPayablePrice(), ViewModel.getTitle());
             }
         });
 

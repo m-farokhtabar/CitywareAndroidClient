@@ -15,9 +15,11 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.Fragment.BusinessCommission.BusinessCommissionReceivedFragment;
 import ir.rayas.app.citywareclient.View.Fragment.BusinessCommission.BusinessNoCommissionReceivedFragment;
 import ir.rayas.app.citywareclient.View.Fragment.BusinessCommission.CustomerSearchFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
 
 public class ShowBusinessCommissionActivity extends BaseActivity {
 
@@ -27,7 +29,11 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
     private int BusinessId = 0;
 
     private String BusinessName = "";
-    int TotalPrice = 0;
+    private int TotalPrice = 0;
+
+    public void setTotalPrice(int totalPrice) {
+        TotalPrice = totalPrice;
+    }
 
     public int getBusinessId() {
         return BusinessId;
@@ -126,16 +132,33 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
     }
 
 
-    @SuppressLint("SetTextI18n")
-    public void SetViewPriceInFooter(int Price, boolean IsAdd) {
+//    @SuppressLint("SetTextI18n")
+//    public void SetViewPriceInFooter(int Price, boolean IsAdd) {
+//
+//        if (IsAdd) {
+//            TotalPrice = TotalPrice + Price;
+//        } else {
+//            TotalPrice = TotalPrice - Price;
+//        }
+//
+//        ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).SetViewPriceInFooter(TotalPrice);
+//    }
+
+    public void SetViewPriceInFooter(MarketingPayedBusinessViewModel viewModel, boolean IsAdd, int Position) {
 
         if (IsAdd) {
-            TotalPrice = TotalPrice + Price;
+            TotalPrice = TotalPrice + (int) viewModel.getPrice();
         } else {
-            TotalPrice = TotalPrice - Price;
+            TotalPrice = TotalPrice - (int) viewModel.getPrice();
         }
 
-        ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).SetViewPriceInFooter(TotalPrice);
+        ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).SetViewPriceInFooter(TotalPrice, viewModel.getId(), Position);
+    }
+
+    public void SetRefreshBusinessCommissionReceived() {
+
+        if (((BusinessCommissionReceivedFragment) Pager.getFragmentByIndex(1)).isLoad())
+            ((BusinessCommissionReceivedFragment) Pager.getFragmentByIndex(1)).LoadData();
     }
 
     @Override
@@ -149,7 +172,16 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
                     ((CustomerSearchFragment) Pager.getFragmentByIndex(3)).getNewSuggestionBusinessCommissionRecyclerViewAdapter().DeleteViewModeList(Position);
 
                     if (((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).isLoad())
-                        ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).LoadData();
+                        ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).LoadDataRefresh();
+
+                    break;
+
+                case ActivityIdList.PAYMENT_COMMISION_ACTIVITY:
+
+                    ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).LoadDataRefresh();
+
+                    if (((BusinessCommissionReceivedFragment) Pager.getFragmentByIndex(1)).isLoad())
+                        ((BusinessCommissionReceivedFragment) Pager.getFragmentByIndex(1)).LoadDataRefresh();
 
                     break;
             }

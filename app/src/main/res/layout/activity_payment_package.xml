@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundWhiteColor"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.MasterChildren.PaymentPackageActivity">
+
+    <RelativeLayout
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/BackToolBar"
+            layout="@layout/view_back_toolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/SubmitPaymentPackageButtonPaymentPackageActivity"
+            android:layout_below="@+id/BackToolBar"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="16dp"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:ignore="RtlHardcoded">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/BusinessNameTextViewPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="6dp"
+                    android:text="@string/buy_from"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontBlackColor"
+                    android:textStyle="bold" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="@string/buy_from"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontBlackColor"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/PackageNameTextViewPaymentPackageActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="4dp"
+                android:gravity="right"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontBlackColor"
+                tools:ignore="RtlHardcoded" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/PricePayableTitleTextViewPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/price_payable"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontSemiBlackColor" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/PricePayableTextViewPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_toLeftOf="@+id/PricePayableTitleTextViewPaymentPackageActivity"
+                    android:layout_toRightOf="@+id/TomanTitleTextViewPaymentPackageActivity"
+                    android:gravity="left"
+                    android:text="@string/buy_from"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontSemiDarkThemeColor"
+                    android:textStyle="bold" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/TomanTitleTextViewPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/toman"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontSemiBlackColor" />
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/LineTopColor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                    android:id="@+id/SubmitCouponEditTextPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="6dp"
+                    android:layout_toEndOf="@+id/SubmitCouponButtonUserPaymentPackageActivity"
+                    android:layout_toRightOf="@+id/SubmitCouponButtonUserPaymentPackageActivity"
+                    android:backgroundTint="@android:color/transparent"
+                    android:gravity="right"
+                    android:hint="@string/enter_discount_code"
+                    android:maxLength="@integer/TextLongSize"
+                    android:singleLine="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColorHint="@color/TextHintColor"
+                    tools:ignore="RtlHardcoded,UnusedAttribute" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                    android:id="@+id/SubmitCouponButtonUserPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/selector_button_theme_style"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:text="@string/submit_code"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontWhiteColor" />
+
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/LineTopColor" />
+
+            <RelativeLayout
+                android:id="@+id/CouponRelativeLayoutPaymentPackageActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:ignore="RtlHardcoded">
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/PricePayableCouponTitleTextViewPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/price_payable"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontGreenColor" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/PricePayableCouponTextViewPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_toLeftOf="@+id/PricePayableCouponTitleTextViewPaymentPackageActivity"
+                    android:layout_toRightOf="@+id/TomanCouponTitleTextViewPaymentPackageActivity"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontGreenColor"
+                    android:textStyle="bold" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/TomanCouponTitleTextViewPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/toman"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontGreenColor" />
+            </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/CouponFrameLayoutPaymentPackageActivity"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:background="@color/LineTopColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="16dp"
+                android:gravity="right"
+                android:text="@string/select_bank_payment"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontBlackColor"
+                tools:ignore="RtlHardcoded" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/selector_button_white">
+
+                <ImageView
+                    android:id="@+id/ImageBankImageViewPaymentPackageActivity"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/bank"
+                    tools:ignore="ContentDescription" />
+
+                <RadioButton
+                    android:id="@+id/BankSelectedRadioButtonPaymentPackageActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/selector_toggle_button"
+                    android:button="@null" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/SubmitPaymentPackageButtonPaymentPackageActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/selector_button_green_style"
+            android:text="@string/payment"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+</LinearLayout>

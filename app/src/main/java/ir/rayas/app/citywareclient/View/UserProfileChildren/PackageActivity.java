@@ -4,11 +4,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 
+import java.util.HashMap;
+
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.Package.BusinessListForPackageFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 
 public class PackageActivity extends BaseActivity {
 
@@ -22,6 +27,9 @@ public class PackageActivity extends BaseActivity {
     public String BusinessName = "";
     public int PackageId = 0;
     public int BusinessId = 0;
+
+    private boolean IsAdd = false;
+    private OutputPackageTransactionViewModel outputPackageTransactionViewModel;
 
     public String getBusinessName() {
         return BusinessName;
@@ -49,7 +57,7 @@ public class PackageActivity extends BaseActivity {
 
         ValueIntent = getIntent().getExtras().getString("New");
         if (ValueIntent.equals("BuyPrize")) {
-         PackageId =   getIntent().getExtras().getInt("PackageId");
+            PackageId = getIntent().getExtras().getInt("PackageId");
         }
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
@@ -69,16 +77,31 @@ public class PackageActivity extends BaseActivity {
      */
     private void CreateLayout() {
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction BusinessListTransaction = fragmentManager.beginTransaction();
-            BusinessListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, new BusinessListForPackageFragment());
-            BusinessListTransaction.commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction BusinessListTransaction = fragmentManager.beginTransaction();
+        BusinessListTransaction.replace(R.id.PackageFrameLayoutPackageActivity, new BusinessListForPackageFragment());
+        BusinessListTransaction.commit();
 
     }
 
     public void SetBusinessNameToButton(String businessName, int businessId) {
         BusinessId = businessId;
         BusinessName = businessName;
+    }
+
+
+    @Override
+    protected void onGetResult(ActivityResult Result) {
+        if (Result.getFromActivityId() == getCurrentActivityId()) {
+            switch (Result.getToActivityId()) {
+
+                case ActivityIdList.PAYMENT_PACKAGE_ACTIVITY:
+                    outputPackageTransactionViewModel = (OutputPackageTransactionViewModel) Result.getData().get("OutputPackageTransactionViewModel");
+                    IsAdd = (Boolean) Result.getData().get("IsAdd");
+
+                    break;
+            }
+        }
     }
 
 
@@ -95,6 +118,20 @@ public class PackageActivity extends BaseActivity {
             case 2:
                 // getLoadDataByIndex(FragmentIndex).LoadData();
                 break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (IsAdd) {
+            HashMap<String, Object> Output = new HashMap<>();
+            Output.put("IsAdd", IsAdd);
+            Output.put("TotalPrice", outputPackageTransactionViewModel.getPackageCredit());
+            Output.put("OutputPackageTransactionViewModel", outputPackageTransactionViewModel);
+            ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
+            super.onBackPressed();
+        } else {
+            super.onBackPressed();
         }
     }
 
