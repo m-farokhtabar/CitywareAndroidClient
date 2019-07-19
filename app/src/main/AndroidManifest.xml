@@ -365,8 +365,15 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".View.MasterChildren.PaymentPackageActivity" />
-        <activity android:name=".View.MasterChildren.PaymentCommissionActivity"></activity>
+        <activity android:name=".View.MasterChildren.PaymentPackageActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        
+        <activity android:name=".View.MasterChildren.PaymentCommissionActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
