@@ -194,7 +194,9 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
         ApplicationPercent = businessCommissionAndDiscountViewModel.getApplicationPercent();
         MarketerPercent = businessCommissionAndDiscountViewModel.getMarketerPercent();
         CustomerPercent = businessCommissionAndDiscountViewModel.getCustomerPercent();
+
         double Percent = MarketerPercent +   businessCommissionAndDiscountViewModel.getApplicationPercent();
+        Percent = Math.round(Percent*Math.pow(10,2))/Math.pow(10,2);
 
         OtherProductMarketerPercentTextViewProductListOrderActivity.setText(Percent + " " + getResources().getString(R.string.percent));
         OtherProductCustomerPercentTextViewProductListOrderActivity.setText(CustomerPercent + " " + getResources().getString(R.string.percent));

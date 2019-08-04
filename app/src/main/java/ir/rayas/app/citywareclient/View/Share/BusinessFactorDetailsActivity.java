@@ -262,6 +262,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                         SetInformationToSpinner(FactorStatusViewModels);
 
                         StatusFactorTextViewBusinessFactorDetailActivity.setText(StatusFactorTextViewBusinessFactorDetailActivity.getText().toString());
+                        Description =  BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString();
                         if (IsChangeDescription) {
                             BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString());
                         } else {
@@ -288,9 +289,12 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                 if (FeedBack.getStatus() == FeedbackType.UpdatedSuccessful.getId()) {
                     ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
 
+                    Description =    BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString();
+
                     if (FeedBack.getValue()) {
                         IsChange = true;
                         IsFirst = true;
+
                         BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString());
                     } else {
                         BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(Description);
@@ -316,11 +320,14 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         switch (adapterView.getId()) {
             case R.id.StatusFactorSpinnerBusinessFactorDetailActivity: {
 
-                StatusFactor = FactorStatusAdapterViewModel.get(i).getId();
-                if (IsFirst)
+
+                if (IsFirst) {
                     StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusTitle);
-                else
+                    StatusFactor = -1;
+                } else {
                     StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
+                    StatusFactor = FactorStatusAdapterViewModel.get(i).getId();
+                }
 
                 //نمایش ایکون کنار spinner تنها در انتخاب یک position خاص یا اولین position
                 ImageView ArrowDropDownImageView = view.findViewById(R.id.ArrowDropDownImageView);
@@ -348,7 +355,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
         StatusAndDescriptionFactorInViewModel ViewModel = new StatusAndDescriptionFactorInViewModel();
         ViewModel.setFactorId(FactorId);
-        if (Description.equals(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString())) {
+        if (Description.equals(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString()) || Description.equals("") ) {
             ViewModel.setDescription(null);
             IsChangeDescription = false;
         } else {
@@ -481,9 +488,13 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                 StatusFactor == FactorStatus.CanceledByBusiness.getId() + 1 || StatusFactor == FactorStatus.Delivered.getId() + 1) {
             StatusFactorSpinnerBusinessFactorDetailActivity.setVisibility(View.GONE);
             EditButtonBusinessFactorDetailActivity.setVisibility(View.GONE);
+            BusinessDescriptionEditTextBusinessFactorDetailActivity.setEnabled(false);
+            BusinessDescriptionEditTextBusinessFactorDetailActivity.setClickable(false);
         } else {
             StatusFactorSpinnerBusinessFactorDetailActivity.setVisibility(View.VISIBLE);
             EditButtonBusinessFactorDetailActivity.setVisibility(View.VISIBLE);
+            BusinessDescriptionEditTextBusinessFactorDetailActivity.setEnabled(true);
+            BusinessDescriptionEditTextBusinessFactorDetailActivity.setClickable(true);
 
 
             if (StatusFactor == FactorStatus.Ordering.getId() + 1 ||  StatusFactor == FactorStatus.NotShow.getId() + 1) {

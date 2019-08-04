@@ -390,10 +390,13 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
             case R.id.StatusFactorSpinnerUserFactorDetailActivity: {
 
                 StatusFactor = FactorStatusAdapterViewModel.get(i).getId();
-                if (IsFirst)
+                if (IsFirst) {
                     StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusTitle);
-                else
+                    StatusFactor = -1;
+                } else {
                     StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
+                    StatusFactor = FactorStatusAdapterViewModel.get(i).getId();
+                }
 
 
                 //نمایش ایکون کنار spinner تنها در انتخاب یک position خاص یا اولین position
@@ -422,7 +425,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
         StatusAndDescriptionFactorInViewModel ViewModel = new StatusAndDescriptionFactorInViewModel();
         ViewModel.setFactorId(FactorId);
-        if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString())) {
+        if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString()) || Description.equals("")) {
             ViewModel.setDescription(null);
             IsChangeDescription = false;
         } else {
@@ -519,7 +522,6 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         if (ViewModelList.getFactorStatusId() >= 0)
             StatusFactorSpinnerUserFactorDetailActivity.setSelection(SetPositionToSpinnerUserFactorStatus(ViewModelList.getFactorStatusId(), FactorStatusAdapterViewModel));
 
-
     }
 
     private void SetInformationToSpinner(List<FactorStatusViewModel> ViewModel) {
@@ -539,14 +541,18 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         if (StatusFactor == FactorStatus.Received.getId() + 1 || StatusFactor == FactorStatus.CanceledByUser.getId() + 1 || StatusFactor == FactorStatus.CanceledByBusiness.getId() + 1) {
             StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.GONE);
             EditButtonUserFactorDetailActivity.setVisibility(View.GONE);
+            UserDescriptionEditTextUserFactorDetailActivity.setEnabled(false);
+            UserDescriptionEditTextUserFactorDetailActivity.setClickable(false);
 
         } else {
             StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.VISIBLE);
             EditButtonUserFactorDetailActivity.setVisibility(View.VISIBLE);
+            UserDescriptionEditTextUserFactorDetailActivity.setEnabled(true);
+            UserDescriptionEditTextUserFactorDetailActivity.setClickable(true);
 
 
             if (StatusFactor == FactorStatus.DeliveredToCourier.getId() + 1 || StatusFactor == FactorStatus.Delivered.getId() + 1 ||
-                    StatusFactor == FactorStatus.Sending.getId()) {
+                    StatusFactor == FactorStatus.Sending.getId() || StatusFactor == FactorStatus.Preparing.getId() + 1 || StatusFactor == FactorStatus.Sending.getId() + 1) {
 
                 for (int i = 0; i < ViewModel.size(); i++) {
 
@@ -622,9 +628,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
     private void ChangeFactorStatus() {
 
-
         UserFactorService Service = new UserFactorService(this);
-
 
         if (StatusFactor == -1) {
             if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString())) {

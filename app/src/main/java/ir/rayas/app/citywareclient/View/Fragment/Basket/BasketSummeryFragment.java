@@ -2,7 +2,6 @@ package ir.rayas.app.citywareclient.View.Fragment.Basket;
 
 
 import android.app.Dialog;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -11,13 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.HashMap;
 
 import ir.rayas.app.citywareclient.R;
@@ -35,11 +31,9 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
-import ir.rayas.app.citywareclient.View.Master.MainActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.ProductCommissionAndDiscountModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -264,6 +258,7 @@ public class BasketSummeryFragment extends Fragment implements IResponseService,
 
         final Dialog ShowSubmitDialog = new Dialog(Context);
         ShowSubmitDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ShowSubmitDialog.setCanceledOnTouchOutside(false);
         ShowSubmitDialog.setContentView(R.layout.dialog_ok_submit_basket);
 
         TextViewPersian MessageTextView = ShowSubmitDialog.findViewById(R.id.MessageTextView);

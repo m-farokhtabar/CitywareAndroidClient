@@ -335,6 +335,12 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
     @SuppressLint("SetTextI18n")
     public void SetViewUserCredit(double Price, boolean IsPoster) {
+
+        if (posterValidRecyclerViewAdapter.getItemCount() > 0)
+            ShowEmptyTextViewUserPostersFragment.setVisibility(View.GONE);
+        else
+            ShowEmptyTextViewUserPostersFragment.setVisibility(View.VISIBLE);
+
         if (IsPoster) {
             UserCredit = UserCredit - Price;
         } else {

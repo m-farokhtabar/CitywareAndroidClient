@@ -161,8 +161,8 @@ public class UserProfileActivity extends BaseActivity {
                 case ActivityIdList.POSTER_TYPE_ACTIVITY:
                     PurchasedPosterViewModel purchasedPosterViewModel = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
                     if ((boolean) Result.getData().get("IsAdd")) {
-                        SetViewUserCredit((double) Result.getData().get("TotalPrice"), purchasedPosterViewModel, false);
                         ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().AddViewModel(purchasedPosterViewModel);
+                        SetViewUserCredit((double) Result.getData().get("TotalPrice"), purchasedPosterViewModel, false);
                     } else {
                         ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModel);
                     }
@@ -172,8 +172,8 @@ public class UserProfileActivity extends BaseActivity {
                     OutputPackageTransactionViewModel outputPackageTransactionViewModel = (OutputPackageTransactionViewModel) Result.getData().get("OutputPackageTransactionViewModel");
                     if ((boolean) Result.getData().get("IsAdd")) {
                         if (outputPackageTransactionViewModel.isActive()) {
-                            SetViewUserCreditPackage((double) Result.getData().get("TotalPrice"));
                             ((UserPackageFragment) Pager.getFragmentByIndex(1)).getPackageRecyclerViewAdapter().AddViewModel(outputPackageTransactionViewModel);
+                            SetViewUserCreditPackage((double) Result.getData().get("TotalPrice"));
                         }
                     }
                     break;

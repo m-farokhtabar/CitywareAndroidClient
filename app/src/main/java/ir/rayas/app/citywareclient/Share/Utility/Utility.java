@@ -280,8 +280,9 @@ public class Utility {
      */
     public static String GetIntegerNumberWithComma(double IntegerNumber) {
         String Output;
+        long LongerNumber = (long)IntegerNumber;
         DecimalFormat CommaSeparatorFormatter = new DecimalFormat("#,###,###");
-        Output = CommaSeparatorFormatter.format(IntegerNumber);
+        Output = CommaSeparatorFormatter.format(LongerNumber);
         return Output;
     }
 

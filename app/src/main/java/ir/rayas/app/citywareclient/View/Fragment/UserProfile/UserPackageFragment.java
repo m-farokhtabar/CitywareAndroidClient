@@ -344,6 +344,11 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
 
     @SuppressLint("SetTextI18n")
     public void SetViewUserCreditPackage(double Price, boolean IsPackage) {
+        if (packageRecyclerViewAdapter.getItemCount() > 0)
+            ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
+        else
+            ShowEmptyTextViewUserPackageFragment.setVisibility(View.VISIBLE);
+
        if (IsPackage) {
            UserCredit = UserCredit + Price;
        }else {

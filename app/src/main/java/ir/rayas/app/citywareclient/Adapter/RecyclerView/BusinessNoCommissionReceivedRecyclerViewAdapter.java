@@ -43,6 +43,7 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
         TextViewPersian TicketNumberTextView;
         TextViewPersian PaymentDeadlineTextView;
         TextViewPersian PriceTextView;
+        TextViewPersian FactorNumberTextView;
         RelativeLayout DiscountContainerRelativeLayout;
         ButtonPersianView DetailsBusinessButton;
         LinearLayout UseDateLinearLayout;
@@ -59,6 +60,7 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
             UseDateLinearLayout = v.findViewById(R.id.UseDateLinearLayout);
             PriceTextView = v.findViewById(R.id.PriceTextView);
             BusinessCommissionSelectedRadioButton = v.findViewById(R.id.BusinessCommissionSelectedRadioButton);
+            FactorNumberTextView = v.findViewById(R.id.FactorNumberTextView);
 
         }
     }
@@ -76,6 +78,7 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
 
         holder.FullNameTextView.setText(ViewModelList.get(position).getCustomerFullName());
         holder.TicketNumberTextView.setText(ViewModelList.get(position).getTicket());
+        holder.FactorNumberTextView.setText(String.valueOf(ViewModelList.get(position).getId()));
 
 
         holder.PriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPrice()) + " " + Context.getResources().getString(R.string.toman));
