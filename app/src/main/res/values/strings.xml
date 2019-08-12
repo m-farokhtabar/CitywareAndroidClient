@@ -300,6 +300,8 @@
     <string name="delivery_state_in_search">وضعیت پیک در جستجو</string>
     <string name="save">ثبت</string>
     <string name="exit">خروج</string>
+    <string name="region_all">همه مناطق</string>
+    <string name="category_all">همه اصناف</string>
 
     <string name="search_on_all_items">جستجو بر روی همه موارد</string>
     <string name="search_on_business">جستجو بر روی کسب و کار</string>
@@ -647,6 +649,11 @@
     <string name="submit_package_successful">پکیج شما با موفقیت ثبت شد</string>
     <string name="not_select_commission_for_payment">پورسانتی برای پرداخت انتخاب نشده است</string>
 
+
+    <string name="please_enter_word">کلمه یا عبارت مورد نظر را وارد کنید</string>
+    <string name="there_is_no_expire_user">کاربری وجود ندارد</string>
+    <string name="due_to_bank_ports_limitations_payment_is_not_possible">به علت محدودیت پرداخت الکترونیکی امکان پرداخت وجود ندارد. لطفا با پشتیبانی تماس بگیرید.</string>
+    <string name="package_submit_due_to_bank_ports_limitations_payment_is_not_possible">پکیج شما ثبت شد. \n اما به علت محدودیت پرداخت الکترونیکی امکان پرداخت هزینه وجود ندارد. لطفا با پشتیبانی تماس بگیرید.</string>
 
 </resources>
 

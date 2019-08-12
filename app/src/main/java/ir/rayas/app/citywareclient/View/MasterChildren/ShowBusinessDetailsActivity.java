@@ -276,7 +276,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
             @Override
             public void onClick(View view) {
                 Intent ShowBusinessPosterListIntent = NewIntent(ShowBusinessPosterListActivity.class);
-                ShowBusinessPosterListIntent.putExtra("BusinessId",BusinessId);
+                ShowBusinessPosterListIntent.putExtra("BusinessId", BusinessId);
                 startActivity(ShowBusinessPosterListIntent);
 
             }
@@ -493,7 +493,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
 //            Address = ViewModel.getRegionName() + " - " + ViewModel.getAddress();
 //        else
 //            Address = ViewModel.getAddress();
-        AddressTextViewShowBusinessDetailsActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId())+ " - " + ViewModel.getAddress());
+        AddressTextViewShowBusinessDetailsActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()) + " - " + ViewModel.getAddress());
 
         String ProductImage;
         if (!ViewModel.getImagePathUrl().equals("")) {
@@ -571,7 +571,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         ShowBusinessDetailsDialog.setContentView(R.layout.dialog_business_contact);
 
         TextViewPersian HeaderTextViewShowBusinessDetailsActivity = ShowBusinessDetailsDialog.findViewById(R.id.HeaderTextViewShowBusinessDetailsActivity);
-        HeaderTextViewShowBusinessDetailsActivity.getLayoutParams().width =LayoutUtility.GetWidthAccordingToScreen(ShowBusinessDetailsActivity.this, 1);
+        HeaderTextViewShowBusinessDetailsActivity.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(ShowBusinessDetailsActivity.this, 1);
         RecyclerView BusinessContactRecyclerViewShowBusinessDetailsActivity = ShowBusinessDetailsDialog.findViewById(R.id.BusinessContactRecyclerViewShowBusinessDetailsActivity);
         BusinessDetailsContactRecyclerViewAdapter businessDetailsContactRecyclerViewAdapter = new BusinessDetailsContactRecyclerViewAdapter(ShowBusinessDetailsActivity.this, ViewModel, BusinessContactRecyclerViewShowBusinessDetailsActivity);
         LinearLayoutManager BusinessOpenTimeLinearLayoutManager = new LinearLayoutManager(ShowBusinessDetailsActivity.this);
@@ -647,11 +647,14 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
 
-        String ShareMessage ;
-        ShareMessage = ViewModel.getTitle() + "\n" + ViewModel.getJobTitle() + "\n";
-        ShareMessage = ShareMessage + Html.fromHtml(Description).toString();
+        RegionRepository regionRepository = new RegionRepository();
 
-        String ProductImage ;
+        String ShareMessage;
+        ShareMessage = ViewModel.getTitle() + "\n" + ViewModel.getJobTitle() + "\n";
+        ShareMessage = ShareMessage + getResources().getString(R.string.address) + " : " + regionRepository.GetFullName(ViewModel.getRegionId())+ "\n";
+        ShareMessage = ShareMessage + Html.fromHtml(Description).toString() ;
+
+        String ProductImage;
         if (!ViewModel.getImagePathUrl().equals("")) {
             if (ViewModel.getImagePathUrl().contains("~")) {
                 ProductImage = ViewModel.getImagePathUrl().replace("~", DefaultConstant.BaseUrlWebService);
@@ -664,7 +667,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
 
         if (ProductImage.trim() != "") {
             String CurrentImageText = getResources().getString(R.string.image_product);
-            ShareMessage = ShareMessage +  Html.fromHtml(Description).toString() + "\n" + CurrentImageText + "\n" + ProductImage;
+            ShareMessage = ShareMessage + "\n" + CurrentImageText + "\n" + ProductImage;
         }
 
         intent.putExtra(Intent.EXTRA_TEXT, ShareMessage);

@@ -184,7 +184,7 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
                             ShowToast(getResources().getString(R.string.you_order_submit_successful), Toast.LENGTH_LONG, MessageType.Info);
                             SendDataToParentActivity();
                             FinishCurrentActivity();
-                           // onBackPressed();
+                            // onBackPressed();
                         } else {
                             ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                         }
@@ -232,7 +232,7 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
         super.onGetResult(Result);
     }
 
-    public void SetproductCommissionAndDiscountModels(int Position){
+    public void SetproductCommissionAndDiscountModels(int Position) {
 
         productCommissionAndDiscountModels.remove(Position);
 
@@ -253,20 +253,23 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
 
             for (int i = 0; i < productCommissionAndDiscountModels.size(); i++) {
 
-                int TotalPrice = (int)(productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder());
-                CustomerDiscount = CustomerDiscount + (int)((TotalPrice * productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100);
+                int TotalPrice = (int) (productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder());
+                double discount = (TotalPrice * productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100;
+                CustomerDiscount = CustomerDiscount + (int) (discount);
 
-                int percent = (int) ((TotalPrice * productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100)+
-                        (int)((TotalPrice * productCommissionAndDiscountModels.get(i).getApplicationPercent()) / 100) ;
-                MarketingCommission = MarketingCommission + percent;
-                PayablePrice = (PayablePrice + TotalPrice) - CustomerDiscount;
+
+                int MarketerPercent = (int) ((TotalPrice * productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100);
+                int ApplicationPercent = (int) ((TotalPrice * productCommissionAndDiscountModels.get(i).getApplicationPercent()) / 100);
+
+                int Commission = MarketerPercent + ApplicationPercent;
+                MarketingCommission = MarketingCommission + Commission;
+                PayablePrice = (PayablePrice + TotalPrice) - (int) discount;
                 TotalPriceFacture = TotalPriceFacture + TotalPrice;
 
-
                 Marketing_CustomerFactorDetailsViewModel marketing_customerFactorDetailsViewModel = new Marketing_CustomerFactorDetailsViewModel();
-                marketing_customerFactorDetailsViewModel.setCommissionPrice(MarketingCommission);
-                marketing_customerFactorDetailsViewModel.setDiscountPrice(CustomerDiscount);
-                marketing_customerFactorDetailsViewModel.setPrice(TotalPriceFacture);
+                marketing_customerFactorDetailsViewModel.setCommissionPrice(Commission);
+                marketing_customerFactorDetailsViewModel.setDiscountPrice(discount);
+                marketing_customerFactorDetailsViewModel.setPrice(TotalPrice);
                 marketing_customerFactorDetailsViewModel.setProductId(productCommissionAndDiscountModels.get(i).getProductId());
                 marketing_customerFactorDetailsViewModel.setProductName(productCommissionAndDiscountModels.get(i).getProductName());
 
@@ -289,10 +292,6 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
         Output.put("Position", Position);
         ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
     }
-
-
-
-
 
     @Override
     protected void onDestroy() {

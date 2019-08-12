@@ -7,12 +7,16 @@ package ir.rayas.app.citywareclient.Adapter.ViewModel;
 public class FactorStatusAdapterViewModel {
 
     public int Id = 0;
+    public int Status = 0;
     public String Title = "";
 
-    public FactorStatusAdapterViewModel(int id, String title) {
+
+    public FactorStatusAdapterViewModel(int id, String title, int status) {
         Id = id;
         Title = title;
+        Status = status;
     }
+
 
     public int getId() {
         return Id;
@@ -28,5 +32,13 @@ public class FactorStatusAdapterViewModel {
 
     public void setTitle(String title) {
         Title = title;
+    }
+
+    public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int status) {
+        Status = status;
     }
 }

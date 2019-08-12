@@ -2,6 +2,7 @@ package ir.rayas.app.citywareclient.View.Master;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -292,7 +294,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
 
         //Search Start -------------------------------------------------------------------------------------------
-        ImageView SearchImageViewSearchActivity = findViewById(R.id.SearchImageViewSearchActivity);
+        final ImageView SearchImageViewSearchActivity = findViewById(R.id.SearchImageViewSearchActivity);
         final EditTextPersian SearchEditTextSearchActivity = findViewById(R.id.SearchEditTextSearchActivity);
         RefreshSearchSwipeRefreshLayoutSearchActivity = findViewById(R.id.RefreshSearchSwipeRefreshLayoutSearchActivity);
 
@@ -350,8 +352,29 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         SearchImageViewSearchActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchResultRecyclerViewAdapter.ClearViewModelList();
-                LoadDataSearch();
+
+
+                String SearchOffer = SearchEditTextSearchActivity.getText().toString();
+                if (!SearchOffer.equals("")) {
+
+                    searchResultRecyclerViewAdapter.ClearViewModelList();
+                    TextSearch = SearchOffer;
+
+                    try {
+                        String Temp = URLEncoder.encode(TextSearch, "utf-8");
+                        TextSearch = Temp;
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                    PageNumber = 1;
+                    LoadDataSearch();
+                }  else {
+                    ShowToast(getResources().getString(R.string.please_enter_word), Toast.LENGTH_LONG, MessageType.Warning);
+                }
+
+                HideKeyboard(SearchImageViewSearchActivity);
+
             }
         });
 
@@ -552,6 +575,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                         if (PageNumber == 1) {
                             if (ViewModel.size() > 0) {
                                 ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+                                SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
                                 searchResultRecyclerViewAdapter.SetViewModelList(ViewModel);
 
                                 if (DefaultConstant.PageNumberSize == ViewModel.size()) {
@@ -560,10 +584,12 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                                 }
                             } else {
                                 ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
+                                SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
                             }
 
                         } else {
                             ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+                            SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
 
                             searchResultRecyclerViewAdapter.AddViewModelList(ViewModel);
 
@@ -577,8 +603,10 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
                     if (PageNumber > 1) {
                         ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+                        SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
                     } else {
                         ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
+                        SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
                     }
                 } else {
                     SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
@@ -969,6 +997,11 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
         LoadData();
 
+    }
+
+    private void HideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
     @Override

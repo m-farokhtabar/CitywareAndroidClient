@@ -6,7 +6,10 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
+import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
@@ -44,9 +48,12 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
 
     private TextViewPersian SelectRegionNameTextViewSettingActivity = null;
     private TextViewPersian SelectCategoryNameTextViewSettingActivity = null;
+    private SwitchCompat categorySwitchSettingActivity = null;
+    private SwitchCompat regionSwitchSettingActivity = null;
     private SwitchCompat SearchLocationSwitchSettingActivity = null;
     private Spinner SearchTypeSpinnerSettingActivity = null;
     private Spinner SearchStateSpinnerSettingActivity = null;
+    private EditText GpsRangeEditTextSettingActivity = null;
 
     private boolean IsLocationSearch = false;
     private Integer RegionId = null;
@@ -92,14 +99,19 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
 
     private void CreateLayout() {
 
-        ButtonPersianView selectRegionButtonSettingActivity = findViewById(R.id.SelectRegionButtonSettingActivity);
-        ButtonPersianView selectCategoryButtonSettingActivity = findViewById(R.id.SelectCategoryButtonSettingActivity);
+        final ButtonPersianView selectRegionButtonSettingActivity = findViewById(R.id.SelectRegionButtonSettingActivity);
+        final ButtonPersianView selectCategoryButtonSettingActivity = findViewById(R.id.SelectCategoryButtonSettingActivity);
         SelectRegionNameTextViewSettingActivity = findViewById(R.id.SelectRegionNameTextViewSettingActivity);
         SelectCategoryNameTextViewSettingActivity = findViewById(R.id.SelectCategoryNameTextViewSettingActivity);
         SearchLocationSwitchSettingActivity = findViewById(R.id.SearchLocationSwitchSettingActivity);
         SearchTypeSpinnerSettingActivity = findViewById(R.id.SearchTypeSpinnerSettingActivity);
         SearchStateSpinnerSettingActivity = findViewById(R.id.SearchStateSpinnerSettingActivity);
+        categorySwitchSettingActivity = findViewById(R.id.CategorySwitchSettingActivity);
+        regionSwitchSettingActivity = findViewById(R.id.RegionSwitchSettingActivity);
         ButtonPersianView SaveButtonSettingActivity = findViewById(R.id.SaveButtonSettingActivity);
+        final LinearLayout GpsRangeLinearLayoutSettingActivity = findViewById(R.id.GpsRangeLinearLayoutSettingActivity);
+        GpsRangeEditTextSettingActivity = findViewById(R.id.GpsRangeEditTextSettingActivity);
+        SeekBar gpsRangeSeekBarSettingActivity = findViewById(R.id.GpsRangeSeekBarSettingActivity);
 
         SetInformationToSpinner();
         SearchTypeSpinnerSettingActivity.setOnItemSelectedListener(this);
@@ -108,7 +120,6 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         selectRegionButtonSettingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //SettingActivity.this
                 Intent SelectRegionIntent = NewIntent(SelectRegionActivity.class);
                 startActivity(SelectRegionIntent);
             }
@@ -127,8 +138,53 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     IsLocationSearch = true;
+                    GpsRangeLinearLayoutSettingActivity.setVisibility(View.VISIBLE);
                 } else {
                     IsLocationSearch = false;
+                    GpsRangeLinearLayoutSettingActivity.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+        categorySwitchSettingActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    selectCategoryButtonSettingActivity.setClickable(true);
+                    selectCategoryButtonSettingActivity.setEnabled(true);
+                } else {
+                    selectCategoryButtonSettingActivity.setClickable(false);
+                    selectCategoryButtonSettingActivity.setEnabled(false);
+                }
+            }
+        });
+
+
+        gpsRangeSeekBarSettingActivity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                GpsRangeEditTextSettingActivity.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        regionSwitchSettingActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    selectRegionButtonSettingActivity.setClickable(true);
+                    selectRegionButtonSettingActivity.setEnabled(true);
+                } else {
+                    selectRegionButtonSettingActivity.setClickable(false);
+                    selectRegionButtonSettingActivity.setEnabled(false);
                 }
             }
         });
@@ -308,12 +364,12 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             switch (Result.getToActivityId()) {
                 case ActivityIdList.SELECT_REGION_ACTIVITY:
                     RegionId = (int) Result.getData().get("RegionId");
-                    String RegionName = (String) Result.getData().get("RegionName");
+                    //   String RegionName = (String) Result.getData().get("RegionName");
                     SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(RegionId));
                     break;
                 case ActivityIdList.SELECT_BUSINESS_CATEGORY_ACTIVITY:
                     CategoryId = (int) Result.getData().get("BusinessCategoryId");
-                    String CategoryName = (String) Result.getData().get("BusinessCategoryName");
+                    // String CategoryName = (String) Result.getData().get("BusinessCategoryName");
                     SelectCategoryNameTextViewSettingActivity.setText(businessCategoryRepository.GetFullName(CategoryId));
                     break;
             }

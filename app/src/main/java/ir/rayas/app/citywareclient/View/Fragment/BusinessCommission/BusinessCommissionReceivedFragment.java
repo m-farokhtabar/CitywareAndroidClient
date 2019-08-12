@@ -65,8 +65,6 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
         //طرحبندی ویو
         CreateLayout(CurrentView);
 
-        IsLoad = true;
-
         return CurrentView;
     }
 
@@ -191,6 +189,8 @@ public class BusinessCommissionReceivedFragment extends Fragment implements IRes
             if (!IsLoadedDataForFirst) {
                 IsSwipe = false;
                 IsLoadedDataForFirst = true;
+
+                IsLoad = true;
                 //دریافت اطلاعات از سرور
                 LoadData();
             }

@@ -74,7 +74,6 @@ public class BusinessNoCommissionReceivedFragment extends Fragment implements IR
         //BusinessId = Context.getIntent().getExtras().getInt("BusinessId");
         BusinessId = Context.getBusinessId();
 
-        IsLoad = true;
         //طرحبندی ویو
         CreateLayout(CurrentView);
 
@@ -272,6 +271,7 @@ public class BusinessNoCommissionReceivedFragment extends Fragment implements IR
                 IsSwipe = false;
                 IsLoadedDataForFirst = true;
                 //دریافت اطلاعات از سرور
+                IsLoad = true;
                 LoadData();
             }
         }

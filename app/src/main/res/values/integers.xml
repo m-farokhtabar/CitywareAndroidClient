@@ -22,4 +22,6 @@
     <integer name="Price">12</integer>
     <integer name="Comment">250</integer>
     <integer name="OrderQuantity">8</integer>
+    <integer name="PriceSize">11</integer>
+    <integer name="NumberOrderSize">7</integer>
 </resources>

@@ -40,6 +40,7 @@
                  android:layout_toStartOf="@+id/UnitPriceProductTitleTextView"
                 android:layout_toLeftOf="@+id/UnitPriceProductTitleTextView"
                 android:singleLine="true"
+                android:maxLength="@integer/PriceSize"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/FontBlackColor"
                 tools:ignore="RtlHardcoded" />
@@ -85,6 +86,7 @@
                 android:gravity="right|bottom"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
+                android:maxLength="@integer/NumberOrderSize"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/FontBlackColor"
                 tools:ignore="RtlHardcoded" />

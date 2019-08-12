@@ -1,12 +1,15 @@
 package ir.rayas.app.citywareclient.View.Share;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,6 +28,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
+import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Search.OutUserSearchViewModel;
@@ -32,7 +36,10 @@ import ir.rayas.app.citywareclient.ViewModel.Search.OutUserSearchViewModel;
 public class UserSearchActivity extends BaseActivity implements IResponseService {
 
     private UserSearchRecyclerViewAdapter userSearchRecyclerViewAdapter = null;
+    private SwipeRefreshLayout RefreshUserSwipeRefreshLayoutUserSearchActivity = null;
     private EditTextPersian SearchUserEditTextUserSearchActivity = null;
+    private RecyclerView ShowUserListRecyclerViewUserSearchActivity = null;
+    private TextViewPersian ShowEmptyUserTextViewUserSearchActivity = null;
 
     private String TextSearch = "";
     private int PageNumber = 1;
@@ -58,13 +65,25 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
     private void CreateLayout() {
 
-        ImageView SearchUserImageViewUserSearchActivity = findViewById(R.id.SearchUserImageViewUserSearchActivity);
+        final ImageView SearchUserImageViewUserSearchActivity = findViewById(R.id.SearchUserImageViewUserSearchActivity);
         SearchUserEditTextUserSearchActivity = findViewById(R.id.SearchUserEditTextUserSearchActivity);
-        final RecyclerView ShowUserListRecyclerViewUserSearchActivity = findViewById(R.id.ShowUserListRecyclerViewUserSearchActivity);
+        RefreshUserSwipeRefreshLayoutUserSearchActivity = findViewById(R.id.RefreshUserSwipeRefreshLayoutUserSearchActivity);
+        ShowUserListRecyclerViewUserSearchActivity = findViewById(R.id.ShowUserListRecyclerViewUserSearchActivity);
+        ShowEmptyUserTextViewUserSearchActivity = findViewById(R.id.ShowEmptyUserTextViewUserSearchActivity);
+
+        ShowEmptyUserTextViewUserSearchActivity.setVisibility(View.GONE);
 
         ShowUserListRecyclerViewUserSearchActivity.setLayoutManager(new LinearLayoutManager(UserSearchActivity.this));
         userSearchRecyclerViewAdapter = new UserSearchRecyclerViewAdapter(UserSearchActivity.this, null, ShowUserListRecyclerViewUserSearchActivity);
         ShowUserListRecyclerViewUserSearchActivity.setAdapter(userSearchRecyclerViewAdapter);
+
+        RefreshUserSwipeRefreshLayoutUserSearchActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                PageNumber = 1;
+                LoadData();
+            }
+        });
 
         SearchUserEditTextUserSearchActivity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -124,12 +143,15 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                 }  else {
                     ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.GONE);
                 }
+
+             HideKeyboard(SearchUserImageViewUserSearchActivity);
             }
         });
 
     }
 
     public void LoadData() {
+        RefreshUserSwipeRefreshLayoutUserSearchActivity.setRefreshing(true);
 
         UserService UserService = new UserService(this);
         UserService.GetSearch(PageNumber, TextSearch);
@@ -138,8 +160,7 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
     @SuppressLint("SetTextI18n")
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-
-        HideLoading();
+        RefreshUserSwipeRefreshLayoutUserSearchActivity.setRefreshing(false);
         try {
             if (ServiceMethod == ServiceMethodType.SearchGet) {
 
@@ -152,15 +173,22 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                         if (ViewModel != null) {
                             if (PageNumber == 1) {
                                 if (ViewModel.size() > 0) {
+                                    ShowEmptyUserTextViewUserSearchActivity.setVisibility(View.GONE);
+                                    ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
                                     userSearchRecyclerViewAdapter.SetViewModelList(ViewModel);
 
                                     if (DefaultConstant.PageNumberSize == ViewModel.size()) {
                                         PageNumber = PageNumber + 1;
                                         LoadData();
                                     }
+                                } else {
+                                    ShowEmptyUserTextViewUserSearchActivity.setVisibility(View.VISIBLE);
+                                    ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.GONE);
                                 }
 
                             } else {
+                                ShowEmptyUserTextViewUserSearchActivity.setVisibility(View.GONE);
+                                ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
                                 userSearchRecyclerViewAdapter.AddViewModelList(ViewModel);
 
                                 if (DefaultConstant.PageNumberSize == ViewModel.size()) {
@@ -170,7 +198,15 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                             }
                         }
 
-                } else {
+                }  else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
+                    if (PageNumber > 1) {
+                        ShowEmptyUserTextViewUserSearchActivity.setVisibility(View.GONE);
+                        ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
+                    } else {
+                        ShowEmptyUserTextViewUserSearchActivity.setVisibility(View.VISIBLE);
+                        ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.GONE);
+                    }
+                }else {
                     if (FeedBack.getStatus() == FeedbackType.ThereIsNoInternet.getId()) {
                         ShowErrorInConnectDialog();
                     }
@@ -188,6 +224,11 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
         super.onDestroy();
         Runtime.getRuntime().gc();
         onLowMemory();
+    }
+
+    private void   HideKeyboard(View view){
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
     @Override

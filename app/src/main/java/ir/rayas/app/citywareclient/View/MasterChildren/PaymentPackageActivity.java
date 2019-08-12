@@ -1,11 +1,15 @@
 package ir.rayas.app.citywareclient.View.MasterChildren;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -17,6 +21,7 @@ import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Coupon.CouponService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -27,6 +32,7 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityR
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
+import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
@@ -45,7 +51,6 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
 
     private int PackageId = 0;
     private String PackageName = "";
-    //    private String BusinessName = "";
     private int PricePayable = 0;
 
     private int RetryType = 0;
@@ -69,9 +74,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
             }
         }, R.string.payment);
 
-        //مشخص شدن صفحه ویرایش آدرس یا آدرس جدید
+
         PackageName = getIntent().getExtras().getString("PackageName");
-//        BusinessName = getIntent().getExtras().getString("BusinessName");
         PricePayable = getIntent().getExtras().getInt("PricePayable");
         PackageId = getIntent().getExtras().getInt("PackageId");
 
@@ -86,7 +90,6 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         PricePayableCouponTextViewPaymentPackageActivity = findViewById(R.id.PricePayableCouponTextViewPaymentPackageActivity);
         CouponFrameLayoutPaymentPackageActivity = findViewById(R.id.CouponFrameLayoutPaymentPackageActivity);
         CouponRelativeLayoutPaymentPackageActivity = findViewById(R.id.CouponRelativeLayoutPaymentPackageActivity);
-//        TextViewPersian BusinessNameTextViewPaymentPackageActivity = findViewById(R.id.BusinessNameTextViewPaymentPackageActivity);
         TextViewPersian PackageNameTextViewPaymentPackageActivity = findViewById(R.id.PackageNameTextViewPaymentPackageActivity);
         ButtonPersianView SubmitPaymentPackageButtonPaymentPackageActivity = findViewById(R.id.SubmitPaymentPackageButtonPaymentPackageActivity);
         final ButtonPersianView SubmitCouponButtonUserPaymentPackageActivity = findViewById(R.id.SubmitCouponButtonUserPaymentPackageActivity);
@@ -139,6 +142,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         SubmitCouponButtonUserPaymentPackageActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HideKeyboard(SubmitCouponButtonUserPaymentPackageActivity);
                 CheckCoupon();
             }
         });
@@ -170,11 +174,10 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     }
 
     private void PaymentPackage() {
-
-        ShowLoadingProgressBar();
-        PackageService packageService = new PackageService(this);
-        RetryType = 2;
-        packageService.Add(MadeViewModel());
+            ShowLoadingProgressBar();
+            PackageService packageService = new PackageService(this);
+            RetryType = 2;
+            packageService.Add(MadeViewModel());
     }
 
     private PurchasePackageViewModel MadeViewModel() {
@@ -228,7 +231,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
 
                         if (couponViewModel.isPercent()) {
                             double Percent = couponViewModel.getValue();
-                            TotalPaymentPrice = PricePayable - (int) (PricePayable * Percent);
+                            TotalPaymentPrice = PricePayable - (int) ((PricePayable * Percent) / 100);
                         } else {
                             TotalPaymentPrice = PricePayable - (int) couponViewModel.getValue();
                         }
@@ -263,16 +266,23 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                     if (ViewModel != null) {
 
                         if (ViewModel.isActive()) {
-                            ShowToast(getResources().getString(R.string.submit_package_successful), Toast.LENGTH_LONG, MessageType.Warning);
+                            ShowToast(getResources().getString(R.string.submit_package_successful), Toast.LENGTH_LONG, MessageType.Info);
+                            SendDataToParentActivity(ViewModel);
+                            onBackPressed();
                         } else {
-                            String url = "http://asanpardakhtpg.zeytoonfood.com/startpayment.aspx?type=1&id="+ ViewModel.getId();
-                            Uri uri = Uri.parse(url);
-                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            startActivity(intent);
+                            if (TotalPaymentPrice > DefaultConstant.MaxPayment || TotalPaymentPrice < DefaultConstant.MinPayment) {
+                                ShowPaymentPackageDialog(ViewModel);
+                            } else {
+                                String url = "http://asanpardakhtpg.zeytoonfood.com/startpayment.aspx?type=1&id=" + ViewModel.getId();
+                                Uri uri = Uri.parse(url);
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
+
+//                                SendDataToParentActivity(ViewModel);
+//                                onBackPressed();
+                            }
                         }
 
-                        SendDataToParentActivity(ViewModel);
-                        onBackPressed();
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -291,6 +301,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
 
     /**
      * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
+     *
      * @param ViewModel اطلاعات پوستر
      */
     private void SendDataToParentActivity(OutputPackageTransactionViewModel ViewModel) {
@@ -300,7 +311,36 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
     }
 
+    private void HideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
 
+    private void ShowPaymentPackageDialog(final OutputPackageTransactionViewModel ViewModel) {
+
+        final Dialog ShowPaymentPackageDialog = new Dialog(PaymentPackageActivity.this);
+        ShowPaymentPackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ShowPaymentPackageDialog.setCanceledOnTouchOutside(false);
+        ShowPaymentPackageDialog.setContentView(R.layout.dialog_payment_package);
+
+        TextViewPersian MessageTextView = ShowPaymentPackageDialog.findViewById(R.id.MessageTextView);
+        MessageTextView.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(PaymentPackageActivity.this, 1);
+        MessageTextView.setText(getResources().getString(R.string.package_submit_due_to_bank_ports_limitations_payment_is_not_possible));
+        ButtonPersianView DialogOkButton = ShowPaymentPackageDialog.findViewById(R.id.DialogOkButton);
+        DialogOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SendDataToParentActivity(ViewModel);
+//        //این قسمت به دلیل SingleInstance بودن Parent بایستی مطمئن شوبم که اکتیویتی Parent بعد از اتمام این اکتیویتی دوباره صدا  زده می شود
+//        //در حالت خروج از برنامه و ورود دوباره این اکتیوتی ممکن است Parent خود را گم کند
+                FinishCurrentActivity();
+                ShowPaymentPackageDialog.dismiss();
+            }
+        });
+
+        ShowPaymentPackageDialog.show();
+    }
 
     @Override
     protected void onDestroy() {
@@ -317,5 +357,11 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 }

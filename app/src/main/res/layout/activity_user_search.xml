@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,81 +17,101 @@
             android:id="@+id/BackToolBar"
             layout="@layout/view_back_toolbar" />
 
-        <LinearLayout
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/RefreshUserSwipeRefreshLayoutUserSearchActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/BackToolBar"
-            android:orientation="vertical">
+            android:visibility="visible">
 
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/BackgroundWhiteColor">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/SearchUserImageViewUserSearchActivity"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/ic_search_theme_24dp"
-                    android:foreground="?selectableItemBackground"
-                    android:scaleType="fitCenter"
-                    tools:ignore="ContentDescription" />
-
-                <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
-                    android:id="@+id/SearchUserEditTextUserSearchActivity"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_toLeftOf="@+id/SearchUserImageViewUserSearchActivity"
-                    android:layout_toStartOf="@+id/SearchUserImageViewUserSearchActivity"
-                    android:background="@android:color/transparent"
-                    android:gravity="right|center_vertical"
-                    android:textColor="@color/FontSemiBlackColor"
-                    android:textColorHint="@color/FontSemiBlackColor"
-                    android:hint="@string/introducing_to"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:textAppearance="?android:textAppearanceSmall"
+                    android:layout_height="50dp"
+                    android:background="@color/BackgroundWhiteColor">
+
+                    <ImageView
+                        android:id="@+id/SearchUserImageViewUserSearchActivity"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/ic_search_theme_24dp"
+                        android:foreground="?selectableItemBackground"
+                        android:scaleType="fitCenter"
+                        tools:ignore="ContentDescription" />
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian
+                        android:id="@+id/SearchUserEditTextUserSearchActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_toLeftOf="@+id/SearchUserImageViewUserSearchActivity"
+                        android:layout_toStartOf="@+id/SearchUserImageViewUserSearchActivity"
+                        android:background="@android:color/transparent"
+                        android:gravity="right|center_vertical"
+                        android:hint="@string/introducing_to"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:textAppearance="?android:textAppearanceSmall"
+                        android:textColor="@color/FontSemiBlackColor"
+                        android:textColorHint="@color/FontSemiBlackColor"
+                        tools:ignore="RtlHardcoded" />
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:id="@+id/Line"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="@color/LineTopColor" />
+
+                <ListView
+                    android:id="@+id/ListSearchListViewUserSearchActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:background="@color/BackgroundWhiteColor"
+                    android:labelFor="@+id/SearchCardView"
+                    android:visibility="gone"
                     tools:ignore="RtlHardcoded" />
-            </RelativeLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:id="@+id/Line"
-                android:background="@color/LineTopColor"/>
-            <ListView
-                android:id="@+id/ListSearchListViewUserSearchActivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@color/BackgroundWhiteColor"
-                android:labelFor="@+id/SearchCardView"
-                android:visibility="gone"
-                tools:ignore="RtlHardcoded" />
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/ShowUserListRecyclerViewUserSearchActivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:divider="@null"
-                android:dividerHeight="0dp" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ShowUserListRecyclerViewUserSearchActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
 
-        </LinearLayout>
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/ShowEmptyUserTextViewUserSearchActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="16dp"
+                    android:gravity="center"
+                    android:text="@string/there_is_no_expire_user"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/FontSemiDarkThemeColor"
+                    android:visibility="gone"
+                    tools:ignore="ObsoleteLayoutParam" />
 
+            </LinearLayout>
 
+        </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 
     <include

@@ -1,6 +1,8 @@
 package ir.rayas.app.citywareclient.View.Fragment.BusinessCommission;
 
 
+import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +13,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
@@ -49,14 +53,14 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
     private SwipeRefreshLayout RefreshCustomerSwipeRefreshLayoutCustomerSearchFragment = null;
     private TextViewPersian ShowEmptyCustomerTextViewCustomerSearchFragment = null;
     private NewSuggestionBusinessCommissionRecyclerViewAdapter newSuggestionBusinessCommissionRecyclerViewAdapter = null;
+    private RecyclerView CustomerRecyclerViewCustomerSearchFragment = null;
 
     public NewSuggestionBusinessCommissionRecyclerViewAdapter getNewSuggestionBusinessCommissionRecyclerViewAdapter() {
         return newSuggestionBusinessCommissionRecyclerViewAdapter;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //دریافت اکتیوتی والد این فرگمین
         Context = (ShowBusinessCommissionActivity) getActivity();
@@ -75,10 +79,11 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
 
         ShowEmptyCustomerTextViewCustomerSearchFragment = CurrentView.findViewById(R.id.ShowEmptyCustomerTextViewCustomerSearchFragment);
         RefreshCustomerSwipeRefreshLayoutCustomerSearchFragment = CurrentView.findViewById(R.id.RefreshCustomerSwipeRefreshLayoutCustomerSearchFragment);
-        EditTextPersian SearchUserEditTextCustomerSearchFragment = CurrentView.findViewById(R.id.SearchUserEditTextCustomerSearchFragment);
+        final EditTextPersian SearchUserEditTextCustomerSearchFragment = CurrentView.findViewById(R.id.SearchUserEditTextCustomerSearchFragment);
+        final ImageView SearchUserImageViewCustomerSearchFragment = CurrentView.findViewById(R.id.SearchUserImageViewCustomerSearchFragment);
         ShowEmptyCustomerTextViewCustomerSearchFragment.setVisibility(View.GONE);
 
-        RecyclerView CustomerRecyclerViewCustomerSearchFragment = CurrentView.findViewById(R.id.CustomerRecyclerViewCustomerSearchFragment);
+        CustomerRecyclerViewCustomerSearchFragment = CurrentView.findViewById(R.id.CustomerRecyclerViewCustomerSearchFragment);
         CustomerRecyclerViewCustomerSearchFragment.setHasFixedSize(true);
         LinearLayoutManager LinearLayoutManager = new LinearLayoutManager(Context);
         CustomerRecyclerViewCustomerSearchFragment.setLayoutManager(LinearLayoutManager);
@@ -96,6 +101,33 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
             }
         });
 
+        SearchUserImageViewCustomerSearchFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String SearchOffer = SearchUserEditTextCustomerSearchFragment.getText().toString();
+
+                if (!SearchOffer.equals("")) {
+
+                    newSuggestionBusinessCommissionRecyclerViewAdapter.ClearViewModelList();
+                    TextSearch = SearchOffer;
+
+                    try {
+                        String Temp = URLEncoder.encode(TextSearch, "utf-8");
+                        TextSearch = Temp;
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                    PageNumber = 1;
+                    LoadData();
+                } else {
+                    Context.ShowToast(getResources().getString(R.string.please_enter_word), Toast.LENGTH_LONG, MessageType.Warning);
+
+                }
+
+                HideKeyboard(SearchUserImageViewCustomerSearchFragment);
+            }
+        });
 
         SearchUserEditTextCustomerSearchFragment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -109,6 +141,8 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 IsSwipe = true;
+
+                RefreshCustomerSwipeRefreshLayoutCustomerSearchFragment.setRefreshing(true);
 
                 newSuggestionBusinessCommissionRecyclerViewAdapter.ClearViewModelList();
                 PageNumber = 1;
@@ -126,11 +160,8 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
                 }
 
                 LoadData();
-
             }
         });
-
-
     }
 
     /**
@@ -169,8 +200,10 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
                         if (PageNumber == 1) {
                             if (ViewModelList.size() < 1) {
                                 ShowEmptyCustomerTextViewCustomerSearchFragment.setVisibility(View.VISIBLE);
+                                CustomerRecyclerViewCustomerSearchFragment.setVisibility(View.GONE);
                             } else {
                                 ShowEmptyCustomerTextViewCustomerSearchFragment.setVisibility(View.GONE);
+                                CustomerRecyclerViewCustomerSearchFragment.setVisibility(View.VISIBLE);
                                 newSuggestionBusinessCommissionRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
                                 if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
@@ -181,6 +214,7 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
 
                         } else {
                             ShowEmptyCustomerTextViewCustomerSearchFragment.setVisibility(View.GONE);
+                            CustomerRecyclerViewCustomerSearchFragment.setVisibility(View.VISIBLE);
                             newSuggestionBusinessCommissionRecyclerViewAdapter.AddViewModelList(ViewModelList);
 
                             if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
@@ -192,8 +226,10 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
                     if (PageNumber > 1) {
                         ShowEmptyCustomerTextViewCustomerSearchFragment.setVisibility(View.GONE);
+                        CustomerRecyclerViewCustomerSearchFragment.setVisibility(View.VISIBLE);
                     } else {
                         ShowEmptyCustomerTextViewCustomerSearchFragment.setVisibility(View.VISIBLE);
+                        CustomerRecyclerViewCustomerSearchFragment.setVisibility(View.GONE);
                     }
                 } else {
                     ShowEmptyCustomerTextViewCustomerSearchFragment.setVisibility(View.GONE);
@@ -233,6 +269,11 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
             }
         }
         super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    private void HideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) Context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
 }

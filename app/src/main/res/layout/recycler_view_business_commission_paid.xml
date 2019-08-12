@@ -257,7 +257,7 @@
                 android:orientation="vertical">
 
                 <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
-                    android:id="@+id/DetailsBusinessButton"
+                    android:id="@+id/DetailsNoCommissionReceivedButton"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_below="@+id/AttributePosterLinearLayout"
@@ -293,7 +293,7 @@
 
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
-                        android:id="@+id/DetailsNoCommissionReceivedButton"
+                        android:id="@+id/DetailsBusinessButton"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_gravity="center"

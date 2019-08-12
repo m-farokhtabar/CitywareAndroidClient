@@ -7,12 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
@@ -75,10 +72,10 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
         int DiscountPrice = (int) ((TotalPrice * ViewModelList.get(position).getCustomerPercent()) / 100);
         holder.CustomerPercentTextView.setText(Utility.GetIntegerNumberWithComma(DiscountPrice));
 
-        int MarketingCommission = (int) ((TotalPrice * ViewModelList.get(position).getMarketerPercent()) / 100);
-        int ApplicationCommission = (int) ((TotalPrice * ViewModelList.get(position).getApplicationPercent()) / 100);
-        holder.MarketingCommissionTextView.setText(Utility.GetIntegerNumberWithComma(MarketingCommission + ApplicationCommission));
+        int MarketerPercent = (int) ((TotalPrice * ViewModelList.get(position).getMarketerPercent()) / 100);
+        int ApplicationPercent = (int) ((TotalPrice * ViewModelList.get(position).getApplicationPercent()) / 100);
 
+        holder.MarketingCommissionTextView.setText(Utility.GetIntegerNumberWithComma(MarketerPercent + ApplicationPercent));
 
         holder.TotalPriceTextView.setText(Utility.GetIntegerNumberWithComma(TotalPrice));
         holder.NumberOfOrderTextView.setText(String.valueOf(ViewModelList.get(position).getNumberOfOrder()));
@@ -87,7 +84,6 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
         holder.DeleteOrderIconTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Context.SetproductCommissionAndDiscountModels(position);
 
                 ViewModelList.remove(position);
@@ -143,21 +139,21 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
         }
     }
 
-    public void DeleteViewModel(int position) {
-
-        ViewModelList.remove(position);
-        notifyDataSetChanged();
-        Container.invalidate();
-
-    }
-
-
-    private void SendDataToParentActivity(boolean IsDelete, int Position) {
-
-        HashMap<String, Object> Output = new HashMap<>();
-        Output.put("IsDelete", IsDelete);
-        Output.put("Position", Position);
-        ActivityResultPassing.Push(new ActivityResult(Context.getCurrentActivityId(), Context.getCurrentActivityId(), Output));
-    }
+//    public void DeleteViewModel(int position) {
+//
+//        ViewModelList.remove(position);
+//        notifyDataSetChanged();
+//        Container.invalidate();
+//
+//    }
+//
+//
+//    private void SendDataToParentActivity(boolean IsDelete, int Position) {
+//
+//        HashMap<String, Object> Output = new HashMap<>();
+//        Output.put("IsDelete", IsDelete);
+//        Output.put("Position", Position);
+//        ActivityResultPassing.Push(new ActivityResult(Context.getCurrentActivityId(), Context.getCurrentActivityId(), Output));
+//    }
 
 }

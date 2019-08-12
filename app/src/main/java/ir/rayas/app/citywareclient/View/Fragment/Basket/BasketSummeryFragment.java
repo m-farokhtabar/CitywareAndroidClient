@@ -99,7 +99,7 @@ public class BasketSummeryFragment extends Fragment implements IResponseService,
         NumberOfOrderItemsBasketTextViewBasketSummeryFragment.setText(String.valueOf(Context.basketSummeryViewModel.getBasketCount()));
 
         if (Context.basketSummeryViewModel.getTotalPrice() < 0)
-            DescriptionBasketTextViewBasketSummeryFragment.setText(Context.getResources().getString(R.string.unknown));
+            PricePayableBasketTextViewBasketSummeryFragment.setText(Context.getResources().getString(R.string.unknown));
         else
             PricePayableBasketTextViewBasketSummeryFragment.setText(Utility.GetIntegerNumberWithComma(Context.basketSummeryViewModel.getTotalPrice()) + " " + Context.getResources().getString(R.string.toman));
 

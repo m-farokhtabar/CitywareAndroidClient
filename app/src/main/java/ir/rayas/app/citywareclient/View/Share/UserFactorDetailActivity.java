@@ -32,6 +32,7 @@ import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Business.BusinessContactService;
 import ir.rayas.app.citywareclient.Service.Business.BusinessOpenTimeService;
+import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
 import ir.rayas.app.citywareclient.Service.Factor.FactorStatusService;
 import ir.rayas.app.citywareclient.Service.Factor.UserFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -79,10 +80,10 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private int BusinessId = 0;
     private double Latitude = 0;
     private double Longitude = 0;
-    private Integer StatusFactor = 0;
     private int FactorId = 0;
     private String Description = "";
     private int FactorStatusId = 0;
+    private int CurrentFactorStatusId = 0;
     private String FactorStatusTitle = "";
     private boolean IsChangeDescription = false;
     private boolean IsChange = false;
@@ -245,7 +246,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
                     final FactorViewModel ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
-                        FactorStatusId = ViewModelList.getFactorStatusId();
+                        CurrentFactorStatusId = ViewModelList.getFactorStatusId();
                         SetInformationToSpinner(FactorStatusViewModels);
                         SetInformationToView(ViewModelList);
                     }
@@ -330,8 +331,9 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                     ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     if (FeedBack.getValue()) {
 
-                        FactorStatusId = StatusFactor;
+                        CurrentFactorStatusId = FactorStatusId;
                         IsChange = true;
+                        IsFirst = true;
 
                         SetInformationToSpinner(FactorStatusViewModels);
 
@@ -389,15 +391,13 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         switch (adapterView.getId()) {
             case R.id.StatusFactorSpinnerUserFactorDetailActivity: {
 
-                StatusFactor = FactorStatusAdapterViewModel.get(i).getId();
                 if (IsFirst) {
                     StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusTitle);
-                    StatusFactor = -1;
+                    FactorStatusId = -1;
                 } else {
                     StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
-                    StatusFactor = FactorStatusAdapterViewModel.get(i).getId();
+                    FactorStatusId = FactorStatusAdapterViewModel.get(i).getId();
                 }
-
 
                 //نمایش ایکون کنار spinner تنها در انتخاب یک position خاص یا اولین position
                 ImageView ArrowDropDownImageView = view.findViewById(R.id.ArrowDropDownImageView);
@@ -432,7 +432,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
             ViewModel.setDescription(UserDescriptionEditTextUserFactorDetailActivity.getText().toString());
             IsChangeDescription = true;
         }
-        ViewModel.setFactorStatusId(StatusFactor);
+        ViewModel.setFactorStatusId(FactorStatusId);
 
         return ViewModel;
     }
@@ -525,20 +525,21 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     }
 
     private void SetInformationToSpinner(List<FactorStatusViewModel> ViewModel) {
+        Integer factorStatus = 0;
 
         FactorStatusAdapterViewModel = new ArrayList<>();
-        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(-1, getResources().getString(R.string.please_select)));
+        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(-1, getResources().getString(R.string.please_select), -1));
 
         for (int i = 0; i < ViewModel.size(); i++) {
 
-            if (FactorStatusId == ViewModel.get(i).getId()) {
-                StatusFactor = ViewModel.get(i).getId();
+            if (CurrentFactorStatusId == ViewModel.get(i).getId()) {
+                factorStatus = ViewModel.get(i).getStatus();
                 StatusFactorTextViewUserFactorDetailActivity.setText(ViewModel.get(i).getTitle());
                 FactorStatusTitle = ViewModel.get(i).getTitle();
             }
         }
 
-        if (StatusFactor == FactorStatus.Received.getId() + 1 || StatusFactor == FactorStatus.CanceledByUser.getId() + 1 || StatusFactor == FactorStatus.CanceledByBusiness.getId() + 1) {
+        if (factorStatus == FactorStatus.Received.getId() || factorStatus == FactorStatus.CanceledByUser.getId() || factorStatus == FactorStatus.CanceledByBusiness.getId()) {
             StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.GONE);
             EditButtonUserFactorDetailActivity.setVisibility(View.GONE);
             UserDescriptionEditTextUserFactorDetailActivity.setEnabled(false);
@@ -551,21 +552,21 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
             UserDescriptionEditTextUserFactorDetailActivity.setClickable(true);
 
 
-            if (StatusFactor == FactorStatus.DeliveredToCourier.getId() + 1 || StatusFactor == FactorStatus.Delivered.getId() + 1 ||
-                    StatusFactor == FactorStatus.Sending.getId() || StatusFactor == FactorStatus.Preparing.getId() + 1 || StatusFactor == FactorStatus.Sending.getId() + 1) {
+            if (factorStatus == FactorStatus.DeliveredToCourier.getId() || factorStatus == FactorStatus.Delivered.getId() ||
+                    factorStatus == FactorStatus.Sending.getId() || factorStatus == FactorStatus.Preparing.getId() || factorStatus == FactorStatus.Sending.getId()) {
 
                 for (int i = 0; i < ViewModel.size(); i++) {
 
                     if (ViewModel.get(i).getStatus() == FactorStatus.Received.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle(), ViewModel.get(i).getStatus()));
                 }
             } else {
                 for (int i = 0; i < ViewModel.size(); i++) {
 
-                    if (ViewModel.get(i).getStatus() == FactorStatus.Received.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                    if (factorStatus == FactorStatus.Received.getId())
+                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle(), ViewModel.get(i).getStatus()));
                     else if (ViewModel.get(i).getStatus() == FactorStatus.CanceledByUser.getId())
-                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle()));
+                        FactorStatusAdapterViewModel.add(new FactorStatusAdapterViewModel(ViewModel.get(i).getId(), ViewModel.get(i).getTitle(), ViewModel.get(i).getStatus()));
 
                 }
             }
@@ -630,7 +631,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
         UserFactorService Service = new UserFactorService(this);
 
-        if (StatusFactor == -1) {
+        if (FactorStatusId == -1) {
             if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString())) {
                 ShowToast(getResources().getString(R.string.no_change_description_status_factor), Toast.LENGTH_LONG, MessageType.Warning);
             } else {
@@ -638,7 +639,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                 Service.SetDescription(MadeViewModels());
             }
         } else {
-            if (StatusFactor == FactorStatusId) {
+            if (FactorStatusId == CurrentFactorStatusId) {
                 if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString())) {
                     ShowToast(getResources().getString(R.string.no_change_description_status_factor), Toast.LENGTH_LONG, MessageType.Warning);
                 } else {
@@ -651,7 +652,6 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
             }
         }
-
 
     }
 

@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,7 +29,6 @@ import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
 
 
-
 public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<BasketItemListRecyclerViewAdapter.ViewHolder> implements IResponseService {
 
     private List<BasketItemViewModel> ViewModelList = null;
@@ -47,15 +47,15 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-         TextViewPersian BasketItemProductNameTextView;
-         TextViewPersian BasketItemQuantityTextView;
-         TextViewPersian BasketItemTotalPriceTextView;
-         TextViewPersian BasketItemPriceTextView;
-         TextViewPersian BasketItemTotalPriceTomanTextView;
-         TextViewPersian BasketItemPriceTomanTextView;
-         ButtonPersianView OrderItemDeleteButton;
-         ImageView ImageBasketItemImageView;
-         CardView AddOrMinBasketItemQuantityImageView;
+        TextViewPersian BasketItemProductNameTextView;
+        TextViewPersian BasketItemQuantityTextView;
+        TextViewPersian BasketItemTotalPriceTextView;
+        TextViewPersian BasketItemPriceTextView;
+        TextViewPersian BasketItemTotalPriceTomanTextView;
+        TextViewPersian BasketItemPriceTomanTextView;
+        ButtonPersianView OrderItemDeleteButton;
+        ImageView ImageBasketItemImageView;
+        CardView AddOrMinBasketItemQuantityImageView;
 
 
         public ViewHolder(View v) {
@@ -85,7 +85,7 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
 
-        holder.BasketItemQuantityTextView.setText(String.valueOf((int) ViewModelList.get(position).getValue()));
+        holder.BasketItemQuantityTextView.setText(ViewModelList.get(position).getValue() + "");
         holder.BasketItemProductNameTextView.setText(ViewModelList.get(position).getProductName());
 
 
@@ -97,7 +97,6 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
             holder.BasketItemTotalPriceTextView.setText(Context.getResources().getString(R.string.unknown));
 
             CountQuickItem = CountQuickItem + 1;
-       //     Context.basketSummeryViewModel.setQuickItem(true);
 
         } else {
 
@@ -178,14 +177,16 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
 
                     BasketItemViewModel basketItemViewModel = FeedBack.getValue();
                     if (basketItemViewModel.getPrice() > 0) {
-                        Context.basketSummeryViewModel.setQuickItem(false);
+                        CountQuickItem = CountQuickItem;
+                        //  Context.basketSummeryViewModel.setQuickItem(false);
                     } else {
                         CountQuickItem = CountQuickItem - 1;
-                        if (CountQuickItem == 0) {
-                            Context.basketSummeryViewModel.setQuickItem(false);
-                        } else {
-                            Context.basketSummeryViewModel.setQuickItem(true);
                     }
+
+                    if (CountQuickItem == 0) {
+                        Context.basketSummeryViewModel.setQuickItem(false);
+                    } else {
+                        Context.basketSummeryViewModel.setQuickItem(true);
                     }
 
                 } else {
@@ -258,8 +259,12 @@ public class BasketItemListRecyclerViewAdapter extends RecyclerView.Adapter<Bask
         DialogOrder.setContentView(R.layout.dialog_order);
         DialogOrder.setCanceledOnTouchOutside(true);
 
+        Typeface typeface = Typeface.createFromAsset(Context.getAssets(), "fonts/iransanslight.ttf");
+
         final EditText DialogCustomerQuantityEditText = DialogOrder.findViewById(R.id.CustomerQuantityEditText);
         ButtonPersianView DialogCustomerQuantityAcceptButton = DialogOrder.findViewById(R.id.CustomerQuantityAcceptButton);
+        DialogCustomerQuantityEditText.setTypeface(typeface);
+
         if (ItemQuantity > 0)
             DialogCustomerQuantityEditText.setText(String.valueOf(ItemQuantity));
         ImageView DialogCustomerQuantityAddImage = DialogOrder.findViewById(R.id.CustomerQuantityAddImage);

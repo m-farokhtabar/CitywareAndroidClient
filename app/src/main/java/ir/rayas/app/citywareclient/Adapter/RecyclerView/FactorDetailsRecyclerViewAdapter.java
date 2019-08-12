@@ -52,7 +52,7 @@ public class FactorDetailsRecyclerViewAdapter extends RecyclerView.Adapter<Facto
 
         holder.ProductNameTextView.setText(ViewModelList.get(position).getProductName());
         holder.PriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPrice()));
-        holder.MarketerCommissionTextView.setText(ViewModelList.get(position).getCommissionPrice()+"");
+        holder.MarketerCommissionTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getCommissionPrice()));
         holder.DiscountCustomerTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getDiscountPrice()));
 
 

@@ -59,6 +59,8 @@ public class DefaultConstant {
     public static int PageNumberSize = 10;
 
     public static String LocalSettingKey = "LocalSetting";
+    public static int MaxPayment = 50000000;
+    public static int MinPayment = 1000;
 
 
 }

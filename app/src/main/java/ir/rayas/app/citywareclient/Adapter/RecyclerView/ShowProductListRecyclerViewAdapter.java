@@ -2,6 +2,7 @@ package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -256,8 +257,13 @@ public class ShowProductListRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         DialogOrder.setContentView(R.layout.dialog_order);
         DialogOrder.setCanceledOnTouchOutside(true);
 
+        Typeface typeface = Typeface.createFromAsset(Context.getAssets(), "fonts/iransanslight.ttf");
+
         DialogCustomerQuantityEditText = DialogOrder.findViewById(R.id.CustomerQuantityEditText);
         ButtonPersianView DialogCustomerQuantityAcceptButton = DialogOrder.findViewById(R.id.CustomerQuantityAcceptButton);
+
+        DialogCustomerQuantityEditText.setTypeface(typeface);
+
         if (ItemQuantity > 0)
             DialogCustomerQuantityEditText.setText(String.valueOf(ItemQuantity));
         ImageView DialogCustomerQuantityAddImage = DialogOrder.findViewById(R.id.CustomerQuantityAddImage);
