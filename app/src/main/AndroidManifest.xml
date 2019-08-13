@@ -26,7 +26,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".View.Initializer.IntroduceActivity"
@@ -358,11 +357,11 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".View.MasterChildren.PaymentPackageActivity"
+        <activity
+            android:name=".View.MasterChildren.PaymentPackageActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
-
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -371,13 +370,13 @@
 
                 <data android:scheme="cityware" />
             </intent-filter>
-
         </activity>
-        
-        <activity android:name=".View.MasterChildren.PaymentCommissionActivity"
+        <activity
+            android:name=".View.MasterChildren.PaymentCommissionActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity android:name=".View.Share.BasketListActivity"></activity>
     </application>
 
 </manifest>

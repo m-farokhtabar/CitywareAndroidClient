@@ -10,22 +10,19 @@ import java.util.HashMap;
 import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketDeliveryFragment;
 import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketDetailsFragment;
 import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketItemListFragment;
-import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketListFragment;
 import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketSummeryFragment;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 
 
-/**
- * Created by Hajar on 2/15/2019.
- */
-
 public class BasketPagerAdapter extends FragmentPagerAdapter {
 
+    private String[] TabNames = null;
     private HashMap<Integer, Fragment> FragmentHashMap = new HashMap<>();
     private HashMap<Integer, ILoadData> ILoadDataHashMap = new HashMap<>();
 
-    public BasketPagerAdapter(FragmentManager fm) {
+    public BasketPagerAdapter(FragmentManager fm, String[] TabNames) {
         super(fm);
+        this.TabNames = TabNames;
     }
 
     @Override
@@ -38,34 +35,34 @@ public class BasketPagerAdapter extends FragmentPagerAdapter {
 //                    ILoadDataHashMap.put(4, CurrentBasketListFragment);
 //                }
 //                return FragmentHashMap.get(4);
-//            case 3:
-//                if (FragmentHashMap.get(3) == null) {
-//                    BasketItemListFragment CurrentBasketItemListFragment = new BasketItemListFragment();
-//                    FragmentHashMap.put(3, CurrentBasketItemListFragment);
-//                    ILoadDataHashMap.put(3, CurrentBasketItemListFragment);
-//                }
-//                return FragmentHashMap.get(3);
-//            case 2:
-//                if (FragmentHashMap.get(2) == null) {
-//                    BasketDetailsFragment CurrentBasketDetailsFragment = new BasketDetailsFragment();
-//                    FragmentHashMap.put(2, CurrentBasketDetailsFragment);
-//                    ILoadDataHashMap.put(2, CurrentBasketDetailsFragment);
-//                }
-//                return FragmentHashMap.get(2);
-//            case 1:
-//                if (FragmentHashMap.get(1) == null) {
-//                    BasketDeliveryFragment CurrentBasketDeliveryFragment = new BasketDeliveryFragment();
-//                    FragmentHashMap.put(1, CurrentBasketDeliveryFragment);
-//                    ILoadDataHashMap.put(1, CurrentBasketDeliveryFragment);
-//                }
-//                return FragmentHashMap.get(1);
-//            case 0:
-//                if (FragmentHashMap.get(0) == null) {
-//                    BasketSummeryFragment CurrentBasketSummeryFragment = new BasketSummeryFragment();
-//                    FragmentHashMap.put(0, CurrentBasketSummeryFragment);
-//                    ILoadDataHashMap.put(0, CurrentBasketSummeryFragment);
-//                }
-//                return FragmentHashMap.get(0);
+            case 3:
+                if (FragmentHashMap.get(3) == null) {
+                    BasketItemListFragment CurrentBasketItemListFragment = new BasketItemListFragment();
+                    FragmentHashMap.put(3, CurrentBasketItemListFragment);
+                    ILoadDataHashMap.put(3, CurrentBasketItemListFragment);
+                }
+                return FragmentHashMap.get(3);
+            case 2:
+                if (FragmentHashMap.get(2) == null) {
+                    BasketDetailsFragment CurrentBasketDetailsFragment = new BasketDetailsFragment();
+                    FragmentHashMap.put(2, CurrentBasketDetailsFragment);
+                    ILoadDataHashMap.put(2, CurrentBasketDetailsFragment);
+                }
+                return FragmentHashMap.get(2);
+            case 1:
+                if (FragmentHashMap.get(1) == null) {
+                    BasketDeliveryFragment CurrentBasketDeliveryFragment = new BasketDeliveryFragment();
+                    FragmentHashMap.put(1, CurrentBasketDeliveryFragment);
+                    ILoadDataHashMap.put(1, CurrentBasketDeliveryFragment);
+                }
+                return FragmentHashMap.get(1);
+            case 0:
+                if (FragmentHashMap.get(0) == null) {
+                    BasketSummeryFragment CurrentBasketSummeryFragment = new BasketSummeryFragment();
+                    FragmentHashMap.put(0, CurrentBasketSummeryFragment);
+                    ILoadDataHashMap.put(0, CurrentBasketSummeryFragment);
+                }
+                return FragmentHashMap.get(0);
         }
         return null;
     }
@@ -90,10 +87,13 @@ public class BasketPagerAdapter extends FragmentPagerAdapter {
             return null;
     }
 
-
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return TabNames[position];
+    }
 
     @Override
     public int getCount() {
-        return 5;
+        return 4;
     }
 }

@@ -1,32 +1,40 @@
 package ir.rayas.app.citywareclient.View.Share;
 
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Activity;
+import android.support.design.widget.TabLayout;
 
 import android.os.Bundle;
-import android.widget.FrameLayout;
+import android.support.v4.view.ViewPager;
 
-import java.util.HashMap;
+import java.util.List;
 
+import ir.rayas.app.citywareclient.Adapter.Pager.BasketPagerAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
+import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
+import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketDeliveryFragment;
-import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketListFragment;
 
+import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserAddressFragment;
+import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserBusinessFragment;
+import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPackageFragment;
+import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPosterFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketSummeryViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
 
-public class BasketActivity extends BaseActivity  {
+public class BasketActivity extends BaseActivity {
 
-    private FrameLayout BasketFrameLayoutBasketActivity = null;
+    private BasketPagerAdapter Pager = null;
 
     private int RetryType = 0;
     private int FragmentIndex = 0;
@@ -44,8 +52,12 @@ public class BasketActivity extends BaseActivity  {
     public void setFragmentIndex(int fragmentIndex) {
         FragmentIndex = fragmentIndex;
     }
-    
+
     public static BasketSummeryViewModel basketSummeryViewModel = new BasketSummeryViewModel();
+
+    public TabLayout.Tab DefaultTab;
+    public TabLayout BasketTabLayoutBasketActivity;
+    public ViewPager BasketViewpagerBasketActivity;
 
 
     @Override
@@ -59,6 +71,27 @@ public class BasketActivity extends BaseActivity  {
         AccountRepository AccountRepository = new AccountRepository(this);
         AccountViewModel accountViewModel = AccountRepository.getAccount();
         basketSummeryViewModel.setUserId(accountViewModel.getUser().getId());
+
+
+        int BusinessId  = getIntent().getExtras().getInt("BusinessId");
+        int Id  = getIntent().getExtras().getInt("Id");
+        String BusinessName  = getIntent().getExtras().getString("BusinessName");
+        int BasketCount  = getIntent().getExtras().getInt("BasketCount");
+        String Path  = getIntent().getExtras().getString("Path");
+        double TotalPrice  = getIntent().getExtras().getDouble("TotalPrice");
+        String Modified  = getIntent().getExtras().getString("Modified");
+        boolean QuickItem  = getIntent().getExtras().getBoolean("QuickItem");
+
+
+        basketSummeryViewModel.setBusinessId(BusinessId);
+        basketSummeryViewModel.setBasketId(Id);
+        basketSummeryViewModel.setBasketName(BusinessName);
+        basketSummeryViewModel.setBasketCount(BasketCount);
+        basketSummeryViewModel.setPath(Path);
+        basketSummeryViewModel.setTotalPrice(TotalPrice);
+        basketSummeryViewModel.setModified(Modified);
+        basketSummeryViewModel.setQuickItem(QuickItem);
+
 
         //آماده سازی قسمت لودینگ و پنجره خطا در برنامه
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
@@ -86,7 +119,7 @@ public class BasketActivity extends BaseActivity  {
                 break;
             //دریافت اطلاعات
             case 2:
-               // getLoadDataByIndex(FragmentIndex).LoadData();
+                Pager.getLoadDataByIndex(FragmentIndex).LoadData();
                 break;
         }
     }
@@ -96,13 +129,90 @@ public class BasketActivity extends BaseActivity  {
      */
     private void CreateLayout() {
 
-        BasketFrameLayoutBasketActivity = findViewById(R.id.BasketFrameLayoutBasketActivity);
+        BasketViewpagerBasketActivity = findViewById(R.id.BasketViewpagerBasketActivity);
+        BasketTabLayoutBasketActivity = findViewById(R.id.BasketTabLayoutBasketActivity);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction BasketListTransaction = fragmentManager.beginTransaction();
-        BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, new BasketListFragment());
-        BasketListTransaction.commit();
+        String[] TabNames = new String[]{"1", "2", "3", "4"};
+        Pager = new BasketPagerAdapter(getSupportFragmentManager(), TabNames);
+        BasketViewpagerBasketActivity.setAdapter(Pager);
+        //تعداد فرگمنت هایی که می تواند باز بماند در viewPager
+        BasketViewpagerBasketActivity.setOffscreenPageLimit(4);
+        BasketTabLayoutBasketActivity.setupWithViewPager(BasketViewpagerBasketActivity);
+
+        LayoutUtility.SetTabCustomFont(BasketTabLayoutBasketActivity);
+
+        DefaultTab = BasketTabLayoutBasketActivity.getTabAt(3);
+        DefaultTab.select();
+
+//        EnableOrDisableChildTab(false);
+
+
+        //رویداد های مربوط به تغییر صفحات
+        final Activity CurrentActivity = this;
+        BasketViewpagerBasketActivity.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                Utility.HideKeyboard(CurrentActivity);
+            }
+
+            @Override
+            public void onPageScrolled(int position, float offset, int offsetPixels) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
+
+//    public void EnableOrDisableChildTab(boolean IsCheck) {
+//
+//        LinearLayout tabBusiness = ((LinearLayout) BasketTabLayoutBasketActivity.getChildAt(0));
+//        tabBusiness.setEnabled(IsCheck);
+//        for (int i = 0; i < tabBusiness.getChildCount(); i++) {
+//            tabBusiness.getChildAt(i).setClickable(IsCheck);
+//        }
+//        if (!IsCheck) {
+//            TouchViewPager();
+//        }
+//    }
+//
+//    private void TouchViewPager() {
+//
+//        ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                BasketViewpagerBasketActivity.setCurrentItem(4);
+//            }
+//
+//            public void onPageScrollStateChanged(int state) {
+//            }
+//
+//            public void onPageSelected(int position) {
+//            }
+//        };
+//        BasketViewpagerBasketActivity.addOnPageChangeListener(onPageChangeListener);
+//    }
+
+//    @Override
+//    protected void onGetResult(ActivityResult Result) {
+//        if (Result.getFromActivityId() == getCurrentActivityId()) {
+//            switch (Result.getToActivityId()) {
+//                case ActivityIdList.USER_ADDRESS_SET_ACTIVITY:
+//                    UserAddressViewModel ViewModel = (UserAddressViewModel) Result.getData().get("AddressViewModel");
+//
+//                    ((BasketDeliveryFragment) Pager.getFragmentByIndex(1)).getBasketUserAddressRecyclerViewAdapter().AddViewModel(ViewModel);
+//
+//
+////                    BasketDeliveryFragment basketDeliveryFragment = new BasketDeliveryFragment();
+////                    FragmentTransaction BasketListTransaction = getSupportFragmentManager().beginTransaction();
+////                    BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketDeliveryFragment);
+////                    BasketListTransaction.commit();
+//
+//                    break;
+//            }
+//        }
+//        super.onGetResult(Result);
+//    }
 
     @Override
     protected void onGetResult(ActivityResult Result) {
@@ -110,13 +220,11 @@ public class BasketActivity extends BaseActivity  {
             switch (Result.getToActivityId()) {
                 case ActivityIdList.USER_ADDRESS_SET_ACTIVITY:
                     UserAddressViewModel ViewModel = (UserAddressViewModel) Result.getData().get("AddressViewModel");
-                    BasketDeliveryFragment.getBasketUserAddressRecyclerViewAdapter().AddViewModel(ViewModel);
-                    BasketDeliveryFragment basketDeliveryFragment = new BasketDeliveryFragment();
-                    FragmentTransaction BasketListTransaction = getSupportFragmentManager().beginTransaction();
-                    BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketDeliveryFragment);
-                    BasketListTransaction.commit();
+
+                        ((BasketDeliveryFragment) Pager.getFragmentByIndex(4)).getBasketUserAddressRecyclerViewAdapter().AddViewModel(ViewModel);
 
                     break;
+
             }
         }
         super.onGetResult(Result);
@@ -138,17 +246,17 @@ public class BasketActivity extends BaseActivity  {
 
     @Override
     public void onBackPressed() {
-
-
-
-        int count = getFragmentManager().getBackStackEntryCount();
-
-        if (count == 0) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            getFragmentManager().popBackStack();
-        }
+        super.onBackPressed();
+//
+//
+//        int count = getFragmentManager().getBackStackEntryCount();
+//
+//        if (count == 0) {
+//            super.onBackPressed();
+//            //additional code
+//        } else {
+//            getFragmentManager().popBackStack();
+//        }
 
     }
 

@@ -53,6 +53,7 @@ import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.View.Share.AddQuickBasketActivity;
 import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkOutViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
@@ -160,6 +161,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
         RelativeLayout posterRelativeLayoutShowBusinessDetailsActivity = findViewById(R.id.PosterRelativeLayoutShowBusinessDetailsActivity);
         RatingBusinessRatingBarShowBusinessDetailsActivity = findViewById(R.id.RatingBusinessRatingBarShowBusinessDetailsActivity);
         ButtonPersianView introducingBusinessButtonShowBusinessDetailsActivity = findViewById(R.id.IntroducingBusinessButtonShowBusinessDetailsActivity);
+        ButtonPersianView QuickItemsButtonShowBusinessDetailsActivity = findViewById(R.id.QuickItemsButtonShowBusinessDetailsActivity);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -289,6 +291,15 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
                 CommissionIntent.putExtra("BusinessId", BusinessId);
                 CommissionIntent.putExtra("BusinessName", BusinessNameTextViewShowBusinessDetailsActivity.getText().toString());
                 startActivity(CommissionIntent);
+            }
+        });
+
+        QuickItemsButtonShowBusinessDetailsActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent AddQuickBasketIntent = NewIntent(AddQuickBasketActivity.class);
+                AddQuickBasketIntent.putExtra("BusinessId", BusinessId);
+                startActivity(AddQuickBasketIntent);
             }
         });
 

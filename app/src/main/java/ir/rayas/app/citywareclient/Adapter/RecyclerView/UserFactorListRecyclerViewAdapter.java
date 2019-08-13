@@ -104,18 +104,23 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
             if (ViewModelList.get(position).isHasQuickOrder()){
 
-                viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman)+ " - " + Context.getResources().getString(R.string.price_is_not_definitive));
+                viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman));
+                viewHolder.DescriptionPricePayableUserFactorTextView.setVisibility(View.VISIBLE);
+                viewHolder.DescriptionPricePayableUserFactorTextView.setText(Context.getResources().getString(R.string.price_is_not_definitive));
 
                 viewHolder.DescriptionUserFactorTextView.setVisibility(View.VISIBLE);
                 viewHolder.DescriptionUserFactorTextView.setText(Context.getResources().getString(R.string.in_your_factor_there_are_products_that_are_not_priced));
             }else {
                if (IsZeroPrice) {
-                   viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman) + " - " + Context.getResources().getString(R.string.price_is_not_definitive));
+                   viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman) );
+                   viewHolder.DescriptionPricePayableUserFactorTextView.setVisibility(View.VISIBLE);
+                   viewHolder.DescriptionPricePayableUserFactorTextView.setText(Context.getResources().getString(R.string.price_is_not_definitive));
 
                    viewHolder.DescriptionUserFactorTextView.setVisibility(View.VISIBLE);
                    viewHolder.DescriptionUserFactorTextView.setText(Context.getResources().getString(R.string.in_your_factor_there_are_products_that_are_not_priced));
                }else {
                    viewHolder.DescriptionUserFactorTextView.setVisibility(View.GONE);
+                   viewHolder.DescriptionPricePayableUserFactorTextView.setVisibility(View.GONE);
                    viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman));
                }
             }
@@ -224,6 +229,7 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
          TextViewPersian NumberOfOrderItemsUserFactorTextView;
          TextViewPersian UserFactorCodeTextView;
          TextViewPersian StatusUserFactorTextView;
+         TextViewPersian DescriptionPricePayableUserFactorTextView;
          LinearLayout UserFactorListLinearLayout;
 
          FactorListViewHolder(View v) {
@@ -238,6 +244,7 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             UserFactorCodeTextView = v.findViewById(R.id.UserFactorCodeTextView);
             UserFactorListLinearLayout = v.findViewById(R.id.UserFactorListLinearLayout);
             StatusUserFactorTextView = v.findViewById(R.id.StatusUserFactorTextView);
+             DescriptionPricePayableUserFactorTextView = v.findViewById(R.id.DescriptionPricePayableUserFactorTextView);
 
         }
     }

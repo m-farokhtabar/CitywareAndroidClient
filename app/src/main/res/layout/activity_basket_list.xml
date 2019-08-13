@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundWhiteColor"
+    android:orientation="vertical"
+    tools:context="ir.rayas.app.citywareclient.View.Share.BasketListActivity">
+
+    <RelativeLayout
+        android:id="@+id/MasterContentLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <include
+            android:id="@+id/BackToolBar"
+            layout="@layout/view_back_toolbar" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/BackToolBar">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/RefreshBasketListSwipeRefreshLayoutBasketListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/BasketListRecyclerViewBasketListFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    />
+
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/ShowEmptyBasketListTextViewBasketListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:textColor="@color/FontSemiDarkThemeColor"
+                android:text="@string/your_basket_is_empty"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/LoadingLinearLayout"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+</LinearLayout>

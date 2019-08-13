@@ -47,6 +47,7 @@ import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
+import ir.rayas.app.citywareclient.View.Share.BasketListActivity;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Basket.StandardOrderItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Order.ProductImageViewModel;
@@ -501,8 +502,8 @@ public class ShowProductDetailsActivity extends BaseActivity implements IRespons
             @Override
             public void onClick(View v) {
                 DialogOrder.dismiss();
-                Intent BasketIntent = new Intent(ShowProductDetailsActivity.this, BasketActivity.class);
-                BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
+                Intent BasketIntent = new Intent(ShowProductDetailsActivity.this, BasketListActivity.class);
+               // BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(BasketIntent);
             }
         });

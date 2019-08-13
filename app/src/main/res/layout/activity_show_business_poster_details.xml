@@ -180,13 +180,28 @@
                     android:id="@+id/InformationShowButtonShowBusinessPosterDetailsActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_above="@+id/QuickItemsButtonShowBusinessPosterDetailsActivity"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/selector_button_theme_style"
+                    android:gravity="center"
+                    android:text="@string/information_show_business"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/FontWhiteColor" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                    android:id="@+id/QuickItemsButtonShowBusinessPosterDetailsActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_above="@+id/IntroducingBusinessButtonShowBusinessPosterDetailsActivity"
                     android:layout_gravity="center"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@drawable/selector_button_theme_style"
                     android:gravity="center"
-                    android:text="@string/information_show_business"
+                    android:text="@string/quick_items"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/FontWhiteColor" />
 

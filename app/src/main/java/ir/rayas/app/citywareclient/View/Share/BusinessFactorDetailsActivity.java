@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.Base.IButtonBackToolbarListener;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Factor.DescriptionFactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorItemViewModel;
@@ -47,7 +49,7 @@ import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.StatusAndDescriptionFactorInViewModel;
 
 
-public class BusinessFactorDetailsActivity extends BaseActivity implements IResponseService, AdapterView.OnItemSelectedListener {
+public class BusinessFactorDetailsActivity extends BaseActivity implements IResponseService, AdapterView.OnItemSelectedListener, IButtonBackToolbarListener {
 
     private TextViewPersian UserNameTextViewBusinessFactorDetailActivity = null;
     private TextViewPersian CreateDateUserFactorTextViewBusinessFactorDetailActivity = null;
@@ -58,6 +60,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
     private TextViewPersian UserDescriptionTextViewBusinessFactorDetailActivity = null;
     private TextViewPersian UserAddressTextViewBusinessFactorDetailActivity = null;
     private TextViewPersian StatusFactorTextViewBusinessFactorDetailActivity = null;
+    private TextViewPersian CurrentStatusFactorTextViewBusinessFactorDetailActivity = null;
     private TextViewPersian UserCellPhoneTextViewBusinessFactorDetailActivity = null;
     private EditText BusinessDescriptionEditTextBusinessFactorDetailActivity = null;
     private Spinner StatusFactorSpinnerBusinessFactorDetailActivity = null;
@@ -65,6 +68,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
     private LinearLayout UserCellPhoneLinearLayoutBusinessFactorDetailActivity = null;
     private CardView UserDescriptionCardViewBusinessFactorDetailActivity = null;
     private ButtonPersianView EditButtonBusinessFactorDetailActivity = null;
+    private RelativeLayout FactorStatusRelativeLayoutBusinessFactorDetailActivity = null;
 
     private double Latitude = 0;
     private double Longitude = 0;
@@ -101,6 +105,10 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
                 RetryButtonOnClick();
             }
         }, R.string.factor);
+
+        setDoNotFinishActivity(true);
+        //اضافه کردن رویداد دکمه بازگشت نوار ابزار ساده تا قبل از بازشگت در صورت نیاز بتوان عملیاتی انجام داد
+        this.setButtonBackToolbarListener(this);
 
         //ایجاد طرحبندی صفحه
         CreateLayout();
@@ -146,6 +154,8 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         UserDescriptionCardViewBusinessFactorDetailActivity = findViewById(R.id.UserDescriptionCardViewBusinessFactorDetailActivity);
         UserCellPhoneTextViewBusinessFactorDetailActivity = findViewById(R.id.UserCellPhoneTextViewBusinessFactorDetailActivity);
         UserCellPhoneLinearLayoutBusinessFactorDetailActivity = findViewById(R.id.UserCellPhoneLinearLayoutBusinessFactorDetailActivity);
+        CurrentStatusFactorTextViewBusinessFactorDetailActivity = findViewById(R.id.CurrentStatusFactorTextViewBusinessFactorDetailActivity);
+        FactorStatusRelativeLayoutBusinessFactorDetailActivity = findViewById(R.id.FactorStatusRelativeLayoutBusinessFactorDetailActivity);
 
         ButtonPersianView ShowProductButtonBusinessFactorDetailActivity = findViewById(R.id.ShowProductButtonBusinessFactorDetailActivity);
         EditButtonBusinessFactorDetailActivity = findViewById(R.id.EditButtonBusinessFactorDetailActivity);
@@ -261,7 +271,8 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
                         SetInformationToSpinner(FactorStatusViewModels);
 
-                        StatusFactorTextViewBusinessFactorDetailActivity.setText(StatusFactorTextViewBusinessFactorDetailActivity.getText().toString());
+                        CurrentStatusFactorTextViewBusinessFactorDetailActivity.setText(StatusFactorTextViewBusinessFactorDetailActivity.getText().toString());
+                        StatusFactorTextViewBusinessFactorDetailActivity.setText("");
                         Description = BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString();
                         if (IsChangeDescription) {
                             BusinessDescriptionEditTextBusinessFactorDetailActivity.setText(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString());
@@ -320,10 +331,13 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
             case R.id.StatusFactorSpinnerBusinessFactorDetailActivity: {
 
                 if (IsFirst) {
-                    StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusTitle);
+                    StatusFactorTextViewBusinessFactorDetailActivity.setText("");
                     FactorStatusId = -1;
                 } else {
-                    StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
+                    if (i == 0)
+                        StatusFactorTextViewBusinessFactorDetailActivity.setText("");
+                    else
+                        StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
                     FactorStatusId = FactorStatusAdapterViewModel.get(i).getId();
                 }
 
@@ -352,7 +366,7 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
         StatusAndDescriptionFactorInViewModel ViewModel = new StatusAndDescriptionFactorInViewModel();
         ViewModel.setFactorId(FactorId);
-        if (Description.equals(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString()) || Description.equals("")) {
+        if (Description.equals(BusinessDescriptionEditTextBusinessFactorDetailActivity.getText().toString())) {
             ViewModel.setDescription(null);
             IsChangeDescription = false;
         } else {
@@ -464,7 +478,8 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         if (ViewModelList.getFactorStatusId() >= 0)
             StatusFactorSpinnerBusinessFactorDetailActivity.setSelection(SetPositionToSpinnerUserFactorStatus(ViewModelList.getFactorStatusId(), FactorStatusAdapterViewModel));
 
-        StatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusTitle);
+        StatusFactorTextViewBusinessFactorDetailActivity.setText("");
+        CurrentStatusFactorTextViewBusinessFactorDetailActivity.setText(FactorStatusTitle);
     }
 
     private void SetInformationToSpinner(List<FactorStatusViewModel> ViewModel) {
@@ -477,7 +492,8 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
 
             if (CurrentFactorStatusId == ViewModel.get(i).getId()) {
                 factorStatus = ViewModel.get(i).getStatus();
-                StatusFactorTextViewBusinessFactorDetailActivity.setText(ViewModel.get(i).getTitle());
+                CurrentStatusFactorTextViewBusinessFactorDetailActivity.setText(ViewModel.get(i).getTitle());
+                StatusFactorTextViewBusinessFactorDetailActivity.setText("");
                 FactorStatusTitle = ViewModel.get(i).getTitle();
             }
         }
@@ -485,11 +501,13 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         if (factorStatus == FactorStatus.Received.getId() || factorStatus == FactorStatus.CanceledByUser.getId() ||
                 factorStatus == FactorStatus.CanceledByBusiness.getId() || factorStatus == FactorStatus.Delivered.getId()) {
             StatusFactorSpinnerBusinessFactorDetailActivity.setVisibility(View.GONE);
+            FactorStatusRelativeLayoutBusinessFactorDetailActivity.setVisibility(View.GONE);
             EditButtonBusinessFactorDetailActivity.setVisibility(View.GONE);
             BusinessDescriptionEditTextBusinessFactorDetailActivity.setEnabled(false);
             BusinessDescriptionEditTextBusinessFactorDetailActivity.setClickable(false);
         } else {
             StatusFactorSpinnerBusinessFactorDetailActivity.setVisibility(View.VISIBLE);
+            FactorStatusRelativeLayoutBusinessFactorDetailActivity.setVisibility(View.VISIBLE);
             EditButtonBusinessFactorDetailActivity.setVisibility(View.VISIBLE);
             BusinessDescriptionEditTextBusinessFactorDetailActivity.setEnabled(true);
             BusinessDescriptionEditTextBusinessFactorDetailActivity.setClickable(true);
@@ -612,6 +630,12 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
     }
 
     @Override
+    public void ClickOnButtonBackToolbar() {
+        SendDataToParentActivity();
+        onBackPressed();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         Runtime.getRuntime().gc();
@@ -634,5 +658,6 @@ public class BusinessFactorDetailsActivity extends BaseActivity implements IResp
         SendDataToParentActivity();
         super.onBackPressed();
     }
+
 
 }

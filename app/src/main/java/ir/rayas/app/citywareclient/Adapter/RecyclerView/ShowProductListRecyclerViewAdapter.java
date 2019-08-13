@@ -34,6 +34,7 @@ import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowProductListActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
+import ir.rayas.app.citywareclient.View.Share.BasketListActivity;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Basket.StandardOrderItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Order.ProductImageViewModel;
@@ -310,7 +311,7 @@ public class ShowProductListRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             public void onClick(View v) {
 
                 if ((DialogCustomerQuantityEditText.getText() == null) || ("".equals(DialogCustomerQuantityEditText.getText().toString())) || (1 > Double.valueOf(DialogCustomerQuantityEditText.getText().toString()))) {
-                    Context.ShowToast(Context.getResources().getString(R.string.please_enter_order_quantity), Toast.LENGTH_LONG, MessageType.Error);
+                    Context.ShowToast(Context.getResources().getString(R.string.please_enter_order_quantity), Toast.LENGTH_LONG, MessageType.Warning);
 
                 } else {
                     Context.ShowLoadingProgressBar();
@@ -353,8 +354,7 @@ public class ShowProductListRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         DialogShowBasketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent BasketIntent = new Intent(Context, BasketActivity.class);
-                BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
+                Intent BasketIntent = new Intent(Context, BasketListActivity.class);
                 Context.startActivity(BasketIntent);
             }
         });

@@ -32,7 +32,6 @@ import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.RegionRepository;
 import ir.rayas.app.citywareclient.Service.Business.BusinessContactService;
 import ir.rayas.app.citywareclient.Service.Business.BusinessOpenTimeService;
-import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
 import ir.rayas.app.citywareclient.Service.Factor.FactorStatusService;
 import ir.rayas.app.citywareclient.Service.Factor.UserFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
@@ -50,6 +49,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.Base.IButtonBackToolbarListener;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessContactViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessOpenTimeViewModel;
@@ -59,7 +59,7 @@ import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.StatusAndDescriptionFactorInViewModel;
 
-public class UserFactorDetailActivity extends BaseActivity implements IResponseService, AdapterView.OnItemSelectedListener {
+public class UserFactorDetailActivity extends BaseActivity implements IResponseService, AdapterView.OnItemSelectedListener, IButtonBackToolbarListener {
 
     private TextViewPersian BusinessNameTextViewUserFactorDetailActivity = null;
     private TextViewPersian CreateDateUserFactorTextViewUserFactorDetailActivity = null;
@@ -71,6 +71,8 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     private EditText UserDescriptionEditTextUserFactorDetailActivity = null;
     private TextViewPersian BusinessAddressTextViewUserFactorDetailActivity = null;
     private TextViewPersian StatusFactorTextViewUserFactorDetailActivity = null;
+    private TextViewPersian CurrentStatusFactorTextViewUserFactorDetailActivity = null;
+    private RelativeLayout FactorStatusRelativeLayoutUserFactorDetailActivity = null;
     private CardView BusinessDescriptionCardViewUserFactorDetailActivity = null;
     private LinearLayout ShowMapLinearLayoutUserFactorDetailActivity = null;
     private Spinner StatusFactorSpinnerUserFactorDetailActivity = null;
@@ -114,6 +116,11 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
                 RetryButtonOnClick();
             }
         }, R.string.factor);
+
+        setDoNotFinishActivity(true);
+        //اضافه کردن رویداد دکمه بازگشت نوار ابزار ساده تا قبل از بازشگت در صورت نیاز بتوان عملیاتی انجام داد
+        this.setButtonBackToolbarListener(this);
+
 
         //ایجاد طرحبندی صفحه
         CreateLayout();
@@ -161,6 +168,8 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         TextViewPersian OpenTimeIconTextViewUserFactorDetailActivity = findViewById(R.id.OpenTimeIconTextViewUserFactorDetailActivity);
         StatusFactorSpinnerUserFactorDetailActivity = findViewById(R.id.StatusFactorSpinnerUserFactorDetailActivity);
         StatusFactorTextViewUserFactorDetailActivity = findViewById(R.id.StatusFactorTextViewUserFactorDetailActivity);
+        CurrentStatusFactorTextViewUserFactorDetailActivity = findViewById(R.id.CurrentStatusFactorTextViewUserFactorDetailActivity);
+        FactorStatusRelativeLayoutUserFactorDetailActivity = findViewById(R.id.FactorStatusRelativeLayoutUserFactorDetailActivity);
 
         ButtonPersianView ShowProductButtonUserFactorDetailActivity = findViewById(R.id.ShowProductButtonUserFactorDetailActivity);
         EditButtonUserFactorDetailActivity = findViewById(R.id.EditButtonUserFactorDetailActivity);
@@ -337,7 +346,9 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
                         SetInformationToSpinner(FactorStatusViewModels);
 
-                        StatusFactorTextViewUserFactorDetailActivity.setText(StatusFactorTextViewUserFactorDetailActivity.getText().toString());
+                        CurrentStatusFactorTextViewUserFactorDetailActivity.setText(StatusFactorTextViewUserFactorDetailActivity.getText().toString());
+                        StatusFactorTextViewUserFactorDetailActivity.setText("");
+
                         if (IsChangeDescription) {
                             UserDescriptionEditTextUserFactorDetailActivity.setText(UserDescriptionEditTextUserFactorDetailActivity.getText().toString());
                         } else {
@@ -392,10 +403,14 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
             case R.id.StatusFactorSpinnerUserFactorDetailActivity: {
 
                 if (IsFirst) {
-                    StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusTitle);
+                    StatusFactorTextViewUserFactorDetailActivity.setText("");
                     FactorStatusId = -1;
                 } else {
-                    StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
+                    if (i == 0)
+                        StatusFactorTextViewUserFactorDetailActivity.setText("");
+                    else
+                        StatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusAdapterViewModel.get(i).getTitle());
+                    
                     FactorStatusId = FactorStatusAdapterViewModel.get(i).getId();
                 }
 
@@ -425,7 +440,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
         StatusAndDescriptionFactorInViewModel ViewModel = new StatusAndDescriptionFactorInViewModel();
         ViewModel.setFactorId(FactorId);
-        if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString()) || Description.equals("")) {
+        if (Description.equals(UserDescriptionEditTextUserFactorDetailActivity.getText().toString())) {
             ViewModel.setDescription(null);
             IsChangeDescription = false;
         } else {
@@ -522,6 +537,9 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         if (ViewModelList.getFactorStatusId() >= 0)
             StatusFactorSpinnerUserFactorDetailActivity.setSelection(SetPositionToSpinnerUserFactorStatus(ViewModelList.getFactorStatusId(), FactorStatusAdapterViewModel));
 
+
+        StatusFactorTextViewUserFactorDetailActivity.setText("");
+        CurrentStatusFactorTextViewUserFactorDetailActivity.setText(FactorStatusTitle);
     }
 
     private void SetInformationToSpinner(List<FactorStatusViewModel> ViewModel) {
@@ -534,19 +552,22 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
 
             if (CurrentFactorStatusId == ViewModel.get(i).getId()) {
                 factorStatus = ViewModel.get(i).getStatus();
-                StatusFactorTextViewUserFactorDetailActivity.setText(ViewModel.get(i).getTitle());
+                StatusFactorTextViewUserFactorDetailActivity.setText("");
+                CurrentStatusFactorTextViewUserFactorDetailActivity.setText(ViewModel.get(i).getTitle());
                 FactorStatusTitle = ViewModel.get(i).getTitle();
             }
         }
 
         if (factorStatus == FactorStatus.Received.getId() || factorStatus == FactorStatus.CanceledByUser.getId() || factorStatus == FactorStatus.CanceledByBusiness.getId()) {
             StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.GONE);
+            FactorStatusRelativeLayoutUserFactorDetailActivity.setVisibility(View.GONE);
             EditButtonUserFactorDetailActivity.setVisibility(View.GONE);
             UserDescriptionEditTextUserFactorDetailActivity.setEnabled(false);
             UserDescriptionEditTextUserFactorDetailActivity.setClickable(false);
 
         } else {
             StatusFactorSpinnerUserFactorDetailActivity.setVisibility(View.VISIBLE);
+            FactorStatusRelativeLayoutUserFactorDetailActivity.setVisibility(View.VISIBLE);
             EditButtonUserFactorDetailActivity.setVisibility(View.VISIBLE);
             UserDescriptionEditTextUserFactorDetailActivity.setEnabled(true);
             UserDescriptionEditTextUserFactorDetailActivity.setClickable(true);
@@ -662,6 +683,12 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
     }
 
     @Override
+    public void ClickOnButtonBackToolbar() {
+        SendDataToParentActivity();
+        onBackPressed();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         Runtime.getRuntime().gc();
@@ -679,5 +706,7 @@ public class UserFactorDetailActivity extends BaseActivity implements IResponseS
         SendDataToParentActivity();
         super.onBackPressed();
     }
+
+
 }
 

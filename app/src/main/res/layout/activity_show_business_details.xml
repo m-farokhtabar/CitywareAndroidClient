@@ -148,6 +148,19 @@
                         android:background="@color/LineBottomColor"
                         android:orientation="vertical" />
 
+                    <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                        android:id="@+id/QuickItemsButtonShowBusinessDetailsActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/selector_button_theme_style"
+                        android:text="@string/quick_items"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/FontWhiteColor" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

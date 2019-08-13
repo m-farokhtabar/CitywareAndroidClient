@@ -66,26 +66,31 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
         DescriptionEditTextBasketDetailsFragment = CurrentView.findViewById(R.id.DescriptionEditTextBasketDetailsFragment);
         CardView HasDeliveryCardViewBasketDetailsFragment = CurrentView.findViewById(R.id.HasDeliveryCardViewBasketDetailsFragment);
 
-        DescriptionEditTextBasketDetailsFragment.setText(Context.basketSummeryViewModel.getUserDescription());
-        HasDeliverySwitchBasketDetailsFragment.setChecked(Context.basketSummeryViewModel.isDelivery());
+        HasDeliverySwitchBasketDetailsFragment.setVisibility(View.GONE);
+        HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
+        HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
+        HasDeliveryCardViewBasketDetailsFragment.setVisibility(View.GONE);
 
 
-        if (Context.basketSummeryViewModel.isBusinessIsDelivery()) {
-            HasDeliverySwitchBasketDetailsFragment.setVisibility(View.GONE);
-            HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
-            HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
-            HasDeliveryCardViewBasketDetailsFragment.setVisibility(View.GONE);
-        } else {
-            HasDeliverySwitchBasketDetailsFragment.setVisibility(View.GONE);
-            HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
-            HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
-            HasDeliveryCardViewBasketDetailsFragment.setVisibility(View.GONE);
-        }
+
+//        if (Context.basketSummeryViewModel.isBusinessIsDelivery()) {
+//            HasDeliverySwitchBasketDetailsFragment.setVisibility(View.GONE);
+//            HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
+//            HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
+//            HasDeliveryCardViewBasketDetailsFragment.setVisibility(View.GONE);
+//        } else {
+//            HasDeliverySwitchBasketDetailsFragment.setVisibility(View.GONE);
+//            HasDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
+//            HasNotDeliveryTitleTextViewBasketDetailsFragment.setVisibility(View.GONE);
+//            HasDeliveryCardViewBasketDetailsFragment.setVisibility(View.GONE);
+//        }
 
         ReturnButtonBasketDetailsFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStack();
+               // getFragmentManager().popBackStack();
+                Context.DefaultTab = Context.BasketTabLayoutBasketActivity.getTabAt(3);
+                Context.DefaultTab.select();
             }
         });
 
@@ -117,6 +122,11 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
         return ViewModel;
     }
 
+    public void SetInformationToView(){
+        DescriptionEditTextBasketDetailsFragment.setText(Context.basketSummeryViewModel.getUserDescription());
+        HasDeliverySwitchBasketDetailsFragment.setChecked(Context.basketSummeryViewModel.isDelivery());
+    }
+
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         Context.HideLoading();
@@ -133,22 +143,25 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
                         Context.basketSummeryViewModel.setDelivery(true);
                         Context.basketSummeryViewModel.setUserDescription(ViewModel.getUserDescription());
 
-                        if (Context.basketSummeryViewModel.isDelivery()) {
-                            BasketDeliveryFragment basketDeliveryFragment = new BasketDeliveryFragment();
-                            FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
-                            BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketDeliveryFragment);
-                            BasketListTransaction.addToBackStack(null);
-                            BasketListTransaction.commit();
+                        Context.DefaultTab = Context.BasketTabLayoutBasketActivity.getTabAt(1);
+                        Context.DefaultTab.select();
 
-                        } else {
-                            BasketSummeryFragment basketSummeryFragment = new BasketSummeryFragment();
-                            FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
-                            BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketSummeryFragment);
-                            BasketListTransaction.addToBackStack(null);
-                            BasketListTransaction.commit();
-
-                            Context.basketSummeryViewModel.setCurrentAddress("");
-                        }
+//                        if (Context.basketSummeryViewModel.isDelivery()) {
+//                            BasketDeliveryFragment basketDeliveryFragment = new BasketDeliveryFragment();
+//                            FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
+//                            BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketDeliveryFragment);
+//                            BasketListTransaction.addToBackStack(null);
+//                            BasketListTransaction.commit();
+//
+//                        } else {
+//                            BasketSummeryFragment basketSummeryFragment = new BasketSummeryFragment();
+//                            FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
+//                            BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketSummeryFragment);
+//                            BasketListTransaction.addToBackStack(null);
+//                            BasketListTransaction.commit();
+//
+//                            Context.basketSummeryViewModel.setCurrentAddress("");
+//                        }
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -172,6 +185,8 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
             if (!IsLoadedDataForFirst) {
                 IsLoadedDataForFirst = true;
                 //دریافت اطلاعات از سرور
+
+                SetInformationToView();
             }
         }
         super.setUserVisibleHint(isVisibleToUser);

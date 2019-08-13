@@ -56,6 +56,7 @@ import ir.rayas.app.citywareclient.View.Master.SearchActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.SettingActivity;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
+import ir.rayas.app.citywareclient.View.Share.BasketListActivity;
 import ir.rayas.app.citywareclient.View.Share.BusinessListForFactorActivity;
 import ir.rayas.app.citywareclient.View.Share.UserBusinessListActivity;
 import ir.rayas.app.citywareclient.View.Share.UserFactorListActivity;
@@ -664,7 +665,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
      * بسته شدن اکتیویتی فعلی این رویداد مربوط به نوار ابزار ساده است که فقط دکمه بازگشت دارد
      */
     private void BasketImageButtonBackAndBasketToolbarClick() {
-        Intent BasketIntent = new Intent(this, BasketActivity.class);
+        Intent BasketIntent = new Intent(this, BasketListActivity.class);
         BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
         startActivity(BasketIntent);
     }
@@ -733,7 +734,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(NotificationIntent);
                 break;
             case ActivityIdList.BASKET_ACTIVITY:
-                Intent BasketIntent = new Intent(this, BasketActivity.class);
+                Intent BasketIntent = new Intent(this, BasketListActivity.class);
                 BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(BasketIntent);
                 break;

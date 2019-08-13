@@ -24,6 +24,7 @@ import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.View.Share.AddQuickBasketActivity;
 import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 
@@ -77,6 +78,7 @@ public class ShowBusinessInfoActivity extends BaseActivity implements IResponseS
         ButtonPersianView ShowPosterAndOfferButtonShowBusinessInfoActivity = findViewById(R.id.ShowPosterAndOfferButtonShowBusinessInfoActivity);
         ButtonPersianView IntroducingBusinessButtonShowBusinessInfoActivity = findViewById(R.id.IntroducingBusinessButtonShowBusinessInfoActivity);
         ButtonPersianView CreateAndShowCommentButtonShowBusinessInfoActivity = findViewById(R.id.CreateAndShowCommentButtonShowBusinessInfoActivity);
+        ButtonPersianView QuickItemsButtonShowBusinessInfoActivity = findViewById(R.id.QuickItemsButtonShowBusinessInfoActivity);
 
         IsOpenSwitchShowBusinessInfoActivity.setClickable(false);
         HasDeliverySwitchShowBusinessInfoActivity.setClickable(false);
@@ -129,6 +131,15 @@ public class ShowBusinessInfoActivity extends BaseActivity implements IResponseS
                 CommissionIntent.putExtra("BusinessId", BusinessId);
                 CommissionIntent.putExtra("BusinessName", TitleBusinessInfoTextViewShowBusinessInfoActivity.getText().toString());
                 startActivity(CommissionIntent);
+            }
+        });
+
+        QuickItemsButtonShowBusinessInfoActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent AddQuickBasketIntent = NewIntent(AddQuickBasketActivity.class);
+                AddQuickBasketIntent.putExtra("BusinessId", BusinessId);
+                startActivity(AddQuickBasketIntent);
             }
         });
 

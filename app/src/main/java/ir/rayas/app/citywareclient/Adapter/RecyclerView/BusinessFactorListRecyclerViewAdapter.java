@@ -109,18 +109,23 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
 
             if (ViewModelList.get(position).isHasQuickOrder()) {
 
-                viewHolder.PricePayableBusinessFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman) + " - " + Context.getResources().getString(R.string.price_is_not_definitive));
+                viewHolder.PricePayableBusinessFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman) );
+                viewHolder.DescriptionPricePayableBusinessFactorTextView.setVisibility(View.VISIBLE);
+                viewHolder.DescriptionPricePayableBusinessFactorTextView.setText( Context.getResources().getString(R.string.price_is_not_definitive));
 
                 viewHolder.DescriptionBusinessFactorTextView.setVisibility(View.VISIBLE);
                 viewHolder.DescriptionBusinessFactorTextView.setText(Context.getResources().getString(R.string.in_order_some_unknown_price_items_must_be_aligned_with_customer));
             } else {
                 if (IsZeroPrice) {
-                    viewHolder.PricePayableBusinessFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman) + " - " + Context.getResources().getString(R.string.price_is_not_definitive));
+                    viewHolder.PricePayableBusinessFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman) );
+                    viewHolder.DescriptionPricePayableBusinessFactorTextView.setVisibility(View.VISIBLE);
+                    viewHolder.DescriptionPricePayableBusinessFactorTextView.setText( Context.getResources().getString(R.string.price_is_not_definitive));
 
                     viewHolder.DescriptionBusinessFactorTextView.setVisibility(View.VISIBLE);
                     viewHolder.DescriptionBusinessFactorTextView.setText(Context.getResources().getString(R.string.in_order_some_unknown_price_items_must_be_aligned_with_customer));
                 } else {
                     viewHolder.DescriptionBusinessFactorTextView.setVisibility(View.GONE);
+                    viewHolder.DescriptionPricePayableBusinessFactorTextView.setVisibility(View.GONE);
                     viewHolder.PricePayableBusinessFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman));
                 }
             }
@@ -266,6 +271,7 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
          LinearLayout ShowMapUserAddressLinearLayout;
          TextViewPersian ShowMapUserAddressIconTextView;
          TextViewPersian StatusBusinessFactorTextView;
+         TextViewPersian DescriptionPricePayableBusinessFactorTextView;
          RelativeLayout BusinessFactorListRelativeLayout;
 
          FactorListViewHolder(View v) {
@@ -284,6 +290,7 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
             ShowMapUserAddressIconTextView = v.findViewById(R.id.ShowMapUserAddressIconTextView);
             StatusBusinessFactorTextView = v.findViewById(R.id.StatusBusinessFactorTextView);
             BusinessFactorListRelativeLayout = v.findViewById(R.id.BusinessFactorListRelativeLayout);
+             DescriptionPricePayableBusinessFactorTextView = v.findViewById(R.id.DescriptionPricePayableBusinessFactorTextView);
 
         }
     }

@@ -205,6 +205,17 @@
                     android:textColor="@color/FontWhiteColor" />
 
                 <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                    android:id="@+id/QuickItemsButtonShowBusinessInfoActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/selector_button_theme_without_corner"
+                    android:text="@string/quick_items"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontWhiteColor" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
                     android:id="@+id/IntroducingBusinessButtonShowBusinessInfoActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

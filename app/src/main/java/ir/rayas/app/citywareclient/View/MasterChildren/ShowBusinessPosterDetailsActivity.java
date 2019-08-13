@@ -31,6 +31,7 @@ import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.View.Share.AddQuickBasketActivity;
 import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkOutViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
@@ -104,6 +105,7 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
         final CardView DescriptionCardViewShowBusinessPosterDetailsActivity = findViewById(R.id.DescriptionCardViewShowBusinessPosterDetailsActivity);
         ButtonPersianView InformationShowButtonShowBusinessPosterDetailsActivity = findViewById(R.id.InformationShowButtonShowBusinessPosterDetailsActivity);
         ButtonPersianView IntroducingBusinessButtonShowBusinessPosterDetailsActivity = findViewById(R.id.IntroducingBusinessButtonShowBusinessPosterDetailsActivity);
+        ButtonPersianView QuickItemsButtonShowBusinessPosterDetailsActivity = findViewById(R.id.QuickItemsButtonShowBusinessPosterDetailsActivity);
         BookmarkImageViewShowBusinessPosterActivity = findViewById(R.id.BookmarkImageViewShowBusinessPosterActivity);
 
 
@@ -196,6 +198,14 @@ public class ShowBusinessPosterDetailsActivity extends BaseActivity implements I
             }
         });
 
+        QuickItemsButtonShowBusinessPosterDetailsActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent AddQuickBasketIntent = NewIntent(AddQuickBasketActivity.class);
+                AddQuickBasketIntent.putExtra("BusinessId", BusinessId);
+                startActivity(AddQuickBasketIntent);
+            }
+        });
 
     }
 

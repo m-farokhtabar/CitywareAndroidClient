@@ -27,6 +27,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
+import ir.rayas.app.citywareclient.ViewModel.Basket.BasketSummeryViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
 
@@ -38,14 +39,17 @@ public class BasketItemListFragment extends Fragment implements IResponseService
     private BasketActivity Context = null;
 
     private RecyclerView BasketItemListRecyclerViewBasketItemListFragment = null;
+    private TextViewPersian BasketBusinessNameTextViewBasketItemListFragment = null;
     private SwipeRefreshLayout RefreshBasketItemListSwipeRefreshLayoutBasketItemListFragment;
 
     private BasketItemListRecyclerViewAdapter basketItemListRecyclerViewAdapter = null;
 
     private boolean IsSwipe = false;
     private boolean IsLoadedDataForFirst = false;
-    private boolean IsDelivery  = false;
-    private String UserDescription  = "";
+    private boolean IsDelivery = false;
+    private String UserDescription = "";
+
+    private BasketViewModel ViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +61,7 @@ public class BasketItemListFragment extends Fragment implements IResponseService
         // Inflate the layout for this fragment
         View CurrentView = inflater.inflate(R.layout.fragment_basket_item_list, container, false);
 
-
+        Context.setFragmentIndex(3);
         //طرحبندی ویو
         CreateLayout(CurrentView);
 
@@ -69,15 +73,13 @@ public class BasketItemListFragment extends Fragment implements IResponseService
     private void CreateLayout(View CurrentView) {
         ButtonPersianView NextButtonBasketItemListFragment = CurrentView.findViewById(R.id.NextButtonBasketItemListFragment);
         ButtonPersianView ReturnButtonBasketItemListFragment = CurrentView.findViewById(R.id.ReturnButtonBasketItemListFragment);
-        TextViewPersian BasketBusinessNameTextViewBasketItemListFragment = CurrentView.findViewById(R.id.BasketBusinessNameTextViewBasketItemListFragment);
+        BasketBusinessNameTextViewBasketItemListFragment = CurrentView.findViewById(R.id.BasketBusinessNameTextViewBasketItemListFragment);
         RefreshBasketItemListSwipeRefreshLayoutBasketItemListFragment = CurrentView.findViewById(R.id.RefreshBasketItemListSwipeRefreshLayoutBasketItemListFragment);
         BasketItemListRecyclerViewBasketItemListFragment = CurrentView.findViewById(R.id.BasketItemListRecyclerViewBasketItemListFragment);
         BasketItemListRecyclerViewBasketItemListFragment.setHasFixedSize(true);
         //به دلیل اینکه من در هر سطر یک گزینه نیاز دارم
         LinearLayoutManager RegionLinearLayoutManager = new LinearLayoutManager(Context);
         BasketItemListRecyclerViewBasketItemListFragment.setLayoutManager(RegionLinearLayoutManager);
-
-        BasketBusinessNameTextViewBasketItemListFragment.setText(Context.basketSummeryViewModel.getBasketName());
 
 
         RefreshBasketItemListSwipeRefreshLayoutBasketItemListFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -92,7 +94,8 @@ public class BasketItemListFragment extends Fragment implements IResponseService
         ReturnButtonBasketItemListFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStack();
+                // getFragmentManager().popBackStack();
+                Context.onBackPressed();
             }
         });
 
@@ -101,15 +104,30 @@ public class BasketItemListFragment extends Fragment implements IResponseService
 
             @Override
             public void onClick(View view) {
+                boolean IsQuick = false;
+                for (int i = 0; i < ViewModel.getItemList().size(); i++) {
+                    if (ViewModel.getItemList().get(i).getPrice() <= 0) {
+                        IsQuick = true;
+                        break;
+                    }
+                }
 
-                Context.basketSummeryViewModel.setDelivery(IsDelivery);
-                Context.basketSummeryViewModel.setUserDescription(UserDescription);
+                if (IsQuick)
+                    Context.basketSummeryViewModel.setQuickItem(true);
+                else
+                    Context.basketSummeryViewModel.setQuickItem(false);
 
-                BasketDetailsFragment basketDetailsFragment = new BasketDetailsFragment();
-                FragmentTransaction BasketListTransaction = Context. getSupportFragmentManager().beginTransaction();
-                BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity,basketDetailsFragment);
-                BasketListTransaction.addToBackStack(null);
-                BasketListTransaction.commit();
+                Context.basketSummeryViewModel.setDelivery(Context.basketSummeryViewModel.isDelivery());
+                Context.basketSummeryViewModel.setUserDescription(Context.basketSummeryViewModel.getUserDescription());
+
+                Context.DefaultTab = Context.BasketTabLayoutBasketActivity.getTabAt(2);
+                Context.DefaultTab.select();
+
+//                BasketDetailsFragment basketDetailsFragment = new BasketDetailsFragment();
+//                FragmentTransaction BasketListTransaction = Context. getSupportFragmentManager().beginTransaction();
+//                BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity,basketDetailsFragment);
+//                BasketListTransaction.addToBackStack(null);
+//                BasketListTransaction.commit();
 
             }
         });
@@ -137,13 +155,19 @@ public class BasketItemListFragment extends Fragment implements IResponseService
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
                     BusinessService BusinessService = new BusinessService(this);
-                    BusinessService.Get( Context.basketSummeryViewModel.getBusinessId());
+                    BusinessService.Get(Context.basketSummeryViewModel.getBusinessId());
 
-                    BasketViewModel ViewModel = FeedBack.getValue();
+                    ViewModel = FeedBack.getValue();
                     if (ViewModel != null) {
 
                         IsDelivery = ViewModel.isDelivery();
                         UserDescription = ViewModel.getUserDescription();
+
+
+                        Context.basketSummeryViewModel.setDelivery(IsDelivery);
+                        Context.basketSummeryViewModel.setUserDescription(UserDescription);
+                        BasketBusinessNameTextViewBasketItemListFragment.setText(Context.basketSummeryViewModel.getBasketName());
+
 
                         //تنظیمات مربوط به recycle سبد خرید
                         basketItemListRecyclerViewAdapter = new BasketItemListRecyclerViewAdapter(Context, ViewModel.getItemList(), BasketItemListRecyclerViewBasketItemListFragment, ViewModel.getId());
@@ -158,7 +182,7 @@ public class BasketItemListFragment extends Fragment implements IResponseService
                         Context.ShowErrorInConnectDialog();
                     }
                 }
-            }   else  if (ServiceMethod == ServiceMethodType.BusinessGet) {
+            } else if (ServiceMethod == ServiceMethodType.BusinessGet) {
                 Feedback<BusinessViewModel> FeedBack = (Feedback<BusinessViewModel>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
@@ -187,20 +211,32 @@ public class BasketItemListFragment extends Fragment implements IResponseService
         }
     }
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            //برای فهمیدن کد فرگنت به UserProfilePagerAdapter مراجعه کنید
-            Context.setFragmentIndex(3);
-            if (!IsLoadedDataForFirst) {
-                IsSwipe = false;
-                IsLoadedDataForFirst = true;
-                //دریافت اطلاعات از سرور
-             //   LoadData();
+            if (Context != null) {
+                //برای فهمیدن کد فرگنت به UserProfilePagerAdapter مراجعه کنید
+                Context.setFragmentIndex(3);
             }
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        if (isVisibleToUser) {
+//            //برای فهمیدن کد فرگنت به UserProfilePagerAdapter مراجعه کنید
+//            Context.setFragmentIndex(3);
+//            if (!IsLoadedDataForFirst) {
+//                IsSwipe = false;
+//                IsLoadedDataForFirst = true;
+//                //دریافت اطلاعات از سرور
+//                LoadData();
+//            }
+//        }
+//        super.setUserVisibleHint(isVisibleToUser);
+//    }
 
 
 }

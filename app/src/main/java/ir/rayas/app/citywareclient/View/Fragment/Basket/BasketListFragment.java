@@ -3,7 +3,6 @@ package ir.rayas.app.citywareclient.View.Fragment.Basket;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,12 +37,6 @@ public class BasketListFragment extends Fragment implements IResponseService, IL
     private RecyclerView BasketListRecyclerViewBasketListFragment = null;
     private SwipeRefreshLayout RefreshBasketListSwipeRefreshLayoutBasketListFragment;
     private boolean IsSwipe = false;
-    private boolean IsLoadedDataForFirst = false;
-    private BasketListRecyclerViewAdapter basketListRecyclerViewAdapter = null;
-
-    public BasketListRecyclerViewAdapter getBasketListRecyclerViewAdapter() {
-        return basketListRecyclerViewAdapter;
-    }
 
 
     @Override
@@ -111,33 +104,35 @@ public class BasketListFragment extends Fragment implements IResponseService, IL
 
                         ShowEmptyBasketListTextViewBasketListFragment.setVisibility(View.GONE);
 
-                        final FragmentManager fragmentManager = getFragmentManager();
 
                         //تنظیمات مربوط به recycle سبد خرید
-                        basketListRecyclerViewAdapter = new BasketListRecyclerViewAdapter(Context, ViewModel, BasketListRecyclerViewBasketListFragment);
-                        BasketListRecyclerViewBasketListFragment.setAdapter(basketListRecyclerViewAdapter);
-                        basketListRecyclerViewAdapter.notifyDataSetChanged();
-                        BasketListRecyclerViewBasketListFragment.invalidate();
+//                        BasketListRecyclerViewAdapter basketListRecyclerViewAdapter = new BasketListRecyclerViewAdapter(Context, ViewModel, BasketListRecyclerViewBasketListFragment);
+//                        BasketListRecyclerViewBasketListFragment.setAdapter(basketListRecyclerViewAdapter);
+//                        basketListRecyclerViewAdapter.notifyDataSetChanged();
+//                        BasketListRecyclerViewBasketListFragment.invalidate();
 
-                        basketListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
-                            @Override
-                            public void onItemClick(int position, View v) {
-
-                                Context.basketSummeryViewModel.setBusinessId(ViewModel.get(position).getBusinessId());
-                                Context.basketSummeryViewModel.setBasketId(ViewModel.get(position).getId());
-                                Context.basketSummeryViewModel.setBasketName(ViewModel.get(position).getBusinessName());
-                                Context.basketSummeryViewModel.setBasketCount(ViewModel.get(position).getItemList().size());
-                                Context.basketSummeryViewModel.setPath(ViewModel.get(position).getPath());
-                                Context.basketSummeryViewModel.setTotalPrice(ViewModel.get(position).getTotalPrice());
-                                Context.basketSummeryViewModel.setModified(ViewModel.get(position).getModified());
-
-                                BasketItemListFragment basketItemListFragment = new BasketItemListFragment();
-                                FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
-                                BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketItemListFragment);
-                                BasketListTransaction.addToBackStack(null);
-                                BasketListTransaction.commit();
-                            }
-                        });
+//                        basketListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
+//                            @Override
+//                            public void onItemClick(int position, View v) {
+//
+//                                Context.basketSummeryViewModel.setBusinessId(ViewModel.get(position).getBusinessId());
+//                                Context.basketSummeryViewModel.setBasketId(ViewModel.get(position).getId());
+//                                Context.basketSummeryViewModel.setBasketName(ViewModel.get(position).getBusinessName());
+//                                Context.basketSummeryViewModel.setBasketCount(ViewModel.get(position).getItemList().size());
+//                                Context.basketSummeryViewModel.setPath(ViewModel.get(position).getPath());
+//                                Context.basketSummeryViewModel.setTotalPrice(ViewModel.get(position).getTotalPrice());
+//                                Context.basketSummeryViewModel.setModified(ViewModel.get(position).getModified());
+//
+//                                Context.DefaultTab = Context.BasketTabLayoutBasketActivity.getTabAt(3);
+//                                Context.DefaultTab.select();
+//
+////                                BasketItemListFragment basketItemListFragment = new BasketItemListFragment();
+////                                FragmentTransaction BasketListTransaction = Context.getSupportFragmentManager().beginTransaction();
+////                                BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketItemListFragment);
+////                                BasketListTransaction.addToBackStack(null);
+////                                BasketListTransaction.commit();
+//                            }
+//                        });
                     } else {
                         ShowEmptyBasketListTextViewBasketListFragment.setVisibility(View.VISIBLE);
                     }
@@ -161,12 +156,14 @@ public class BasketListFragment extends Fragment implements IResponseService, IL
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            if (Context!=null) {
+            if (Context != null) {
                 //برای فهمیدن کد فرگنت به UserProfilePagerAdapter مراجعه کنید
                 Context.setFragmentIndex(4);
             }
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
+
 
 }

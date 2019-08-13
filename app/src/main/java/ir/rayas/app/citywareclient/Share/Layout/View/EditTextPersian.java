@@ -166,4 +166,20 @@ public class EditTextPersian extends android.support.v7.widget.AppCompatEditText
         super.onDisplayHint(hint);
     }
 
+
+    private static String perDigits(String Text) {
+        char[] chars = new char[Text.length()];
+        for(int i=0;i<Text.length();i++) {
+            char ch = Text.charAt(i);
+
+
+            if (ch >= 0x0660 && ch <= 0x0669)
+                ch -= 0x0660 - '0';
+            else if (ch >= 0x06f0 && ch <= 0x06F9)
+                ch -= 0x06f0 - '0';
+            chars[i] = ch;
+        }
+        return new String(chars);
+    }
+
 }

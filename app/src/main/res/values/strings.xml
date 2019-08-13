@@ -452,6 +452,8 @@
 
     <!--متون مرتبط با  فاکتور-->
     <string name="factor_status">وضعیت سفارش</string>
+    <string name="current_factor_status">وضعیت سفارش فعلی</string>
+    <string name="new_factor_status">وضعیت سفارش جدید</string>
     <string name="factor_code">شماره فاکتور</string>
     <string name="in_order_some_unknown_price_items_must_be_aligned_with_customer">در سفارش برخی اقلام قیمت نامشخص دارند بایستی با مشتری هماهنگ شود.</string>
     <string name="in_your_factor_there_are_products_that_are_not_priced">در فاکتور شما محصولاتی وجود دارد که قیمت آن مشخص نمی باشد.</string>

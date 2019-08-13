@@ -24,6 +24,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
+import ir.rayas.app.citywareclient.View.Share.BasketListActivity;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketViewModel;
 
@@ -33,13 +34,13 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
 
     private List<BasketViewModel> ViewModelList = null;
     private RecyclerView Container = null;
-    private BasketActivity Context;
+    private BasketListActivity Context;
     private int Position;
     private MyClickListener myClickListener;
 
 
 
-    public BasketListRecyclerViewAdapter(BasketActivity context, List<BasketViewModel> ViewModel, RecyclerView Container) {
+    public BasketListRecyclerViewAdapter(BasketListActivity context, List<BasketViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
         this.Container = Container;
         this.ViewModelList = ViewModel;
@@ -101,7 +102,7 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
             ItemList.addAll(ViewModelList.get(position).getItemList());
             for (int i = 0; i < ItemList.size(); i++) {
                 if (ItemList.get(i).getPrice() <= 0) {
-                    Context.basketSummeryViewModel.setQuickItem(true);
+                    Context.setQuickItem(true);
                     holder.DescriptionBasketTextView.setText(Context.getResources().getString(R.string.in_your_basket_there_are_products_that_are_not_priced));
 
                 }
@@ -124,7 +125,6 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
             public void onClick(View view) {
                 Position = position;
                 Context.ShowLoadingProgressBar();
-                Context.setRetryType(1);
                 BasketService basketService = new BasketService(BasketListRecyclerViewAdapter.this);
                 basketService.DeleteBasket(ViewModelList.get(position).getId());
             }

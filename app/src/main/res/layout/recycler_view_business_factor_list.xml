@@ -252,12 +252,23 @@
             </LinearLayout>
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                android:id="@+id/DescriptionBusinessFactorTextView"
+                android:id="@+id/DescriptionPricePayableBusinessFactorTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:layout_marginTop="3dp"
+                android:gravity="right"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontGreenColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/DescriptionBusinessFactorTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="8dp"
                 android:gravity="right"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/FontRedColor" />
