@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.View.MasterChildren;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
@@ -31,7 +32,6 @@ import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
-import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
@@ -54,6 +54,9 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     private Spinner SearchTypeSpinnerSettingActivity = null;
     private Spinner SearchStateSpinnerSettingActivity = null;
     private EditText GpsRangeEditTextSettingActivity = null;
+    //   private ButtonPersianView selectRegionButtonSettingActivity = null;
+    // private ButtonPersianView selectCategoryButtonSettingActivity = null;
+    private LinearLayout GpsRangeLinearLayoutSettingActivity = null;
 
     private boolean IsLocationSearch = false;
     private Integer RegionId = null;
@@ -71,6 +74,8 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
 
     private RegionRepository regionRepository = new RegionRepository();
     private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
+
+    private UserSettingViewModel userSettingViewModel = null;
 
 
     @Override
@@ -98,9 +103,12 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     }
 
     private void CreateLayout() {
+        AccountRepository ARepository = new AccountRepository(null);
+        AccountViewModel AccountViewModel = ARepository.getAccount();
+        userSettingViewModel = AccountViewModel.getUserSetting();
 
-        final ButtonPersianView selectRegionButtonSettingActivity = findViewById(R.id.SelectRegionButtonSettingActivity);
-        final ButtonPersianView selectCategoryButtonSettingActivity = findViewById(R.id.SelectCategoryButtonSettingActivity);
+        // selectRegionButtonSettingActivity = findViewById(R.id.SelectRegionButtonSettingActivity);
+        // selectCategoryButtonSettingActivity = findViewById(R.id.SelectCategoryButtonSettingActivity);
         SelectRegionNameTextViewSettingActivity = findViewById(R.id.SelectRegionNameTextViewSettingActivity);
         SelectCategoryNameTextViewSettingActivity = findViewById(R.id.SelectCategoryNameTextViewSettingActivity);
         SearchLocationSwitchSettingActivity = findViewById(R.id.SearchLocationSwitchSettingActivity);
@@ -109,15 +117,19 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         categorySwitchSettingActivity = findViewById(R.id.CategorySwitchSettingActivity);
         regionSwitchSettingActivity = findViewById(R.id.RegionSwitchSettingActivity);
         ButtonPersianView SaveButtonSettingActivity = findViewById(R.id.SaveButtonSettingActivity);
-        final LinearLayout GpsRangeLinearLayoutSettingActivity = findViewById(R.id.GpsRangeLinearLayoutSettingActivity);
+        GpsRangeLinearLayoutSettingActivity = findViewById(R.id.GpsRangeLinearLayoutSettingActivity);
         GpsRangeEditTextSettingActivity = findViewById(R.id.GpsRangeEditTextSettingActivity);
         SeekBar gpsRangeSeekBarSettingActivity = findViewById(R.id.GpsRangeSeekBarSettingActivity);
+
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/iransanslight.ttf");
+        GpsRangeEditTextSettingActivity.setTypeface(typeface);
 
         SetInformationToSpinner();
         SearchTypeSpinnerSettingActivity.setOnItemSelectedListener(this);
         SearchStateSpinnerSettingActivity.setOnItemSelectedListener(this);
 
-        selectRegionButtonSettingActivity.setOnClickListener(new View.OnClickListener() {
+        SelectRegionNameTextViewSettingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent SelectRegionIntent = NewIntent(SelectRegionActivity.class);
@@ -125,7 +137,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             }
         });
 
-        selectCategoryButtonSettingActivity.setOnClickListener(new View.OnClickListener() {
+        SelectCategoryNameTextViewSettingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent SelectBusinessCategoryIntent = NewIntent(SelectBusinessCategoryActivity.class);
@@ -133,38 +145,11 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             }
         });
 
-        SearchLocationSwitchSettingActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    IsLocationSearch = true;
-                    GpsRangeLinearLayoutSettingActivity.setVisibility(View.VISIBLE);
-                } else {
-                    IsLocationSearch = false;
-                    GpsRangeLinearLayoutSettingActivity.setVisibility(View.GONE);
-                }
-            }
-        });
-
-
-        categorySwitchSettingActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    selectCategoryButtonSettingActivity.setClickable(true);
-                    selectCategoryButtonSettingActivity.setEnabled(true);
-                } else {
-                    selectCategoryButtonSettingActivity.setClickable(false);
-                    selectCategoryButtonSettingActivity.setEnabled(false);
-                }
-            }
-        });
-
 
         gpsRangeSeekBarSettingActivity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                GpsRangeEditTextSettingActivity.setText(String.valueOf(progress));
+                GpsRangeEditTextSettingActivity.setText(String.valueOf(progress + 5));
             }
 
             @Override
@@ -176,18 +161,6 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             }
         });
 
-        regionSwitchSettingActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    selectRegionButtonSettingActivity.setClickable(true);
-                    selectRegionButtonSettingActivity.setEnabled(true);
-                } else {
-                    selectRegionButtonSettingActivity.setClickable(false);
-                    selectRegionButtonSettingActivity.setEnabled(false);
-                }
-            }
-        });
 
         SaveButtonSettingActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -330,6 +303,12 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                         ViewModel.setRegionName(SelectRegionNameTextViewSettingActivity.getText().toString());
                         ViewModel.setBusinessCategoryName(SelectCategoryNameTextViewSettingActivity.getText().toString());
 
+                        if (ViewModel.isUseGprsPoint()) {
+                            ViewModel.setGpsRangeInKm(Integer.parseInt(GpsRangeEditTextSettingActivity.getText().toString()));
+                        } else {
+                            ViewModel.setGpsRangeInKm(0);
+                        }
+
                         SetLocalSettingToRepository(ViewModel.getBusinessCategoryId(), ViewModel.getRegionId(), ViewModel.isUseGprsPoint());
 
                         //پر کردن ویو با اطلاعات دریافتی
@@ -384,18 +363,142 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         SearchTypeSpinnerSettingActivity.setSelection(SearchTypePosition);
         SearchStateSpinnerSettingActivity.setSelection(DeliveryStateInSearchPosition);
 
-        if (ViewModel.getRegionId() != null)
-            SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
-
-        if (ViewModel.getBusinessCategoryId() != null)
+        if (ViewModel.getBusinessCategoryId() != null) {
             SelectCategoryNameTextViewSettingActivity.setText(businessCategoryRepository.GetFullName(ViewModel.getBusinessCategoryId()));
+            SetCheckCategory(true);
+        } else {
+            SetCheckCategory(false);
+        }
 
         RegionId = ViewModel.getRegionId();
         FirstRegionId = ViewModel.getRegionId();
         CategoryId = ViewModel.getBusinessCategoryId();
         FirstCategoryId = ViewModel.getBusinessCategoryId();
         IsLocationSearch = ViewModel.isUseGprsPoint();
+
+
+        if (userSettingViewModel.getGpsRangeInKm() == null) {
+            GpsRangeEditTextSettingActivity.setText(String.valueOf(1));
+        } else {
+            GpsRangeEditTextSettingActivity.setText(String.valueOf(userSettingViewModel.getGpsRangeInKm()));
+        }
+
+
         SearchLocationSwitchSettingActivity.setChecked(IsLocationSearch);
+
+        if (IsLocationSearch) {
+            SelectRegionNameTextViewSettingActivity.setText("");
+            regionSwitchSettingActivity.setChecked(false);
+            SetCheckRegion(false);
+            GpsRangeLinearLayoutSettingActivity.setVisibility(View.VISIBLE);
+
+        } else {
+            GpsRangeLinearLayoutSettingActivity.setVisibility(View.GONE);
+            if (RegionId == null || RegionId == 0) {
+                regionSwitchSettingActivity.setChecked(false);
+                SetCheckRegion(false);
+                SelectRegionNameTextViewSettingActivity.setText("");
+            } else {
+                regionSwitchSettingActivity.setChecked(true);
+                SetCheckRegion(true);
+                SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
+            }
+        }
+
+        SearchLocationSwitchSettingActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+                    regionSwitchSettingActivity.setChecked(false);
+                    SetCheckRegion(false);
+
+                    IsLocationSearch = true;
+                    GpsRangeLinearLayoutSettingActivity.setVisibility(View.VISIBLE);
+
+                } else {
+                    IsLocationSearch = false;
+                    GpsRangeLinearLayoutSettingActivity.setVisibility(View.GONE);
+
+                    if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
+                        regionSwitchSettingActivity.setChecked(false);
+                        SetCheckRegion(false);
+                        SelectRegionNameTextViewSettingActivity.setText("");
+                    } else {
+                        regionSwitchSettingActivity.setChecked(true);
+                        SetCheckRegion(true);
+                        SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(userSettingViewModel.getRegionId()));
+                    }
+                }
+            }
+        });
+
+
+        categorySwitchSettingActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    SelectCategoryNameTextViewSettingActivity.setClickable(true);
+                    SelectCategoryNameTextViewSettingActivity.setEnabled(true);
+
+                    if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0) {
+                        CategoryId = null;
+                        SelectCategoryNameTextViewSettingActivity.setText("");
+                    } else {
+                        CategoryId = userSettingViewModel.getBusinessCategoryId();
+                        SelectCategoryNameTextViewSettingActivity.setText(businessCategoryRepository.GetFullName(CategoryId));
+                    }
+
+                } else {
+                    SelectCategoryNameTextViewSettingActivity.setClickable(false);
+                    SelectCategoryNameTextViewSettingActivity.setEnabled(false);
+                    CategoryId = null;
+                    SelectCategoryNameTextViewSettingActivity.setText("");
+                }
+            }
+        });
+
+        regionSwitchSettingActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                if (isChecked) {
+                    SelectRegionNameTextViewSettingActivity.setClickable(true);
+                    SelectRegionNameTextViewSettingActivity.setEnabled(true);
+
+                    if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
+                        RegionId = null;
+                        SelectRegionNameTextViewSettingActivity.setText("");
+                    } else {
+                        RegionId = userSettingViewModel.getRegionId();
+                        SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(RegionId));
+                    }
+                } else {
+                    RegionId = null;
+                    SelectRegionNameTextViewSettingActivity.setText("");
+
+                    SelectRegionNameTextViewSettingActivity.setClickable(false);
+                    SelectRegionNameTextViewSettingActivity.setEnabled(false);
+                }
+            }
+        });
+    }
+
+    private void SetCheckRegion(boolean IsCheck) {
+
+        regionSwitchSettingActivity.setClickable(IsCheck);
+        SelectRegionNameTextViewSettingActivity.setClickable(IsCheck);
+        SelectRegionNameTextViewSettingActivity.setEnabled(IsCheck);
+        regionSwitchSettingActivity.setEnabled(IsCheck);
+    }
+
+    private void SetCheckCategory(boolean IsCheck) {
+        categorySwitchSettingActivity.setChecked(IsCheck);
+
+        categorySwitchSettingActivity.setClickable(IsCheck);
+        SelectCategoryNameTextViewSettingActivity.setClickable(IsCheck);
+        SelectCategoryNameTextViewSettingActivity.setEnabled(IsCheck);
+        categorySwitchSettingActivity.setEnabled(IsCheck);
     }
 
     private void SetLocalSettingToRepository(Integer businessCategoryId, Integer regionId, boolean useGprsPoint) {

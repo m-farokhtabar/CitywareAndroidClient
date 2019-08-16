@@ -362,21 +362,29 @@
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="cityware" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".View.MasterChildren.PaymentCommissionActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".View.Share.BasketListActivity"></activity>
+            android:theme="@style/AppTheme">
+
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:scheme="cityware" />
+        </intent-filter>
+
+        </activity>
+
+        <activity android:name=".View.Share.BasketListActivity"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

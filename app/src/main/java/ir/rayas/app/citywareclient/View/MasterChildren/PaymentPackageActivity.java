@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Coupon.CouponService;
@@ -57,6 +58,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     private int TotalPaymentPrice = 0;
     private boolean IsValidCoupon = false;
     private String CouponCode = "";
+
+    private boolean IsPay = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,10 +177,10 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     }
 
     private void PaymentPackage() {
-            ShowLoadingProgressBar();
-            PackageService packageService = new PackageService(this);
-            RetryType = 2;
-            packageService.Add(MadeViewModel());
+        ShowLoadingProgressBar();
+        PackageService packageService = new PackageService(this);
+        RetryType = 2;
+        packageService.Add(MadeViewModel());
     }
 
     private PurchasePackageViewModel MadeViewModel() {
@@ -194,6 +197,14 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         }
         return ViewModel;
     }
+
+    public void LoadDataValidPackage() {
+        ShowLoadingProgressBar();
+        PackageService packageService = new PackageService(this);
+        packageService.GetAllOpen(1);
+
+    }
+
 
     /**
      * @param Data
@@ -273,16 +284,46 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                             if (TotalPaymentPrice > DefaultConstant.MaxPayment || TotalPaymentPrice < DefaultConstant.MinPayment) {
                                 ShowPaymentPackageDialog(ViewModel);
                             } else {
+                                IsPay = true;
                                 String url = "http://asanpardakhtpg.zeytoonfood.com/startpayment.aspx?type=1&id=" + ViewModel.getId();
                                 Uri uri = Uri.parse(url);
                                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                 startActivity(intent);
-
-//                                SendDataToParentActivity(ViewModel);
-//                                onBackPressed();
                             }
                         }
 
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        ShowErrorInConnectDialog();
+                    }
+                }
+
+            } else if (ServiceMethod == ServiceMethodType.UserPackageOpenGetAll) {
+                Feedback<List<OutputPackageTransactionViewModel>> FeedBack = (Feedback<List<OutputPackageTransactionViewModel>>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+
+                    final List<OutputPackageTransactionViewModel> ViewModelList = FeedBack.getValue();
+                    OutputPackageTransactionViewModel ViewModel = new OutputPackageTransactionViewModel();
+
+                    boolean IsHavePackageId = false;
+
+                    for (int i = 0; i < ViewModelList.size(); i++) {
+                        if (ViewModelList.get(i).getId() == PackageId) {
+                            IsHavePackageId = true;
+                            ViewModel = ViewModelList.get(i);
+                            break;
+                        }
+                    }
+                    if (IsHavePackageId) {
+                        ShowToast(getResources().getString(R.string.submit_package_successful), Toast.LENGTH_LONG, MessageType.Info);
+                        SendDataToParentActivity(ViewModel);
+                        onBackPressed();
+                    } else {
+                        ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Error);
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -312,7 +353,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     }
 
     private void HideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
@@ -331,7 +372,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
             @Override
             public void onClick(View v) {
 
-                SendDataToParentActivity(ViewModel);
+                //   SendDataToParentActivity(ViewModel);
 //        //این قسمت به دلیل SingleInstance بودن Parent بایستی مطمئن شوبم که اکتیویتی Parent بعد از اتمام این اکتیویتی دوباره صدا  زده می شود
 //        //در حالت خروج از برنامه و ورود دوباره این اکتیوتی ممکن است Parent خود را گم کند
                 FinishCurrentActivity();
@@ -341,6 +382,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
 
         ShowPaymentPackageDialog.show();
     }
+
 
     @Override
     protected void onDestroy() {
@@ -363,5 +405,10 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     @Override
     protected void onRestart() {
         super.onRestart();
+
+        if (IsPay) {
+            LoadDataValidPackage();
+            IsPay = false;
+        }
     }
 }

@@ -55,9 +55,7 @@ import ir.rayas.app.citywareclient.View.Master.NotificationActivity;
 import ir.rayas.app.citywareclient.View.Master.SearchActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.SettingActivity;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
-import ir.rayas.app.citywareclient.View.Share.BasketActivity;
 import ir.rayas.app.citywareclient.View.Share.BasketListActivity;
-import ir.rayas.app.citywareclient.View.Share.BusinessListForFactorActivity;
 import ir.rayas.app.citywareclient.View.Share.UserBusinessListActivity;
 import ir.rayas.app.citywareclient.View.Share.UserFactorListActivity;
 import ir.rayas.app.citywareclient.View.UserProfileChildren.PackageActivity;
@@ -338,8 +336,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.BasketItemMenu:
-                if (CurrentActivityId != ActivityIdList.BASKET_ACTIVITY)
-                    GoToMasterActivity(ActivityIdList.BASKET_ACTIVITY);
+                if (CurrentActivityId != ActivityIdList.BASKET_LIST_ACTIVITY)
+                    GoToMasterActivity(ActivityIdList.BASKET_LIST_ACTIVITY);
                 break;
 
             case R.id.FactorItemMenu:
@@ -666,7 +664,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void BasketImageButtonBackAndBasketToolbarClick() {
         Intent BasketIntent = new Intent(this, BasketListActivity.class);
-        BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
+       // BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
         startActivity(BasketIntent);
     }
 
@@ -733,7 +731,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 NotificationIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(NotificationIntent);
                 break;
-            case ActivityIdList.BASKET_ACTIVITY:
+            case ActivityIdList.BASKET_LIST_ACTIVITY:
                 Intent BasketIntent = new Intent(this, BasketListActivity.class);
                 BasketIntent.putExtra("FromActivityId", ActivityIdList.MAIN_ACTIVITY);
                 startActivity(BasketIntent);

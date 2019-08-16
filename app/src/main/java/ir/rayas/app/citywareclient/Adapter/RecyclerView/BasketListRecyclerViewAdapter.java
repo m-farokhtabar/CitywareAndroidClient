@@ -140,6 +140,16 @@ public class BasketListRecyclerViewAdapter extends RecyclerView.Adapter<BasketLi
             Output = ViewModelList.size();
         return Output;
     }
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
 
 
     public void setOnItemClickListener(MyClickListener myClickListener) {

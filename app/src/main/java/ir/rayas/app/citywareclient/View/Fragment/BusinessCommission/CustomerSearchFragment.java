@@ -109,7 +109,10 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
                 if (!SearchOffer.equals("")) {
 
                     newSuggestionBusinessCommissionRecyclerViewAdapter.ClearViewModelList();
-                    TextSearch = SearchOffer;
+
+                    String Search = SearchOffer;
+                    TextSearch =  EditTextPersian.ConvertNumber(Search);
+
 
                     try {
                         String Temp = URLEncoder.encode(TextSearch, "utf-8");
@@ -148,7 +151,9 @@ public class CustomerSearchFragment extends Fragment implements IResponseService
                 PageNumber = 1;
 
                 if (s.length() != 0) {
-                    TextSearch = s.toString();
+                    String Search = s.toString();
+                    TextSearch =  EditTextPersian.ConvertNumber(Search);
+                    
                     try {
                         String Temp = URLEncoder.encode(TextSearch, "utf-8");
                         TextSearch = Temp;

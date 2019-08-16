@@ -71,7 +71,7 @@ public class BasketDeliveryFragment extends Fragment implements IResponseService
 
     private void CreateLayout(View CurrentView) {
 
-        FloatingActionButton NewAddressFloatingActionButtonBasketDeliveryFragment = CurrentView.findViewById(R.id.NewAddressFloatingActionButtonBasketDeliveryFragment);
+        final FloatingActionButton NewAddressFloatingActionButtonBasketDeliveryFragment = CurrentView.findViewById(R.id.NewAddressFloatingActionButtonBasketDeliveryFragment);
         ButtonPersianView NextButtonBasketDeliveryFragment = CurrentView.findViewById(R.id.NextButtonBasketDeliveryFragment);
         ButtonPersianView ReturnButtonBasketDeliveryFragment = CurrentView.findViewById(R.id.ReturnButtonBasketDeliveryFragment);
         RefreshAddressSwipeRefreshLayoutBasketDeliveryFragment = CurrentView.findViewById(R.id.RefreshAddressSwipeRefreshLayoutBasketDeliveryFragment);
@@ -113,6 +113,18 @@ public class BasketDeliveryFragment extends Fragment implements IResponseService
             @Override
             public void onClick(View view) {
                 SelectNextButtonClick();
+            }
+        });
+
+        AddressRecyclerViewBasketDeliveryFragment.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && NewAddressFloatingActionButtonBasketDeliveryFragment.getVisibility() == View.VISIBLE) {
+                    NewAddressFloatingActionButtonBasketDeliveryFragment.hide();
+                } else if (dy < 0 && NewAddressFloatingActionButtonBasketDeliveryFragment.getVisibility() != View.VISIBLE) {
+                    NewAddressFloatingActionButtonBasketDeliveryFragment.show();
+                }
             }
         });
 

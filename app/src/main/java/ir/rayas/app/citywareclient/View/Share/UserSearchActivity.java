@@ -101,7 +101,9 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
                     userSearchRecyclerViewAdapter.ClearViewModelList();
 
-                    TextSearch = s.toString();
+                    String Search = s.toString();
+                    TextSearch =  EditTextPersian.ConvertNumber(Search);
+
 
                     try {
                         String Temp = URLEncoder.encode(TextSearch, "utf-8");
@@ -115,6 +117,7 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
 
                 }  else {
                     ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.GONE);
+                    ShowEmptyUserTextViewUserSearchActivity.setVisibility(View.GONE);
                 }
             }
         });
@@ -129,7 +132,9 @@ public class UserSearchActivity extends BaseActivity implements IResponseService
                     ShowUserListRecyclerViewUserSearchActivity.setVisibility(View.VISIBLE);
 
                     userSearchRecyclerViewAdapter.ClearViewModelList();
-                    TextSearch = SearchOffer;
+
+                    String Search = SearchOffer;
+                    TextSearch =  EditTextPersian.ConvertNumber(Search);
 
                     try {
                         String Temp = URLEncoder.encode(TextSearch, "utf-8");

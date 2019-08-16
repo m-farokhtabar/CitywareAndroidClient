@@ -51,6 +51,10 @@ public class UserSettingViewModel
     /// </summary>
     private String Modified;
 
+    private Integer GpsRangeInKm ;
+    private Double latitude ;
+    private Double longitude ;
+
     public String getRegionName() {
         return RegionName;
     }
@@ -131,5 +135,29 @@ public class UserSettingViewModel
         RegionId = regionId;
     }
 
+
+    public Integer getGpsRangeInKm() {
+        return GpsRangeInKm;
+    }
+
+    public void setGpsRangeInKm(Integer gpsRangeInKm) {
+        GpsRangeInKm = gpsRangeInKm;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 }
 

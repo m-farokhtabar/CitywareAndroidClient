@@ -23,6 +23,7 @@
             android:id="@+id/ScrollViewUserBusinessSetActivity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/SaveButtonSettingActivity"
             android:layout_below="@+id/BackToolBar"
             android:scrollbars="vertical">
 
@@ -32,21 +33,20 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="6dp"
-                    android:gravity="left"
-                    android:orientation="horizontal">
+                    android:layout_margin="6dp">
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/AllRegionTextViewSettingActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="6dp"
                         android:layout_marginStart="6dp"
-                        android:gravity="right"
                         android:hint="@string/region_all"
                         android:singleLine="true"
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -57,11 +57,13 @@
                         android:id="@+id/RegionSwitchSettingActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="6dp"
                         android:layout_marginLeft="6dp"
                         android:layout_marginRight="6dp"
                         android:layout_marginStart="6dp"
+                        android:layout_toRightOf="@+id/AllRegionTextViewSettingActivity"
                         android:gravity="right|center_vertical"
                         android:scaleX="1.2"
                         android:scaleY="1.2"
@@ -76,25 +78,48 @@
                         android:background="@drawable/selector_button_theme_style"
                         android:text="@string/region_select"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/FontWhiteColor" />
+                        android:textColor="@color/FontWhiteColor"
+                        android:visibility="gone" />
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                         android:id="@+id/SelectRegionNameTextViewSettingActivity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="6dp"
-                        android:background="@drawable/bottom_border_black"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="right"
+                        android:layout_toLeftOf="@+id/IconRegionNameImageViewSettingActivity"
+                        android:layout_toRightOf="@+id/RegionSwitchSettingActivity"
                         android:gravity="right"
                         android:hint="@string/please_enter_region_name"
                         android:singleLine="true"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/FontBlackColor"
-                        android:textColorHint="@color/TextHintColor" />
+                        android:textColorHint="@color/TextHintColor"
+                        tools:ignore="RtlHardcoded" />
 
-                </LinearLayout>
+                    <ImageView
+                        android:id="@+id/IconRegionNameImageViewSettingActivity"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/ic_person_pin_circle_black_24dp"
+                        tools:ignore="ContentDescription" />
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="45dp"
+                    android:background="@color/LineTopColor" />
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -102,10 +127,11 @@
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
                     android:layout_marginTop="18dp"
-                    android:gravity="left"
+                    android:gravity="left|center_vertical"
                     android:orientation="horizontal">
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/CategoryAllTextViewSettingActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -114,6 +140,9 @@
                         android:gravity="right"
                         android:hint="@string/category_all"
                         android:singleLine="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/FontBlackColor"
                         tools:ignore="RtlHardcoded" />
@@ -127,7 +156,10 @@
                         android:layout_marginLeft="6dp"
                         android:layout_marginRight="6dp"
                         android:layout_marginStart="6dp"
+                        android:layout_toRightOf="@+id/CategoryAllTextViewSettingActivity"
+                        android:layout_toEndOf="@+id/CategoryAllTextViewSettingActivity"
                         android:gravity="right|center_vertical"
+                        android:layout_centerVertical="true"
                         android:scaleX="1.2"
                         android:scaleY="1.2"
                         android:theme="@style/SwitchCompatTheme"
@@ -141,34 +173,54 @@
                         android:background="@drawable/selector_button_theme_style"
                         android:text="@string/category_select"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/FontWhiteColor" />
+                        android:textColor="@color/FontWhiteColor"
+                        android:visibility="gone" />
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                         android:id="@+id/SelectCategoryNameTextViewSettingActivity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="6dp"
-                        android:background="@drawable/bottom_border_black"
+                        android:layout_gravity="right"
                         android:gravity="right"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/IconCategoryNameImageViewSettingActivity"
+                        android:layout_toRightOf="@+id/CategorySwitchSettingActivity"
                         android:hint="@string/please_enter_category_name"
                         android:singleLine="true"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/FontBlackColor"
                         android:textColorHint="@color/TextHintColor" />
 
-                </LinearLayout>
+                    <ImageView
+                        android:id="@+id/IconCategoryNameImageViewSettingActivity"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/ic_store_black_24dp"
+                        tools:ignore="ContentDescription" />
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="45dp"
+                    android:background="@color/LineTopColor" />
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="6dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="right"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="16dp">
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/SearchLocationSwitchSettingActivity"
@@ -176,29 +228,55 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="6dp"
-                        android:gravity="right|center_vertical"
+                        android:layout_marginEnd="6dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/TitleLocationTextViewSettingActivity"
                         android:scaleX="1.2"
                         android:scaleY="1.2"
                         android:theme="@style/SwitchCompatTheme"
                         tools:ignore="MissingPrefix" />
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/TitleLocationTextViewSettingActivity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:gravity="right|center_vertical"
                         android:text="@string/search_by_location"
+                        android:layout_toLeftOf="@+id/IconRegionImageViewSettingActivity"
+                        android:layout_centerVertical="true"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                </LinearLayout>
+                    <ImageView
+                        android:id="@+id/IconRegionImageViewSettingActivity"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/ic_person_pin_circle_black_24dp"
+                        tools:ignore="ContentDescription" />
+
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="45dp"
+                    android:background="@color/LineTopColor" />
 
                 <LinearLayout
                     android:id="@+id/GpsRangeLinearLayoutSettingActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="6dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                         android:layout_width="match_parent"
@@ -206,6 +284,8 @@
                         android:layout_gravity="right"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="6dp"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
                         android:gravity="right"
                         android:singleLine="false"
                         android:text="@string/specify_the_scope_for_the_business_to_be_displayed"
@@ -238,6 +318,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:inputType="number"
+                            android:text="1"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/FontSemiBlackColor" />
 
@@ -251,17 +332,51 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
-                        android:max="10"
-                        android:progress="1" />
+                        android:max="500"
+                        android:progress="1"
+                        android:progressDrawable="@drawable/seekbar"
+                        android:thumb="@drawable/circle_seekbar" />
                 </LinearLayout>
 
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_margin="6dp"
-                    android:text="@string/search_type"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginBottom="6dp">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="@string/search_type"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/IconSearchImageViewSettingActivity"
+                        android:layout_toStartOf="@+id/IconSearchImageViewSettingActivity"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <ImageView
+                        android:id="@+id/IconSearchImageViewSettingActivity"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/ic_search_theme_24dp"
+                        tools:ignore="ContentDescription" />
+
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="45dp"
+                    android:background="@color/LineTopColor" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/SearchTypeSpinnerSettingActivity"
@@ -309,8 +424,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="10dp"
-            android:background="@drawable/selector_button_theme_style"
+            android:background="@drawable/selector_button_theme_without_corner_and_shadow"
             android:text="@string/save_information"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/FontWhiteColor" />

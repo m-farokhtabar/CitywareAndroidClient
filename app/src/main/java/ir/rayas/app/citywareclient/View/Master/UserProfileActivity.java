@@ -185,6 +185,16 @@ public class UserProfileActivity extends BaseActivity {
                     ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SortViewModelList(ViewModelList);
                     break;
 
+                case ActivityIdList.PAYMENT_PACKAGE_ACTIVITY:
+                    OutputPackageTransactionViewModel outputPackageTransactionModel = (OutputPackageTransactionViewModel) Result.getData().get("OutputPackageTransactionViewModel");
+                    if ((boolean) Result.getData().get("IsAdd")) {
+                        if (outputPackageTransactionModel.isActive()) {
+                            ((UserPackageFragment) Pager.getFragmentByIndex(1)).getPackageRecyclerViewAdapter().AddViewModel(outputPackageTransactionModel);
+                            SetViewUserCreditPackage((double) Result.getData().get("TotalPrice"));
+                        }
+                    }
+                    break;
+
             }
         }
         super.onGetResult(Result);

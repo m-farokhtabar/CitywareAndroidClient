@@ -22,18 +22,22 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketDeliveryFragment;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
+import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
 public class BasketListActivity extends BaseActivity implements IResponseService, ILoadData {
 
     private TextViewPersian ShowEmptyBasketListTextViewBasketListFragment = null;
     private RecyclerView BasketListRecyclerViewBasketListFragment = null;
     private SwipeRefreshLayout RefreshBasketListSwipeRefreshLayoutBasketListFragment;
+    private BasketListRecyclerViewAdapter basketListRecyclerViewAdapter;
     private boolean IsSwipe = false;
     private boolean QuickItem;
 
@@ -72,7 +76,7 @@ public class BasketListActivity extends BaseActivity implements IResponseService
 
     private void CreateLayout() {
         ShowEmptyBasketListTextViewBasketListFragment = findViewById(R.id.ShowEmptyBasketListTextViewBasketListFragment);
-        RefreshBasketListSwipeRefreshLayoutBasketListFragment =findViewById(R.id.RefreshBasketListSwipeRefreshLayoutBasketListFragment);
+        RefreshBasketListSwipeRefreshLayoutBasketListFragment = findViewById(R.id.RefreshBasketListSwipeRefreshLayoutBasketListFragment);
         BasketListRecyclerViewBasketListFragment = findViewById(R.id.BasketListRecyclerViewBasketListFragment);
         BasketListRecyclerViewBasketListFragment.setHasFixedSize(true);
         //به دلیل اینکه من در هر سطر یک گزینه نیاز دارم
@@ -127,7 +131,7 @@ public class BasketListActivity extends BaseActivity implements IResponseService
 
 
                         //تنظیمات مربوط به recycle سبد خرید
-                        BasketListRecyclerViewAdapter basketListRecyclerViewAdapter = new BasketListRecyclerViewAdapter(BasketListActivity.this, ViewModel, BasketListRecyclerViewBasketListFragment);
+                        basketListRecyclerViewAdapter = new BasketListRecyclerViewAdapter(BasketListActivity.this, ViewModel, BasketListRecyclerViewBasketListFragment);
                         BasketListRecyclerViewBasketListFragment.setAdapter(basketListRecyclerViewAdapter);
                         basketListRecyclerViewAdapter.notifyDataSetChanged();
                         BasketListRecyclerViewBasketListFragment.invalidate();
@@ -169,6 +173,31 @@ public class BasketListActivity extends BaseActivity implements IResponseService
         }
     }
 
+//
+//    @Override
+//    protected void onGetResult(ActivityResult Result) {
+//        if (Result.getFromActivityId() == getCurrentActivityId()) {
+//            switch (Result.getToActivityId()) {
+//                case ActivityIdList.BASKET_ACTIVITY:
+//
+//                    basketListRecyclerViewAdapter.ClearViewModelList();
+//
+//                    LoadData();
+//                    break;
+//            }
+//        }
+//        super.onGetResult(Result);
+//    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        if (basketListRecyclerViewAdapter.getItemCount() != 0)
+            basketListRecyclerViewAdapter.ClearViewModelList();
+
+        LoadData();
+    }
 
     @Override
     protected void onDestroy() {

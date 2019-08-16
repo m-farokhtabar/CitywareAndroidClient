@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import java.util.HashMap;
+
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.Business.BusinessService;
 import ir.rayas.app.citywareclient.Service.Factor.UserFactorService;
@@ -24,14 +26,18 @@ import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
+import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Fragment.ILoadData;
 import ir.rayas.app.citywareclient.View.Share.BasketActivity;
+import ir.rayas.app.citywareclient.View.Share.BasketListActivity;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorInViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
+import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -294,18 +300,22 @@ public class BasketSummeryFragment extends Fragment implements IResponseService,
         DialogOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
+               
                 Context.FinishCurrentActivity();
-
-                Intent BasketIntent = new Intent(Context, BasketActivity.class);
-                startActivity(BasketIntent);
-
+//              Intent BasketIntent = new Intent(Context, BasketListActivity.class);
+//              startActivity(BasketIntent);
                 ShowSubmitDialog.dismiss();
-
             }
         });
 
         ShowSubmitDialog.show();
+    }
+
+
+    private void SendDataToParentActivity() {
+        HashMap<String, Object> Output = new HashMap<>();
+        ActivityResultPassing.Push(new ActivityResult(Context.getParentActivity(), Context.getCurrentActivityId(), Output));
     }
 
     @Override

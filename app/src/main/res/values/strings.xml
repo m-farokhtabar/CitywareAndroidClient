@@ -649,6 +649,8 @@
     <string name="not_valid_coupon_code">کد شما معتبر نمی باشد.</string>
     <string name="please_select_bank">لطفا درگاه بانک خود را انتخاب کنید</string>
     <string name="submit_package_successful">پکیج شما با موفقیت ثبت شد</string>
+    <string name="your_payment_was_successfully_paid">پورسانت شما با موفقیت پرداخت شد</string>
+    <string name="submit_package_unsuccessful">پرداخت ناموفق بود.</string>
     <string name="not_select_commission_for_payment">پورسانتی برای پرداخت انتخاب نشده است</string>
 
 

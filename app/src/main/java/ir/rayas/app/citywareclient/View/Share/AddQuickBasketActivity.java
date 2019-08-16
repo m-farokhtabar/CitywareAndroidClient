@@ -2,6 +2,7 @@ package ir.rayas.app.citywareclient.View.Share;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -95,6 +96,11 @@ public class AddQuickBasketActivity extends BaseActivity implements IResponseSer
         ButtonPersianView SubmitButtonAddQuickBasketActivity = findViewById(R.id.SubmitButtonAddQuickBasketActivity);
         ImageView CustomerQuantityAddImageAddQuickBasketActivity = findViewById(R.id.CustomerQuantityAddImageAddQuickBasketActivity);
         ImageView CustomerQuantitySubtractImageAddQuickBasketActivity = findViewById(R.id.CustomerQuantitySubtractImageAddQuickBasketActivity);
+
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/iransanslight.ttf");
+        ProductNameEditTextAddQuickBasketActivity.setTypeface(typeface);
+        CustomerQuantityEditTextAddQuickBasketActivity.setTypeface(typeface);
 
         ProductNameRecyclerViewAddQuickBasketActivity = findViewById(R.id.ProductNameRecyclerViewAddQuickBasketActivity);
         ProductNameRecyclerViewAddQuickBasketActivity.setHasFixedSize(true);

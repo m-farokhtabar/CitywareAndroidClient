@@ -129,6 +129,7 @@ public class BusinessNoCommissionReceivedFragment extends Fragment implements IR
                     Intent PaymentCommissionIntent = Context.NewIntent(PaymentCommissionActivity.class);
                     PaymentCommissionIntent.putExtra("PricePayable", TotalPriceFactoreTextViewBusinessNoCommissionReceivedFragment.getText().toString());
                     PaymentCommissionIntent.putExtra("Id", Id);
+                    PaymentCommissionIntent.putExtra("BusinessId", BusinessId);
                     Context.startActivity(PaymentCommissionIntent);
                     //RemoveSelectList();
                 }

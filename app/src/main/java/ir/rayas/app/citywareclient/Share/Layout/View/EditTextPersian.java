@@ -167,19 +167,33 @@ public class EditTextPersian extends android.support.v7.widget.AppCompatEditText
     }
 
 
-    private static String perDigits(String Text) {
-        char[] chars = new char[Text.length()];
-        for(int i=0;i<Text.length();i++) {
-            char ch = Text.charAt(i);
+    public static String ConvertNumber(String Text) {
 
+        String answer = Text;
+        answer = answer.replace("١", "1");
+        answer = answer.replace("٢", "2");
+        answer = answer.replace("٣", "3");
+        answer = answer.replace("٤", "4");
+        answer = answer.replace("٥", "5");
+        answer = answer.replace("٦", "6");
+        answer = answer.replace("٧", "7");
+        answer = answer.replace("٨", "8");
+        answer = answer.replace("٩", "9");
+        answer = answer.replace("٠", "0");
+        return answer;
 
-            if (ch >= 0x0660 && ch <= 0x0669)
-                ch -= 0x0660 - '0';
-            else if (ch >= 0x06f0 && ch <= 0x06F9)
-                ch -= 0x06f0 - '0';
-            chars[i] = ch;
-        }
-        return new String(chars);
+//        char[] chars = new char[Text.length()];
+//        for(int i=0;i<Text.length();i++) {
+//            char ch = Text.charAt(i);
+//
+//
+//            if (ch >= 0x0660 && ch <= 0x0669)
+//                ch -= 0x0660 - '0';
+//            else if (ch >= 0x06f0 && ch <= 0x06F9)
+//                ch -= 0x06f0 - '0';
+//            chars[i] = ch;
+//        }
+       // return new String(chars);
     }
 
 }

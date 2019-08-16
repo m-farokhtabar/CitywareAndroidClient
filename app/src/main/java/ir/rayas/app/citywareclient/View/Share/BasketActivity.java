@@ -144,7 +144,7 @@ public class BasketActivity extends BaseActivity {
         DefaultTab = BasketTabLayoutBasketActivity.getTabAt(3);
         DefaultTab.select();
 
-//        EnableOrDisableChildTab(false);
+
 
 
         //رویداد های مربوط به تغییر صفحات
@@ -177,21 +177,21 @@ public class BasketActivity extends BaseActivity {
 //        }
 //    }
 //
-//    private void TouchViewPager() {
-//
-//        ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                BasketViewpagerBasketActivity.setCurrentItem(4);
-//            }
-//
-//            public void onPageScrollStateChanged(int state) {
-//            }
-//
-//            public void onPageSelected(int position) {
-//            }
-//        };
-//        BasketViewpagerBasketActivity.addOnPageChangeListener(onPageChangeListener);
-//    }
+    private void TouchViewPager() {
+
+        ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                BasketViewpagerBasketActivity.setCurrentItem(4);
+            }
+
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageSelected(int position) {
+            }
+        };
+        BasketViewpagerBasketActivity.addOnPageChangeListener(onPageChangeListener);
+    }
 
 //    @Override
 //    protected void onGetResult(ActivityResult Result) {
@@ -221,7 +221,7 @@ public class BasketActivity extends BaseActivity {
                 case ActivityIdList.USER_ADDRESS_SET_ACTIVITY:
                     UserAddressViewModel ViewModel = (UserAddressViewModel) Result.getData().get("AddressViewModel");
 
-                        ((BasketDeliveryFragment) Pager.getFragmentByIndex(4)).getBasketUserAddressRecyclerViewAdapter().AddViewModel(ViewModel);
+                        ((BasketDeliveryFragment) Pager.getFragmentByIndex(1)).getBasketUserAddressRecyclerViewAdapter().AddViewModel(ViewModel);
 
                     break;
 

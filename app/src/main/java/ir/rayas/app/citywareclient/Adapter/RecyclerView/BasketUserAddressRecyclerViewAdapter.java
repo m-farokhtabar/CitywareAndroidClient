@@ -93,7 +93,6 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
             AddressSelectedRadioButton = v.findViewById(R.id.AddressSelectedRadioButton);
 
 
-
             AddressSelectedRadioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -169,13 +168,23 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
     /**
      * اضافه مودن یک آدرس جدید به لیست
      *
-     * @param ViewModel
+     * @param ViewModels
      */
-    public void AddViewModel(UserAddressViewModel ViewModel) {
-        if (ViewModel != null) {
+    public void AddViewModel(UserAddressViewModel ViewModels) {
+        if (ViewModels != null) {
             if (ViewModelList == null)
                 ViewModelList = new ArrayList<>();
-            ViewModelList.add(ViewModel);
+            ViewModelList.add(ViewModels);
+
+            BasketAddressAdapterViewModel basketAddressAdapterViewModel = new BasketAddressAdapterViewModel();
+
+            basketAddressAdapterViewModel.setAddress(ViewModels.getCurrentAddress());
+            basketAddressAdapterViewModel.setPostalCode(ViewModels.getPostalCode());
+            basketAddressAdapterViewModel.setUserAddressId(ViewModels.getId());
+
+            ViewModel.add(basketAddressAdapterViewModel);
+
+
             notifyDataSetChanged();
             Container.invalidate();
         }

@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -106,8 +107,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private boolean IsAddress = false;
     private Gps CurrentGps = null;
 
-    private LocalUserSettingViewModel localUserSettingViewModel = new LocalUserSettingViewModel();
-    private LocalSettingRepository localSettingRepository = new LocalSettingRepository();
+//    private LocalUserSettingViewModel localUserSettingViewModel = new LocalUserSettingViewModel();
+//    private LocalSettingRepository localSettingRepository = new LocalSettingRepository();
 
     private Dialog ShowAddressDialog;
 
@@ -192,6 +193,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         CategoryNameTextViewMainActivity = findViewById(R.id.CategoryNameTextViewMainActivity);
         RegionNameTextViewMainActivity = findViewById(R.id.RegionNameTextViewMainActivity);
         RegionNameSwitchMainActivity = findViewById(R.id.RegionNameSwitchMainActivity);
+        CardView MenuCardViewMainActivity = findViewById(R.id.MenuCardViewMainActivity);
 
         MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
 
@@ -207,6 +209,12 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             }
         });
 
+        CategoryNameSwitchMainActivity.setClickable(false);
+        RegionNameSwitchMainActivity.setClickable(false);
+        RegionNameSwitchMainActivity.setEnabled(false);
+        CategoryNameSwitchMainActivity.setEnabled(false);
+
+
         MenuRelativeLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,105 +222,113 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             }
         });
 
-        CategoryNameSwitchMainActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                PageNumberPosterTop = 1;
-                PageNumberPoster = 1;
-
-                if (isChecked) {
-                    if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0)
-                        BusinessCategoryId = null;
-                    else
-                        BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
-
-                } else {
-                    BusinessCategoryId = null;
-                }
-
-                businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
-                isTopPosterRecyclerViewAdapter.ClearViewModelList();
-
-                if (!IsFirst) {
-                    SetLocalSettingToRepository(BusinessCategoryId, RegionId);
-                    LoadData();
-                    MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        RegionNameSwitchMainActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                PageNumberPosterTop = 1;
-                PageNumberPoster = 1;
-
-                if (isChecked) {
-                    if (userSettingViewModel.isUseGprsPoint()) {
-                        RegionId = null;
-                        latitude = localUserSettingViewModel.getLatitude();
-                        longitude = localUserSettingViewModel.getLongitude();
-                    } else {
-                        if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
-                            RegionId = null;
-                        } else {
-                            RegionId = userSettingViewModel.getRegionId();
-                        }
-                    }
-                } else {
-                    RegionId = null;
-                    latitude = null;
-                    longitude = null;
-                }
-
-                businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
-                isTopPosterRecyclerViewAdapter.ClearViewModelList();
-
-                if (!IsFirst) {
-                    MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-                    SetLocalSettingToRepository(BusinessCategoryId, RegionId);
-                    LoadData();
-                }
-            }
-        });
-
-        RegionNameTextViewMainActivity.setOnClickListener(new View.OnClickListener() {
+        MenuCardViewMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (RegionNameSwitchMainActivity.isChecked()) {
-                    if (localUserSettingViewModel.isUseGprsPoint()) {
-
-                        if (IsAddress) {
-                            //if off GPS
-                            // انتخاب آدرس کاربر
-                            ShowLoadingProgressBar();
-                            UserAddressService userAddressService = new UserAddressService(MainActivity.this);
-                            userAddressService.GetAll();
-                        } else {
-                            //if on GPS
-                            // نمایش دیالوگ مربوط  به انتخاب کیلومتر
-                            ShowGpsRangeInKm();
-                        }
-                    } else {
-                        Intent SettingIntent = NewIntent(SettingActivity.class);
-                        startActivity(SettingIntent);
-                    }
-                }
+                Intent SettingIntent = NewIntent(SettingActivity.class);
+                startActivity(SettingIntent);
             }
         });
 
-        CategoryNameTextViewMainActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (CategoryNameSwitchMainActivity.isChecked()) {
-                    Intent SettingIntent = NewIntent(SettingActivity.class);
-                    startActivity(SettingIntent);
-
-                }
-            }
-        });
+//        CategoryNameSwitchMainActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+//                PageNumberPosterTop = 1;
+//                PageNumberPoster = 1;
+//
+//                if (isChecked) {
+//                    if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0)
+//                        BusinessCategoryId = null;
+//                    else
+//                        BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
+//
+//                } else {
+//                    BusinessCategoryId = null;
+//                }
+//
+//                businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+//                isTopPosterRecyclerViewAdapter.ClearViewModelList();
+//
+//                if (!IsFirst) {
+//                    SetLocalSettingToRepository(BusinessCategoryId, RegionId);
+//                    LoadData();
+//                    MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//
+//        RegionNameSwitchMainActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+//                PageNumberPosterTop = 1;
+//                PageNumberPoster = 1;
+//
+//                if (isChecked) {
+//                    if (userSettingViewModel.isUseGprsPoint()) {
+//                        RegionId = null;
+//                        latitude = localUserSettingViewModel.getLatitude();
+//                        longitude = localUserSettingViewModel.getLongitude();
+//                    } else {
+//                        if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
+//                            RegionId = null;
+//                        } else {
+//                            RegionId = userSettingViewModel.getRegionId();
+//                        }
+//                    }
+//                } else {
+//                    RegionId = null;
+//                    latitude = null;
+//                    longitude = null;
+//                }
+//
+//                businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+//                isTopPosterRecyclerViewAdapter.ClearViewModelList();
+//
+//                if (!IsFirst) {
+//                    MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
+//                    SetLocalSettingToRepository(BusinessCategoryId, RegionId);
+//                    LoadData();
+//                }
+//            }
+//        });
+//
+//        RegionNameTextViewMainActivity.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (RegionNameSwitchMainActivity.isChecked()) {
+//                    if (localUserSettingViewModel.isUseGprsPoint()) {
+//
+//                        if (IsAddress) {
+//                            //if off GPS
+//                            // انتخاب آدرس کاربر
+//                            ShowLoadingProgressBar();
+//                            UserAddressService userAddressService = new UserAddressService(MainActivity.this);
+//                            userAddressService.GetAll();
+//                        } else {
+//                            //if on GPS
+//                            // نمایش دیالوگ مربوط  به انتخاب کیلومتر
+//                            ShowGpsRangeInKm();
+//                        }
+//                    } else {
+//                        Intent SettingIntent = NewIntent(SettingActivity.class);
+//                        startActivity(SettingIntent);
+//                    }
+//                }
+//            }
+//        });
+//
+//        CategoryNameTextViewMainActivity.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (CategoryNameSwitchMainActivity.isChecked()) {
+//                    Intent SettingIntent = NewIntent(SettingActivity.class);
+//                    startActivity(SettingIntent);
+//
+//                }
+//            }
+//        });
 
         //End (Hide And Show Menu Setting) --------------------------------------------------------------------------
 
@@ -399,24 +415,29 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void GetSetting() {
-        if (localSettingRepository.getLocalSetting() == null) {
-            SetLocalSettingToRepository(userSettingViewModel.getBusinessCategoryId(), userSettingViewModel.getRegionId());
-            setInformationSettingToView();
-        } else {
-            GetLocalSetting();
-        }
+//        if (localSettingRepository.getLocalSetting() == null) {
+//            SetLocalSettingToRepository(userSettingViewModel.getBusinessCategoryId(), userSettingViewModel.getRegionId());
+//            setInformationSettingToView();
+//        } else {
+//            GetLocalSetting();
+//        }
+
+        AccountRepository ARepository = new AccountRepository(null);
+        AccountViewModel AccountViewModel = ARepository.getAccount();
+        userSettingViewModel = AccountViewModel.getUserSetting();
+        setInformationSettingToView();
 
     }
 
     private void GetLocalSetting() {
 
-        localUserSettingViewModel = localSettingRepository.getLocalSetting();
-        setInformationSettingToView();
+//        localUserSettingViewModel = localSettingRepository.getLocalSetting();
+//        setInformationSettingToView();
     }
 
     private void setInformationSettingToView() {
 
-        if (localUserSettingViewModel.getBusinessCategoryId() == null || localUserSettingViewModel.getBusinessCategoryId() == 0) {
+        if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0) {
 
             CategoryNameSwitchMainActivity.setChecked(false);
             BusinessCategoryId = null;
@@ -429,12 +450,12 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         } else {
             CategoryNameSwitchMainActivity.setChecked(true);
 
-            CategoryNameTextViewMainActivity.setText(businessCategoryRepository.GetFullName(localUserSettingViewModel.getBusinessCategoryId()));
-            BusinessCategoryId = localUserSettingViewModel.getBusinessCategoryId();
+            CategoryNameTextViewMainActivity.setText(businessCategoryRepository.GetFullName(userSettingViewModel.getBusinessCategoryId()));
+            BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
         }
 
 
-        if (localUserSettingViewModel.isUseGprsPoint()) {
+        if (userSettingViewModel.isUseGprsPoint()) {
 
             if (!CurrentGps.IsPermissionEnabled()) {
                 CurrentGps.ShowPermissionDialog(this);
@@ -460,7 +481,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             latitude = null;
             longitude = null;
 
-            if (localUserSettingViewModel.getRegionId() == null || localUserSettingViewModel.getRegionId() == 0) {
+            if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
 
                 RegionNameSwitchMainActivity.setChecked(false);
                 RegionId = null;
@@ -473,25 +494,25 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             } else {
                 RegionNameSwitchMainActivity.setChecked(true);
 
-                RegionNameTextViewMainActivity.setText(regionRepository.GetFullName(localUserSettingViewModel.getRegionId()));
-                RegionId = localUserSettingViewModel.getRegionId();
+                RegionNameTextViewMainActivity.setText(regionRepository.GetFullName(userSettingViewModel.getRegionId()));
+                RegionId = userSettingViewModel.getRegionId();
             }
         }
 
 
     }
 
-    private void SetLocalSettingToRepository(Integer businessCategoryId, Integer regionId) {
-
-        localUserSettingViewModel.setBusinessCategoryId(businessCategoryId);
-        localUserSettingViewModel.setRegionId(regionId);
-        localUserSettingViewModel.setGpsRangeInKm(GpsRangeInKm);
-        localUserSettingViewModel.setUseGprsPoint(userSettingViewModel.isUseGprsPoint());
-        localUserSettingViewModel.setLatitude(latitude);
-        localUserSettingViewModel.setLongitude(longitude);
-
-        localSettingRepository.setLocalSetting(localUserSettingViewModel);
-    }
+//    private void SetLocalSettingToRepository(Integer businessCategoryId, Integer regionId) {
+//
+//        localUserSettingViewModel.setBusinessCategoryId(businessCategoryId);
+//        localUserSettingViewModel.setRegionId(regionId);
+//        localUserSettingViewModel.setGpsRangeInKm(GpsRangeInKm);
+//        localUserSettingViewModel.setUseGprsPoint(userSettingViewModel.isUseGprsPoint());
+//        localUserSettingViewModel.setLatitude(latitude);
+//        localUserSettingViewModel.setLongitude(longitude);
+//
+//        localSettingRepository.setLocalSetting(localUserSettingViewModel);
+//    }
 
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
@@ -686,7 +707,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                     GpsRangeInKm = Integer.parseInt(GpsRangeEditText.getText().toString());
                 }
 
-                SetLocalSettingToRepository(BusinessCategoryId, RegionId);
+              //  SetLocalSettingToRepository(BusinessCategoryId, RegionId);
                 MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
 
                 LoadData();
@@ -906,7 +927,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         ShowAddressDialog.dismiss();
 
-        SetLocalSettingToRepository(BusinessCategoryId, RegionId);
+      //  SetLocalSettingToRepository(BusinessCategoryId, RegionId);
 
         LoadData();
 
