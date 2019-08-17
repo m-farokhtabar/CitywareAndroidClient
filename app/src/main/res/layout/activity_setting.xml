@@ -393,13 +393,39 @@
                     app:Title="@string/search_type"
                     app:ValidationType="None" />
 
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_margin="6dp"
-                    android:text="@string/delivery_state_in_search"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginBottom="6dp">
+
+                    <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="@string/delivery_state_in_search"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/IconSearchStateViewSettingActivity"
+                        android:layout_toStartOf="@+id/IconSearchStateViewSettingActivity"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <ImageView
+                        android:id="@+id/IconSearchStateViewSettingActivity"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/ic_delivery_setting_24dp"
+                        tools:ignore="ContentDescription" />
+
+                </RelativeLayout>
+
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/SearchStateSpinnerSettingActivity"

@@ -41,6 +41,7 @@ import ir.rayas.app.citywareclient.Share.Helper.IResponseTurnOnGpsDialog;
 import ir.rayas.app.citywareclient.Share.Helper.TypefaceSpan;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
+import ir.rayas.app.citywareclient.Share.Layout.View.CustomNumberPicker;
 import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
@@ -425,9 +426,9 @@ public class BusinessFragment extends Fragment implements IResponseService, ILoa
         LinearLayout CancelCalenderLinearLayout = calender.findViewById(R.id.CancelCalenderLinearLayout);
         LinearLayout SaveCalenderLinearLayout = calender.findViewById(R.id.SaveCalenderLinearLayout);
         final TextViewPersian ShowSelectDateTextView = calender.findViewById(R.id.ShowSelectDateTextView);
-        NumberPicker YearNumberPicker = calender.findViewById(R.id.YearNumberPicker);
-        NumberPicker MonthNumberPicker = calender.findViewById(R.id.MonthNumberPicker);
-        final NumberPicker DayNumberPicker = calender.findViewById(R.id.DayNumberPicker);
+        CustomNumberPicker YearNumberPicker = calender.findViewById(R.id.YearNumberPicker);
+        CustomNumberPicker MonthNumberPicker = calender.findViewById(R.id.MonthNumberPicker);
+        final CustomNumberPicker DayNumberPicker = calender.findViewById(R.id.DayNumberPicker);
 
 
         YearNumberPicker.setMinValue(PersianCalendarConverter.MinYear);

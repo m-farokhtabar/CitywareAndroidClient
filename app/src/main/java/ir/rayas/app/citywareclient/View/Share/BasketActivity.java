@@ -7,8 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
-import java.util.List;
-
 import ir.rayas.app.citywareclient.Adapter.Pager.BasketPagerAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
@@ -19,15 +17,8 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.Fragment.Basket.BasketDeliveryFragment;
 
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserAddressFragment;
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserBusinessFragment;
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPackageFragment;
-import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPosterFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Basket.BasketSummeryViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
@@ -144,9 +135,6 @@ public class BasketActivity extends BaseActivity {
         DefaultTab = BasketTabLayoutBasketActivity.getTabAt(3);
         DefaultTab.select();
 
-
-
-
         //رویداد های مربوط به تغییر صفحات
         final Activity CurrentActivity = this;
         BasketViewpagerBasketActivity.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -164,55 +152,6 @@ public class BasketActivity extends BaseActivity {
             }
         });
     }
-
-//    public void EnableOrDisableChildTab(boolean IsCheck) {
-//
-//        LinearLayout tabBusiness = ((LinearLayout) BasketTabLayoutBasketActivity.getChildAt(0));
-//        tabBusiness.setEnabled(IsCheck);
-//        for (int i = 0; i < tabBusiness.getChildCount(); i++) {
-//            tabBusiness.getChildAt(i).setClickable(IsCheck);
-//        }
-//        if (!IsCheck) {
-//            TouchViewPager();
-//        }
-//    }
-//
-    private void TouchViewPager() {
-
-        ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                BasketViewpagerBasketActivity.setCurrentItem(4);
-            }
-
-            public void onPageScrollStateChanged(int state) {
-            }
-
-            public void onPageSelected(int position) {
-            }
-        };
-        BasketViewpagerBasketActivity.addOnPageChangeListener(onPageChangeListener);
-    }
-
-//    @Override
-//    protected void onGetResult(ActivityResult Result) {
-//        if (Result.getFromActivityId() == getCurrentActivityId()) {
-//            switch (Result.getToActivityId()) {
-//                case ActivityIdList.USER_ADDRESS_SET_ACTIVITY:
-//                    UserAddressViewModel ViewModel = (UserAddressViewModel) Result.getData().get("AddressViewModel");
-//
-//                    ((BasketDeliveryFragment) Pager.getFragmentByIndex(1)).getBasketUserAddressRecyclerViewAdapter().AddViewModel(ViewModel);
-//
-//
-////                    BasketDeliveryFragment basketDeliveryFragment = new BasketDeliveryFragment();
-////                    FragmentTransaction BasketListTransaction = getSupportFragmentManager().beginTransaction();
-////                    BasketListTransaction.replace(R.id.BasketFrameLayoutBasketActivity, basketDeliveryFragment);
-////                    BasketListTransaction.commit();
-//
-//                    break;
-//            }
-//        }
-//        super.onGetResult(Result);
-//    }
 
     @Override
     protected void onGetResult(ActivityResult Result) {
@@ -247,17 +186,6 @@ public class BasketActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//
-//
-//        int count = getFragmentManager().getBackStackEntryCount();
-//
-//        if (count == 0) {
-//            super.onBackPressed();
-//            //additional code
-//        } else {
-//            getFragmentManager().popBackStack();
-//        }
-
     }
 
 

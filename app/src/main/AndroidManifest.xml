@@ -26,6 +26,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="citywaresplash"  />
+            </intent-filter>
         </activity>
         <activity
             android:name=".View.Initializer.IntroduceActivity"
@@ -363,7 +372,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="citywarepurchasepackage"/>
+            </intent-filter>
         </activity>
+
         <activity
             android:name=".View.MasterChildren.PaymentCommissionActivity"
             android:launchMode="standard"
@@ -376,9 +394,9 @@
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
 
-            <data android:scheme="cityware" />
-        </intent-filter>
+            <data android:scheme="citywarenotpayedbusinesscommission"/>
 
+        </intent-filter>
         </activity>
 
         <activity android:name=".View.Share.BasketListActivity"

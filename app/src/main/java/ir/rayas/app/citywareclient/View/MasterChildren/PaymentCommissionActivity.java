@@ -9,12 +9,8 @@ import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
-import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
@@ -31,15 +27,14 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
-import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
+
 
 public class PaymentCommissionActivity extends BaseActivity implements IResponseService {
 
     private String PricePayable = "";
     private String Id = "";
     private int BusinessId ;
-    private List<Integer> myId;
+    private String myId = "";
     private boolean IsPay = false;
 
     @Override
@@ -77,11 +72,12 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
         BusinessNameTextViewPaymentCommissionActivity.setVisibility(View.GONE);
         PricePayableTextViewPaymentCommissionActivity.setText(PricePayable);
 
-        List<String> myList = new ArrayList<String>(Arrays.asList(Id.split("_")));
-        myId = new ArrayList<>();
-        for (int i = 0; i < myList.size(); i++) {
-            myId.add( Integer.valueOf(myList.get(i)));
-        }
+
+        //        List<String> myList = new ArrayList<String>(Arrays.asList(Id.split("_")));
+//        myId = new ArrayList<>();
+//        for (int i = 0; i < myList.size(); i++) {
+//            myId.add( Integer.valueOf(myList.get(i)));
+//        }
 
 
         SubmitPaymentPackageButtonPaymentCommissionActivity.setOnClickListener(new View.OnClickListener() {
@@ -122,11 +118,11 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
     }
 
     public void LoadData() {
-
+        myId = Id.replaceAll("_",",");
         ShowLoadingProgressBar();
 
         MarketingService MarketingService = new MarketingService(this);
-        MarketingService.GetAllNotPayedBusinessCommission(BusinessId, 1);
+        MarketingService.IsCommissionPayed(BusinessId, myId);
     }
 
     /**
@@ -138,33 +134,31 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         HideLoading();
         try {
-            if (ServiceMethod == ServiceMethodType.NotPayedBusinessCommissionGetAll) {
-                Feedback<List<MarketingPayedBusinessViewModel>> FeedBack = (Feedback<List<MarketingPayedBusinessViewModel>>) Data;
+            if (ServiceMethod == ServiceMethodType.IsCommissionPayedGet) {
+                Feedback<Boolean> FeedBack = (Feedback<Boolean>) Data;
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-                    Static.IsRefreshBookmark = false;
 
-                    final List<MarketingPayedBusinessViewModel> ViewModelList = FeedBack.getValue();
-                    if (ViewModelList != null) {
-                        boolean IsHavePackageId = false;
+//                    if (ViewModelList != null) {
+//                        boolean IsHavePackageId = false;
+//
+//                         for (int i=0;i<ViewModelList.size();i++){
+//                             for (int j=0;j<myId.size();j++) {
+//                                 if (ViewModelList.get(i).getId()==myId.get(j)){
+//                                     IsHavePackageId = true;
+//                                     break;
+//                                 }
+//                             }
+//                         }
 
-                         for (int i=0;i<ViewModelList.size();i++){
-                             for (int j=0;j<myId.size();j++) {
-                                 if (ViewModelList.get(i).getId()==myId.get(j)){
-                                     IsHavePackageId = true;
-                                     break;
-                                 }
-                             }
-                         }
-
-                         if (IsHavePackageId){
-                             ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Error);
-                         }else {
+                         if (FeedBack.getValue()){
                              ShowToast(getResources().getString(R.string.your_payment_was_successfully_paid), Toast.LENGTH_LONG, MessageType.Info);
                              SendDataToParentActivity();
                              onBackPressed();
+                         }else {
+                             ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Error);
                          }
-                    }
+
                 }  else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);

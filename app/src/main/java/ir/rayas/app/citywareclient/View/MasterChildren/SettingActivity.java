@@ -196,15 +196,17 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     }
 
     private void SaveUserSetting() {
-        if (SearchLocationSwitchSettingActivity.isChecked()) {
-            ServiceCall();
-        } else {
-            if (RegionId != null && RegionId > 0) {
-                ServiceCall();
-            } else {
-                ShowToast(getResources().getString(R.string.please_select_region_or_location), Toast.LENGTH_LONG, MessageType.Warning);
-            }
-        }
+        ServiceCall();
+
+//        if (SearchLocationSwitchSettingActivity.isChecked()) {
+//            ServiceCall();
+//        } else {
+//            if (RegionId != null && RegionId > 0) {
+//                ServiceCall();
+//            } else {
+//                ShowToast(getResources().getString(R.string.please_select_region_or_location), Toast.LENGTH_LONG, MessageType.Warning);
+//            }
+//        }
     }
 
     private void ServiceCall() {
@@ -394,13 +396,12 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
 
         } else {
             GpsRangeLinearLayoutSettingActivity.setVisibility(View.GONE);
+            SetCheckRegion(true);
             if (RegionId == null || RegionId == 0) {
                 regionSwitchSettingActivity.setChecked(false);
-                SetCheckRegion(false);
                 SelectRegionNameTextViewSettingActivity.setText("");
             } else {
                 regionSwitchSettingActivity.setChecked(true);
-                SetCheckRegion(true);
                 SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
             }
         }
@@ -419,14 +420,13 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                 } else {
                     IsLocationSearch = false;
                     GpsRangeLinearLayoutSettingActivity.setVisibility(View.GONE);
+                    SetCheckRegion(true);
 
                     if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
                         regionSwitchSettingActivity.setChecked(false);
-                        SetCheckRegion(false);
                         SelectRegionNameTextViewSettingActivity.setText("");
                     } else {
                         regionSwitchSettingActivity.setChecked(true);
-                        SetCheckRegion(true);
                         SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(userSettingViewModel.getRegionId()));
                     }
                 }
@@ -495,10 +495,10 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     private void SetCheckCategory(boolean IsCheck) {
         categorySwitchSettingActivity.setChecked(IsCheck);
 
-        categorySwitchSettingActivity.setClickable(IsCheck);
+      //  categorySwitchSettingActivity.setClickable(IsCheck);
         SelectCategoryNameTextViewSettingActivity.setClickable(IsCheck);
         SelectCategoryNameTextViewSettingActivity.setEnabled(IsCheck);
-        categorySwitchSettingActivity.setEnabled(IsCheck);
+      //  categorySwitchSettingActivity.setEnabled(IsCheck);
     }
 
     private void SetLocalSettingToRepository(Integer businessCategoryId, Integer regionId, boolean useGprsPoint) {

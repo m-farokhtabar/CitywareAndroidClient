@@ -51,7 +51,7 @@ public class CommissionProductsRecyclerViewAdapter  extends RecyclerView.Adapter
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.ProductNameTextView.setText(ViewModelList.get(position).getProductName());
-        holder.MarketingCommissionTextView.setText(String.valueOf(ViewModelList.get(position).getCustomerPercent()) + " " + Context.getResources().getString(R.string.percent));
+        holder.MarketingCommissionTextView.setText(String.valueOf(ViewModelList.get(position).getMarketerPercent()) + " " + Context.getResources().getString(R.string.percent));
     }
 
     @Override

@@ -136,5 +136,6 @@ public enum ServiceMethodType {
     GetAllCustomerUsedDiscounts,
     PaymentPackage,
     CouponGet,
+    IsCommissionPayedGet,
 
 }

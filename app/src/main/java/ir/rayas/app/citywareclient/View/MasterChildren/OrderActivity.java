@@ -251,6 +251,12 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
             int TotalPriceFacture = 0;
             int PayablePrice = 0;
 
+            if (marketing_customerFactorDetailsViewModels != null) {
+                if (marketing_customerFactorDetailsViewModels.size() > 0) {
+                    marketing_customerFactorDetailsViewModels.clear();
+                }
+            }
+
             for (int i = 0; i < productCommissionAndDiscountModels.size(); i++) {
 
                 int TotalPrice = (int) (productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder());

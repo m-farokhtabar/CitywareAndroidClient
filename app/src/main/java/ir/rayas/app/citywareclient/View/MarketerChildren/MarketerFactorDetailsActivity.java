@@ -80,7 +80,7 @@ public class MarketerFactorDetailsActivity extends BaseActivity {
             List<Marketing_CustomerFactorDetailsViewModel> ViewModelList = marketing_customerFactorViewModel.getDetails();
 
             for (int i = 0; i < ViewModelList.size(); i++) {
-                FactorOfIncome = FactorOfIncome + ViewModelList.get(i).getCommissionPrice();
+                FactorOfIncome = FactorOfIncome + ViewModelList.get(i).getMarketerCommissionPrice();
                 TotalPrice = TotalPrice + ViewModelList.get(i).getPrice();
             }
         }

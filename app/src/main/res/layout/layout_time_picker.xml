@@ -27,12 +27,12 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp">
 
-                <NumberPicker
+                <ir.rayas.app.citywareclient.Share.Layout.View.CustomNumberPicker
                     android:id="@+id/HoursNumberPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <NumberPicker
+                <ir.rayas.app.citywareclient.Share.Layout.View.CustomNumberPicker
                     android:id="@+id/MinNumberPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

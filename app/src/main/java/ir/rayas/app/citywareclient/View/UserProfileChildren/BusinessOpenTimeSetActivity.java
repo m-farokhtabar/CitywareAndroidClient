@@ -30,6 +30,7 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
+import ir.rayas.app.citywareclient.Share.Layout.View.CustomNumberPicker;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
@@ -203,8 +204,8 @@ public class BusinessOpenTimeSetActivity extends BaseActivity implements IRespon
         LinearLayout CancelTimeLinearLayout = OpenTime.findViewById(R.id.CancelTimeLinearLayout);
         LinearLayout SaveTimeLinearLayout = OpenTime.findViewById(R.id.SaveTimeLinearLayout);
         final TextViewPersian ShowTimeTextView = OpenTime.findViewById(R.id.ShowTimeTextView);
-        NumberPicker HoursNumberPicker = OpenTime.findViewById(R.id.HoursNumberPicker);
-        NumberPicker MinNumberPicker = OpenTime.findViewById(R.id.MinNumberPicker);
+        CustomNumberPicker HoursNumberPicker = OpenTime.findViewById(R.id.HoursNumberPicker);
+        CustomNumberPicker MinNumberPicker = OpenTime.findViewById(R.id.MinNumberPicker);
 
         HoursNumberPicker.setMinValue(0);
         HoursNumberPicker.setMaxValue(23);

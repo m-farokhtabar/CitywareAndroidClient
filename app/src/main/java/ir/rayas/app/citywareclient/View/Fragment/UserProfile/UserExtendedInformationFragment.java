@@ -1,10 +1,13 @@
 package ir.rayas.app.citywareclient.View.Fragment.UserProfile;
 
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +39,10 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.PersianCalendarConverter;
+import ir.rayas.app.citywareclient.Share.Helper.TypefaceSpan;
+import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
+import ir.rayas.app.citywareclient.Share.Layout.View.CustomNumberPicker;
 import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
@@ -373,9 +379,9 @@ public class UserExtendedInformationFragment extends Fragment implements IRespon
         LinearLayout CancelCalenderLinearLayout = calender.findViewById(R.id.CancelCalenderLinearLayout);
         LinearLayout SaveCalenderLinearLayout = calender.findViewById(R.id.SaveCalenderLinearLayout);
         final TextViewPersian ShowSelectDateTextView = calender.findViewById(R.id.ShowSelectDateTextView);
-        NumberPicker YearNumberPicker = calender.findViewById(R.id.YearNumberPicker);
-        NumberPicker MonthNumberPicker = calender.findViewById(R.id.MonthNumberPicker);
-        final NumberPicker DayNumberPicker = calender.findViewById(R.id.DayNumberPicker);
+        CustomNumberPicker YearNumberPicker = calender.findViewById(R.id.YearNumberPicker);
+        CustomNumberPicker MonthNumberPicker = calender.findViewById(R.id.MonthNumberPicker);
+        final CustomNumberPicker DayNumberPicker = calender.findViewById(R.id.DayNumberPicker);
 
 
         YearNumberPicker.setMinValue(PersianCalendarConverter.MinYear);

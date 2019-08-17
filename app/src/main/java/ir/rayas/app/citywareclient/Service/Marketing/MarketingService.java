@@ -183,6 +183,15 @@ public class MarketingService implements IService {
         }.getType());
     }
 
+
+    public void IsCommissionPayed(int BusinessId, String MarketingIdList) {
+        BaseService Current = new BaseService();
+        String IsCommissionPayed = "IsCommissionPayed";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + IsCommissionPayed + "/" + BusinessId + "/" + MarketingIdList;
+        Current.GetService(this, Url, ServiceMethodType.IsCommissionPayedGet, MarketingBusinessViewModel.class, new TypeToken<Feedback<Boolean>>() {
+        }.getType());
+    }
+
     @Override
     public <T> void OnSuccess(String Response, ServiceMethodType ServiceMethod, Class<T> OutputClass, Type OutputClassType) {
         Utility.HandleServiceSuccess(ResponseService, Response, ServiceMethod, OutputClass, OutputClassType);

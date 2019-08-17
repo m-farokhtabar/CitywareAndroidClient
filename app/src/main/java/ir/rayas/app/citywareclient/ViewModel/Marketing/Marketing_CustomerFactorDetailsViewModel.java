@@ -24,6 +24,7 @@ public class Marketing_CustomerFactorDetailsViewModel {
     /// مبلغ تخفیف
     /// </summary>
     public double DiscountPrice;
+    public double MarketerCommissionPrice ;
 
     public Integer getProductId() {
         return ProductId;
@@ -63,5 +64,13 @@ public class Marketing_CustomerFactorDetailsViewModel {
 
     public void setDiscountPrice(double discountPrice) {
         DiscountPrice = discountPrice;
+    }
+
+    public double getMarketerCommissionPrice() {
+        return MarketerCommissionPrice;
+    }
+
+    public void setMarketerCommissionPrice(double marketerCommissionPrice) {
+        MarketerCommissionPrice = marketerCommissionPrice;
     }
 }

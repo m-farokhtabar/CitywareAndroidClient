@@ -312,7 +312,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                     boolean IsHavePackageId = false;
 
                     for (int i = 0; i < ViewModelList.size(); i++) {
-                        if (ViewModelList.get(i).getId() == PackageId) {
+                        if (ViewModelList.get(i).getPackageId() == PackageId) {
                             IsHavePackageId = true;
                             ViewModel = ViewModelList.get(i);
                             break;

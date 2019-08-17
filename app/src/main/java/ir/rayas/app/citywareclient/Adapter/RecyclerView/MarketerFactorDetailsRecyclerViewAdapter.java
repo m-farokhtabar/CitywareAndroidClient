@@ -50,7 +50,7 @@ public class MarketerFactorDetailsRecyclerViewAdapter extends RecyclerView.Adapt
 
         holder.ProductNameTextView.setText(ViewModelList.get(position).getProductName());
         holder.PriceTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getPrice()));
-        holder.MarketerCommissionTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getCommissionPrice()));
+        holder.MarketerCommissionTextView.setText(Utility.GetIntegerNumberWithComma(ViewModelList.get(position).getMarketerCommissionPrice()));
 
 
     }
