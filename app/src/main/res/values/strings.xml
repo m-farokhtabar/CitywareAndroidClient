@@ -212,7 +212,7 @@
     <string name="contact">تماس</string>
 
     <string name="please_enter_region_name">لطفا نام منطقه را انتخاب کنید</string>
-    <string name="please_enter_category_name">لطفا نام صنف یا رسته را انتخاب کنید</string>
+    <string name="please_enter_category_name">لطفا نام صنف را انتخاب کنید</string>
     <string name="please_enter_business_title">لطفا عنوان کسب و کار را وارد کنید</string>
     <string name="please_enter_job_title">لطفا نوع فعالیت کسب و کار را وارد کنید</string>
     <string name="please_enter_title">لطفا عنوان را وارد کنید</string>
@@ -308,6 +308,7 @@
     <string name="search_on_product">جستجو بر روی محصولات</string>
     <string name="search_on_business_has_delivery">جستجو بر روی کسب و کار دارای پیک</string>
     <string name="please_select_region_or_location">لطفا منطقه یا موقعیت خود را انتخاب کنید</string>
+    <string name="please_select_category">لطفا صنف خود را انتخاب کنید</string>
     <string name="please_select_your_image">لطفا تصویر مورد نظر خود را انتخاب نمایید</string>
     <string name="your_image_more_than_100_kb">اندازه تصویر انتخابی از 100 کیلو بایت بیشتر می باشد</string>
 
@@ -466,6 +467,7 @@
     <string name="no_change_description_status_factor" tools:ignore="TypographyEllipsis">شما تغییری ایجاد نکرده اید...</string>
     <string name="contact_us">اطلاعات تماس</string>
     <string name="zero">0</string>
+    <string name="zero_double">0.0</string>  S
     <string name="customer_order_will_be_delivered_to_the_business_address">سفارش مشتری در آدرس کسب و کار تحویل گرفته خواهد شد</string>
     <string name="cancel_by_user">کنسل شده توسط کاربر</string>
     <string name="cancel_by_business">کنسل شده توسط کسب و کار</string>
@@ -649,6 +651,7 @@
     <string name="not_valid_coupon_code">کد شما معتبر نمی باشد.</string>
     <string name="please_select_bank">لطفا درگاه بانک خود را انتخاب کنید</string>
     <string name="submit_package_successful">پکیج شما با موفقیت ثبت شد</string>
+    <string name="submit_package_not_successful">پکیج شما با موفقیت ثبت نشد</string>
     <string name="your_payment_was_successfully_paid">پورسانت شما با موفقیت پرداخت شد</string>
     <string name="submit_package_unsuccessful">پرداخت ناموفق بود.</string>
     <string name="not_select_commission_for_payment">پورسانتی برای پرداخت انتخاب نشده است</string>

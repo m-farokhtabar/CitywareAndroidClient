@@ -285,6 +285,16 @@ public class BusinessListRecyclerViewAdapter extends RecyclerView.Adapter<Busine
         }
     }
 
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         Context.HideLoading();

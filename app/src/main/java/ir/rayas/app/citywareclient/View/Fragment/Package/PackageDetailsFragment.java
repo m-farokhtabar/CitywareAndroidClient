@@ -4,6 +4,7 @@ package ir.rayas.app.citywareclient.View.Fragment.Package;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -23,6 +24,7 @@ import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
 import ir.rayas.app.citywareclient.Service.Prize.PrizeService;
 import ir.rayas.app.citywareclient.Service.User.PointService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -40,6 +42,8 @@ import ir.rayas.app.citywareclient.ViewModel.Club.RequestPrizeViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Club.UserConsumePointViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.PackageDetailsViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Package.PurchasePackageViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Payment.PackagePaymentViewModel;
 
 public class PackageDetailsFragment extends Fragment implements IResponseService {
 
@@ -215,6 +219,30 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
                         Context.ShowErrorInConnectDialog();
                     }
                 }
+            } else if (ServiceMethod == ServiceMethodType.PaymentPackage) {
+                Feedback<OutputPackageTransactionViewModel> FeedBack = (Feedback<OutputPackageTransactionViewModel>) Data;
+
+                if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
+
+                    final OutputPackageTransactionViewModel ViewModel = FeedBack.getValue();
+                    if (ViewModel != null) {
+
+                        if (ViewModel.isActive()) {
+                            Context.ShowToast(getResources().getString(R.string.submit_package_successful), Toast.LENGTH_LONG, MessageType.Info);
+                            SendDataToParentActivity(ViewModel);
+                            Context.onBackPressed();
+                        } else {
+                            Context.ShowToast(getResources().getString(R.string.submit_package_not_successful), Toast.LENGTH_LONG, MessageType.Info);
+                        }
+                    }
+                } else {
+                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                    } else {
+                        Context.ShowErrorInConnectDialog();
+                    }
+                }
+
             }
         } catch (Exception e) {
             Context.HideLoading();
@@ -234,7 +262,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         PackageNameTextViewPackageDetailsFragment.setText(ViewModel.getTitle());
         AbstractDescriptionPackageTextViewPackageDetailsFragment.setText(ViewModel.getAbstractOfDescription());
         CreditPrice = ViewModel.getCreditPrice();
-        PriceTextViewPackageDetailsFragment.setText(Utility.GetIntegerNumberWithComma((int)CreditPrice));
+        PriceTextViewPackageDetailsFragment.setText(Utility.GetIntegerNumberWithComma((int) CreditPrice));
 
         if (ViewModel.isCanPurchaseByPoint()) {
             BuyPackageByPointRelativeLayoutPackageDetailsFragment.setVisibility(View.VISIBLE);
@@ -281,13 +309,18 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
             @Override
             public void onClick(View view) {
 
-                Intent PaymentPackageIntent = Context.NewIntent(PaymentPackageActivity.class);
-                PaymentPackageIntent.putExtra("PricePayable",(int) ViewModel.getPayablePrice());
-                PaymentPackageIntent.putExtra("PackageName", ViewModel.getTitle());
-                PaymentPackageIntent.putExtra("PackageId",PackageId);
-                Context.startActivity(PaymentPackageIntent);
+                if (ViewModel.getPayablePrice() == 0) {
+                    ShowBuyPackageOnlineDialog((int) ViewModel.getPayablePrice() , ViewModel.getTitle());
+                } else {
 
-                //ShowBuyPackageOnlineDialog((int) ViewModel.getPayablePrice(), ViewModel.getTitle());
+                    Intent PaymentPackageIntent = Context.NewIntent(PaymentPackageActivity.class);
+                    PaymentPackageIntent.putExtra("PricePayable", (int) ViewModel.getPayablePrice());
+                    PaymentPackageIntent.putExtra("PackageName", ViewModel.getTitle());
+                    PaymentPackageIntent.putExtra("PackageId", PackageId);
+                    Context.startActivity(PaymentPackageIntent);
+                }
+
+
             }
         });
 
@@ -302,6 +335,25 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         });
     }
 
+    private void PaymentPackage() {
+        Context.ShowLoadingProgressBar();
+        PackageService packageService = new PackageService(this);
+        packageService.Add(MadeViewModelPaymentOnlineZero());
+    }
+
+    private PurchasePackageViewModel MadeViewModelPaymentOnlineZero() {
+
+        PurchasePackageViewModel ViewModel = new PurchasePackageViewModel();
+        try {
+
+            ViewModel.setCouponCode(null);
+            ViewModel.setPackageId(PackageId);
+
+        } catch (Exception ignored) {
+        }
+        return ViewModel;
+    }
+
     private void ShowBuyPackageOnlineDialog(int Price, String PackageName) {
 
         final Dialog BuyPackageDialog = new Dialog(Context);
@@ -311,15 +363,12 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         ButtonPersianView DialogBuyPackageOnlineOkButton = BuyPackageDialog.findViewById(R.id.DialogBuyPackageOnlineOkButton);
         ButtonPersianView DialogBuyPackageOnlineCancelButton = BuyPackageDialog.findViewById(R.id.DialogBuyPackageOnlineCancelButton);
 
-        String Rial = Price + Context.getResources().getString(R.string.zero);
         String Message;
 
         if (PackageName.contains(Context.getResources().getString(R.string.packag))) {
-            Message = Context.getResources().getString(R.string.amount) + " " + Price + " " + Context.getResources().getString(R.string.toman) + " " + Context.getResources().getString(R.string.equivalent) + " " + Rial + " " +
-                    Context.getResources().getString(R.string.rial) + " " + Context.getResources().getString(R.string.for_buy) + " " + PackageName;
+            Message = Context.getResources().getString(R.string.amount) + " " + Price + " " + Context.getResources().getString(R.string.toman) + " " + Context.getResources().getString(R.string.for_buy) + " " + PackageName;
         } else {
-            Message = Context.getResources().getString(R.string.amount) + " " + Price + " " + Context.getResources().getString(R.string.price_with_out_currency) + " " + Context.getResources().getString(R.string.equivalent) + " " + Rial + " " +
-                    Context.getResources().getString(R.string.rial) + " " + Context.getResources().getString(R.string.for_buy_the_package) + " " + PackageName;
+            Message = Context.getResources().getString(R.string.amount) + " " + Price + " " + Context.getResources().getString(R.string.price_with_out_currency) + " " + Context.getResources().getString(R.string.for_buy_the_package) + " " + PackageName;
         }
 
 
@@ -330,6 +379,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         DialogBuyPackageOnlineOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PaymentPackage();
                 BuyPackageDialog.dismiss();
 
             }
@@ -420,6 +470,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
 
     /**
      * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
+     *
      * @param ViewModel اطلاعات پوستر
      */
     private void SendDataToParentActivity(OutputPackageTransactionViewModel ViewModel) {
@@ -429,7 +480,6 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         Output.put("OutputPackageTransactionViewModel", ViewModel);
         ActivityResultPassing.Push(new ActivityResult(Context.getParentActivity(), Context.getCurrentActivityId(), Output));
     }
-
 
 
 }

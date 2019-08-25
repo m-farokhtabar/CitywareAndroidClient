@@ -188,6 +188,16 @@ public class UserAddressRecyclerViewAdapter extends RecyclerView.Adapter<UserAdd
         }
     }
 
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         Context.HideLoading();

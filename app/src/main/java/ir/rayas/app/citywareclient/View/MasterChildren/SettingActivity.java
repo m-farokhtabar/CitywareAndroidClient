@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -47,7 +49,9 @@ import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 public class SettingActivity extends BaseActivity implements IResponseService, ILoadData, AdapterView.OnItemSelectedListener {
 
     private TextViewPersian SelectRegionNameTextViewSettingActivity = null;
+    private TextViewPersian AllRegionTextViewSettingActivity = null;
     private TextViewPersian SelectCategoryNameTextViewSettingActivity = null;
+    private TextViewPersian CategoryAllTextViewSettingActivity = null;
     private SwitchCompat categorySwitchSettingActivity = null;
     private SwitchCompat regionSwitchSettingActivity = null;
     private SwitchCompat SearchLocationSwitchSettingActivity = null;
@@ -57,6 +61,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     //   private ButtonPersianView selectRegionButtonSettingActivity = null;
     // private ButtonPersianView selectCategoryButtonSettingActivity = null;
     private LinearLayout GpsRangeLinearLayoutSettingActivity = null;
+    private SeekBar gpsRangeSeekBarSettingActivity = null;
 
     private boolean IsLocationSearch = false;
     private Integer RegionId = null;
@@ -119,7 +124,12 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         ButtonPersianView SaveButtonSettingActivity = findViewById(R.id.SaveButtonSettingActivity);
         GpsRangeLinearLayoutSettingActivity = findViewById(R.id.GpsRangeLinearLayoutSettingActivity);
         GpsRangeEditTextSettingActivity = findViewById(R.id.GpsRangeEditTextSettingActivity);
-        SeekBar gpsRangeSeekBarSettingActivity = findViewById(R.id.GpsRangeSeekBarSettingActivity);
+        AllRegionTextViewSettingActivity = findViewById(R.id.AllRegionTextViewSettingActivity);
+        CategoryAllTextViewSettingActivity = findViewById(R.id.CategoryAllTextViewSettingActivity);
+        gpsRangeSeekBarSettingActivity = findViewById(R.id.GpsRangeSeekBarSettingActivity);
+
+        AllRegionTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontBlackColor));
+        CategoryAllTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontBlackColor));
 
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/iransanslight.ttf");
@@ -149,15 +159,47 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         gpsRangeSeekBarSettingActivity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                GpsRangeEditTextSettingActivity.setText(String.valueOf(progress + 5));
+                int ProgressText = 1;
+                if (progress > 1495) {
+                    ProgressText = progress;
+                } else if (progress < 5) {
+                    ProgressText = progress;
+                } else if (progress ==0) {
+                    ProgressText = 1;
+                } else {
+                    ProgressText = progress +5;
+                }
+                GpsRangeEditTextSettingActivity.setText(String.valueOf(ProgressText));
+//              SetProgressToEditText(ProgressText);
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        GpsRangeEditTextSettingActivity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String GPSRangeText;
+                GPSRangeText = s.toString();
+
+                int GPSRange;
+                if (s.length() != 0) {
+                    GPSRange = Integer.valueOf(GPSRangeText);
+                } else {
+                    GPSRange = 1;
+                }
+//                SetProgressToEditText(GPSRange);
+//                gpsRangeSeekBarSettingActivity.setProgress(GPSRange);
             }
         });
 
@@ -169,6 +211,11 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             }
         });
 
+    }
+
+    private void SetProgressToEditText(int Progress){
+        GpsRangeEditTextSettingActivity.setText(String.valueOf(Progress));
+        gpsRangeSeekBarSettingActivity.setProgress(Progress);
     }
 
     private void SetInformationToSpinner() {
@@ -196,17 +243,44 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     }
 
     private void SaveUserSetting() {
-        ServiceCall();
 
-//        if (SearchLocationSwitchSettingActivity.isChecked()) {
-//            ServiceCall();
-//        } else {
-//            if (RegionId != null && RegionId > 0) {
-//                ServiceCall();
-//            } else {
-//                ShowToast(getResources().getString(R.string.please_select_region_or_location), Toast.LENGTH_LONG, MessageType.Warning);
-//            }
-//        }
+        if (SearchLocationSwitchSettingActivity.isChecked()) {
+            if (categorySwitchSettingActivity.isChecked()) {
+                if (CategoryId != null) {
+                    ServiceCall();
+                } else {
+                    ShowToast(getResources().getString(R.string.please_select_category), Toast.LENGTH_LONG, MessageType.Warning);
+                }
+            } else {
+                ServiceCall();
+            }
+        } else {
+            if (regionSwitchSettingActivity.isChecked()) {
+                if (RegionId != null) {
+                    if (categorySwitchSettingActivity.isChecked()) {
+                        if (CategoryId != null) {
+                            ServiceCall();
+                        } else {
+                            ShowToast(getResources().getString(R.string.please_select_category), Toast.LENGTH_LONG, MessageType.Warning);
+                        }
+                    } else {
+                        ServiceCall();
+                    }
+                } else {
+                    ShowToast(getResources().getString(R.string.please_select_region_or_location), Toast.LENGTH_LONG, MessageType.Warning);
+                }
+            } else {
+                if (categorySwitchSettingActivity.isChecked()) {
+                    if (CategoryId != null) {
+                        ServiceCall();
+                    } else {
+                        ShowToast(getResources().getString(R.string.please_select_category), Toast.LENGTH_LONG, MessageType.Warning);
+                    }
+                } else {
+                    ServiceCall();
+                }
+            }
+        }
     }
 
     private void ServiceCall() {
@@ -227,6 +301,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         ViewModel.setSearchOnData(SearchTypePosition);
         ViewModel.setSearchOnDelivery(DeliveryStateInSearchPosition);
         ViewModel.setUseGprsPoint(IsLocationSearch);
+        ViewModel.setGpsRangeInKm(Integer.parseInt(GpsRangeEditTextSettingActivity.getText().toString()));
         ViewModel.setCreate("");
         ViewModel.setModified("");
 
@@ -305,13 +380,13 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                         ViewModel.setRegionName(SelectRegionNameTextViewSettingActivity.getText().toString());
                         ViewModel.setBusinessCategoryName(SelectCategoryNameTextViewSettingActivity.getText().toString());
 
-                        if (ViewModel.isUseGprsPoint()) {
-                            ViewModel.setGpsRangeInKm(Integer.parseInt(GpsRangeEditTextSettingActivity.getText().toString()));
-                        } else {
-                            ViewModel.setGpsRangeInKm(0);
-                        }
+//                        if (ViewModel.isUseGprsPoint()) {
+//                            ViewModel.setGpsRangeInKm(Integer.parseInt(GpsRangeEditTextSettingActivity.getText().toString()));
+//                        } else {
+//                            ViewModel.setGpsRangeInKm(1);
+//                        }
 
-                        SetLocalSettingToRepository(ViewModel.getBusinessCategoryId(), ViewModel.getRegionId(), ViewModel.isUseGprsPoint());
+                        // SetLocalSettingToRepository(ViewModel.getBusinessCategoryId(), ViewModel.getRegionId(), ViewModel.isUseGprsPoint());
 
                         //پر کردن ویو با اطلاعات دریافتی
                         SetInformationToView(ViewModel);
@@ -359,6 +434,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     }
 
     private void SetInformationToView(UserSettingViewModel ViewModel) {
+
         SearchTypePosition = ViewModel.getSearchOnData();
         DeliveryStateInSearchPosition = ViewModel.getSearchOnDelivery();
 
@@ -368,7 +444,11 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         if (ViewModel.getBusinessCategoryId() != null) {
             SelectCategoryNameTextViewSettingActivity.setText(businessCategoryRepository.GetFullName(ViewModel.getBusinessCategoryId()));
             SetCheckCategory(true);
+            CategoryAllTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+            SelectCategoryNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontBlackColor));
         } else {
+            CategoryAllTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontBlackColor));
+            SelectCategoryNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontSemiBlackColor));
             SetCheckCategory(false);
         }
 
@@ -385,14 +465,20 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             GpsRangeEditTextSettingActivity.setText(String.valueOf(userSettingViewModel.getGpsRangeInKm()));
         }
 
+        if (userSettingViewModel.getGpsRangeInKm() != null)
+            if (userSettingViewModel.getGpsRangeInKm() <= 500)
+                gpsRangeSeekBarSettingActivity.setProgress(userSettingViewModel.getGpsRangeInKm());
+
 
         SearchLocationSwitchSettingActivity.setChecked(IsLocationSearch);
 
         if (IsLocationSearch) {
             SelectRegionNameTextViewSettingActivity.setText("");
+            SelectRegionNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontSemiBlackColor));
             regionSwitchSettingActivity.setChecked(false);
             SetCheckRegion(false);
             GpsRangeLinearLayoutSettingActivity.setVisibility(View.VISIBLE);
+            AllRegionTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
 
         } else {
             GpsRangeLinearLayoutSettingActivity.setVisibility(View.GONE);
@@ -400,7 +486,11 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             if (RegionId == null || RegionId == 0) {
                 regionSwitchSettingActivity.setChecked(false);
                 SelectRegionNameTextViewSettingActivity.setText("");
+                AllRegionTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontBlackColor));
+                SelectRegionNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontSemiBlackColor));
             } else {
+                AllRegionTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+                SelectRegionNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontBlackColor));
                 regionSwitchSettingActivity.setChecked(true);
                 SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
             }
@@ -411,6 +501,9 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
+                    AllRegionTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+                    SelectRegionNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+
                     regionSwitchSettingActivity.setChecked(false);
                     SetCheckRegion(false);
 
@@ -423,9 +516,13 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                     SetCheckRegion(true);
 
                     if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
+                        AllRegionTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontBlackColor));
+                        SelectRegionNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontSemiBlackColor));
                         regionSwitchSettingActivity.setChecked(false);
                         SelectRegionNameTextViewSettingActivity.setText("");
                     } else {
+                        AllRegionTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+                        SelectRegionNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontBlackColor));
                         regionSwitchSettingActivity.setChecked(true);
                         SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(userSettingViewModel.getRegionId()));
                     }
@@ -441,6 +538,9 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                     SelectCategoryNameTextViewSettingActivity.setClickable(true);
                     SelectCategoryNameTextViewSettingActivity.setEnabled(true);
 
+                    CategoryAllTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+                    SelectCategoryNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontBlackColor));
+
                     if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0) {
                         CategoryId = null;
                         SelectCategoryNameTextViewSettingActivity.setText("");
@@ -450,6 +550,8 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                     }
 
                 } else {
+                    CategoryAllTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontBlackColor));
+                    SelectCategoryNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontSemiBlackColor));
                     SelectCategoryNameTextViewSettingActivity.setClickable(false);
                     SelectCategoryNameTextViewSettingActivity.setEnabled(false);
                     CategoryId = null;
@@ -465,6 +567,8 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                 if (isChecked) {
                     SelectRegionNameTextViewSettingActivity.setClickable(true);
                     SelectRegionNameTextViewSettingActivity.setEnabled(true);
+                    SelectRegionNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontBlackColor));
+                    AllRegionTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
 
                     if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
                         RegionId = null;
@@ -474,6 +578,8 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                         SelectRegionNameTextViewSettingActivity.setText(regionRepository.GetFullName(RegionId));
                     }
                 } else {
+                    AllRegionTextViewSettingActivity.setTextColor(getResources().getColor(R.color.FontBlackColor));
+                    SelectRegionNameTextViewSettingActivity.setHintTextColor(getResources().getColor(R.color.FontSemiBlackColor));
                     RegionId = null;
                     SelectRegionNameTextViewSettingActivity.setText("");
 
@@ -495,10 +601,10 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     private void SetCheckCategory(boolean IsCheck) {
         categorySwitchSettingActivity.setChecked(IsCheck);
 
-      //  categorySwitchSettingActivity.setClickable(IsCheck);
+        //  categorySwitchSettingActivity.setClickable(IsCheck);
         SelectCategoryNameTextViewSettingActivity.setClickable(IsCheck);
         SelectCategoryNameTextViewSettingActivity.setEnabled(IsCheck);
-      //  categorySwitchSettingActivity.setEnabled(IsCheck);
+        //  categorySwitchSettingActivity.setEnabled(IsCheck);
     }
 
     private void SetLocalSettingToRepository(Integer businessCategoryId, Integer regionId, boolean useGprsPoint) {

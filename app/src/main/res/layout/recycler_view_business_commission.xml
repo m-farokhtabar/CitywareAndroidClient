@@ -104,33 +104,37 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:gravity="right"
-                    android:orientation="horizontal"
                     tools:ignore="RtlHardcoded">
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
                         android:id="@+id/PriceTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp"
                         android:layout_marginRight="5dp"
+                        android:layout_toStartOf="@+id/TitlePriceTextView"
+                        android:layout_toLeftOf="@+id/TitlePriceTextView"
                         android:gravity="right"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/FontBlackColor" />
 
                     <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                        android:id="@+id/TitlePriceTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:gravity="right"
                         android:text="@string/commission"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/FontSemiBlackColor" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -79,6 +79,9 @@ public class UserAddressFragment extends Fragment implements IResponseService, I
         RefreshAddressSwipeRefreshLayoutUserAddressFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
+                userAddressRecyclerViewAdapter.ClearViewModelList();
+
                 IsSwipe = true;
                 LoadData();
 

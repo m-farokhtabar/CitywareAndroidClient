@@ -89,6 +89,16 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         Container.invalidate();
     }
 
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

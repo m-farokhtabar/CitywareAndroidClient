@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.PackageRepository;
 import ir.rayas.app.citywareclient.Service.Coupon.CouponService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
@@ -41,6 +42,8 @@ import ir.rayas.app.citywareclient.ViewModel.Coupon.CouponViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Coupon.UserCouponViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.PurchasePackageViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Payment.BusinessCommissionPaymentViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Payment.PackagePaymentViewModel;
 
 
 public class PaymentPackageActivity extends BaseActivity implements IResponseService {
@@ -49,8 +52,11 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     private EditTextPersian SubmitCouponEditTextPaymentPackageActivity = null;
     private FrameLayout CouponFrameLayoutPaymentPackageActivity = null;
     private RelativeLayout CouponRelativeLayoutPaymentPackageActivity = null;
+    private TextViewPersian PackageNameTextViewPaymentPackageActivity = null;
+    private TextViewPersian PricePayableTextViewPaymentPackageActivity = null;
 
     private int PackageId = 0;
+    private int Id = 0;
     private String PackageName = "";
     private int PricePayable = 0;
 
@@ -60,6 +66,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     private String CouponCode = "";
 
     private boolean IsPay = false;
+
+    private PackageRepository packageRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +85,28 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
             }
         }, R.string.payment);
 
+        packageRepository = new PackageRepository();
 
         PackageName = getIntent().getExtras().getString("PackageName");
         PricePayable = getIntent().getExtras().getInt("PricePayable");
         PackageId = getIntent().getExtras().getInt("PackageId");
+
+
+        if (packageRepository.getPackagePayment() != null) {
+
+            PackagePaymentViewModel ViewModel = packageRepository.getPackagePayment();
+            PackageName = ViewModel.getPackageName();
+            PricePayable = ViewModel.getPricePayable();
+            PackageId = ViewModel.getPackageId();
+            IsPay = ViewModel.isPay();
+            Id = ViewModel.getId();
+
+            packageRepository.ClearPackagePayment();
+            if (IsPay)
+                LoadDataValidPackage();
+            IsPay = false;
+        }
+
 
         TotalPaymentPrice = PricePayable;
 
@@ -89,11 +115,11 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     }
 
     private void CreateLayout() {
-        TextViewPersian PricePayableTextViewPaymentPackageActivity = findViewById(R.id.PricePayableTextViewPaymentPackageActivity);
+        PricePayableTextViewPaymentPackageActivity = findViewById(R.id.PricePayableTextViewPaymentPackageActivity);
         PricePayableCouponTextViewPaymentPackageActivity = findViewById(R.id.PricePayableCouponTextViewPaymentPackageActivity);
         CouponFrameLayoutPaymentPackageActivity = findViewById(R.id.CouponFrameLayoutPaymentPackageActivity);
         CouponRelativeLayoutPaymentPackageActivity = findViewById(R.id.CouponRelativeLayoutPaymentPackageActivity);
-        TextViewPersian PackageNameTextViewPaymentPackageActivity = findViewById(R.id.PackageNameTextViewPaymentPackageActivity);
+        PackageNameTextViewPaymentPackageActivity = findViewById(R.id.PackageNameTextViewPaymentPackageActivity);
         ButtonPersianView SubmitPaymentPackageButtonPaymentPackageActivity = findViewById(R.id.SubmitPaymentPackageButtonPaymentPackageActivity);
         final ButtonPersianView SubmitCouponButtonUserPaymentPackageActivity = findViewById(R.id.SubmitCouponButtonUserPaymentPackageActivity);
         SubmitCouponEditTextPaymentPackageActivity = findViewById(R.id.SubmitCouponEditTextPaymentPackageActivity);
@@ -284,7 +310,22 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                             if (TotalPaymentPrice > DefaultConstant.MaxPayment || TotalPaymentPrice < DefaultConstant.MinPayment) {
                                 ShowPaymentPackageDialog(ViewModel);
                             } else {
+
                                 IsPay = true;
+
+                                if (packageRepository.getPackagePayment() != null)
+                                    packageRepository.ClearPackagePayment();
+
+                                PackagePaymentViewModel packagePaymentViewModel = new PackagePaymentViewModel();
+                                packagePaymentViewModel.setPackageId(PackageId);
+                                packagePaymentViewModel.setId(ViewModel.getId());
+                                packagePaymentViewModel.setPackageName(PackageName);
+                                packagePaymentViewModel.setPay(IsPay);
+                                packagePaymentViewModel.setPricePayable(PricePayable);
+
+                                packageRepository.setPackagePayment(packagePaymentViewModel);
+
+
                                 String url = "http://asanpardakhtpg.zeytoonfood.com/startpayment.aspx?type=1&id=" + ViewModel.getId();
                                 Uri uri = Uri.parse(url);
                                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -312,9 +353,11 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                     boolean IsHavePackageId = false;
 
                     for (int i = 0; i < ViewModelList.size(); i++) {
-                        if (ViewModelList.get(i).getPackageId() == PackageId) {
-                            IsHavePackageId = true;
-                            ViewModel = ViewModelList.get(i);
+                        if (ViewModelList.get(i).getId() == Id) {
+                            if (ViewModelList.get(i).isActive()) {
+                                IsHavePackageId = true;
+                                ViewModel = ViewModelList.get(i);
+                            }
                             break;
                         }
                     }
@@ -349,7 +392,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         HashMap<String, Object> Output = new HashMap<>();
         Output.put("IsAdd", true);
         Output.put("OutputPackageTransactionViewModel", ViewModel);
-        ActivityResultPassing.Push(new ActivityResult(getParentActivity(), getCurrentActivityId(), Output));
+        ActivityResultPassing.Push(new ActivityResult(ActivityIdList.PACKAGE_ACTIVITY, ActivityIdList.PAYMENT_PACKAGE_ACTIVITY, Output));
     }
 
     private void HideKeyboard(View view) {
@@ -407,6 +450,24 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         super.onRestart();
 
         if (IsPay) {
+
+            if (packageRepository.getPackagePayment() != null) {
+
+                PackagePaymentViewModel ViewModel = packageRepository.getPackagePayment();
+                PackageName = ViewModel.getPackageName();
+                PricePayable = ViewModel.getPricePayable();
+                PackageId = ViewModel.getPackageId();
+                IsPay = ViewModel.isPay();
+                Id = ViewModel.getId();
+
+                packageRepository.ClearPackagePayment();
+
+                PackageNameTextViewPaymentPackageActivity.setText(PackageName);
+                PricePayableTextViewPaymentPackageActivity.setText(Utility.GetIntegerNumberWithComma(PricePayable));
+
+            }
+
+
             LoadDataValidPackage();
             IsPay = false;
         }

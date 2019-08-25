@@ -133,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_menu"
                 android:layout_margin="16dp"
+                android:visibility="gone"
                 app:backgroundTint="@color/ButtonBackgroundThemeColor" />
         </RelativeLayout>
 

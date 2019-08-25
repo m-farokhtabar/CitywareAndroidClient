@@ -74,6 +74,8 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
             basketAddressAdapterViewModel.setAddress(ViewModels.get(i).getCurrentAddress());
             basketAddressAdapterViewModel.setPostalCode(ViewModels.get(i).getPostalCode());
             basketAddressAdapterViewModel.setUserAddressId(ViewModels.get(i).getId());
+            basketAddressAdapterViewModel.setLatitude(ViewModels.get(i).getLatitude());
+            basketAddressAdapterViewModel.setLongitude(ViewModels.get(i).getLongitude());
 
             ViewModel.add(basketAddressAdapterViewModel);
         }
@@ -118,6 +120,9 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
                             SelectAddress = ViewModel.get(LastSelectedPosition).getAddress() + " - " + PostalCode;
                         }
 
+                        Latitude =  ViewModel.get(LastSelectedPosition).getLatitude();
+                        Longitude =  ViewModel.get(LastSelectedPosition).getLongitude();
+
                         UserAddressId = ViewModel.get(LastSelectedPosition).getUserAddressId();
                         LastSelectedRadioButton = (RadioButton) view;
                         LastSelectedRadioButton.setChecked(true);
@@ -125,6 +130,8 @@ public class BasketUserAddressRecyclerViewAdapter extends RecyclerView.Adapter<B
                         LastSelectedPosition = -1;
                         SelectAddress = "";
                         UserAddressId = 0;
+                        Latitude = 0;
+                        Longitude = 0;
                         LastSelectedRadioButton = null;
                     }
                 }

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.util.HashMap;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Repository.BusinessCommissionRepository;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Marketing.MarketingService;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
@@ -27,15 +28,20 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
+import ir.rayas.app.citywareclient.ViewModel.Payment.BusinessCommissionPaymentViewModel;
 
 
 public class PaymentCommissionActivity extends BaseActivity implements IResponseService {
 
     private String PricePayable = "";
     private String Id = "";
-    private int BusinessId ;
+    private int BusinessId;
     private String myId = "";
     private boolean IsPay = false;
+
+
+    private TextViewPersian PricePayableTextViewPaymentCommissionActivity = null;
+    private BusinessCommissionRepository businessCommissionRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,32 +59,42 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
             }
         }, R.string.payment);
 
+
+        businessCommissionRepository = new BusinessCommissionRepository();
+
         PricePayable = getIntent().getExtras().getString("PricePayable");
         Id = getIntent().getExtras().getString("Id");
         BusinessId = getIntent().getExtras().getInt("BusinessId");
 
+
+        if (businessCommissionRepository.getBusinessCommission() != null) {
+
+            BusinessCommissionPaymentViewModel ViewModel = businessCommissionRepository.getBusinessCommission();
+            Id = ViewModel.getId();
+            PricePayable = ViewModel.getPricePayable();
+            BusinessId = ViewModel.getBusinessId();
+            IsPay = ViewModel.isPay();
+
+            businessCommissionRepository.ClearBusinessCommission();
+            if (IsPay)
+                LoadData();
+            IsPay = false;
+        }
+
+        PricePayable = PricePayable.replaceAll("ﺗﻮﻣﺎﻥ", "");
 
         //ایجاد طرح بندی صفحه
         CreateLayout();
     }
 
     private void CreateLayout() {
-        TextViewPersian PricePayableTextViewPaymentCommissionActivity = findViewById(R.id.PricePayableTextViewPaymentCommissionActivity);
+        PricePayableTextViewPaymentCommissionActivity = findViewById(R.id.PricePayableTextViewPaymentCommissionActivity);
         TextViewPersian BusinessNameTextViewPaymentCommissionActivity = findViewById(R.id.BusinessNameTextViewPaymentCommissionActivity);
         ButtonPersianView SubmitPaymentPackageButtonPaymentCommissionActivity = findViewById(R.id.SubmitPaymentPackageButtonPaymentCommissionActivity);
         final RadioButton BankSelectedRadioButtonPaymentCommissionActivity = findViewById(R.id.BankSelectedRadioButtonPaymentCommissionActivity);
 
-
         BusinessNameTextViewPaymentCommissionActivity.setVisibility(View.GONE);
         PricePayableTextViewPaymentCommissionActivity.setText(PricePayable);
-
-
-        //        List<String> myList = new ArrayList<String>(Arrays.asList(Id.split("_")));
-//        myId = new ArrayList<>();
-//        for (int i = 0; i < myList.size(); i++) {
-//            myId.add( Integer.valueOf(myList.get(i)));
-//        }
-
 
         SubmitPaymentPackageButtonPaymentCommissionActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +118,21 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
                     if (PayablePrice > DefaultConstant.MaxPayment || PayablePrice < DefaultConstant.MinPayment) {
                         ShowPaymentPackageDialog();
                     } else {
+
                         IsPay = true;
+
+                        if (businessCommissionRepository.getBusinessCommission() != null)
+                            businessCommissionRepository.ClearBusinessCommission();
+
+                        BusinessCommissionPaymentViewModel businessCommissionPaymentViewModel = new BusinessCommissionPaymentViewModel();
+                        businessCommissionPaymentViewModel.setBusinessId(BusinessId);
+                        businessCommissionPaymentViewModel.setId(Id);
+                        businessCommissionPaymentViewModel.setPricePayable(PricePayable);
+                        businessCommissionPaymentViewModel.setPay(IsPay);
+
+                        businessCommissionRepository.setBusinessCommission(businessCommissionPaymentViewModel);
+
+
                         String url = "http://asanpardakhtpg.zeytoonfood.com/startpayment.aspx?id=" + Id + "&type=2";
                         Uri uri = Uri.parse(url);
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -118,7 +148,7 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
     }
 
     public void LoadData() {
-        myId = Id.replaceAll("_",",");
+        myId = Id.replaceAll("_", ",");
         ShowLoadingProgressBar();
 
         MarketingService MarketingService = new MarketingService(this);
@@ -139,27 +169,15 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
-//                    if (ViewModelList != null) {
-//                        boolean IsHavePackageId = false;
-//
-//                         for (int i=0;i<ViewModelList.size();i++){
-//                             for (int j=0;j<myId.size();j++) {
-//                                 if (ViewModelList.get(i).getId()==myId.get(j)){
-//                                     IsHavePackageId = true;
-//                                     break;
-//                                 }
-//                             }
-//                         }
+                    if (FeedBack.getValue()) {
+                        ShowToast(getResources().getString(R.string.your_payment_was_successfully_paid), Toast.LENGTH_LONG, MessageType.Info);
+                        SendDataToParentActivity();
+                        onBackPressed();
+                    } else {
+                        ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Error);
+                    }
 
-                         if (FeedBack.getValue()){
-                             ShowToast(getResources().getString(R.string.your_payment_was_successfully_paid), Toast.LENGTH_LONG, MessageType.Info);
-                             SendDataToParentActivity();
-                             onBackPressed();
-                         }else {
-                             ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Error);
-                         }
-
-                }  else {
+                } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
                     } else {
@@ -210,7 +228,21 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
     protected void onRestart() {
         super.onRestart();
 
-        if (IsPay ){
+        if (IsPay) {
+
+            if (businessCommissionRepository.getBusinessCommission() != null) {
+
+                BusinessCommissionPaymentViewModel ViewModel = businessCommissionRepository.getBusinessCommission();
+                Id = ViewModel.getId();
+                PricePayable = ViewModel.getPricePayable();
+                BusinessId = ViewModel.getBusinessId();
+                IsPay = ViewModel.isPay();
+
+                businessCommissionRepository.ClearBusinessCommission();
+            }
+
+            PricePayableTextViewPaymentCommissionActivity.setText(PricePayable);
+
             LoadData();
             IsPay = false;
         }

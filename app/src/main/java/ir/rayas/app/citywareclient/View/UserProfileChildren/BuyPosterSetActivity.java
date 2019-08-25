@@ -60,6 +60,7 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
     private int RetryType = 0;
     private int PosterId = 0;
     private String PosterImage = "";
+    private String BusinessName = "";
     private int Order = 0;
     private Uri UrlOfSelectedImageFromLocal = null;
 
@@ -283,6 +284,7 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
 
                     PurchasedPosterWithBookmarkStatusViewModel ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
+                        BusinessName =  ViewModelList.getBusinessName();
                         SetInformationToView(ViewModelList);
                     }
                 } else {
@@ -301,6 +303,8 @@ public class BuyPosterSetActivity extends BaseActivity implements IResponseServi
                     PurchasedPosterViewModel ViewModel = FeedBack.getValue();
 
                     if (ViewModel != null) {
+
+                        ViewModel.setBusinessName(BusinessName);
 
                         SendDataToParentActivity(ViewModel);
                         FinishCurrentActivity();

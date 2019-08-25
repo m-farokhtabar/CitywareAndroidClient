@@ -78,6 +78,7 @@ public class UserBusinessFragment extends Fragment implements IResponseService, 
         RefreshBusinessSwipeRefreshLayoutUserBusinessFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                businessListRecyclerViewAdapter.ClearViewModelList();
                 IsSwipe = true;
                 LoadData();
 

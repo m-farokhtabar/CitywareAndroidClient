@@ -47,10 +47,10 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="6dp"
                         android:layout_marginStart="6dp"
-                        android:hint="@string/region_all"
+                        android:text="@string/region_all"
                         android:singleLine="true"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/FontBlackColor"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
                         tools:ignore="RtlHardcoded" />
 
                     <android.support.v7.widget.SwitchCompat
@@ -94,7 +94,7 @@
                         android:singleLine="true"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/FontBlackColor"
-                        android:textColorHint="@color/TextHintColor"
+                        android:textColorHint="@color/FontBlackColor"
                         tools:ignore="RtlHardcoded" />
 
                     <ImageView
@@ -138,7 +138,7 @@
                         android:layout_marginLeft="6dp"
                         android:layout_marginStart="6dp"
                         android:gravity="right"
-                        android:hint="@string/category_all"
+                        android:text="@string/category_all"
                         android:singleLine="true"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
@@ -189,7 +189,7 @@
                         android:singleLine="true"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/FontBlackColor"
-                        android:textColorHint="@color/TextHintColor" />
+                        android:textColorHint="@color/FontBlackColor" />
 
                     <ImageView
                         android:id="@+id/IconCategoryNameImageViewSettingActivity"
@@ -332,10 +332,9 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
-                        android:max="500"
-                        android:progress="1"
-                        android:progressDrawable="@drawable/seekbar"
-                        android:thumb="@drawable/circle_seekbar" />
+                        android:max="1500"
+                        android:progress="1" />
+
                 </LinearLayout>
 
                 <RelativeLayout

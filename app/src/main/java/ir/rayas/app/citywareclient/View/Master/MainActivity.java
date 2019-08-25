@@ -1,45 +1,27 @@
 package ir.rayas.app.citywareclient.View.Master;
 
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.Typeface;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.view.View;
-import android.view.Window;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessPosterInfoBookmarkRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessPosterInfoRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.IsTopPosterRecyclerViewAdapter;
-import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserAddressDialogRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
-import ir.rayas.app.citywareclient.Repository.BusinessCategoryRepository;
-import ir.rayas.app.citywareclient.Repository.LocalSettingRepository;
-import ir.rayas.app.citywareclient.Repository.RegionRepository;
+
 import ir.rayas.app.citywareclient.Service.Home.HomeService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
-import ir.rayas.app.citywareclient.Service.User.UserAddressService;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.QueryType;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
@@ -50,25 +32,16 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.Share.Helper.Gps;
 import ir.rayas.app.citywareclient.Share.Helper.GpsCurrentLocation;
 import ir.rayas.app.citywareclient.Share.Helper.IResponseTurnOnGpsDialog;
-import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
-import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
-import ir.rayas.app.citywareclient.View.MasterChildren.SettingActivity;
 import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Setting.LocalUserSettingViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Setting.UserSettingViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
-import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
 public class MainActivity extends BaseActivity implements IResponseService, IResponseTurnOnGpsDialog {
 
-    private SwitchCompat CategoryNameSwitchMainActivity = null;
-    private SwitchCompat RegionNameSwitchMainActivity = null;
-    private TextViewPersian CategoryNameTextViewMainActivity = null;
-    private TextViewPersian RegionNameTextViewMainActivity = null;
-    private RelativeLayout MenuRelativeLayoutMainActivity = null;
+
     private TextViewPersian StarredTextViewMainActivity = null;
     private TextViewPersian NewestTextViewMainActivity = null;
     private TextViewPersian BookmarkTextViewMainActivity = null;
@@ -86,11 +59,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private BusinessPosterInfoBookmarkRecyclerViewAdapter businessPosterInfoBookmarkRecyclerViewAdapter = null;
 
 
-    private RegionRepository regionRepository = new RegionRepository();
-    private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
 
     private UserSettingViewModel userSettingViewModel = null;
-    private List<UserAddressViewModel> userAddressViewModels = null;
 
     private int queryType = 0;
     private Integer RegionId = null;
@@ -102,15 +72,15 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private int PageNumberPosterTop = 1;
     private int PageNumberPoster = 1;
 
-    private boolean IsFirst = false;
     private boolean IsClickYesGPS = false;
-    private boolean IsAddress = false;
     private Gps CurrentGps = null;
+    
 
-//    private LocalUserSettingViewModel localUserSettingViewModel = new LocalUserSettingViewModel();
-//    private LocalSettingRepository localSettingRepository = new LocalSettingRepository();
-
-    private Dialog ShowAddressDialog;
+    // SelectTab = 1 newPoster
+    // SelectTab = 2 Star
+    // SelectTab = 3 Show
+    // SelectTab = 4 Bookmark
+    private int SelectTab = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +90,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         //تنظیم گزینه انتخاب شده منو
         setCurrentActivityId(ActivityIdList.MAIN_ACTIVITY);
 
-        IsFirst = true;
         Static.IsRefreshBookmark = true;
         //کلاس کنترل و مدیریت GPS
         CurrentGps = new Gps();
@@ -132,12 +101,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                 LoadData();
             }
         }, 0);
-
-
-        String ArrayAddressString = getIntent().getExtras().getString("ArrayAddressString");
-        Type listType = new TypeToken<List<UserAddressViewModel>>() {
-        }.getType();
-        userAddressViewModels = new Gson().fromJson(ArrayAddressString, listType);
 
         //ایجاد طرحبندی صفحه
         CreateLayout();
@@ -151,10 +114,10 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void CreateLayout() {
+        SelectTab = 1;
 
         AccountRepository ARepository = new AccountRepository(null);
         AccountViewModel AccountViewModel = ARepository.getAccount();
-
         userSettingViewModel = AccountViewModel.getUserSetting();
 
         // Recycler View Poster Top, Poster, Bookmark Start------------------------------------------------------------------
@@ -167,7 +130,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewAdapter = new IsTopPosterRecyclerViewAdapter(MainActivity.this, null, isTopPosterRecyclerViewMainActivity);
         isTopPosterRecyclerViewMainActivity.setAdapter(isTopPosterRecyclerViewAdapter);
 
-
         businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
         businessPosterInfoRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
         businessPosterInfoRecyclerViewMainActivity.setHasFixedSize(true);
@@ -175,162 +137,14 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         businessPosterInfoRecyclerViewAdapter = new BusinessPosterInfoRecyclerViewAdapter(MainActivity.this, null, businessPosterInfoRecyclerViewMainActivity);
         businessPosterInfoRecyclerViewMainActivity.setAdapter(businessPosterInfoRecyclerViewAdapter);
 
-
         BusinessPosterInfoBookmarkRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoBookmarkRecyclerViewMainActivity);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setHasFixedSize(true);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         businessPosterInfoBookmarkRecyclerViewAdapter = new BusinessPosterInfoBookmarkRecyclerViewAdapter(MainActivity.this, null, BusinessPosterInfoBookmarkRecyclerViewMainActivity);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
-
         //End (Recycler View Poster Top, Poster, Bookmark)-----------------------------------------------------------------------------
 
-
-        //Hide And Show Menu Setting Start --------------------------------------------------------------------------
-        FloatingActionButton MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity = findViewById(R.id.MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity);
-        MenuRelativeLayoutMainActivity = findViewById(R.id.MenuRelativeLayoutMainActivity);
-        CategoryNameSwitchMainActivity = findViewById(R.id.CategoryNameSwitchMainActivity);
-        CategoryNameTextViewMainActivity = findViewById(R.id.CategoryNameTextViewMainActivity);
-        RegionNameTextViewMainActivity = findViewById(R.id.RegionNameTextViewMainActivity);
-        RegionNameSwitchMainActivity = findViewById(R.id.RegionNameSwitchMainActivity);
-        CardView MenuCardViewMainActivity = findViewById(R.id.MenuCardViewMainActivity);
-
-        MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-
-        MainMenuBottomCategoryAndRegionFloatingActionButtonMainActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                IsFirst = false;
-                if (MenuRelativeLayoutMainActivity.getVisibility() == View.GONE) {
-                    MenuRelativeLayoutMainActivity.setVisibility(View.VISIBLE);
-                } else {
-                    MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        CategoryNameSwitchMainActivity.setClickable(false);
-        RegionNameSwitchMainActivity.setClickable(false);
-        RegionNameSwitchMainActivity.setEnabled(false);
-        CategoryNameSwitchMainActivity.setEnabled(false);
-
-
-        MenuRelativeLayoutMainActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-            }
-        });
-
-        MenuCardViewMainActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent SettingIntent = NewIntent(SettingActivity.class);
-                startActivity(SettingIntent);
-            }
-        });
-
-//        CategoryNameSwitchMainActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                PageNumberPosterTop = 1;
-//                PageNumberPoster = 1;
-//
-//                if (isChecked) {
-//                    if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0)
-//                        BusinessCategoryId = null;
-//                    else
-//                        BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
-//
-//                } else {
-//                    BusinessCategoryId = null;
-//                }
-//
-//                businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
-//                isTopPosterRecyclerViewAdapter.ClearViewModelList();
-//
-//                if (!IsFirst) {
-//                    SetLocalSettingToRepository(BusinessCategoryId, RegionId);
-//                    LoadData();
-//                    MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//
-//        RegionNameSwitchMainActivity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                PageNumberPosterTop = 1;
-//                PageNumberPoster = 1;
-//
-//                if (isChecked) {
-//                    if (userSettingViewModel.isUseGprsPoint()) {
-//                        RegionId = null;
-//                        latitude = localUserSettingViewModel.getLatitude();
-//                        longitude = localUserSettingViewModel.getLongitude();
-//                    } else {
-//                        if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
-//                            RegionId = null;
-//                        } else {
-//                            RegionId = userSettingViewModel.getRegionId();
-//                        }
-//                    }
-//                } else {
-//                    RegionId = null;
-//                    latitude = null;
-//                    longitude = null;
-//                }
-//
-//                businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
-//                isTopPosterRecyclerViewAdapter.ClearViewModelList();
-//
-//                if (!IsFirst) {
-//                    MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-//                    SetLocalSettingToRepository(BusinessCategoryId, RegionId);
-//                    LoadData();
-//                }
-//            }
-//        });
-//
-//        RegionNameTextViewMainActivity.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (RegionNameSwitchMainActivity.isChecked()) {
-//                    if (localUserSettingViewModel.isUseGprsPoint()) {
-//
-//                        if (IsAddress) {
-//                            //if off GPS
-//                            // انتخاب آدرس کاربر
-//                            ShowLoadingProgressBar();
-//                            UserAddressService userAddressService = new UserAddressService(MainActivity.this);
-//                            userAddressService.GetAll();
-//                        } else {
-//                            //if on GPS
-//                            // نمایش دیالوگ مربوط  به انتخاب کیلومتر
-//                            ShowGpsRangeInKm();
-//                        }
-//                    } else {
-//                        Intent SettingIntent = NewIntent(SettingActivity.class);
-//                        startActivity(SettingIntent);
-//                    }
-//                }
-//            }
-//        });
-//
-//        CategoryNameTextViewMainActivity.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (CategoryNameSwitchMainActivity.isChecked()) {
-//                    Intent SettingIntent = NewIntent(SettingActivity.class);
-//                    startActivity(SettingIntent);
-//
-//                }
-//            }
-//        });
-
-        //End (Hide And Show Menu Setting) --------------------------------------------------------------------------
 
         queryType = QueryType.New.GetQueryType();
 
@@ -376,7 +190,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             }
         });
         //End (Top Tab)------------------------------------------------------------------------------------------------
-
     }
 
 
@@ -415,45 +228,14 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void GetSetting() {
-//        if (localSettingRepository.getLocalSetting() == null) {
-//            SetLocalSettingToRepository(userSettingViewModel.getBusinessCategoryId(), userSettingViewModel.getRegionId());
-//            setInformationSettingToView();
-//        } else {
-//            GetLocalSetting();
-//        }
 
         AccountRepository ARepository = new AccountRepository(null);
         AccountViewModel AccountViewModel = ARepository.getAccount();
         userSettingViewModel = AccountViewModel.getUserSetting();
-        setInformationSettingToView();
 
-    }
-
-    private void GetLocalSetting() {
-
-//        localUserSettingViewModel = localSettingRepository.getLocalSetting();
-//        setInformationSettingToView();
-    }
-
-    private void setInformationSettingToView() {
-
-        if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0) {
-
-            CategoryNameSwitchMainActivity.setChecked(false);
-            BusinessCategoryId = null;
-
-            if (userSettingViewModel.getBusinessCategoryId() == null || userSettingViewModel.getBusinessCategoryId() == 0)
-                CategoryNameTextViewMainActivity.setText(getResources().getString(R.string.category_name));
-            else
-                CategoryNameTextViewMainActivity.setText(businessCategoryRepository.GetFullName(userSettingViewModel.getBusinessCategoryId()));
-
-        } else {
-            CategoryNameSwitchMainActivity.setChecked(true);
-
-            CategoryNameTextViewMainActivity.setText(businessCategoryRepository.GetFullName(userSettingViewModel.getBusinessCategoryId()));
-            BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
-        }
-
+        GpsRangeInKm = userSettingViewModel.getGpsRangeInKm();
+        RegionId = userSettingViewModel.getRegionId() ;
+        BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
 
         if (userSettingViewModel.isUseGprsPoint()) {
 
@@ -464,55 +246,17 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                     CurrentGps.ShowTurnOnGpsDialog(this, this, R.string.TurnOnLocation);
                 } else {
                     GetMyLocation();
-                    IsAddress = false;
                     LoadData();
                 }
             }
-            RegionNameSwitchMainActivity.setChecked(true);
-
-            GpsRangeInKm = 1;
-            RegionId = null;
 
         } else {
-
-            IsAddress = false;
-
             GpsRangeInKm = null;
             latitude = null;
             longitude = null;
-
-            if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0) {
-
-                RegionNameSwitchMainActivity.setChecked(false);
-                RegionId = null;
-
-                if (userSettingViewModel.getRegionId() == null || userSettingViewModel.getRegionId() == 0)
-                    RegionNameTextViewMainActivity.setText(getResources().getString(R.string.region_name));
-                else
-                    RegionNameTextViewMainActivity.setText(regionRepository.GetFullName(userSettingViewModel.getRegionId()));
-
-            } else {
-                RegionNameSwitchMainActivity.setChecked(true);
-
-                RegionNameTextViewMainActivity.setText(regionRepository.GetFullName(userSettingViewModel.getRegionId()));
-                RegionId = userSettingViewModel.getRegionId();
-            }
         }
 
-
     }
-
-//    private void SetLocalSettingToRepository(Integer businessCategoryId, Integer regionId) {
-//
-//        localUserSettingViewModel.setBusinessCategoryId(businessCategoryId);
-//        localUserSettingViewModel.setRegionId(regionId);
-//        localUserSettingViewModel.setGpsRangeInKm(GpsRangeInKm);
-//        localUserSettingViewModel.setUseGprsPoint(userSettingViewModel.isUseGprsPoint());
-//        localUserSettingViewModel.setLatitude(latitude);
-//        localUserSettingViewModel.setLongitude(longitude);
-//
-//        localSettingRepository.setLocalSetting(localUserSettingViewModel);
-//    }
 
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
@@ -540,7 +284,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                                     LoadDataTop();
                                 }
                             }
-
                         } else {
                             Line.setVisibility(View.VISIBLE);
                             isTopPosterRecyclerViewAdapter.AddViewModelList(ViewModelList);
@@ -637,26 +380,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                         ShowErrorInConnectDialog();
                     }
                 }
-            } else if (ServiceMethod == ServiceMethodType.UserGetAllAddress) {
-                Feedback<List<UserAddressViewModel>> FeedBack = (Feedback<List<UserAddressViewModel>>) Data;
-
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-
-                    List<UserAddressViewModel> ViewModel = FeedBack.getValue();
-                    if (ViewModel != null) {
-                        //تنظیمات مربوط به recycle آدرس
-                        ShowDialogAddress(ViewModel);
-                    }
-
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        ShowErrorInConnectDialog();
-                    }
-                }
             }
-
         } catch (Exception e) {
             HideLoading();
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
@@ -664,63 +388,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     }
 
-    private void ShowGpsRangeInKm() {
-
-        final Dialog GpsRangeDialog = new Dialog(MainActivity.this);
-        GpsRangeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        GpsRangeDialog.setContentView(R.layout.dialog_gps_range);
-
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/iransanslight.ttf");
-
-        TextViewPersian HeaderColorDialog = GpsRangeDialog.findViewById(R.id.HeaderColorDialog);
-        HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(MainActivity.this, 1);
-
-        ButtonPersianView DialogOkButton = GpsRangeDialog.findViewById(R.id.DialogOkButton);
-        final EditText GpsRangeEditText = GpsRangeDialog.findViewById(R.id.GpsRangeEditText);
-        SeekBar GpsRangeSeekBar = GpsRangeDialog.findViewById(R.id.GpsRangeSeekBar);
-        GpsRangeEditText.setTypeface(typeface);
-
-        GpsRangeEditText.setText(String.valueOf(GpsRangeInKm));
-
-        GpsRangeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress,
-                                          boolean fromUser) {
-                GpsRangeEditText.setText(String.valueOf(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        DialogOkButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (GpsRangeEditText.getText().toString().equals("")) {
-                    GpsRangeInKm = 1;
-                } else {
-                    GpsRangeInKm = Integer.parseInt(GpsRangeEditText.getText().toString());
-                }
-
-              //  SetLocalSettingToRepository(BusinessCategoryId, RegionId);
-                MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-
-                LoadData();
-
-                GpsRangeDialog.dismiss();
-
-            }
-        });
-
-        GpsRangeDialog.show();
-    }
-
     private void NewestPoster() {
+        SelectTab = 1;
         businessPosterInfoRecyclerViewMainActivity.setVisibility(View.VISIBLE);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setVisibility(View.GONE);
 
@@ -747,6 +416,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void StarredPoster() {
+        SelectTab = 2;
         businessPosterInfoRecyclerViewMainActivity.setVisibility(View.VISIBLE);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setVisibility(View.GONE);
 
@@ -773,6 +443,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void MostVisitedPoster() {
+
+        SelectTab = 3;
         businessPosterInfoRecyclerViewMainActivity.setVisibility(View.VISIBLE);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setVisibility(View.GONE);
 
@@ -800,6 +472,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     }
 
     private void BookmarkPoster() {
+        SelectTab = 4;
 
         businessPosterInfoRecyclerViewMainActivity.setVisibility(View.GONE);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setVisibility(View.VISIBLE);
@@ -837,26 +510,13 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             GpsCurrentLocation gpsCurrentLocation = new GpsCurrentLocation(this);
             latitude = gpsCurrentLocation.getLatitude();
             longitude = gpsCurrentLocation.getLongitude();
-            RegionNameTextViewMainActivity.setText(getResources().getString(R.string.by_location_km));
             GetMyLocation();
-
-            IsAddress = false;
 
             LoadData();
 
         } else {
-            RegionNameTextViewMainActivity.setText(getResources().getString(R.string.address));
-
-            IsAddress = true;
-
-            if (userAddressViewModels == null || userAddressViewModels.size() == 0) {
-                latitude = null;
-                longitude = null;
-            } else if (userAddressViewModels.size() > 1) {
-                latitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLatitude();
-                longitude = userAddressViewModels.get(userAddressViewModels.size() - 1).getLongitude();
-            }
-
+            latitude = null;
+            longitude = null;
             LoadData();
         }
     }
@@ -885,60 +545,13 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     private void GetMyLocation() {
 
-        RegionNameTextViewMainActivity.setText(getResources().getString(R.string.by_location_km));
-
         GpsCurrentLocation gpsCurrentLocation = new GpsCurrentLocation(this);
         latitude = gpsCurrentLocation.getLatitude();
         longitude = gpsCurrentLocation.getLongitude();
     }
 
-
-    private void ShowDialogAddress(List<UserAddressViewModel> ViewModel) {
-
-        ShowAddressDialog = new Dialog(MainActivity.this);
-        ShowAddressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        ShowAddressDialog.setContentView(R.layout.dialog_user_address);
-
-        TextViewPersian HeaderTextView = ShowAddressDialog.findViewById(R.id.HeaderTextView);
-        TextViewPersian ShowEmptyUserAddressTextView = ShowAddressDialog.findViewById(R.id.ShowEmptyUserAddressTextView);
-        HeaderTextView.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(MainActivity.this, 1);
-
-        RecyclerView UserAddressRecyclerView = ShowAddressDialog.findViewById(R.id.UserAddressRecyclerView);
-
-        if (ViewModel == null || ViewModel.size() == 0) {
-            ShowEmptyUserAddressTextView.setVisibility(View.VISIBLE);
-        } else {
-            ShowEmptyUserAddressTextView.setVisibility(View.GONE);
-        }
-
-        UserAddressDialogRecyclerViewAdapter userAddressDialogRecyclerViewAdapter = new UserAddressDialogRecyclerViewAdapter(MainActivity.this, ViewModel);
-        LinearLayoutManager BusinessOpenTimeLinearLayoutManager = new LinearLayoutManager(MainActivity.this);
-        UserAddressRecyclerView.setLayoutManager(BusinessOpenTimeLinearLayoutManager);
-        UserAddressRecyclerView.setAdapter(userAddressDialogRecyclerViewAdapter);
-
-        ShowAddressDialog.show();
-    }
-
-    public void GetLatLngAddress(Double Latitude, Double Longitude) {
-        MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-
-        latitude = Latitude;
-        longitude = Longitude;
-
-        ShowAddressDialog.dismiss();
-
-      //  SetLocalSettingToRepository(BusinessCategoryId, RegionId);
-
-        LoadData();
-
-    }
-
     @Override
     public void onBackPressed() {
-
-        if (MenuRelativeLayoutMainActivity.getVisibility() == View.VISIBLE)
-            MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
-        else
             super.onBackPressed();
     }
 
@@ -947,15 +560,50 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         super.onRestart();
 
         AccountRepository ARepository = new AccountRepository(null);
-        userSettingViewModel = ARepository.getAccount().getUserSetting();
+        AccountViewModel AccountViewModel = ARepository.getAccount();
+        userSettingViewModel = AccountViewModel.getUserSetting();
 
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
-        MenuRelativeLayoutMainActivity.setVisibility(View.GONE);
 
-        GetSetting();
+        businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+        isTopPosterRecyclerViewAdapter.ClearViewModelList();
+        businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
 
-        NewestPoster();
+        GpsRangeInKm = userSettingViewModel.getGpsRangeInKm();
+        RegionId = userSettingViewModel.getRegionId() ;
+        BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
+
+        if (userSettingViewModel.isUseGprsPoint()) {
+
+            if (!CurrentGps.IsPermissionEnabled()) {
+                CurrentGps.ShowPermissionDialog(this);
+            } else {
+                if (!CurrentGps.IsEnabled()) {
+                    CurrentGps.ShowTurnOnGpsDialog(this, this, R.string.TurnOnLocation);
+                } else {
+                    GetMyLocation();
+                    LoadData();
+                }
+            }
+
+        } else {
+            GpsRangeInKm = null;
+            latitude = null;
+            longitude = null;
+
+
+            if (SelectTab == 1) {
+                NewestPoster();
+            } else if (SelectTab == 2) {
+                StarredPoster();
+            } else if (SelectTab == 3) {
+                MostVisitedPoster();
+            } else if (SelectTab == 4) {
+                BookmarkPoster();
+            }
+        }
+
     }
 
     @Override

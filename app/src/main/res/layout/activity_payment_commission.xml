@@ -80,10 +80,24 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginRight="6dp"
+                    android:layout_toLeftOf="@+id/PricePayableTitleTextViewPaymentCommissionActivity"
+                    android:layout_toEndOf="@+id/UnitPricePayableTextViewPaymentCommissionActivity"
+                    android:layout_toRightOf="@+id/UnitPricePayableTextViewPaymentCommissionActivity"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/FontGreenColor"
+                    android:textStyle="bold" />
+
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:id="@+id/UnitPricePayableTextViewPaymentCommissionActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="6dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_toLeftOf="@+id/PricePayableTitleTextViewPaymentCommissionActivity"
                     android:gravity="left"
+                    android:text="@string/toman"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/FontGreenColor"
                     android:textStyle="bold" />

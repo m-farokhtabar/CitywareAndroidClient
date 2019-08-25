@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="ir.rayas.app.citywareclient.View.UserProfileChildren.BuyPosterSetActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/MasterContentLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,7 +21,9 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/BackToolBar"
+            android:layout_above="@+id/SaveButtonBuyPosterSetActivity">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -207,22 +209,20 @@
                     android:scaleType="fitCenter"
                     tools:ignore="ContentDescription" />
 
-
-                <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
-                    android:id="@+id/SaveButtonBuyPosterSetActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/selector_button_theme_style"
-                    android:text="@string/save_information"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/FontWhiteColor" />
-
             </LinearLayout>
         </ScrollView>
 
 
-    </LinearLayout>
+        <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+            android:id="@+id/SaveButtonBuyPosterSetActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/selector_button_theme_without_corner_and_shadow"
+            android:text="@string/save_information"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontWhiteColor" />
+    </RelativeLayout>
 
     <include
         android:id="@+id/LoadingLinearLayout"

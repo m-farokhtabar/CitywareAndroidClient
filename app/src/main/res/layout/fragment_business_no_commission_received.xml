@@ -56,12 +56,11 @@
             android:background="@color/LineTopColor"
             tools:ignore="Suspicious0dp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:gravity="right"
-            android:orientation="horizontal"
             tools:ignore="RtlHardcoded">
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
@@ -70,6 +69,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/TitleTotalPriceFactorTextViewBusinessNoCommissionReceivedFragment"
+                android:layout_toStartOf="@+id/TitleTotalPriceFactorTextViewBusinessNoCommissionReceivedFragment"
                 android:gravity="right"
                 android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -77,16 +82,19 @@
                 tools:ignore="RtlHardcoded" />
 
             <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/TitleTotalPriceFactorTextViewBusinessNoCommissionReceivedFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:gravity="right"
                 android:text="@string/price_payable"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/FontSemiBlackColor"
                 tools:ignore="RtlHardcoded" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
             android:id="@+id/SubmitButtonBusinessNoCommissionReceivedFragment"

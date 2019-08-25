@@ -662,7 +662,7 @@ public class ShowBusinessDetailsActivity extends BaseActivity implements IRespon
 
         String ShareMessage;
         ShareMessage = ViewModel.getTitle() + "\n" + ViewModel.getJobTitle() + "\n";
-        ShareMessage = ShareMessage + getResources().getString(R.string.address) + " : " + regionRepository.GetFullName(ViewModel.getRegionId())+ "\n";
+        ShareMessage = ShareMessage + getResources().getString(R.string.address) + " : " + regionRepository.GetFullName(ViewModel.getRegionId())+ " - " + ViewModel.getAddress()+ "\n";
         ShareMessage = ShareMessage + Html.fromHtml(Description).toString() ;
 
         String ProductImage;

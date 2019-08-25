@@ -88,19 +88,19 @@
         android:layout_centerVertical="true"
         android:background="@drawable/ic_favorite_border_24dp"
         android:scaleType="fitCenter"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/IsDeliveryImageView"
         android:layout_width="18dp"
         android:layout_height="18dp"
+        android:layout_gravity="center"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:adjustViewBounds="true"
-        android:layout_toEndOf="@+id/BookmarkImageView"
-        android:layout_toRightOf="@+id/BookmarkImageView"
-        android:background="@drawable/ic_is_delivery_24dp"
         android:layout_centerVertical="true"
+        android:background="@drawable/ic_is_delivery_24dp"
         android:scaleType="fitCenter"
         tools:ignore="ContentDescription" />
 

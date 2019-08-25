@@ -104,7 +104,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
 
     public void SortViewModelList(List<PurchasedPosterViewModel> ViewModel) {
-        ClearViewModelList();
+        ClearViewModelListSort();
 
         if (ViewModel != null) {
             for (int i = 0; i < ViewModel.size() - 1; i++) {
@@ -125,17 +125,6 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     }
 
 
-    public void ClearViewModelList() {
-        if (ViewModelList != null) {
-            if (ViewModelList.size() >0) {
-                ViewModelList.clear();
-                notifyDataSetChanged();
-                Container.invalidate();
-            }
-        }
-    }
-
-
     /**
      * اضافه مودن یک آدرس جدید به لیست
      *
@@ -145,7 +134,9 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         if (ViewModel != null) {
             if (ViewModelList == null)
                 ViewModelList = new ArrayList<>();
+
             ViewModelList.add(ViewModel);
+            SortViewModelList(ViewModelList);
             notifyDataSetChanged();
             Container.invalidate();
         }
@@ -165,20 +156,37 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                     Item.setExpireDate(ViewModel.getExpireDate());
                     Item.setPosterPrice(ViewModel.getPosterPrice());
                     Item.setCreate(ViewModel.getCreate());
+                    Item.setBusinessName(ViewModel.getBusinessName());
                     Item.setLastExtendOrBuyDate(ViewModel.getLastExtendOrBuyDate());
 
                 }
             }
 
-            for (int i=0; i<ViewModelListSort.size();i++){
-                 if (ViewModel.getId() == ViewModelListSort.get(i).getId()){
-                     ViewModelListSort.remove(i);
-                     ViewModelListSort.add(ViewModel);
-                 }
-            }
+            SortViewModelList(ViewModelList);
 
             notifyDataSetChanged();
             Container.invalidate();
+        }
+    }
+
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
+
+    public void ClearViewModelListSort() {
+        if (ViewModelListSort != null) {
+            if (ViewModelListSort.size() >0) {
+                ViewModelListSort.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
         }
     }
 

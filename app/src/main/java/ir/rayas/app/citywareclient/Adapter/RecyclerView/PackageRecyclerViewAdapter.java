@@ -32,6 +32,11 @@ public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private UserProfileActivity Context;
     private RecyclerView Container = null;
     private List<OutputPackageTransactionViewModel> ViewModelList = null;
+    private List<OutputPackageTransactionViewModel> ViewModelListSort = null;
+
+    public List<OutputPackageTransactionViewModel> getViewModelListSort() {
+        return ViewModelListSort;
+    }
 
     public PackageRecyclerViewAdapter(UserProfileActivity Context, List<OutputPackageTransactionViewModel> PackageList, RecyclerView Container) {
         this.ViewModelList = PackageList;
@@ -49,7 +54,10 @@ public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         if (ViewModel != null) {
             if (ViewModelList == null)
                 ViewModelList = new ArrayList<>();
+            if (ViewModelListSort == null)
+                ViewModelListSort = new ArrayList<>();
             ViewModelList.addAll(ViewModel);
+            ViewModelListSort.addAll(ViewModel);
             notifyDataSetChanged();
             Container.invalidate();
         }
@@ -62,7 +70,9 @@ public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
      */
     public void SetViewModelList(List<OutputPackageTransactionViewModel> ViewModel) {
         ViewModelList = new ArrayList<>();
+        ViewModelListSort = new ArrayList<>();
         ViewModelList.addAll(ViewModel);
+        ViewModelListSort.addAll(ViewModel);
         notifyDataSetChanged();
         Container.invalidate();
     }
@@ -77,13 +87,55 @@ public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         if (ViewModel != null) {
             if (ViewModelList == null)
                 ViewModelList = new ArrayList<>();
+
+
             ViewModelList.add(ViewModel);
+            SortViewModelList(ViewModelList);
             notifyDataSetChanged();
             Container.invalidate();
         }
     }
 
+    public void SortViewModelList(List<OutputPackageTransactionViewModel> ViewModel) {
+        ClearViewModelListSort();
 
+        if (ViewModel != null) {
+            for (int i = 0; i < ViewModel.size() - 1; i++) {
+                for (int j = i + 1; j < ViewModel.size(); j++) {
+                    if (ViewModel.get(i).getId() < ViewModel.get(j).getId()) {
+                        OutputPackageTransactionViewModel temp = ViewModel.get(i);
+                        ViewModel.set(i, ViewModel.get(j));
+                        ViewModel.set(j, temp);
+                    }
+                }
+            }
+        }
+
+        ViewModelList = new ArrayList<>();
+        ViewModelList.addAll(ViewModel);
+        notifyDataSetChanged();
+        Container.invalidate();
+    }
+
+    public void ClearViewModelList() {
+        if (ViewModelList != null) {
+            if (ViewModelList.size() >0) {
+                ViewModelList.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
+
+    public void ClearViewModelListSort() {
+        if (ViewModelListSort != null) {
+            if (ViewModelListSort.size() >0) {
+                ViewModelListSort.clear();
+                notifyDataSetChanged();
+                Container.invalidate();
+            }
+        }
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

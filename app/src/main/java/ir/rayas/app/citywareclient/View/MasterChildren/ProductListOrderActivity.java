@@ -363,7 +363,7 @@ public class ProductListOrderActivity extends BaseActivity implements IResponseS
         ProductNameTextView.setTypeface(typeface);
 
         UnitPriceProductTextView.setText(getResources().getString(R.string.zero));
-        CountProductTextView.setText(getResources().getString(R.string.zero));
+        CountProductTextView.setText(getResources().getString(R.string.zero_double));
 
         DialogOrderProductOkButton.setOnClickListener(new View.OnClickListener() {
             @Override

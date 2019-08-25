@@ -48,7 +48,7 @@ public class UserAddressDialogRecyclerViewAdapter extends RecyclerView.Adapter<U
         holder.UserAddressDialogTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 Context.GetLatLngAddress(ViewModelList.get(position).getLatitude(),ViewModelList.get(position).getLongitude());
+                 //Context.GetLatLngAddress(ViewModelList.get(position).getLatitude(),ViewModelList.get(position).getLongitude());
             }
         });
     }

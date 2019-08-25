@@ -53,6 +53,8 @@ public class DefaultConstant {
      * کلید اکانت نگهداری اطلاعات اصناف به صورت درختی
      */
     public static String BusinessCategoryKey = "BusinessCategoryKey";
+    public static String BusinessCommissionKey = "BusinessCommissionKey";
+    public static String PackageKey = "PackageKey";
     /**
      * تعداد آیتم های نمایش در صفحه
      */

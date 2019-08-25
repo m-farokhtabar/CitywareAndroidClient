@@ -13,14 +13,22 @@
             android:layout_height="16dp"
             android:background="@color/BackgroundThemeColor" />
 
-        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-            android:id="@+id/MessageTextView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_gravity="right"
             android:gravity="right"
-            android:layout_margin="16dp" />
+            android:layout_margin="16dp">
 
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/MessageTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right" />
+        </LinearLayout>
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

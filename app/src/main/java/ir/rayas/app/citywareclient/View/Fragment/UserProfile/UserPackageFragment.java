@@ -47,6 +47,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     private boolean IsLoadedDataForFirst = false;
     private PackageRecyclerViewAdapter packageRecyclerViewAdapter = null;
     private ClosePackageRecyclerViewAdapter closePackageRecyclerViewAdapter = null;
+    private SwitchCompat ExpireAndValidatePackageSwitchUserPackageFragment = null;
     private int PageNumberOpen = 1;
     private int PageNumberClose = 1;
 
@@ -82,7 +83,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
         RefreshPackageSwipeRefreshLayoutUserPackageFragment = CurrentView.findViewById(R.id.RefreshPackageSwipeRefreshLayoutUserPackageFragment);
         final RecyclerView PackageOpenRecyclerViewUserPackageFragment = CurrentView.findViewById(R.id.PackageOpenRecyclerViewUserPackageFragment);
         final RecyclerView PackageCloseRecyclerViewUserPackageFragment = CurrentView.findViewById(R.id.PackageCloseRecyclerViewUserPackageFragment);
-        final SwitchCompat ExpireAndValidatePackageSwitchUserPackageFragment = CurrentView.findViewById(R.id.ExpireAndValidatePackageSwitchUserPackageFragment);
+        ExpireAndValidatePackageSwitchUserPackageFragment = CurrentView.findViewById(R.id.ExpireAndValidatePackageSwitchUserPackageFragment);
         UserCreditTextViewUserPackageFragment = CurrentView.findViewById(R.id.UserCreditTextViewUserPackageFragment);
         final TextViewPersian ExpireAndValidatePackageTitleTextViewUserPackageFragment = CurrentView.findViewById(R.id.ExpireAndValidatePackageTitleTextViewUserPackageFragment);
 
@@ -115,6 +116,9 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
             @Override
             public void onRefresh() {
 
+                packageRecyclerViewAdapter.ClearViewModelList();
+                closePackageRecyclerViewAdapter.ClearViewModelList();
+
                 IsSwipe = true;
 
                 if (IsValid) {
@@ -136,10 +140,10 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
         ExpireAndValidatePackageSwitchUserPackageFragment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                RefreshPackageSwipeRefreshLayoutUserPackageFragment.setRefreshing(true);
 
-                List<OutputPackageTransactionViewModel> ViewModelList = new ArrayList<>();
-                packageRecyclerViewAdapter.SetViewModelList(ViewModelList);
-                closePackageRecyclerViewAdapter.SetViewModelList(ViewModelList);
+                packageRecyclerViewAdapter.ClearViewModelList();
+                closePackageRecyclerViewAdapter.ClearViewModelList();
 
                 PageNumberOpen = 1;
                 PageNumberClose = 1;
@@ -180,6 +184,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                 Context.ShowLoadingProgressBar();
 
         Context.setLoadPackage(true);
+        ExpireAndValidatePackageSwitchUserPackageFragment.setClickable(false);
+        ExpireAndValidatePackageSwitchUserPackageFragment.setEnabled(false);
 
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
@@ -189,6 +195,9 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
 
     public void LoadDataOpenPackage() {
 
+        ExpireAndValidatePackageSwitchUserPackageFragment.setClickable(false);
+        ExpireAndValidatePackageSwitchUserPackageFragment.setEnabled(false);
+
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
         packageService.GetAllOpen(PageNumberOpen);
@@ -196,6 +205,9 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     }
 
     public void LoadDataClosePackage() {
+
+        ExpireAndValidatePackageSwitchUserPackageFragment.setClickable(false);
+        ExpireAndValidatePackageSwitchUserPackageFragment.setEnabled(false);
 
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
@@ -205,6 +217,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
 
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
+        ExpireAndValidatePackageSwitchUserPackageFragment.setClickable(true);
+        ExpireAndValidatePackageSwitchUserPackageFragment.setEnabled(true);
 
         RefreshPackageSwipeRefreshLayoutUserPackageFragment.setRefreshing(false);
         IsSwipe = false;

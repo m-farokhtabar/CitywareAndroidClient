@@ -49,6 +49,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     private boolean IsLoadedDataForFirst = false;
     private PosterValidRecyclerViewAdapter posterValidRecyclerViewAdapter = null;
     private PosterExpiredRecyclerViewAdapter posterExpiredRecyclerViewAdapter = null;
+    private  SwitchCompat ExpireAndValidatePosterSwitchUserPostersFragment = null;
 
     private int PageNumberValid = 1;
     private int PageNumberExpire = 1;
@@ -85,12 +86,12 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         RefreshPosterSwipeRefreshLayoutUserPostersFragment = CurrentView.findViewById(R.id.RefreshPosterSwipeRefreshLayoutUserPostersFragment);
         final RecyclerView PosterValidRecyclerViewUserPostersFragment = CurrentView.findViewById(R.id.PosterValidRecyclerViewUserPostersFragment);
         final RecyclerView PosterExpiredRecyclerViewUserPackageFragment = CurrentView.findViewById(R.id.PosterExpiredRecyclerViewUserPackageFragment);
-        final SwitchCompat ExpireAndValidatePosterSwitchUserPostersFragment = CurrentView.findViewById(R.id.ExpireAndValidatePosterSwitchUserPostersFragment);
+        ExpireAndValidatePosterSwitchUserPostersFragment = CurrentView.findViewById(R.id.ExpireAndValidatePosterSwitchUserPostersFragment);
         UserCreditTextViewUserPostersFragment = CurrentView.findViewById(R.id.UserCreditTextViewUserPostersFragment);
         final TextViewPersian ExpireAndValidatePosterTitleTextViewUserPostersFragment = CurrentView.findViewById(R.id.ExpireAndValidatePosterTitleTextViewUserPostersFragment);
 
-        ExpireAndValidatePosterSwitchUserPostersFragment.setChecked(true);
         ShowEmptyTextViewUserPostersFragment.setVisibility(View.GONE);
+        ExpireAndValidatePosterSwitchUserPostersFragment.setChecked(true);
 
         PosterValidRecyclerViewUserPostersFragment.setLayoutManager(new LinearLayoutManager(Context));
         posterValidRecyclerViewAdapter = new PosterValidRecyclerViewAdapter(Context, null, PosterValidRecyclerViewUserPostersFragment);
@@ -113,6 +114,9 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         RefreshPosterSwipeRefreshLayoutUserPostersFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                
+                posterValidRecyclerViewAdapter.ClearViewModelList();
+                posterExpiredRecyclerViewAdapter.ClearViewModelList();
 
                 IsSwipe = true;
 
@@ -135,10 +139,10 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         ExpireAndValidatePosterSwitchUserPostersFragment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                RefreshPosterSwipeRefreshLayoutUserPostersFragment.setRefreshing(true);
 
-                List<PurchasedPosterViewModel> ViewModelList = new ArrayList<>();
-                posterValidRecyclerViewAdapter.SetViewModelList(ViewModelList);
-                posterExpiredRecyclerViewAdapter.SetViewModelList(ViewModelList);
+                posterValidRecyclerViewAdapter.ClearViewModelList();
+                posterExpiredRecyclerViewAdapter.ClearViewModelList();
 
                 PageNumberValid = 1;
                 PageNumberExpire = 1;
@@ -181,6 +185,9 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
         Context.setLoadPoster(true);
 
+        ExpireAndValidatePosterSwitchUserPostersFragment.setClickable(false);
+        ExpireAndValidatePosterSwitchUserPostersFragment.setEnabled(false);
+
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
         packageService.GetUserCredit();
@@ -188,6 +195,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     }
 
     public void LoadDataValidPoster() {
+        ExpireAndValidatePosterSwitchUserPostersFragment.setClickable(false);
+        ExpireAndValidatePosterSwitchUserPostersFragment.setEnabled(false);
 
         PosterService userPosterService = new PosterService(this);
         Context.setRetryType(2);
@@ -196,6 +205,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     }
 
     public void LoadDataExpirePoster() {
+        ExpireAndValidatePosterSwitchUserPostersFragment.setClickable(false);
+        ExpireAndValidatePosterSwitchUserPostersFragment.setEnabled(false);
 
         PosterService userPosterService = new PosterService(this);
         Context.setRetryType(2);
@@ -205,6 +216,9 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
+        
+        ExpireAndValidatePosterSwitchUserPostersFragment.setClickable(true);
+        ExpireAndValidatePosterSwitchUserPostersFragment.setEnabled(true);
 
         RefreshPosterSwipeRefreshLayoutUserPostersFragment.setRefreshing(false);
         IsSwipe = false;
