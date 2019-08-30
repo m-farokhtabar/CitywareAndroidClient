@@ -205,11 +205,14 @@ public class UserProfileActivity extends BaseActivity {
 
         ((UserPosterFragment) Pager.getFragmentByIndex(0)).SetViewUserCredit(Price, true);
 
-        if (IsLoadPackage)
+        if (IsLoadPackage) {
             ((UserPackageFragment) Pager.getFragmentByIndex(1)).SetViewUserCreditPackage(Price, false);
+            ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadDataOpenPackage();
+        }
 
-        if (IsSet)
+        if (IsSet) {
             ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(ViewModel);
+        }
     }
 
     @SuppressLint("SetTextI18n")

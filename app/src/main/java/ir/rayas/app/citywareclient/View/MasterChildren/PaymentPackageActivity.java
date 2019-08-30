@@ -204,9 +204,32 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
 
     private void PaymentPackage() {
         ShowLoadingProgressBar();
-        PackageService packageService = new PackageService(this);
-        RetryType = 2;
-        packageService.Add(MadeViewModel());
+
+        if (Id == 0) {
+            PackageService packageService = new PackageService(this);
+            RetryType = 2;
+            packageService.Add(MadeViewModel());
+        }else {
+            IsPay = true;
+
+            if (packageRepository.getPackagePayment() != null)
+                packageRepository.ClearPackagePayment();
+
+            PackagePaymentViewModel packagePaymentViewModel = new PackagePaymentViewModel();
+            packagePaymentViewModel.setPackageId(PackageId);
+            packagePaymentViewModel.setId(Id);
+            packagePaymentViewModel.setPackageName(PackageName);
+            packagePaymentViewModel.setPay(IsPay);
+            packagePaymentViewModel.setPricePayable(PricePayable);
+
+            packageRepository.setPackagePayment(packagePaymentViewModel);
+
+
+            String url = "http://asanpardakhtpg.zeytoonfood.com/startpayment.aspx?type=1&id=" + Id;
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
     }
 
     private PurchasePackageViewModel MadeViewModel() {
@@ -230,7 +253,6 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         packageService.GetAllOpen(1);
 
     }
-
 
     /**
      * @param Data
@@ -366,7 +388,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                         SendDataToParentActivity(ViewModel);
                         onBackPressed();
                     } else {
-                        ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Error);
+                        ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Warning);
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -442,6 +464,10 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+        if (packageRepository.getPackagePayment() != null) {
+            packageRepository.ClearPackagePayment();
+        }
     }
 
 

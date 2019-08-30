@@ -29,4 +29,10 @@
         <item name="colorControlNormal">@color/BackgroundThemeLightColor</item>
         <item name="colorControlActivated">@color/BackgroundThemeColor</item>
     </style>
+
+    <style name="SwitchThemeSetting" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/ButtonBackgroundThemeColor</item>
+        <item name="colorSwitchThumbNormal">@color/ButtonBackgroundGreenColor</item>
+        <item name="android:colorForeground">@color/ButtonBackgroundPressGreenColor</item>
+    </style>
 </resources>

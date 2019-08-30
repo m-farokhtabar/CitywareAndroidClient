@@ -81,6 +81,10 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     private BusinessCategoryRepository businessCategoryRepository = new BusinessCategoryRepository();
 
     private UserSettingViewModel userSettingViewModel = null;
+    private boolean IsFirst = true;
+    private int ProgressText = 1;
+
+    boolean IsBlockChangeEditBoxOrProgressBar = false;
 
 
     @Override
@@ -99,6 +103,9 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             }
         }, R.string.setting);
         //ایجاد طرح بندی صفحه
+
+        IsFirst = true;
+
         CreateLayout();
         //دریافت اطلاعات از سرور
         LoadData();
@@ -159,22 +166,31 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         gpsRangeSeekBarSettingActivity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int ProgressText = 1;
-                if (progress > 1495) {
-                    ProgressText = progress;
-                } else if (progress < 5) {
-                    ProgressText = progress;
-                } else if (progress ==0) {
-                    ProgressText = 1;
-                } else {
-                    ProgressText = progress +5;
+                if (!IsBlockChangeEditBoxOrProgressBar){
+                    if (IsFirst) {
+                        IsFirst = false;
+                    } else {
+                        if (progress > 1495) {
+                            ProgressText = progress;
+                        } else if (progress < 5) {
+                            ProgressText = progress;
+                        } else if (progress == 0) {
+                            ProgressText = 1;
+                        } else {
+                            ProgressText = progress + 5;
+                        }
+                    }
+                    IsBlockChangeEditBoxOrProgressBar = true;
+                    GpsRangeEditTextSettingActivity.setText(String.valueOf(ProgressText));
                 }
-                GpsRangeEditTextSettingActivity.setText(String.valueOf(ProgressText));
-//              SetProgressToEditText(ProgressText);
+                else
+                    IsBlockChangeEditBoxOrProgressBar = false;
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -184,22 +200,27 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
             @Override
             public void afterTextChanged(Editable s) {
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String GPSRangeText;
-                GPSRangeText = s.toString();
-
-                int GPSRange;
-                if (s.length() != 0) {
-                    GPSRange = Integer.valueOf(GPSRangeText);
-                } else {
-                    GPSRange = 1;
+                if (!IsBlockChangeEditBoxOrProgressBar) {
+                    String GPSRangeText;
+                    GPSRangeText = s.toString();
+                    int GPSRange;
+                    if (s.length() != 0) {
+                        GPSRange = Integer.valueOf(GPSRangeText);
+                    } else {
+                        GPSRange = 1;
+                    }
+                    IsBlockChangeEditBoxOrProgressBar = true;
+                    gpsRangeSeekBarSettingActivity.setProgress(GPSRange);
                 }
-//                SetProgressToEditText(GPSRange);
-//                gpsRangeSeekBarSettingActivity.setProgress(GPSRange);
+                else
+                    IsBlockChangeEditBoxOrProgressBar = false;
             }
         });
 
@@ -212,12 +233,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         });
 
     }
-
-    private void SetProgressToEditText(int Progress){
-        GpsRangeEditTextSettingActivity.setText(String.valueOf(Progress));
-        gpsRangeSeekBarSettingActivity.setProgress(Progress);
-    }
-
+    
     private void SetInformationToSpinner() {
         SearchType.add(getResources().getString(R.string.search_on_all_items));
         SearchType.add(getResources().getString(R.string.search_on_business));
@@ -461,12 +477,14 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
 
         if (userSettingViewModel.getGpsRangeInKm() == null) {
             GpsRangeEditTextSettingActivity.setText(String.valueOf(1));
+            ProgressText = 1;
         } else {
             GpsRangeEditTextSettingActivity.setText(String.valueOf(userSettingViewModel.getGpsRangeInKm()));
+            ProgressText = userSettingViewModel.getGpsRangeInKm();
         }
 
         if (userSettingViewModel.getGpsRangeInKm() != null)
-            if (userSettingViewModel.getGpsRangeInKm() <= 500)
+            if (userSettingViewModel.getGpsRangeInKm() <= 1500)
                 gpsRangeSeekBarSettingActivity.setProgress(userSettingViewModel.getGpsRangeInKm());
 
 

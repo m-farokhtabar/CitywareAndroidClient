@@ -36,7 +36,6 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
     private String PricePayable = "";
     private String Id = "";
     private int BusinessId;
-    private String myId = "";
     private boolean IsPay = false;
 
 
@@ -148,7 +147,7 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
     }
 
     public void LoadData() {
-        myId = Id.replaceAll("_", ",");
+        String myId = Id.replaceAll("_", ",");
         ShowLoadingProgressBar();
 
         MarketingService MarketingService = new MarketingService(this);
@@ -262,6 +261,10 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
 
     @Override
     public void onBackPressed() {
+        if (businessCommissionRepository.getBusinessCommission() != null) {
+            businessCommissionRepository.ClearBusinessCommission();
+        }
+
         SendDataToParentActivity();
         super.onBackPressed();
     }

@@ -19,184 +19,198 @@
             android:id="@+id/ToolBar"
             layout="@layout/view_toolbar" />
 
-        <android.support.v7.widget.LinearLayoutCompat
-            android:id="@+id/NewAndStarAndVisitLinearLayoutMainActivity"
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ToolBar"
-            android:weightSum="4">
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:id="@+id/BookmarkLinearLayoutMainActivity"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_item_bottom_menu"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:id="@+id/BookmarkTextViewMainActivity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@string/favorite"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/FontSemiBlackColor" />
-
-                <TextView
-                    android:id="@+id/LineBookmarkTextViewMainActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.7dp"
-                    android:background="@color/BackgroundWhiteColor" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:id="@+id/MostVisitedLinearLayoutMainActivity"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_item_bottom_menu"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:id="@+id/MostVisitedTextViewMainActivity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@string/most_visited"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/FontSemiBlackColor" />
-
-                <TextView
-                    android:id="@+id/LineMostVisitedTextViewMainActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.7dp"
-                    android:background="@color/BackgroundWhiteColor" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:id="@+id/StarredLinearLayoutMainActivity"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_item_bottom_menu"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:id="@+id/StarredTextViewMainActivity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@string/starred"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/FontSemiBlackColor" />
-
-                <TextView
-                    android:id="@+id/LineStarredTextViewMainActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.7dp"
-                    android:background="@color/BackgroundWhiteColor" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:id="@+id/NewestLinearLayoutMainActivity"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_item_bottom_menu"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
-                    android:id="@+id/NewestTextViewMainActivity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@string/newest"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/FontSemiDarkThemeColor" />
-
-                <TextView
-                    android:id="@+id/LineNewestTextViewMainActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.7dp"
-                    android:background="@color/BackgroundThemeColor" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-        </android.support.v7.widget.LinearLayoutCompat>
-
-        <FrameLayout
-            android:id="@+id/LineTab"
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_below="@+id/NewAndStarAndVisitLinearLayoutMainActivity"
-            android:background="@color/LineTopColor" />
-
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/RefreshSwipeRefreshLayoutMainActivity"
             android:layout_above="@+id/MainMenuBottom"
-            android:layout_below="@+id/LineTab"
-            android:scrollbars="none">
+            android:layout_below="@+id/ToolBar">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/IsTopPosterRecyclerViewMainActivity"
+                <android.support.v7.widget.LinearLayoutCompat
+                    android:id="@+id/NewAndStarAndVisitLinearLayoutMainActivity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:divider="@null"
-                    android:dividerHeight="0dp" />
+                    android:weightSum="4">
+
+                    <android.support.v7.widget.LinearLayoutCompat
+                        android:id="@+id/BookmarkLinearLayoutMainActivity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_item_bottom_menu"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/BookmarkTextViewMainActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:text="@string/favorite"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/FontSemiBlackColor" />
+
+                        <TextView
+                            android:id="@+id/LineBookmarkTextViewMainActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.7dp"
+                            android:background="@color/BackgroundWhiteColor" />
+                    </android.support.v7.widget.LinearLayoutCompat>
+
+                    <android.support.v7.widget.LinearLayoutCompat
+                        android:id="@+id/MostVisitedLinearLayoutMainActivity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_item_bottom_menu"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/MostVisitedTextViewMainActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:text="@string/most_visited"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/FontSemiBlackColor" />
+
+                        <TextView
+                            android:id="@+id/LineMostVisitedTextViewMainActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.7dp"
+                            android:background="@color/BackgroundWhiteColor" />
+                    </android.support.v7.widget.LinearLayoutCompat>
+
+                    <android.support.v7.widget.LinearLayoutCompat
+                        android:id="@+id/StarredLinearLayoutMainActivity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_item_bottom_menu"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/StarredTextViewMainActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:text="@string/starred"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/FontSemiBlackColor" />
+
+                        <TextView
+                            android:id="@+id/LineStarredTextViewMainActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.7dp"
+                            android:background="@color/BackgroundWhiteColor" />
+                    </android.support.v7.widget.LinearLayoutCompat>
+
+                    <android.support.v7.widget.LinearLayoutCompat
+                        android:id="@+id/NewestLinearLayoutMainActivity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_item_bottom_menu"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                            android:id="@+id/NewestTextViewMainActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:text="@string/newest"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/FontSemiDarkThemeColor" />
+
+                        <TextView
+                            android:id="@+id/LineNewestTextViewMainActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.7dp"
+                            android:background="@color/BackgroundThemeColor" />
+                    </android.support.v7.widget.LinearLayoutCompat>
+
+                </android.support.v7.widget.LinearLayoutCompat>
 
                 <FrameLayout
-                    android:id="@+id/Line"
+                    android:id="@+id/LineTab"
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
-                    android:layout_below="@+id/IsTopPosterRecyclerViewMainActivity"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/LineTopColor"
-                    tools:ignore="Suspicious0dp" />
+                    android:layout_below="@+id/NewAndStarAndVisitLinearLayoutMainActivity"
+                    android:background="@color/LineTopColor" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/BusinessPosterInfoRecyclerViewMainActivity"
+                <android.support.v4.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/Line"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="4dp"
-                    android:divider="@null"
-                    android:dividerHeight="0dp" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/BusinessPosterInfoBookmarkRecyclerViewMainActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/Line"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="4dp"
-                    android:divider="@null"
-                    android:dividerHeight="0dp"
-                    android:visibility="gone" />
+                    android:layout_below="@+id/LineTab"
+                    android:scrollbars="none">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/IsTopPosterRecyclerViewMainActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:divider="@null"
+                            android:dividerHeight="0dp" />
+
+                        <FrameLayout
+                            android:id="@+id/Line"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.1dp"
+                            android:layout_below="@+id/IsTopPosterRecyclerViewMainActivity"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/LineTopColor"
+                            tools:ignore="Suspicious0dp" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/BusinessPosterInfoRecyclerViewMainActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/Line"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="4dp"
+                            android:divider="@null"
+                            android:dividerHeight="0dp" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/BusinessPosterInfoBookmarkRecyclerViewMainActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/Line"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="4dp"
+                            android:divider="@null"
+                            android:dividerHeight="0dp"
+                            android:visibility="gone" />
+
+                    </RelativeLayout>
+                </android.support.v4.widget.NestedScrollView>
 
             </RelativeLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
 
         <RelativeLayout
             android:id="@+id/MainMenuBottomCategoryAndRegionRelativeLayoutMainActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_above="@+id/MainMenuBottom">
 
             <android.support.design.widget.FloatingActionButton
@@ -393,7 +407,7 @@
 
                     </RelativeLayout>
 
-                    
+
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

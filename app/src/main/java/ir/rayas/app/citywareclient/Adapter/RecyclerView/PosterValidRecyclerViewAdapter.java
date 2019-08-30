@@ -61,6 +61,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
     private Dialog ExtendedPosterTypeDialog;
 
     private TextViewPersian TotalPriceTextView = null;
+    private String BusinessName = "";
 
     public PosterValidRecyclerViewAdapter(UserProfileActivity Context, List<PurchasedPosterViewModel> ViewModelList, RecyclerView Container) {
         this.ViewModelList = ViewModelList;
@@ -234,6 +235,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             public void onClick(View view) {
                 Context.ShowLoadingProgressBar();
                 Position = position;
+                BusinessName = ViewModelList.get(position).getBusinessName();
                 PosterService PosterService = new PosterService(PosterValidRecyclerViewAdapter.this);
                 PosterService.GetPosterType(ViewModelList.get(position).getPosterTypeId());
             }
@@ -319,8 +321,11 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
                     if (FeedBack.getValue() != null) {
                         Context.ShowToast(Context.getResources().getString(R.string.extend_poster_successful), Toast.LENGTH_LONG,MessageType.Info);
-                        Context.SetViewUserCredit(TotalPrice,FeedBack.getValue(),true);
+                        PurchasedPosterViewModel ViewModel=  FeedBack.getValue();
+                        ViewModel.setBusinessName(BusinessName);
+                        Context.SetViewUserCredit(TotalPrice,ViewModel,true);
                         TotalPrice = 0;
+                        BusinessName = "";
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -420,6 +425,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         ExtendedPosterTypeDialog = new Dialog(Context);
         ExtendedPosterTypeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ExtendedPosterTypeDialog.setCanceledOnTouchOutside(false);
         ExtendedPosterTypeDialog.setContentView(R.layout.dialog_buy_poster_type);
 
         TextViewPersian YourCreditTextView = ExtendedPosterTypeDialog.findViewById(R.id.YourCreditTextView);
@@ -507,6 +513,13 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         DialogExtendedPosterCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Day = 0;
+                Hours = 0;
+                Price = 0;
+                TotalPrice = 0;
+                BusinessName = "";
+
                 ExtendedPosterTypeDialog.dismiss();
             }
         });

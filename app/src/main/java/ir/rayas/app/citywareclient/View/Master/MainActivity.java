@@ -3,6 +3,7 @@ package ir.rayas.app.citywareclient.View.Master;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,11 +54,11 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private RecyclerView businessPosterInfoRecyclerViewMainActivity = null;
     private RecyclerView BusinessPosterInfoBookmarkRecyclerViewMainActivity = null;
     private FrameLayout Line = null;
+    private SwipeRefreshLayout RefreshSwipeRefreshLayoutMainActivity = null;
 
     private IsTopPosterRecyclerViewAdapter isTopPosterRecyclerViewAdapter = null;
     private BusinessPosterInfoRecyclerViewAdapter businessPosterInfoRecyclerViewAdapter = null;
     private BusinessPosterInfoBookmarkRecyclerViewAdapter businessPosterInfoBookmarkRecyclerViewAdapter = null;
-
 
 
     private UserSettingViewModel userSettingViewModel = null;
@@ -73,8 +74,9 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private int PageNumberPoster = 1;
 
     private boolean IsClickYesGPS = false;
+    private boolean IsFirst = false;
     private Gps CurrentGps = null;
-    
+
 
     // SelectTab = 1 newPoster
     // SelectTab = 2 Star
@@ -102,6 +104,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             }
         }, 0);
 
+        IsFirst = true;
+
         //ایجاد طرحبندی صفحه
         CreateLayout();
 
@@ -122,6 +126,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         // Recycler View Poster Top, Poster, Bookmark Start------------------------------------------------------------------
         Line = findViewById(R.id.Line);
+        RefreshSwipeRefreshLayoutMainActivity = findViewById(R.id.RefreshSwipeRefreshLayoutMainActivity);
 
         RecyclerView isTopPosterRecyclerViewMainActivity = findViewById(R.id.IsTopPosterRecyclerViewMainActivity);
         isTopPosterRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true));
@@ -145,6 +150,26 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
         //End (Recycler View Poster Top, Poster, Bookmark)-----------------------------------------------------------------------------
 
+
+        RefreshSwipeRefreshLayoutMainActivity.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                RefreshSwipeRefreshLayoutMainActivity.setRefreshing(true);
+                isTopPosterRecyclerViewAdapter.ClearViewModelList();
+                businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
+                businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
+
+
+                if (SelectTab == 4) {
+                    PageNumberPosterTop = 1;
+                    LoadDataBookmarkPoster();
+                } else {
+                    PageNumberPoster = 1;
+                    LoadData();
+                }
+            }
+        });
 
         queryType = QueryType.New.GetQueryType();
 
@@ -196,7 +221,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     // اولین بار که صفحه لود میشود و تمام سرویس ها فراخوانی می شود
     private void LoadData() {
 
-        ShowLoadingProgressBar();
+        if (IsFirst)
+            ShowLoadingProgressBar();
 
         if (userSettingViewModel.isUseGprsPoint())
             if (IsClickYesGPS)
@@ -234,7 +260,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         userSettingViewModel = AccountViewModel.getUserSetting();
 
         GpsRangeInKm = userSettingViewModel.getGpsRangeInKm();
-        RegionId = userSettingViewModel.getRegionId() ;
+        RegionId = userSettingViewModel.getRegionId();
         BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
 
         if (userSettingViewModel.isUseGprsPoint()) {
@@ -260,6 +286,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
+        RefreshSwipeRefreshLayoutMainActivity.setRefreshing(false);
+        IsFirst = false;
         HideLoading();
         try {
 
@@ -412,6 +440,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewAdapter.ClearViewModelList();
         businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
 
+        RefreshSwipeRefreshLayoutMainActivity.setRefreshing(true);
         LoadData();
     }
 
@@ -439,6 +468,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewAdapter.ClearViewModelList();
         businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
 
+        RefreshSwipeRefreshLayoutMainActivity.setRefreshing(true);
         LoadData();
     }
 
@@ -467,7 +497,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewAdapter.ClearViewModelList();
         businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
 
-
+        RefreshSwipeRefreshLayoutMainActivity.setRefreshing(true);
         LoadData();
     }
 
@@ -497,7 +527,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewAdapter.ClearViewModelList();
         businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
 
-
+        RefreshSwipeRefreshLayoutMainActivity.setRefreshing(true);
         LoadDataBookmarkPoster();
     }
 
@@ -552,7 +582,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
     @Override
     public void onBackPressed() {
-            super.onBackPressed();
+        super.onBackPressed();
     }
 
     @Override
@@ -571,7 +601,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
 
         GpsRangeInKm = userSettingViewModel.getGpsRangeInKm();
-        RegionId = userSettingViewModel.getRegionId() ;
+        RegionId = userSettingViewModel.getRegionId();
         BusinessCategoryId = userSettingViewModel.getBusinessCategoryId();
 
         if (userSettingViewModel.isUseGprsPoint()) {

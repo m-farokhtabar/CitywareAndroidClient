@@ -120,6 +120,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                 closePackageRecyclerViewAdapter.ClearViewModelList();
 
                 IsSwipe = true;
+                ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
 
                 if (IsValid) {
                     PageNumberOpen = 1;
@@ -130,8 +131,6 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                     ExpireAndValidatePackageSwitchUserPackageFragment.setChecked(false);
                     LoadDataClosePackage();
                 }
-
-                ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
 
             }
         });
@@ -220,7 +219,6 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
         ExpireAndValidatePackageSwitchUserPackageFragment.setClickable(true);
         ExpireAndValidatePackageSwitchUserPackageFragment.setEnabled(true);
 
-        RefreshPackageSwipeRefreshLayoutUserPackageFragment.setRefreshing(false);
         IsSwipe = false;
 
         try {
@@ -354,6 +352,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
             Context.HideLoading();
             Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
+
+        RefreshPackageSwipeRefreshLayoutUserPackageFragment.setRefreshing(false);
     }
 
     @SuppressLint("SetTextI18n")

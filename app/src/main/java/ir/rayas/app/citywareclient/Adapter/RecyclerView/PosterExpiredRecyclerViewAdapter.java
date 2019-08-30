@@ -54,6 +54,7 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     private int Day = 0;
     private double TotalPrice = 0.0;
     private double Price = 0.0;
+    private String BusinessName = "";
 
     public PosterExpiredRecyclerViewAdapter(UserProfileActivity Context, List<PurchasedPosterViewModel> ViewModelList, RecyclerView Container) {
         this.ViewModelList = ViewModelList;
@@ -143,6 +144,7 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
             public void onClick(View view) {
                 Context.ShowLoadingProgressBar();
                 Position = position;
+                BusinessName = ViewModelList.get(position).getBusinessName();
                 PosterService PosterService = new PosterService(PosterExpiredRecyclerViewAdapter.this);
                 PosterService.GetPosterType(ViewModelList.get(position).getPosterTypeId());
 
@@ -232,8 +234,12 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                         notifyDataSetChanged();
                         Container.invalidate();
 
-                        Context.SetViewUserCredit(TotalPrice,FeedBack.getValue(),false);
+                        PurchasedPosterViewModel ViewModel=  FeedBack.getValue();
+                        ViewModel.setBusinessName(BusinessName);
+
+                        Context.SetViewUserCredit(TotalPrice,ViewModel,false);
                         TotalPrice = 0;
+                        BusinessName = "";
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
@@ -287,6 +293,7 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
         ExtendedPosterTypeDialog = new Dialog(Context);
         ExtendedPosterTypeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ExtendedPosterTypeDialog.setCanceledOnTouchOutside(false);
         ExtendedPosterTypeDialog.setContentView(R.layout.dialog_buy_poster_type);
 
         TextViewPersian YourCreditTextView = ExtendedPosterTypeDialog.findViewById(R.id.YourCreditTextView);
@@ -373,6 +380,12 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         DialogExtendedPosterCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Day = 0;
+                Hours = 0;
+                Price = 0;
+                TotalPrice = 0;
+                BusinessName = "";
+
                 ExtendedPosterTypeDialog.dismiss();
             }
         });

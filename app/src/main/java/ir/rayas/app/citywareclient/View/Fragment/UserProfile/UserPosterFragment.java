@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.PosterExpiredRecyclerViewAdapter;
@@ -49,7 +48,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     private boolean IsLoadedDataForFirst = false;
     private PosterValidRecyclerViewAdapter posterValidRecyclerViewAdapter = null;
     private PosterExpiredRecyclerViewAdapter posterExpiredRecyclerViewAdapter = null;
-    private  SwitchCompat ExpireAndValidatePosterSwitchUserPostersFragment = null;
+    private SwitchCompat ExpireAndValidatePosterSwitchUserPostersFragment = null;
 
     private int PageNumberValid = 1;
     private int PageNumberExpire = 1;
@@ -114,10 +113,11 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         RefreshPosterSwipeRefreshLayoutUserPostersFragment.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                
+
                 posterValidRecyclerViewAdapter.ClearViewModelList();
                 posterExpiredRecyclerViewAdapter.ClearViewModelList();
 
+                ShowEmptyTextViewUserPostersFragment.setVisibility(View.GONE);
                 IsSwipe = true;
 
                 if (IsValid) {
@@ -130,7 +130,6 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
                     LoadDataExpirePoster();
                 }
 
-                ShowEmptyTextViewUserPostersFragment.setVisibility(View.GONE);
 
             }
         });
@@ -179,9 +178,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     }
 
     public void LoadData() {
-        if (!IsSwipe)
-            if (PageNumberValid == 1)
-                Context.ShowLoadingProgressBar();
+        Context.ShowLoadingProgressBar();
 
         Context.setLoadPoster(true);
 
@@ -216,11 +213,10 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        
+
         ExpireAndValidatePosterSwitchUserPostersFragment.setClickable(true);
         ExpireAndValidatePosterSwitchUserPostersFragment.setEnabled(true);
 
-        RefreshPosterSwipeRefreshLayoutUserPostersFragment.setRefreshing(false);
         IsSwipe = false;
 
         try {
@@ -345,6 +341,8 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
             Context.HideLoading();
             Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
+
+        RefreshPosterSwipeRefreshLayoutUserPostersFragment.setRefreshing(false);
     }
 
     @SuppressLint("SetTextI18n")

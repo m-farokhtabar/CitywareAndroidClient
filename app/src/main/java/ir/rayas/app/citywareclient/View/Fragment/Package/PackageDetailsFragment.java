@@ -228,9 +228,7 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
                     if (ViewModel != null) {
 
                         if (ViewModel.isActive()) {
-                            Context.ShowToast(getResources().getString(R.string.submit_package_successful), Toast.LENGTH_LONG, MessageType.Info);
-                            SendDataToParentActivity(ViewModel);
-                            Context.onBackPressed();
+                            ShowMessageBuyPrizeDialog(ViewModel);
                         } else {
                             Context.ShowToast(getResources().getString(R.string.submit_package_not_successful), Toast.LENGTH_LONG, MessageType.Info);
                         }
