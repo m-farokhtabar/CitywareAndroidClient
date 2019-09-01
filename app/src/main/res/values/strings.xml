@@ -309,6 +309,7 @@
     <string name="search_on_business_has_delivery">جستجو بر روی کسب و کار دارای پیک</string>
     <string name="please_select_region_or_location">لطفا منطقه یا موقعیت خود را انتخاب کنید</string>
     <string name="please_select_category">لطفا صنف خود را انتخاب کنید</string>
+    <string name="please_select_range_gps">لطفا محدوده نمایش کسب و کار را وارد کنید</string>
     <string name="please_select_your_image">لطفا تصویر مورد نظر خود را انتخاب نمایید</string>
     <string name="your_image_more_than_100_kb">اندازه تصویر انتخابی از 100 کیلو بایت بیشتر می باشد</string>
 
@@ -354,12 +355,12 @@
     <string name="poster_list_is_empty">لیست پوستر ها خالی است</string>
     <string name="selector_business_buy_poster"> انتخاب کسب و کار برای خرید پوستر</string>
     <string name="selector_business_for_income"> انتخاب کسب و کار برای مشاهده درآمد</string>
-    <string name="selector_business_for_package"> انتخاب کسب و کار برای مشاهده و خرید پکیج</string>
+    <string name="selector_business_for_package">انتخاب کسب و کار جهت نمایش مناسب ترین پکیج ها</string>
     <string name="selector_business"> انتخاب کسب و کار </string>
     <string name="my_business"> کسب و کارهای شما</string>
     <string name="selector_business_for_buy_poster">مشخص نمایید این پوستر مربوط به کدام کسب و کار می باشد.</string>
     <string name="selector_business_for_visit_income">مشخص نمایید درآمد مربوط به کدام کسب و کار را میخواهید مشاهده کنید.</string>
-    <string name="selector_business_for_visit_package">مشخص نمایید پکیج های مربوط به کدام کسب و کار را میخواهید مشاهده کنید.</string>
+    <string name="selector_business_for_visit_package">با انتخاب کسب و کار برنامه مناسب ترین پکیج های موجود را به شما نمایش خواهد داد.</string>
 
     <!--متون مرتبط با پکیج ها-->
     <string name="credit_price">اعتبار دریافتی</string>
@@ -662,6 +663,7 @@
     <string name="there_is_no_expire_user">کاربری وجود ندارد</string>
     <string name="due_to_bank_ports_limitations_payment_is_not_possible">به علت محدودیت پرداخت الکترونیکی امکان پرداخت وجود ندارد. لطفا با پشتیبانی تماس بگیرید.</string>
     <string name="package_submit_due_to_bank_ports_limitations_payment_is_not_possible">پکیج شما ثبت شد. \n اما به علت محدودیت پرداخت الکترونیکی امکان پرداخت هزینه وجود ندارد. لطفا با پشتیبانی تماس بگیرید.</string>
+    <string name="not_valid_request">درخواست شما نامعتبر است.</string>
 
 </resources>
 

@@ -178,12 +178,15 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     }
 
     public void LoadData() {
-        Context.ShowLoadingProgressBar();
+        if (!Context.isLoadPoster()) {
+            Context.ShowLoadingProgressBar();
+        }else {
+            RefreshPosterSwipeRefreshLayoutUserPostersFragment.setRefreshing(true);
+            PageNumberValid = 1;
+            posterValidRecyclerViewAdapter.ClearViewModelList();
+        }
 
         Context.setLoadPoster(true);
-
-        ExpireAndValidatePosterSwitchUserPostersFragment.setClickable(false);
-        ExpireAndValidatePosterSwitchUserPostersFragment.setEnabled(false);
 
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
@@ -226,7 +229,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
 
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
-                    final List<PurchasedPosterViewModel> ViewModelList = FeedBack.getValue();
+                    List<PurchasedPosterViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         if (PageNumberValid == 1) {
                             if (ViewModelList.size() < 1) {
@@ -345,23 +348,31 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         RefreshPosterSwipeRefreshLayoutUserPostersFragment.setRefreshing(false);
     }
 
-    @SuppressLint("SetTextI18n")
-    public void SetViewUserCredit(double Price, boolean IsPoster) {
-
-        if (posterValidRecyclerViewAdapter.getItemCount() > 0)
-            ShowEmptyTextViewUserPostersFragment.setVisibility(View.GONE);
-        else
-            ShowEmptyTextViewUserPostersFragment.setVisibility(View.VISIBLE);
-
-        if (IsPoster) {
-            UserCredit = UserCredit - Price;
-        } else {
-            UserCredit = UserCredit + Price;
-        }
-
-        UserCreditTextViewUserPostersFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
-
-    }
+//    @SuppressLint("SetTextI18n")
+//    public void SetViewUserCredit(double Price, boolean IsPoster) {
+//
+//        if (ExpireAndValidatePosterSwitchUserPostersFragment.isChecked()) {
+//            if (posterValidRecyclerViewAdapter.getItemCount() > 0)
+//                ShowEmptyTextViewUserPostersFragment.setVisibility(View.GONE);
+//            else
+//                ShowEmptyTextViewUserPostersFragment.setVisibility(View.VISIBLE);
+//        }else {
+//            if (posterExpiredRecyclerViewAdapter.getItemCount() > 0)
+//                ShowEmptyTextViewUserPostersFragment.setVisibility(View.GONE);
+//            else
+//                ShowEmptyTextViewUserPostersFragment.setVisibility(View.VISIBLE);
+//        }
+//
+//
+//        if (IsPoster) {
+//            UserCredit = UserCredit - Price;
+//        } else {
+//            UserCredit = UserCredit + Price;
+//        }
+//
+//        UserCreditTextViewUserPostersFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
+//
+//    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

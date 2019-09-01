@@ -9,6 +9,7 @@
         android:orientation="vertical">
 
         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/HeaderColorDialog"
             android:layout_width="match_parent"
             android:layout_height="16dp"
             android:background="@color/BackgroundThemeColor" />

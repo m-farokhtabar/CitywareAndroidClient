@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -21,8 +22,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -35,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.SearchRecyclerViewAdapter;
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.SearchResultProductRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.SearchResultRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.UserAddressDialogSearchRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.Global.Static;
@@ -74,10 +78,12 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter = null;
     private SearchResultRecyclerViewAdapter searchResultRecyclerViewAdapter = null;
+    private SearchResultProductRecyclerViewAdapter searchResultProductRecyclerViewAdapter = null;
     private SwipeRefreshLayout RefreshSearchSwipeRefreshLayoutSearchActivity = null;
 
     private RecyclerView SearchRecyclerViewSearchActivity = null;
-    private RecyclerView SearchResultRecyclerViewSearchActivity = null;
+    private RecyclerView SearchResultBusinessRecyclerViewSearchActivity = null;
+    private RecyclerView SearchResultProductRecyclerViewSearchActivity = null;
     private TextViewPersian ShowEmptySearchTextViewSearchActivity = null;
 
     private SwitchCompat CategoryNameSwitchSearchActivity = null;
@@ -85,6 +91,11 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
     private TextViewPersian CategoryNameTextViewSearchActivity = null;
     private TextViewPersian RegionNameTextViewSearchActivity = null;
     private RelativeLayout MenuRelativeLayoutSearchActivity = null;
+    private LinearLayout SearchResultLinearLayoutSearchActivity = null;
+    private TextView LineBusinessTextViewSearchActivity = null;
+    private TextView LineProductTextViewSearchActivity = null;
+    private TextViewPersian ProductTextViewSearchActivity = null;
+    private TextViewPersian BusinessTextViewSearchActivity = null;
 
     private int PageNumber = 1;
     private List<BusinessPosterInfoViewModel> businessPosterInfoViewModelList = null;
@@ -310,17 +321,34 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         final EditTextPersian SearchEditTextSearchActivity = findViewById(R.id.SearchEditTextSearchActivity);
         RefreshSearchSwipeRefreshLayoutSearchActivity = findViewById(R.id.RefreshSearchSwipeRefreshLayoutSearchActivity);
 
+
         SearchRecyclerViewSearchActivity = findViewById(R.id.SearchRecyclerViewSearchActivity);
         SearchRecyclerViewSearchActivity.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
         searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(SearchActivity.this, null, SearchRecyclerViewSearchActivity);
         SearchRecyclerViewSearchActivity.setAdapter(searchRecyclerViewAdapter);
 
 
-        SearchResultRecyclerViewSearchActivity = findViewById(R.id.SearchResultRecyclerViewSearchActivity);
-        SearchResultRecyclerViewSearchActivity.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-        searchResultRecyclerViewAdapter = new SearchResultRecyclerViewAdapter(SearchActivity.this, null, SearchResultRecyclerViewSearchActivity);
-        SearchResultRecyclerViewSearchActivity.setAdapter(searchResultRecyclerViewAdapter);
+        ProductTextViewSearchActivity = findViewById(R.id.ProductTextViewSearchActivity);
+        LineProductTextViewSearchActivity = findViewById(R.id.LineProductTextViewSearchActivity);
+        BusinessTextViewSearchActivity = findViewById(R.id.BusinessTextViewSearchActivity);
+        LineBusinessTextViewSearchActivity = findViewById(R.id.LineBusinessTextViewSearchActivity);
+        SearchResultLinearLayoutSearchActivity = findViewById(R.id.SearchResultLinearLayoutSearchActivity);
+        LinearLayoutCompat ProductLinearLayoutSearchActivity = findViewById(R.id.ProductLinearLayoutSearchActivity);
+        LinearLayoutCompat BusinessLinearLayoutSearchActivity = findViewById(R.id.BusinessLinearLayoutSearchActivity);
 
+
+        SearchResultProductRecyclerViewSearchActivity = findViewById(R.id.SearchResultProductRecyclerViewSearchActivity);
+        SearchResultProductRecyclerViewSearchActivity.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+        searchResultProductRecyclerViewAdapter = new SearchResultProductRecyclerViewAdapter(SearchActivity.this, null, SearchResultProductRecyclerViewSearchActivity);
+        SearchResultProductRecyclerViewSearchActivity.setAdapter(searchResultProductRecyclerViewAdapter);
+
+
+        SearchResultBusinessRecyclerViewSearchActivity = findViewById(R.id.SearchResultBusinessRecyclerViewSearchActivity);
+        SearchResultBusinessRecyclerViewSearchActivity.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+        searchResultRecyclerViewAdapter = new SearchResultRecyclerViewAdapter(SearchActivity.this, null, SearchResultBusinessRecyclerViewSearchActivity);
+        SearchResultBusinessRecyclerViewSearchActivity.setAdapter(searchResultRecyclerViewAdapter);
+
+        ShowBusinessSearch();
 
         SearchEditTextSearchActivity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -335,13 +363,13 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
                     RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(true);
-                    SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+                    SearchResultLinearLayoutSearchActivity.setVisibility(View.VISIBLE);
                     SearchRecyclerViewSearchActivity.setVisibility(View.GONE);
 
                     searchResultRecyclerViewAdapter.ClearViewModelList();
 
                     String Search = s.toString();
-                    TextSearch =  EditTextPersian.ConvertNumber(Search);
+                    TextSearch = EditTextPersian.ConvertNumber(Search);
 
                     try {
                         String Temp = URLEncoder.encode(TextSearch, "utf-8");
@@ -355,7 +383,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                 } else {
                     RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(false);
                     ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
-                    SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
+                    SearchResultLinearLayoutSearchActivity.setVisibility(View.GONE);
                     SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
                 }
             }
@@ -373,7 +401,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     searchResultRecyclerViewAdapter.ClearViewModelList();
 
                     String Search = SearchOffer;
-                    TextSearch =  EditTextPersian.ConvertNumber(Search);
+                    TextSearch = EditTextPersian.ConvertNumber(Search);
 
                     try {
                         String Temp = URLEncoder.encode(TextSearch, "utf-8");
@@ -399,7 +427,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
             public void onRefresh() {
                 PageNumber = 1;
                 SearchEditTextSearchActivity.setText("");
-                SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
+                SearchResultLinearLayoutSearchActivity.setVisibility(View.GONE);
                 SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
 
 //                HomeService service = new HomeService(SearchActivity.this);
@@ -407,8 +435,48 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
             }
         });
 
+        ProductLinearLayoutSearchActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ShowProductSearch();
+
+            }
+        });
+
+        BusinessLinearLayoutSearchActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowBusinessSearch();
+            }
+        });
+
+
         // End (Search) --------------------------------------------------------------------------------------
 
+    }
+
+   private void ShowProductSearch(){
+       ProductTextViewSearchActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+       BusinessTextViewSearchActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+
+       LineProductTextViewSearchActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundThemeColor));
+       LineBusinessTextViewSearchActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+
+       SearchResultProductRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+       SearchResultBusinessRecyclerViewSearchActivity.setVisibility(View.GONE);
+   }
+
+
+    private void ShowBusinessSearch(){
+        ProductTextViewSearchActivity.setTextColor(getResources().getColor(R.color.FontSemiBlackColor));
+        BusinessTextViewSearchActivity.setTextColor(getResources().getColor(R.color.FontSemiDarkThemeColor));
+
+        LineProductTextViewSearchActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundWhiteColor));
+        LineBusinessTextViewSearchActivity.setBackgroundColor(getResources().getColor(R.color.BackgroundThemeColor));
+
+        SearchResultBusinessRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+        SearchResultProductRecyclerViewSearchActivity.setVisibility(View.GONE);
     }
 
     public void LoadData() {
@@ -586,14 +654,14 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
                     final List<SearchResultViewModel> ViewModel = FeedBack.getValue();
 
-                    SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+                    SearchResultLinearLayoutSearchActivity.setVisibility(View.VISIBLE);
                     SearchRecyclerViewSearchActivity.setVisibility(View.GONE);
 
                     if (ViewModel != null) {
                         if (PageNumber == 1) {
                             if (ViewModel.size() > 0) {
                                 ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
-                                SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+                                SearchResultLinearLayoutSearchActivity.setVisibility(View.VISIBLE);
                                 searchResultRecyclerViewAdapter.SetViewModelList(ViewModel);
 
                                 if (DefaultConstant.PageNumberSize == ViewModel.size()) {
@@ -602,12 +670,12 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                                 }
                             } else {
                                 ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
-                                SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
+                                SearchResultLinearLayoutSearchActivity.setVisibility(View.GONE);
                             }
 
                         } else {
                             ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
-                            SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+                            SearchResultLinearLayoutSearchActivity.setVisibility(View.VISIBLE);
 
                             searchResultRecyclerViewAdapter.AddViewModelList(ViewModel);
 
@@ -621,13 +689,13 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
                     if (PageNumber > 1) {
                         ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
-                        SearchResultRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+                        SearchResultLinearLayoutSearchActivity.setVisibility(View.VISIBLE);
                     } else {
                         ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
-                        SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
+                        SearchResultLinearLayoutSearchActivity.setVisibility(View.GONE);
                     }
                 } else {
-                    SearchResultRecyclerViewSearchActivity.setVisibility(View.GONE);
+                    SearchResultLinearLayoutSearchActivity.setVisibility(View.GONE);
                     ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
                         ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);

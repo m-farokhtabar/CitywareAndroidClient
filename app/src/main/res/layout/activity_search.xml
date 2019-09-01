@@ -83,14 +83,99 @@
                         android:background="@color/LineTopColor"
                         android:layout_below="@+id/SearchRelativeLayoutSearchActivity"/>
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/SearchResultRecyclerViewSearchActivity"
+                    <LinearLayout
+                        android:id="@+id/SearchResultLinearLayoutSearchActivity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:layout_below="@+id/Line"
-                        android:visibility="gone"
-                        android:divider="@null"
-                        android:dividerHeight="0dp" />
+                        android:visibility="gone">
+
+                        <android.support.v7.widget.LinearLayoutCompat
+                            android:id="@+id/TabLayoutSearchActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2">
+
+                            <android.support.v7.widget.LinearLayoutCompat
+                                android:id="@+id/ProductLinearLayoutSearchActivity"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/selector_item_bottom_menu"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                tools:ignore="KeyboardInaccessibleWidget">
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:id="@+id/ProductTextViewSearchActivity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="8dp"
+                                    android:text="@string/product"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                    android:textColor="@color/FontSemiBlackColor" />
+
+                                <TextView
+                                    android:id="@+id/LineProductTextViewSearchActivity"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.7dp"
+                                    android:background="@color/BackgroundWhiteColor" />
+                            </android.support.v7.widget.LinearLayoutCompat>
+
+                            <android.support.v7.widget.LinearLayoutCompat
+                                android:id="@+id/BusinessLinearLayoutSearchActivity"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/selector_item_bottom_menu"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                tools:ignore="KeyboardInaccessibleWidget">
+
+                                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                                    android:id="@+id/BusinessTextViewSearchActivity"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="8dp"
+                                    android:text="@string/business"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                                    android:textColor="@color/FontSemiBlackColor" />
+
+                                <TextView
+                                    android:id="@+id/LineBusinessTextViewSearchActivity"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.7dp"
+                                    android:background="@color/BackgroundWhiteColor" />
+                            </android.support.v7.widget.LinearLayoutCompat>
+
+                        </android.support.v7.widget.LinearLayoutCompat>
+
+                        <FrameLayout
+                            android:id="@+id/LineTab"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.1dp"
+                            android:background="@color/LineTopColor" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/SearchResultBusinessRecyclerViewSearchActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@null"
+                            android:dividerHeight="0dp" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/SearchResultProductRecyclerViewSearchActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@null"
+                            android:dividerHeight="0dp" />
+
+                    </LinearLayout>
+
+
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/SearchRecyclerViewSearchActivity"

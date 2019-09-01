@@ -11,11 +11,12 @@ import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityI
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.Base.IButtonBackToolbarListener;
 import ir.rayas.app.citywareclient.View.Fragment.Package.BusinessListForPackageFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 
-public class PackageActivity extends BaseActivity {
+public class PackageActivity extends BaseActivity implements IButtonBackToolbarListener {
 
     private int RetryType = 0;
 
@@ -30,6 +31,15 @@ public class PackageActivity extends BaseActivity {
 
     private boolean IsAdd = false;
     private OutputPackageTransactionViewModel outputPackageTransactionViewModel;
+
+
+    public void setAdd(boolean add) {
+        IsAdd = add;
+    }
+
+    public void setOutputPackageTransactionViewModel(OutputPackageTransactionViewModel outputPackageTransactionViewModel) {
+        this.outputPackageTransactionViewModel = outputPackageTransactionViewModel;
+    }
 
     public String getBusinessName() {
         return BusinessName;
@@ -67,6 +77,8 @@ public class PackageActivity extends BaseActivity {
                 RetryButtonOnClick();
             }
         }, R.string.buy_package);
+
+        this.setButtonBackToolbarListener(this);
 
         //ایجاد طرح بندی صفحه
         CreateLayout();
@@ -121,8 +133,7 @@ public class PackageActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    private void SendToParentActivity(){
         if (IsAdd) {
             HashMap<String, Object> Output = new HashMap<>();
             Output.put("IsAdd", IsAdd);
@@ -136,6 +147,11 @@ public class PackageActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        SendToParentActivity();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         Runtime.getRuntime().gc();
@@ -145,5 +161,10 @@ public class PackageActivity extends BaseActivity {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
+    }
+
+    @Override
+    public void ClickOnButtonBackToolbar() {
+        SendToParentActivity();
     }
 }

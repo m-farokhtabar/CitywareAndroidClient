@@ -80,7 +80,16 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
             IsPay = false;
         }
 
-        PricePayable = PricePayable.replaceAll("ﺗﻮﻣﺎﻥ", "");
+        if (PricePayable != null) {
+            if (!PricePayable.equals("")) {
+                PricePayable = PricePayable.replaceAll("ﺗﻮﻣﺎﻥ", "");
+            }else {
+                ShowNotValidRequestDialog();
+            }
+        } else {
+            ShowNotValidRequestDialog();
+        }
+
 
         //ایجاد طرح بندی صفحه
         CreateLayout();
@@ -101,42 +110,45 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
 
                 if (BankSelectedRadioButtonPaymentCommissionActivity.isChecked()) {
 
-                    int PayablePrice;
-                    if (PricePayable.contains(",")) {
-                        PricePayable = PricePayable.replaceAll(",", "");
+                    if (PricePayable != null) {
+                        int PayablePrice;
+                        if (PricePayable.contains(",")) {
+                            PricePayable = PricePayable.replaceAll(",", "");
+                        }
+                        if (PricePayable.contains("ﺗﻮﻣﺎﻥ")) {
+                            PricePayable = PricePayable.replaceAll("ﺗﻮﻣﺎﻥ", "");
+                        }
+                        if (PricePayable.contains(" ")) {
+                            PricePayable = PricePayable.replaceAll(" ", "");
+                        }
+
+                        PayablePrice = Integer.valueOf(PricePayable);
+
+                        if (PayablePrice > DefaultConstant.MaxPayment || PayablePrice < DefaultConstant.MinPayment) {
+                            ShowPaymentPackageDialog();
+                        } else {
+
+                            IsPay = true;
+
+                            if (businessCommissionRepository.getBusinessCommission() != null)
+                                businessCommissionRepository.ClearBusinessCommission();
+
+                            BusinessCommissionPaymentViewModel businessCommissionPaymentViewModel = new BusinessCommissionPaymentViewModel();
+                            businessCommissionPaymentViewModel.setBusinessId(BusinessId);
+                            businessCommissionPaymentViewModel.setId(Id);
+                            businessCommissionPaymentViewModel.setPricePayable(PricePayable);
+                            businessCommissionPaymentViewModel.setPay(IsPay);
+
+                            businessCommissionRepository.setBusinessCommission(businessCommissionPaymentViewModel);
+
+
+                            String url = "http://asanpardakhtpg.zeytoonfood.com/startpayment.aspx?id=" + Id + "&type=2";
+                            Uri uri = Uri.parse(url);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        }
                     }
-                    if (PricePayable.contains("ﺗﻮﻣﺎﻥ")) {
-                        PricePayable = PricePayable.replaceAll("ﺗﻮﻣﺎﻥ", "");
-                    }
-                    if (PricePayable.contains(" ")) {
-                        PricePayable = PricePayable.replaceAll(" ", "");
-                    }
 
-                    PayablePrice = Integer.valueOf(PricePayable);
-
-                    if (PayablePrice > DefaultConstant.MaxPayment || PayablePrice < DefaultConstant.MinPayment) {
-                        ShowPaymentPackageDialog();
-                    } else {
-
-                        IsPay = true;
-
-                        if (businessCommissionRepository.getBusinessCommission() != null)
-                            businessCommissionRepository.ClearBusinessCommission();
-
-                        BusinessCommissionPaymentViewModel businessCommissionPaymentViewModel = new BusinessCommissionPaymentViewModel();
-                        businessCommissionPaymentViewModel.setBusinessId(BusinessId);
-                        businessCommissionPaymentViewModel.setId(Id);
-                        businessCommissionPaymentViewModel.setPricePayable(PricePayable);
-                        businessCommissionPaymentViewModel.setPay(IsPay);
-
-                        businessCommissionRepository.setBusinessCommission(businessCommissionPaymentViewModel);
-
-
-                        String url = "http://asanpardakhtpg.zeytoonfood.com/startpayment.aspx?id=" + Id + "&type=2";
-                        Uri uri = Uri.parse(url);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
-                    }
 
                 } else {
                     ShowToast(getResources().getString(R.string.please_select_bank), Toast.LENGTH_LONG, MessageType.Warning);
@@ -205,7 +217,8 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
         ShowPaymentPackageDialog.setContentView(R.layout.dialog_payment_package);
 
         TextViewPersian MessageTextView = ShowPaymentPackageDialog.findViewById(R.id.MessageTextView);
-        MessageTextView.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(PaymentCommissionActivity.this, 1);
+        TextViewPersian HeaderColorDialog = ShowPaymentPackageDialog.findViewById(R.id.HeaderColorDialog);
+        HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(PaymentCommissionActivity.this, 1);
         MessageTextView.setText(getResources().getString(R.string.due_to_bank_ports_limitations_payment_is_not_possible));
         ButtonPersianView DialogOkButton = ShowPaymentPackageDialog.findViewById(R.id.DialogOkButton);
         DialogOkButton.setOnClickListener(new View.OnClickListener() {
@@ -221,6 +234,30 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
         });
 
         ShowPaymentPackageDialog.show();
+    }
+
+    private void ShowNotValidRequestDialog() {
+
+        final Dialog ShowNotValidRequestDialog = new Dialog(PaymentCommissionActivity.this);
+        ShowNotValidRequestDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ShowNotValidRequestDialog.setCanceledOnTouchOutside(false);
+        ShowNotValidRequestDialog.setContentView(R.layout.dialog_payment_package);
+
+        TextViewPersian MessageTextView = ShowNotValidRequestDialog.findViewById(R.id.MessageTextView);
+        TextViewPersian HeaderColorDialog = ShowNotValidRequestDialog.findViewById(R.id.HeaderColorDialog);
+        HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(PaymentCommissionActivity.this, 1);
+        MessageTextView.setText(getResources().getString(R.string.not_valid_request));
+        ButtonPersianView DialogOkButton = ShowNotValidRequestDialog.findViewById(R.id.DialogOkButton);
+        DialogOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FinishCurrentActivity();
+                ShowNotValidRequestDialog.dismiss();
+            }
+        });
+
+        ShowNotValidRequestDialog.show();
     }
 
     @Override
@@ -240,10 +277,19 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
                 businessCommissionRepository.ClearBusinessCommission();
             }
 
-            PricePayableTextViewPaymentCommissionActivity.setText(PricePayable);
+            if (PricePayable != null) {
+                if (!PricePayable.equals("")) {
+                    PricePayableTextViewPaymentCommissionActivity.setText(PricePayable);
+                    LoadData();
+                    IsPay = false;
+                } else {
+                    ShowNotValidRequestDialog();
+                }
+            } else {
+                ShowNotValidRequestDialog();
+            }
 
-            LoadData();
-            IsPay = false;
+
         }
     }
 

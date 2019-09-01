@@ -166,7 +166,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         gpsRangeSeekBarSettingActivity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (!IsBlockChangeEditBoxOrProgressBar){
+                if (!IsBlockChangeEditBoxOrProgressBar) {
                     if (IsFirst) {
                         IsFirst = false;
                     } else {
@@ -182,8 +182,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                     }
                     IsBlockChangeEditBoxOrProgressBar = true;
                     GpsRangeEditTextSettingActivity.setText(String.valueOf(ProgressText));
-                }
-                else
+                } else
                     IsBlockChangeEditBoxOrProgressBar = false;
             }
 
@@ -218,8 +217,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                     }
                     IsBlockChangeEditBoxOrProgressBar = true;
                     gpsRangeSeekBarSettingActivity.setProgress(GPSRange);
-                }
-                else
+                } else
                     IsBlockChangeEditBoxOrProgressBar = false;
             }
         });
@@ -233,7 +231,7 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         });
 
     }
-    
+
     private void SetInformationToSpinner() {
         SearchType.add(getResources().getString(R.string.search_on_all_items));
         SearchType.add(getResources().getString(R.string.search_on_business));
@@ -261,14 +259,20 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
     private void SaveUserSetting() {
 
         if (SearchLocationSwitchSettingActivity.isChecked()) {
-            if (categorySwitchSettingActivity.isChecked()) {
-                if (CategoryId != null) {
-                    ServiceCall();
-                } else {
-                    ShowToast(getResources().getString(R.string.please_select_category), Toast.LENGTH_LONG, MessageType.Warning);
-                }
+            if (GpsRangeEditTextSettingActivity.getText().toString().equals("") || GpsRangeEditTextSettingActivity.getText().toString() == null) {
+                ShowToast(getResources().getString(R.string.please_select_range_gps), Toast.LENGTH_LONG, MessageType.Warning);
+            } else if (Integer.parseInt(GpsRangeEditTextSettingActivity.getText().toString()) < 1) {
+                ShowToast(getResources().getString(R.string.please_select_range_gps), Toast.LENGTH_LONG, MessageType.Warning);
             } else {
-                ServiceCall();
+                if (categorySwitchSettingActivity.isChecked()) {
+                    if (CategoryId != null) {
+                        ServiceCall();
+                    } else {
+                        ShowToast(getResources().getString(R.string.please_select_category), Toast.LENGTH_LONG, MessageType.Warning);
+                    }
+                } else {
+                    ServiceCall();
+                }
             }
         } else {
             if (regionSwitchSettingActivity.isChecked()) {
@@ -317,7 +321,10 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
         ViewModel.setSearchOnData(SearchTypePosition);
         ViewModel.setSearchOnDelivery(DeliveryStateInSearchPosition);
         ViewModel.setUseGprsPoint(IsLocationSearch);
-        ViewModel.setGpsRangeInKm(Integer.parseInt(GpsRangeEditTextSettingActivity.getText().toString()));
+        if (SearchLocationSwitchSettingActivity.isChecked())
+            ViewModel.setGpsRangeInKm(Integer.parseInt(GpsRangeEditTextSettingActivity.getText().toString()));
+        else
+            ViewModel.setGpsRangeInKm(null);
         ViewModel.setCreate("");
         ViewModel.setModified("");
 

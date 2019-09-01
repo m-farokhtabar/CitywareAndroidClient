@@ -35,6 +35,23 @@ public class UserProfileActivity extends BaseActivity {
 
     private boolean IsLoadPoster = false;
     private boolean IsLoadPackage = false;
+    private boolean IsLoad = false;
+
+    public boolean isLoad() {
+        return IsLoad;
+    }
+
+    public void setLoad(boolean load) {
+        IsLoad = load;
+    }
+
+    public boolean isLoadPoster() {
+        return IsLoadPoster;
+    }
+
+    public boolean isLoadPackage() {
+        return IsLoadPackage;
+    }
 
     public void setLoadPoster(boolean loadPoster) {
         IsLoadPoster = loadPoster;
@@ -203,11 +220,13 @@ public class UserProfileActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     public void SetViewUserCredit(double Price, PurchasedPosterViewModel ViewModel, boolean IsSet) {
 
-        ((UserPosterFragment) Pager.getFragmentByIndex(0)).SetViewUserCredit(Price, true);
+//        ((UserPosterFragment) Pager.getFragmentByIndex(0)).SetViewUserCredit(Price, true);
+        ((UserPosterFragment) Pager.getFragmentByIndex(0)).LoadData();
 
         if (IsLoadPackage) {
-            ((UserPackageFragment) Pager.getFragmentByIndex(1)).SetViewUserCreditPackage(Price, false);
-            ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadDataOpenPackage();
+           // ((UserPackageFragment) Pager.getFragmentByIndex(1)).SetViewUserCreditPackage(Price, false);
+            ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadData();
+//            ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadDataOpenPackage();
         }
 
         if (IsSet) {
@@ -218,10 +237,12 @@ public class UserProfileActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     public void SetViewUserCreditPackage(double Price) {
 
-        ((UserPackageFragment) Pager.getFragmentByIndex(1)).SetViewUserCreditPackage(Price, true);
+        ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadData();
+//        ((UserPackageFragment) Pager.getFragmentByIndex(1)).SetViewUserCreditPackage(Price, true);
 
         if (IsLoadPoster)
-            ((UserPosterFragment) Pager.getFragmentByIndex(0)).SetViewUserCredit(Price, false);
+            ((UserPosterFragment) Pager.getFragmentByIndex(0)).LoadData();
+//            ((UserPosterFragment) Pager.getFragmentByIndex(0)).SetViewUserCredit(Price, false);
 
     }
 

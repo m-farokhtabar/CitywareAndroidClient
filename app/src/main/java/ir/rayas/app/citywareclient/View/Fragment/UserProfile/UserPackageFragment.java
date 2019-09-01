@@ -178,19 +178,22 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
     }
 
     public void LoadData() {
-        if (!IsSwipe)
-            if (PageNumberOpen == 1)
-                Context.ShowLoadingProgressBar();
+        if (!Context.isLoadPackage()) {
+            Context.ShowLoadingProgressBar();
+        } else {
+            RefreshPackageSwipeRefreshLayoutUserPackageFragment.setRefreshing(true);
+            PageNumberOpen = 1;
+            packageRecyclerViewAdapter.ClearViewModelList();
+        }
 
         Context.setLoadPackage(true);
-        ExpireAndValidatePackageSwitchUserPackageFragment.setClickable(false);
-        ExpireAndValidatePackageSwitchUserPackageFragment.setEnabled(false);
 
         PackageService packageService = new PackageService(this);
         Context.setRetryType(2);
         packageService.GetUserCredit();
 
     }
+
 
     public void LoadDataOpenPackage() {
 
@@ -232,8 +235,8 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                     final List<OutputPackageTransactionViewModel> ViewModelList = FeedBack.getValue();
 
                     List<OutputPackageTransactionViewModel> outputPackageTransactionViewModels = new ArrayList<>();
-                    for (int i=0;i<ViewModelList.size();i++){
-                        if (ViewModelList.get(i).isActive()){
+                    for (int i = 0; i < ViewModelList.size(); i++) {
+                        if (ViewModelList.get(i).isActive()) {
                             outputPackageTransactionViewModels.add(ViewModelList.get(i));
                         }
                     }
@@ -333,7 +336,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                     LoadDataOpenPackage();
 
                     if (FeedBack.getValue() != null) {
-                        UserCredit =  FeedBack.getValue();
+                        UserCredit = FeedBack.getValue();
                         UserCreditTextViewUserPackageFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
                     } else {
                         UserCredit = 0;
@@ -356,20 +359,23 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
         RefreshPackageSwipeRefreshLayoutUserPackageFragment.setRefreshing(false);
     }
 
-    @SuppressLint("SetTextI18n")
-    public void SetViewUserCreditPackage(double Price, boolean IsPackage) {
-        if (packageRecyclerViewAdapter.getItemCount() > 0)
-            ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
-        else
-            ShowEmptyTextViewUserPackageFragment.setVisibility(View.VISIBLE);
-
-       if (IsPackage) {
-           UserCredit = UserCredit + Price;
-       }else {
-           UserCredit = UserCredit - Price;
-       }
-        UserCreditTextViewUserPackageFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
-    }
+//    @SuppressLint("SetTextI18n")
+//    public void SetViewUserCreditPackage(double Price, boolean IsPackage) {
+//
+//        if (ExpireAndValidatePackageSwitchUserPackageFragment.isChecked()) {
+//            if (packageRecyclerViewAdapter.getItemCount() > 0)
+//                ShowEmptyTextViewUserPackageFragment.setVisibility(View.GONE);
+//            else
+//                ShowEmptyTextViewUserPackageFragment.setVisibility(View.VISIBLE);
+//        }
+//
+//        if (IsPackage) {
+//            UserCredit = UserCredit + Price;
+//        } else {
+//            UserCredit = UserCredit - Price;
+//        }
+//        UserCreditTextViewUserPackageFragment.setText(Utility.GetIntegerNumberWithComma(UserCredit));
+//    }
 
 
     @Override

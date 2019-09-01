@@ -294,8 +294,8 @@ public class BasketSummeryFragment extends Fragment implements IResponseService,
         ShowSubmitDialog.setCanceledOnTouchOutside(false);
         ShowSubmitDialog.setContentView(R.layout.dialog_ok_submit_basket);
 
-        TextViewPersian MessageTextView = ShowSubmitDialog.findViewById(R.id.MessageTextView);
-        MessageTextView.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(Context, 1);
+        TextViewPersian HeaderColorDialog = ShowSubmitDialog.findViewById(R.id.HeaderColorDialog);
+        HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(Context, 1);
         ButtonPersianView DialogOrderButton = ShowSubmitDialog.findViewById(R.id.DialogOrderButton);
         DialogOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override

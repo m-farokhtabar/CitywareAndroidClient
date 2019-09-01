@@ -4,7 +4,6 @@ package ir.rayas.app.citywareclient.View.Fragment.Package;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -24,7 +23,6 @@ import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
 import ir.rayas.app.citywareclient.Service.Prize.PrizeService;
 import ir.rayas.app.citywareclient.Service.User.PointService;
-import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -43,7 +41,6 @@ import ir.rayas.app.citywareclient.ViewModel.Club.UserConsumePointViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.PackageDetailsViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.PurchasePackageViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Payment.PackagePaymentViewModel;
 
 public class PackageDetailsFragment extends Fragment implements IResponseService {
 
@@ -446,12 +443,18 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
 
         final Dialog OkBuyPrizePackageDialog = new Dialog(Context);
         OkBuyPrizePackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        OkBuyPrizePackageDialog.setCanceledOnTouchOutside(false);
         OkBuyPrizePackageDialog.setContentView(R.layout.dialog_ok_buy_prize);
 
         ButtonPersianView DialogOkButton = OkBuyPrizePackageDialog.findViewById(R.id.DialogOkButton);
         TextViewPersian DialogMessageTextView = OkBuyPrizePackageDialog.findViewById(R.id.DialogMessageTextView);
+        TextViewPersian HeaderColorDialog = OkBuyPrizePackageDialog.findViewById(R.id.HeaderColorDialog);
+        HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(Context, 1);
 
         DialogMessageTextView.setText(Context.getResources().getString(R.string.message_show_get_package));
+
+        Context.setAdd(true);
+        Context.setOutputPackageTransactionViewModel(ViewModel);
 
         DialogOkButton.setOnClickListener(new View.OnClickListener() {
             @Override

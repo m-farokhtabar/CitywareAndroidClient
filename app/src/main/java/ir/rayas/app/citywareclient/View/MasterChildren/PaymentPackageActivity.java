@@ -37,6 +37,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Base.BaseActivity;
+import ir.rayas.app.citywareclient.View.Base.IButtonBackToolbarListener;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Coupon.CouponViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Coupon.UserCouponViewModel;
@@ -46,7 +47,7 @@ import ir.rayas.app.citywareclient.ViewModel.Payment.BusinessCommissionPaymentVi
 import ir.rayas.app.citywareclient.ViewModel.Payment.PackagePaymentViewModel;
 
 
-public class PaymentPackageActivity extends BaseActivity implements IResponseService {
+public class PaymentPackageActivity extends BaseActivity implements IResponseService , IButtonBackToolbarListener {
 
     private TextViewPersian PricePayableCouponTextViewPaymentPackageActivity = null;
     private EditTextPersian SubmitCouponEditTextPaymentPackageActivity = null;
@@ -58,7 +59,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
     private int PackageId = 0;
     private int Id = 0;
     private String PackageName = "";
-    private int PricePayable = 0;
+    private Integer PricePayable = 0;
 
     private int RetryType = 0;
     private int TotalPaymentPrice = 0;
@@ -87,6 +88,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
 
         packageRepository = new PackageRepository();
 
+        this.setButtonBackToolbarListener(this);
+
         PackageName = getIntent().getExtras().getString("PackageName");
         PricePayable = getIntent().getExtras().getInt("PricePayable");
         PackageId = getIntent().getExtras().getInt("PackageId");
@@ -107,8 +110,15 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
             IsPay = false;
         }
 
-
-        TotalPaymentPrice = PricePayable;
+        if (PricePayable != null) {
+            if ( PricePayable != 0){
+                TotalPaymentPrice = PricePayable;
+            }else {
+                ShowNotValidRequestDialog();
+            }
+        } else {
+            ShowNotValidRequestDialog();
+        }
 
         //ایجاد طرح بندی صفحه
         CreateLayout();
@@ -209,7 +219,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
             PackageService packageService = new PackageService(this);
             RetryType = 2;
             packageService.Add(MadeViewModel());
-        }else {
+        } else {
             IsPay = true;
 
             if (packageRepository.getPackagePayment() != null)
@@ -325,9 +335,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                     if (ViewModel != null) {
 
                         if (ViewModel.isActive()) {
-                            ShowToast(getResources().getString(R.string.submit_package_successful), Toast.LENGTH_LONG, MessageType.Info);
-                            SendDataToParentActivity(ViewModel);
-                            onBackPressed();
+                            ShowMessageBuyDialog(ViewModel);
+
                         } else {
                             if (TotalPaymentPrice > DefaultConstant.MaxPayment || TotalPaymentPrice < DefaultConstant.MinPayment) {
                                 ShowPaymentPackageDialog(ViewModel);
@@ -384,15 +393,13 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                         }
                     }
                     if (IsHavePackageId) {
-                        ShowToast(getResources().getString(R.string.submit_package_successful), Toast.LENGTH_LONG, MessageType.Info);
-                        SendDataToParentActivity(ViewModel);
-                        onBackPressed();
+                        ShowMessageBuyDialog(ViewModel);
                     } else {
                         ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Warning);
                     }
                 } else {
                     if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+                        ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Warning);
                     } else {
                         ShowErrorInConnectDialog();
                     }
@@ -430,7 +437,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         ShowPaymentPackageDialog.setContentView(R.layout.dialog_payment_package);
 
         TextViewPersian MessageTextView = ShowPaymentPackageDialog.findViewById(R.id.MessageTextView);
-        MessageTextView.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(PaymentPackageActivity.this, 1);
+        TextViewPersian HeaderColorDialog = ShowPaymentPackageDialog.findViewById(R.id.HeaderColorDialog);
+        HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(PaymentPackageActivity.this, 1);
         MessageTextView.setText(getResources().getString(R.string.package_submit_due_to_bank_ports_limitations_payment_is_not_possible));
         ButtonPersianView DialogOkButton = ShowPaymentPackageDialog.findViewById(R.id.DialogOkButton);
         DialogOkButton.setOnClickListener(new View.OnClickListener() {
@@ -448,6 +456,64 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         ShowPaymentPackageDialog.show();
     }
 
+    private void ShowMessageBuyDialog(final OutputPackageTransactionViewModel ViewModel) {
+
+        final Dialog OkBuyPackageDialog = new Dialog(PaymentPackageActivity.this);
+        OkBuyPackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        OkBuyPackageDialog.setCanceledOnTouchOutside(false);
+        OkBuyPackageDialog.setContentView(R.layout.dialog_ok_buy_prize);
+
+        ButtonPersianView DialogOkButton = OkBuyPackageDialog.findViewById(R.id.DialogOkButton);
+        TextViewPersian HeaderColorDialog = OkBuyPackageDialog.findViewById(R.id.HeaderColorDialog);
+        HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(PaymentPackageActivity.this, 1);
+        TextViewPersian DialogMessageTextView = OkBuyPackageDialog.findViewById(R.id.DialogMessageTextView);
+
+        DialogMessageTextView.setText(getResources().getString(R.string.message_show_get_package));
+
+        DialogOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OkBuyPackageDialog.dismiss();
+
+                SendDataToParentActivity(ViewModel);
+                onBackPressed();
+            }
+        });
+
+        OkBuyPackageDialog.show();
+    }
+
+    private void ShowNotValidRequestDialog() {
+
+        final Dialog ShowNotValidRequestDialog = new Dialog(PaymentPackageActivity.this);
+        ShowNotValidRequestDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ShowNotValidRequestDialog.setCanceledOnTouchOutside(false);
+        ShowNotValidRequestDialog.setContentView(R.layout.dialog_payment_package);
+
+        TextViewPersian MessageTextView = ShowNotValidRequestDialog.findViewById(R.id.MessageTextView);
+        TextViewPersian HeaderColorDialog = ShowNotValidRequestDialog.findViewById(R.id.HeaderColorDialog);
+        HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(PaymentPackageActivity.this, 1);
+        MessageTextView.setText(getResources().getString(R.string.not_valid_request));
+        ButtonPersianView DialogOkButton = ShowNotValidRequestDialog.findViewById(R.id.DialogOkButton);
+        DialogOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FinishCurrentActivity();
+                ShowNotValidRequestDialog.dismiss();
+            }
+        });
+
+        ShowNotValidRequestDialog.show();
+    }
+
+    private void onBack(){
+        super.onBackPressed();
+
+        if (packageRepository.getPackagePayment() != null) {
+            packageRepository.ClearPackagePayment();
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -463,18 +529,12 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
-        if (packageRepository.getPackagePayment() != null) {
-            packageRepository.ClearPackagePayment();
-        }
+        onBack();
     }
-
 
     @Override
     protected void onRestart() {
         super.onRestart();
-
         if (IsPay) {
 
             if (packageRepository.getPackagePayment() != null) {
@@ -493,9 +553,22 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
 
             }
 
+            if (PricePayable != null) {
+                if ( PricePayable != 0) {
+                    LoadDataValidPackage();
+                    IsPay = false;
+                }  else {
+                    ShowNotValidRequestDialog();
+                }
+            } else {
+                ShowNotValidRequestDialog();
+            }
 
-            LoadDataValidPackage();
-            IsPay = false;
         }
+    }
+
+    @Override
+    public void ClickOnButtonBackToolbar() {
+        onBack();
     }
 }

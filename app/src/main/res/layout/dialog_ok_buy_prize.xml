@@ -17,14 +17,14 @@
 
         <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
             android:id="@+id/DialogMessageTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_vertical|right"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|right"
             android:text="@string/message_show_get_prize"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/FontSemiBlackColor" />
