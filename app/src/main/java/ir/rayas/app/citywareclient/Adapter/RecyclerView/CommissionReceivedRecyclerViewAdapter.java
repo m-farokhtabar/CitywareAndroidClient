@@ -111,7 +111,7 @@ public class CommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapter<
            if (ViewModelList.get(position).getPayedDate().equals("")) {
                holder.ReceivedDateLinearLayout.setVisibility(View.GONE);
            } else {
-               holder.ReceivedDateLinearLayout.setVisibility(View.VISIBLE);
+               holder.ReceivedDateLinearLayout.setVisibility(View.GONE);
                holder.ReceivedTextView.setText(ViewModelList.get(position).getPayedDate());
                holder.ReceivedDateTitleTextView.setText(Context.getResources().getString(R.string.received_date));           }
        }
@@ -132,6 +132,7 @@ public class CommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapter<
                 Intent ShowCommissionDetailsIntent = Context.NewIntent(ShowCommissionDetailsActivity.class);
                 ShowCommissionDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
                 ShowCommissionDetailsIntent.putExtra("BusinessName", businessCommissionAndDiscountViewModel.getBusinessName());
+                ShowCommissionDetailsIntent.putExtra("Percents", ViewModelList.get(position).getPercents());
                 Context.startActivity(ShowCommissionDetailsIntent);
             }
         });

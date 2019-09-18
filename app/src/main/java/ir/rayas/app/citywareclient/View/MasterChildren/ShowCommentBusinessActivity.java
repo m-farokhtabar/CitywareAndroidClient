@@ -279,12 +279,11 @@ public class ShowCommentBusinessActivity extends BaseActivity implements IRespon
             } else if (ServiceMethod == ServiceMethodType.BusinessCommentAdd) {
                 LoadingLinearLayout.setVisibility(View.GONE);
                 Feedback<CommentViewModel> FeedBack = (Feedback<CommentViewModel>) Data;
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+                if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
                     CommentViewModel ViewModel = FeedBack.getValue();
                     ShowBusinessCommentDialog.dismiss();
                     if (ViewModel != null) {
-                        ShowToast(getResources().getString(R.string.save_comment_and), Toast.LENGTH_LONG, MessageType.Warning);
-
+                        ShowToast(getResources().getString(R.string.save_comment_and), Toast.LENGTH_LONG, MessageType.Info);
                     } else {
                         ShowToast(FeedbackType.InvalidDataFormat.getMessage().replace("{0}", ""), Toast.LENGTH_LONG, MessageType.Warning);
                     }

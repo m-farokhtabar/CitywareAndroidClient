@@ -107,6 +107,7 @@ public class ShowBusinessPosterListActivity extends BaseActivity implements IRes
 
         PosterService PosterService = new PosterService(this);
         PosterService.GetAllBusiness(PageNumber, BusinessId);
+//        PosterService.GetAllValid(PageNumber);
     }
 
     /**
@@ -162,15 +163,15 @@ public class ShowBusinessPosterListActivity extends BaseActivity implements IRes
                             }
 
 
-                            ShowPosterListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
-                                @Override
-                                public void onItemClick(int position, View v) {
-                                    Intent ShowBusinessPosterDetailsIntent = NewIntent(ShowBusinessPosterDetailsActivity.class);
-                                    ShowBusinessPosterDetailsIntent.putExtra("PosterId", ViewModelList.get(position).getId());
-                                    startActivity(ShowBusinessPosterDetailsIntent);
-
-                                }
-                            });
+//                            ShowPosterListRecyclerViewAdapter.setOnItemClickListener(new MyClickListener() {
+//                                @Override
+//                                public void onItemClick(int position, View v) {
+//                                    Intent ShowBusinessPosterDetailsIntent = NewIntent(ShowBusinessPosterDetailsActivity.class);
+//                                    ShowBusinessPosterDetailsIntent.putExtra("PosterId", ViewModelList.get(position).getId());
+//                                    startActivity(ShowBusinessPosterDetailsIntent);
+//
+//                                }
+//                            });
                         }
                     }
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {

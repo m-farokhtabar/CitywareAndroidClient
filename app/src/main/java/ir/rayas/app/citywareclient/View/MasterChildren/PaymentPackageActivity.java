@@ -15,7 +15,6 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
@@ -29,8 +28,6 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityIdList;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
-import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResultPassing;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.EditTextPersian;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
@@ -43,11 +40,10 @@ import ir.rayas.app.citywareclient.ViewModel.Coupon.CouponViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Coupon.UserCouponViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Package.PurchasePackageViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Payment.BusinessCommissionPaymentViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Payment.PackagePaymentViewModel;
 
 
-public class PaymentPackageActivity extends BaseActivity implements IResponseService , IButtonBackToolbarListener {
+public class PaymentPackageActivity extends BaseActivity implements IResponseService, IButtonBackToolbarListener {
 
     private TextViewPersian PricePayableCouponTextViewPaymentPackageActivity = null;
     private EditTextPersian SubmitCouponEditTextPaymentPackageActivity = null;
@@ -63,6 +59,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
 
     private int RetryType = 0;
     private int TotalPaymentPrice = 0;
+    private Integer PriceCoupon = 0;
     private boolean IsValidCoupon = false;
     private String CouponCode = "";
 
@@ -103,6 +100,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
             PackageId = ViewModel.getPackageId();
             IsPay = ViewModel.isPay();
             Id = ViewModel.getId();
+            PriceCoupon = ViewModel.getPriceCoupon();
+            CouponCode = ViewModel.getCouponCode();
 
             packageRepository.ClearPackagePayment();
             if (IsPay)
@@ -111,9 +110,9 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         }
 
         if (PricePayable != null) {
-            if ( PricePayable != 0){
+            if (PricePayable != 0) {
                 TotalPaymentPrice = PricePayable;
-            }else {
+            } else {
                 ShowNotValidRequestDialog();
             }
         } else {
@@ -135,12 +134,21 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         SubmitCouponEditTextPaymentPackageActivity = findViewById(R.id.SubmitCouponEditTextPaymentPackageActivity);
         final RadioButton bankSelectedRadioButtonPaymentPackageActivity = findViewById(R.id.BankSelectedRadioButtonPaymentPackageActivity);
 
-
-        CouponRelativeLayoutPaymentPackageActivity.setVisibility(View.GONE);
-        CouponFrameLayoutPaymentPackageActivity.setVisibility(View.GONE);
-
         PackageNameTextViewPaymentPackageActivity.setText(PackageName);
         PricePayableTextViewPaymentPackageActivity.setText(Utility.GetIntegerNumberWithComma(PricePayable));
+
+        if (CouponCode != null && !CouponCode.equals(""))
+            SubmitCouponEditTextPaymentPackageActivity.setText(CouponCode);
+
+        if (PriceCoupon != null && PriceCoupon != 0) {
+            CouponRelativeLayoutPaymentPackageActivity.setVisibility(View.VISIBLE);
+            CouponFrameLayoutPaymentPackageActivity.setVisibility(View.VISIBLE);
+
+            PricePayableCouponTextViewPaymentPackageActivity.setText(Utility.GetIntegerNumberWithComma(PriceCoupon));
+        } else {
+            CouponRelativeLayoutPaymentPackageActivity.setVisibility(View.GONE);
+            CouponFrameLayoutPaymentPackageActivity.setVisibility(View.GONE);
+        }
 
         SubmitCouponButtonUserPaymentPackageActivity.setClickable(false);
         SubmitCouponButtonUserPaymentPackageActivity.setEnabled(false);
@@ -231,6 +239,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
             packagePaymentViewModel.setPackageName(PackageName);
             packagePaymentViewModel.setPay(IsPay);
             packagePaymentViewModel.setPricePayable(PricePayable);
+            packagePaymentViewModel.setCouponCode(SubmitCouponEditTextPaymentPackageActivity.getText().toString());
+            packagePaymentViewModel.setPriceCoupon(PriceCoupon);
 
             packageRepository.setPackagePayment(packagePaymentViewModel);
 
@@ -308,6 +318,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                         if (TotalPaymentPrice < 0)
                             TotalPaymentPrice = 0;
 
+                        PriceCoupon = TotalPaymentPrice;
+
                         PricePayableCouponTextViewPaymentPackageActivity.setText(Utility.GetIntegerNumberWithComma(TotalPaymentPrice));
                     }
 
@@ -335,11 +347,11 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                     if (ViewModel != null) {
 
                         if (ViewModel.isActive()) {
-                            ShowMessageBuyDialog(ViewModel);
+                            ShowMessageBuyDialog();
 
                         } else {
                             if (TotalPaymentPrice > DefaultConstant.MaxPayment || TotalPaymentPrice < DefaultConstant.MinPayment) {
-                                ShowPaymentPackageDialog(ViewModel);
+                                ShowPaymentPackageDialog();
                             } else {
 
                                 IsPay = true;
@@ -353,6 +365,8 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                                 packagePaymentViewModel.setPackageName(PackageName);
                                 packagePaymentViewModel.setPay(IsPay);
                                 packagePaymentViewModel.setPricePayable(PricePayable);
+                                packagePaymentViewModel.setCouponCode(SubmitCouponEditTextPaymentPackageActivity.getText().toString());
+                                packagePaymentViewModel.setPriceCoupon(PriceCoupon);
 
                                 packageRepository.setPackagePayment(packagePaymentViewModel);
 
@@ -379,7 +393,6 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
                     final List<OutputPackageTransactionViewModel> ViewModelList = FeedBack.getValue();
-                    OutputPackageTransactionViewModel ViewModel = new OutputPackageTransactionViewModel();
 
                     boolean IsHavePackageId = false;
 
@@ -387,13 +400,12 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                         if (ViewModelList.get(i).getId() == Id) {
                             if (ViewModelList.get(i).isActive()) {
                                 IsHavePackageId = true;
-                                ViewModel = ViewModelList.get(i);
                             }
                             break;
                         }
                     }
                     if (IsHavePackageId) {
-                        ShowMessageBuyDialog(ViewModel);
+                        ShowMessageBuyDialog();
                     } else {
                         ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Warning);
                     }
@@ -411,25 +423,25 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
             ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
     }
-
-    /**
-     * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
-     *
-     * @param ViewModel اطلاعات پوستر
-     */
-    private void SendDataToParentActivity(OutputPackageTransactionViewModel ViewModel) {
-        HashMap<String, Object> Output = new HashMap<>();
-        Output.put("IsAdd", true);
-        Output.put("OutputPackageTransactionViewModel", ViewModel);
-        ActivityResultPassing.Push(new ActivityResult(ActivityIdList.PACKAGE_ACTIVITY, ActivityIdList.PAYMENT_PACKAGE_ACTIVITY, Output));
-    }
+//
+//    /**
+//     * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
+//     *
+//     * @param ViewModel اطلاعات پوستر
+//     */
+//    private void SendDataToParentActivity(OutputPackageTransactionViewModel ViewModel) {
+//        HashMap<String, Object> Output = new HashMap<>();
+//        Output.put("IsAdd", true);
+//        Output.put("OutputPackageTransactionViewModel", ViewModel);
+//        ActivityResultPassing.Push(new ActivityResult(ActivityIdList.PACKAGE_ACTIVITY, ActivityIdList.PAYMENT_PACKAGE_ACTIVITY, Output));
+//    }
 
     private void HideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
-    private void ShowPaymentPackageDialog(final OutputPackageTransactionViewModel ViewModel) {
+    private void ShowPaymentPackageDialog() {
 
         final Dialog ShowPaymentPackageDialog = new Dialog(PaymentPackageActivity.this);
         ShowPaymentPackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -456,7 +468,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         ShowPaymentPackageDialog.show();
     }
 
-    private void ShowMessageBuyDialog(final OutputPackageTransactionViewModel ViewModel) {
+    private void ShowMessageBuyDialog() {
 
         final Dialog OkBuyPackageDialog = new Dialog(PaymentPackageActivity.this);
         OkBuyPackageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -469,13 +481,14 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         TextViewPersian DialogMessageTextView = OkBuyPackageDialog.findViewById(R.id.DialogMessageTextView);
 
         DialogMessageTextView.setText(getResources().getString(R.string.message_show_get_package));
+        DefaultConstant.RefreshUserCredit = 1;
 
         DialogOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OkBuyPackageDialog.dismiss();
 
-                SendDataToParentActivity(ViewModel);
+//                SendDataToParentActivity(ViewModel);
                 onBackPressed();
             }
         });
@@ -507,7 +520,7 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
         ShowNotValidRequestDialog.show();
     }
 
-    private void onBack(){
+    private void onBack() {
         super.onBackPressed();
 
         if (packageRepository.getPackagePayment() != null) {
@@ -545,19 +558,35 @@ public class PaymentPackageActivity extends BaseActivity implements IResponseSer
                 PackageId = ViewModel.getPackageId();
                 IsPay = ViewModel.isPay();
                 Id = ViewModel.getId();
+                PriceCoupon = ViewModel.getPriceCoupon();
+                CouponCode = ViewModel.getCouponCode();
 
                 packageRepository.ClearPackagePayment();
 
                 PackageNameTextViewPaymentPackageActivity.setText(PackageName);
                 PricePayableTextViewPaymentPackageActivity.setText(Utility.GetIntegerNumberWithComma(PricePayable));
 
+                if (CouponCode != null && !CouponCode.equals(""))
+                    SubmitCouponEditTextPaymentPackageActivity.setText(CouponCode);
+
+
+                if (PriceCoupon != null && PriceCoupon != 0) {
+                    CouponRelativeLayoutPaymentPackageActivity.setVisibility(View.VISIBLE);
+                    CouponFrameLayoutPaymentPackageActivity.setVisibility(View.VISIBLE);
+
+                    PricePayableCouponTextViewPaymentPackageActivity.setText(Utility.GetIntegerNumberWithComma(PriceCoupon));
+                } else {
+                    CouponRelativeLayoutPaymentPackageActivity.setVisibility(View.GONE);
+                    CouponFrameLayoutPaymentPackageActivity.setVisibility(View.GONE);
+                }
+
             }
 
             if (PricePayable != null) {
-                if ( PricePayable != 0) {
+                if (PricePayable != 0) {
                     LoadDataValidPackage();
                     IsPay = false;
-                }  else {
+                } else {
                     ShowNotValidRequestDialog();
                 }
             } else {

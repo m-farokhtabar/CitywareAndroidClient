@@ -115,6 +115,9 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
                         if (PricePayable.contains(",")) {
                             PricePayable = PricePayable.replaceAll(",", "");
                         }
+                        if (PricePayable.contains("٬")) {
+                            PricePayable = PricePayable.replaceAll("٬", "");
+                        }
                         if (PricePayable.contains("ﺗﻮﻣﺎﻥ")) {
                             PricePayable = PricePayable.replaceAll("ﺗﻮﻣﺎﻥ", "");
                         }
@@ -185,7 +188,7 @@ public class PaymentCommissionActivity extends BaseActivity implements IResponse
                         SendDataToParentActivity();
                         onBackPressed();
                     } else {
-                        ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Error);
+                        ShowToast(getResources().getString(R.string.submit_package_unsuccessful), Toast.LENGTH_LONG, MessageType.Warning);
                     }
 
                 } else {

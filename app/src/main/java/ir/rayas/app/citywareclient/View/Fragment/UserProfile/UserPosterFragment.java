@@ -123,12 +123,12 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
                 if (IsValid) {
                     PageNumberValid = 1;
                     ExpireAndValidatePosterSwitchUserPostersFragment.setChecked(true);
-                    LoadDataValidPoster();
                 } else {
                     PageNumberExpire = 1;
                     ExpireAndValidatePosterSwitchUserPostersFragment.setChecked(false);
-                    LoadDataExpirePoster();
                 }
+
+                Context.SetLoadPackageAndPoster();
 
 
             }
@@ -180,7 +180,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
     public void LoadData() {
         if (!Context.isLoadPoster()) {
             Context.ShowLoadingProgressBar();
-        }else {
+        } else {
             RefreshPosterSwipeRefreshLayoutUserPostersFragment.setRefreshing(true);
             PageNumberValid = 1;
             posterValidRecyclerViewAdapter.ClearViewModelList();
@@ -193,6 +193,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
         packageService.GetUserCredit();
 
     }
+
 
     public void LoadDataValidPoster() {
         ExpireAndValidatePosterSwitchUserPostersFragment.setClickable(false);
@@ -322,7 +323,10 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
                     IsFirst = false;
-                    LoadDataValidPoster();
+                    if (IsValid)
+                        LoadDataValidPoster();
+                    else
+                        LoadDataExpirePoster();
 
                     if (FeedBack.getValue() != null) {
                         UserCredit = FeedBack.getValue();
@@ -382,6 +386,7 @@ public class UserPosterFragment extends Fragment implements IResponseService, IL
             if (!IsLoadedDataForFirst) {
                 IsSwipe = false;
                 IsLoadedDataForFirst = true;
+
 
                 //دریافت اطلاعات از سرور
                 LoadData();

@@ -6,6 +6,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.CommissionProductsRecyclerViewAdapter;
@@ -24,7 +28,7 @@ import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.ProductCommissionAndDiscountViewModel;
 
-public class ShowCommissionDetailsActivity extends BaseActivity implements IResponseService {
+public class ShowCommissionDetailsActivity extends BaseActivity {
 
 
     private RecyclerView ShowProductListRecyclerViewShowCommissionDetailsActivity = null;
@@ -33,6 +37,7 @@ public class ShowCommissionDetailsActivity extends BaseActivity implements IResp
 
     private int BusinessId = 0;
     private String BusinessName = "";
+    private String Percents = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +51,17 @@ public class ShowCommissionDetailsActivity extends BaseActivity implements IResp
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
             @Override
             public void call() {
-                LoadData();
+
             }
         }, R.string.commission_details);
 
         BusinessId = getIntent().getExtras().getInt("BusinessId");
         BusinessName = getIntent().getExtras().getString("BusinessName");
+        Percents = getIntent().getExtras().getString("Percents");
 
         CreateLayout();
         //دریافت اطلاعات از سرور
-        LoadData();
+       // LoadData();
     }
 
     private void CreateLayout() {
@@ -73,55 +79,71 @@ public class ShowCommissionDetailsActivity extends BaseActivity implements IResp
 
         TitleBusinessTextViewShowCommissionDetailsActivity.setText(BusinessName);
 
-    }
-
-    public void LoadData() {
-        ShowLoadingProgressBar();
-
-        MarketingService marketingService = new MarketingService(this);
-        marketingService.Get(BusinessId);
-    }
+        Gson gson = new Gson();
+        Type listType = new TypeToken<BusinessCommissionAndDiscountViewModel>() {
+        }.getType();
+        BusinessCommissionAndDiscountViewModel ViewModel = gson.fromJson(Percents, listType);
 
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        HideLoading();
-        try {
-            if (ServiceMethod == ServiceMethodType.BusinessCommissionAndDiscountGet) {
+        if (ViewModel != null) {
+            if (ViewModel.getProductList() != null) {
+                List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
 
-                Feedback<BusinessCommissionAndDiscountViewModel> FeedBack = (Feedback<BusinessCommissionAndDiscountViewModel>) Data;
-
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-
-                    final BusinessCommissionAndDiscountViewModel ViewModel = FeedBack.getValue();
-                    if (ViewModel != null) {
-                        if (ViewModel.getProductList() != null) {
-                            List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
-
-                            CommissionProductsRecyclerViewAdapter commissionProductsRecyclerViewAdapter = new CommissionProductsRecyclerViewAdapter(ShowCommissionDetailsActivity.this, ViewModelList);
-                            ShowProductListRecyclerViewShowCommissionDetailsActivity.setAdapter(commissionProductsRecyclerViewAdapter);
-                        }
-
-                        MarketerPercentTextViewShowCommissionDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
-                        RegionRepository regionRepository = new RegionRepository();
-                        AddressTextViewShowCommissionDetailsActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
-
-                    }
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-
-                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        ShowErrorInConnectDialog();
-                    }
-                }
+                CommissionProductsRecyclerViewAdapter commissionProductsRecyclerViewAdapter = new CommissionProductsRecyclerViewAdapter(ShowCommissionDetailsActivity.this, ViewModelList);
+                ShowProductListRecyclerViewShowCommissionDetailsActivity.setAdapter(commissionProductsRecyclerViewAdapter);
             }
-        } catch (Exception e) {
-            HideLoading();
-            ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
+
+            MarketerPercentTextViewShowCommissionDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
         }
     }
+
+//    public void LoadData() {
+//        ShowLoadingProgressBar();
+//
+//        MarketingService marketingService = new MarketingService(this);
+//        marketingService.Get(BusinessId);
+//    }
+//
+//
+//    @SuppressLint("SetTextI18n")
+//    @Override
+//    public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
+//        HideLoading();
+//        try {
+//            if (ServiceMethod == ServiceMethodType.BusinessCommissionAndDiscountGet) {
+//
+//                Feedback<BusinessCommissionAndDiscountViewModel> FeedBack = (Feedback<BusinessCommissionAndDiscountViewModel>) Data;
+//
+//                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+//
+//                    final BusinessCommissionAndDiscountViewModel ViewModel = FeedBack.getValue();
+//                    if (ViewModel != null) {
+//                        if (ViewModel.getProductList() != null) {
+//                            List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
+//
+//                            CommissionProductsRecyclerViewAdapter commissionProductsRecyclerViewAdapter = new CommissionProductsRecyclerViewAdapter(ShowCommissionDetailsActivity.this, ViewModelList);
+//                            ShowProductListRecyclerViewShowCommissionDetailsActivity.setAdapter(commissionProductsRecyclerViewAdapter);
+//                        }
+//
+//                        MarketerPercentTextViewShowCommissionDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
+//                        RegionRepository regionRepository = new RegionRepository();
+//                        AddressTextViewShowCommissionDetailsActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
+//
+//                    }
+//                } else {
+//                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+//
+//                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+//                    } else {
+//                        ShowErrorInConnectDialog();
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            HideLoading();
+//            ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
+//        }
+//    }
 
 
     @Override

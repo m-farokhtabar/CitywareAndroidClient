@@ -110,6 +110,7 @@ public class DiscountRecyclerViewAdapter extends RecyclerView.Adapter<DiscountRe
                 Intent ShowDiscountDetailsIntent = Context.NewIntent(ShowDiscountDetailsActivity.class);
                 ShowDiscountDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
                 ShowDiscountDetailsIntent.putExtra("BusinessName", businessCommissionAndDiscountViewModel.getBusinessName());
+                ShowDiscountDetailsIntent.putExtra("Percents", ViewModelList.get(position).getPercents());
                 Context.startActivity(ShowDiscountDetailsIntent);
             }
         });

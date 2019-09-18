@@ -55,6 +55,8 @@ public class UserSettingViewModel
     private Double latitude ;
     private Double longitude ;
 
+
+
     public String getRegionName() {
         return RegionName;
     }

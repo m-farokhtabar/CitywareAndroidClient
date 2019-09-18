@@ -23,6 +23,7 @@ import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
 import ir.rayas.app.citywareclient.Service.Prize.PrizeService;
 import ir.rayas.app.citywareclient.Service.User.PointService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -452,16 +453,17 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         HeaderColorDialog.getLayoutParams().width = LayoutUtility.GetWidthAccordingToScreen(Context, 1);
 
         DialogMessageTextView.setText(Context.getResources().getString(R.string.message_show_get_package));
+        DefaultConstant.RefreshUserCredit = 1;
 
-        Context.setAdd(true);
-        Context.setOutputPackageTransactionViewModel(ViewModel);
+//        Context.setAdd(true);
+//        Context.setOutputPackageTransactionViewModel(ViewModel);
 
         DialogOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OkBuyPrizePackageDialog.dismiss();
 
-                SendDataToParentActivity(ViewModel);
+             //   SendDataToParentActivity(ViewModel);
                 Context.onBackPressed();
             }
         });
@@ -469,18 +471,18 @@ public class PackageDetailsFragment extends Fragment implements IResponseService
         OkBuyPrizePackageDialog.show();
     }
 
-    /**
-     * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
-     *
-     * @param ViewModel اطلاعات پوستر
-     */
-    private void SendDataToParentActivity(OutputPackageTransactionViewModel ViewModel) {
-        HashMap<String, Object> Output = new HashMap<>();
-        Output.put("IsAdd", true);
-        Output.put("TotalPrice", CreditPrice);
-        Output.put("OutputPackageTransactionViewModel", ViewModel);
-        ActivityResultPassing.Push(new ActivityResult(Context.getParentActivity(), Context.getCurrentActivityId(), Output));
-    }
+//    /**
+//     * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
+//     *
+//     * @param ViewModel اطلاعات پوستر
+//     */
+//    private void SendDataToParentActivity(OutputPackageTransactionViewModel ViewModel) {
+//        HashMap<String, Object> Output = new HashMap<>();
+//        Output.put("IsAdd", true);
+//        Output.put("TotalPrice", CreditPrice);
+//        Output.put("OutputPackageTransactionViewModel", ViewModel);
+//        ActivityResultPassing.Push(new ActivityResult(Context.getParentActivity(), Context.getCurrentActivityId(), Output));
+//    }
 
 
 }

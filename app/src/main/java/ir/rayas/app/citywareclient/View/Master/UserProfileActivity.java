@@ -6,11 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 
+
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.Pager.UserProfilePagerAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Helper.ActivityMessagePassing.ActivityResult;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
@@ -22,7 +24,6 @@ import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPackageFragment
 import ir.rayas.app.citywareclient.View.Fragment.UserProfile.UserPosterFragment;
 import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Business.BusinessViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.UserAddressViewModel;
 
@@ -175,26 +176,26 @@ public class UserProfileActivity extends BaseActivity {
                     }
                     break;
 
-                case ActivityIdList.POSTER_TYPE_ACTIVITY:
-                    PurchasedPosterViewModel purchasedPosterViewModel = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
-                    if ((boolean) Result.getData().get("IsAdd")) {
-                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().AddViewModel(purchasedPosterViewModel);
-                        SetViewUserCredit((double) Result.getData().get("TotalPrice"), purchasedPosterViewModel, false);
-                    } else {
-                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModel);
-                    }
-                    break;
-
-                case ActivityIdList.PACKAGE_ACTIVITY:
-                    OutputPackageTransactionViewModel outputPackageTransactionViewModel = (OutputPackageTransactionViewModel) Result.getData().get("OutputPackageTransactionViewModel");
-                    if ((boolean) Result.getData().get("IsAdd")) {
-                        if (outputPackageTransactionViewModel.isActive()) {
-                            ((UserPackageFragment) Pager.getFragmentByIndex(1)).getPackageRecyclerViewAdapter().AddViewModel(outputPackageTransactionViewModel);
-                            SetViewUserCreditPackage(outputPackageTransactionViewModel.getPackageCredit());
-                        }
-                    }
-                    break;
-
+//                case ActivityIdList.POSTER_TYPE_ACTIVITY:
+//                    PurchasedPosterViewModel purchasedPosterViewModel = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
+//                    if ((boolean) Result.getData().get("IsAdd")) {
+//                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().AddViewModel(purchasedPosterViewModel);
+//                        SetViewUserCredit((double) Result.getData().get("TotalPrice"), purchasedPosterViewModel, false);
+//                    } else {
+//                        ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModel);
+//                    }
+//                    break;
+//
+//                case ActivityIdList.PACKAGE_ACTIVITY:
+//                    OutputPackageTransactionViewModel outputPackageTransactionViewModel = (OutputPackageTransactionViewModel) Result.getData().get("OutputPackageTransactionViewModel");
+//                    if ((boolean) Result.getData().get("IsAdd")) {
+//                        if (outputPackageTransactionViewModel.isActive()) {
+//                            ((UserPackageFragment) Pager.getFragmentByIndex(1)).getPackageRecyclerViewAdapter().AddViewModel(outputPackageTransactionViewModel);
+//                            SetViewUserCreditPackage(outputPackageTransactionViewModel.getPackageCredit());
+//                        }
+//                    }
+//                    break;
+//
                 case ActivityIdList.BUY_POSTER_SET_ACTIVITY:
                     PurchasedPosterViewModel purchasedPosterViewModels = (PurchasedPosterViewModel) Result.getData().get("PurchasedPosterViewModel");
                     ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(purchasedPosterViewModels);
@@ -217,33 +218,38 @@ public class UserProfileActivity extends BaseActivity {
         super.onGetResult(Result);
     }
 
-    @SuppressLint("SetTextI18n")
-    public void SetViewUserCredit(double Price, PurchasedPosterViewModel ViewModel, boolean IsSet) {
+    public void SetLoadPackageAndPoster(){
+        if (IsLoadPoster)
+            ((UserPosterFragment) Pager.getFragmentByIndex(0)).LoadData();
 
-//        ((UserPosterFragment) Pager.getFragmentByIndex(0)).SetViewUserCredit(Price, true);
-        ((UserPosterFragment) Pager.getFragmentByIndex(0)).LoadData();
-
-        if (IsLoadPackage) {
-           // ((UserPackageFragment) Pager.getFragmentByIndex(1)).SetViewUserCreditPackage(Price, false);
+        if (IsLoadPackage)
             ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadData();
-//            ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadDataOpenPackage();
-        }
 
-        if (IsSet) {
-            ((UserPosterFragment) Pager.getFragmentByIndex(0)).getPosterValidRecyclerViewAdapter().SetViewModel(ViewModel);
-        }
     }
 
     @SuppressLint("SetTextI18n")
-    public void SetViewUserCreditPackage(double Price) {
+    public void SetViewUserCredit() {
+        ((UserPosterFragment) Pager.getFragmentByIndex(0)).LoadData();
 
-        ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadData();
-//        ((UserPackageFragment) Pager.getFragmentByIndex(1)).SetViewUserCreditPackage(Price, true);
+        if (IsLoadPackage) {
+            ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadData();
+        }
+    }
 
-        if (IsLoadPoster)
-            ((UserPosterFragment) Pager.getFragmentByIndex(0)).LoadData();
-//            ((UserPosterFragment) Pager.getFragmentByIndex(0)).SetViewUserCredit(Price, false);
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        if (DefaultConstant.RefreshUserCredit == 1) {
+            if (IsLoadPoster)
+                ((UserPosterFragment) Pager.getFragmentByIndex(0)).LoadData();
+
+          if (IsLoadPackage)
+                ((UserPackageFragment) Pager.getFragmentByIndex(1)).LoadData();
+
+            DefaultConstant.RefreshUserCredit = 0;
+        }
     }
 
     @Override
@@ -258,12 +264,10 @@ public class UserProfileActivity extends BaseActivity {
         super.onLowMemory();
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
-
 
 
 }

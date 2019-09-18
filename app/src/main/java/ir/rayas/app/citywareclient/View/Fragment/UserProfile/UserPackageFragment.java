@@ -125,12 +125,12 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                 if (IsValid) {
                     PageNumberOpen = 1;
                     ExpireAndValidatePackageSwitchUserPackageFragment.setChecked(true);
-                    LoadDataOpenPackage();
                 } else {
                     PageNumberClose = 1;
                     ExpireAndValidatePackageSwitchUserPackageFragment.setChecked(false);
-                    LoadDataClosePackage();
                 }
+
+                Context.SetLoadPackageAndPoster();
 
             }
         });
@@ -184,6 +184,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
             RefreshPackageSwipeRefreshLayoutUserPackageFragment.setRefreshing(true);
             PageNumberOpen = 1;
             packageRecyclerViewAdapter.ClearViewModelList();
+            packageRecyclerViewAdapter.ClearViewModelListSort();
         }
 
         Context.setLoadPackage(true);
@@ -193,7 +194,6 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
         packageService.GetUserCredit();
 
     }
-
 
     public void LoadDataOpenPackage() {
 
@@ -333,7 +333,10 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
                 if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
 
                     IsFirst = false;
-                    LoadDataOpenPackage();
+                    if (IsValid)
+                        LoadDataOpenPackage();
+                    else
+                        LoadDataClosePackage();
 
                     if (FeedBack.getValue() != null) {
                         UserCredit = FeedBack.getValue();
@@ -386,6 +389,7 @@ public class UserPackageFragment extends Fragment implements IResponseService, I
             if (!IsLoadedDataForFirst) {
                 IsSwipe = false;
                 IsLoadedDataForFirst = true;
+
                 //دریافت اطلاعات از سرور
                 LoadData();
             }

@@ -17,6 +17,7 @@ import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Package.PackageService;
 import ir.rayas.app.citywareclient.Service.Poster.PosterService;
+import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
@@ -262,7 +263,8 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService,
                     if (ViewModel != null) {
                         Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
 
-                        SendDataToParentActivity(ViewModel);
+                        DefaultConstant.RefreshUserCredit = 1;
+//                        SendDataToParentActivity(ViewModel);
                         Context.onBackPressed();
 
 
@@ -282,17 +284,17 @@ public class BuyPosterTypeFragment extends Fragment implements IResponseService,
         }
     }
 
-    /**
-     * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
-     *
-     * @param ViewModel اطلاعات پوستر
-     */
-    private void SendDataToParentActivity(PurchasedPosterViewModel ViewModel) {
-        HashMap<String, Object> Output = new HashMap<>();
-        Output.put("IsAdd", true);
-        Output.put("TotalPrice", TotalPrice);
-        Output.put("PurchasedPosterViewModel", ViewModel);
-        ActivityResultPassing.Push(new ActivityResult(Context.getParentActivity(), Context.getCurrentActivityId(), Output));
-    }
+//    /**
+//     * دریافت ویومدل پوستر خریداری شده و ارسال آن به اکتیویتی پروفایل کاربر جهت نمایش در لیست پوسترهای فعال
+//     *
+//     * @param ViewModel اطلاعات پوستر
+//     */
+//    private void SendDataToParentActivity(PurchasedPosterViewModel ViewModel) {
+//        HashMap<String, Object> Output = new HashMap<>();
+//        Output.put("IsAdd", true);
+//        Output.put("TotalPrice", TotalPrice);
+//        Output.put("PurchasedPosterViewModel", ViewModel);
+//        ActivityResultPassing.Push(new ActivityResult(Context.getParentActivity(), Context.getCurrentActivityId(), Output));
+//    }
 
 }

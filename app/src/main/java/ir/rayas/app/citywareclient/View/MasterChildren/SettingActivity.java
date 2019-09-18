@@ -209,9 +209,12 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                 if (!IsBlockChangeEditBoxOrProgressBar) {
                     String GPSRangeText;
                     GPSRangeText = s.toString();
-                    int GPSRange;
+                    int GPSRange = 0;
                     if (s.length() != 0) {
-                        GPSRange = Integer.valueOf(GPSRangeText);
+                        if (Integer.valueOf(GPSRangeText) > 1500)
+                            ShowToast(getResources().getString(R.string.max_range_gps_1500_km), Toast.LENGTH_LONG, MessageType.Warning);
+                        else
+                            GPSRange = Integer.valueOf(GPSRangeText);
                     } else {
                         GPSRange = 1;
                     }
@@ -263,6 +266,8 @@ public class SettingActivity extends BaseActivity implements IResponseService, I
                 ShowToast(getResources().getString(R.string.please_select_range_gps), Toast.LENGTH_LONG, MessageType.Warning);
             } else if (Integer.parseInt(GpsRangeEditTextSettingActivity.getText().toString()) < 1) {
                 ShowToast(getResources().getString(R.string.please_select_range_gps), Toast.LENGTH_LONG, MessageType.Warning);
+            } else if (Integer.parseInt(GpsRangeEditTextSettingActivity.getText().toString()) > 1500) {
+                ShowToast(getResources().getString(R.string.max_range_gps_1500_km), Toast.LENGTH_LONG, MessageType.Warning);
             } else {
                 if (categorySwitchSettingActivity.isChecked()) {
                     if (CategoryId != null) {

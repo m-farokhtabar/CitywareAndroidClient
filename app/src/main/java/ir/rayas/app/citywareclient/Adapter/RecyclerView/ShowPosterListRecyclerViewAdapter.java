@@ -1,7 +1,7 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +19,15 @@ import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessPosterDetailsActivity;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessPosterListActivity;
 import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 
 
 
 public class ShowPosterListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context Context;
+    private ShowBusinessPosterListActivity Context;
     private RecyclerView Container = null;
     private List<PurchasedPosterViewModel> ViewModelList = null;
 
@@ -33,7 +35,7 @@ public class ShowPosterListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
 
 
-    public ShowPosterListRecyclerViewAdapter(Context Context, List<PurchasedPosterViewModel> PosterList, RecyclerView Container) {
+    public ShowPosterListRecyclerViewAdapter(ShowBusinessPosterListActivity Context, List<PurchasedPosterViewModel> PosterList, RecyclerView Container) {
         this.ViewModelList = PosterList;
         this.Context = Context;
         this.Container = Container;
@@ -104,6 +106,16 @@ public class ShowPosterListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         } else {
             viewHolder.BusinessImagePosterImageView.setImageResource(R.drawable.image_default);
         }
+
+
+        viewHolder.BusinessPosterContainerRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ShowBusinessPosterDetailsIntent = Context.NewIntent(ShowBusinessPosterDetailsActivity.class);
+                ShowBusinessPosterDetailsIntent.putExtra("PosterId", ViewModelList.get(position).getId());
+                Context.startActivity(ShowBusinessPosterDetailsIntent);
+            }
+        });
     }
 
     @Override

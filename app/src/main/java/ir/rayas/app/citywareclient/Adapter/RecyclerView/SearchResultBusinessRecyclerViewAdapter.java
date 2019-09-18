@@ -23,17 +23,17 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Master.SearchActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessInfoActivity;
-import ir.rayas.app.citywareclient.ViewModel.Search.SearchResultViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Search.SearchBusinessResultViewModel;
 
 
-public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SearchResultBusinessRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private SearchActivity Context;
     private RecyclerView Container = null;
-    private List<SearchResultViewModel> ViewModelList = null;
+    private List<SearchBusinessResultViewModel> ViewModelList = null;
 
 
-    public SearchResultRecyclerViewAdapter(SearchActivity Context, List<SearchResultViewModel> ViewModel, RecyclerView Container) {
+    public SearchResultBusinessRecyclerViewAdapter(SearchActivity Context, List<SearchBusinessResultViewModel> ViewModel, RecyclerView Container) {
         this.ViewModelList = ViewModel;
         this.Context = Context;
         this.Container = Container;
@@ -53,7 +53,7 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
      *
      * @param ViewModel
      */
-    public void AddViewModelList(List<SearchResultViewModel> ViewModel) {
+    public void AddViewModelList(List<SearchBusinessResultViewModel> ViewModel) {
         if (ViewModel != null) {
             if (ViewModelList == null)
                 ViewModelList = new ArrayList<>();
@@ -68,7 +68,7 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
      *
      * @param ViewModel
      */
-    public void SetViewModelList(List<SearchResultViewModel> ViewModel) {
+    public void SetViewModelList(List<SearchBusinessResultViewModel> ViewModel) {
         ViewModelList = new ArrayList<>();
         ViewModelList.addAll(ViewModel);
         notifyDataSetChanged();
@@ -92,8 +92,8 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final SearchViewHolder viewHolder = (SearchViewHolder) holder;
 
-        viewHolder.BusinessTitleTextView.setText(ViewModelList.get(position).BusinessTitle);
-        viewHolder.BusinessJobTitleTextView.setText(ViewModelList.get(position).BusinessJobTitle);
+        viewHolder.BusinessTitleTextView.setText(ViewModelList.get(position).getBusinessTitle());
+        viewHolder.BusinessJobTitleTextView.setText(ViewModelList.get(position).getBusinessJobTitle());
 
         int ScreenWidth = LayoutUtility.GetWidthAccordingToScreen(Context, 5)-40;
 

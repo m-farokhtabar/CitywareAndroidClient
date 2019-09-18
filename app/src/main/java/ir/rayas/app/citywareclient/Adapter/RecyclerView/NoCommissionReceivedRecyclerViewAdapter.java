@@ -122,6 +122,7 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
                 Intent ShowCommissionDetailsIntent = Context.NewIntent(ShowCommissionDetailsActivity.class);
                 ShowCommissionDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
                 ShowCommissionDetailsIntent.putExtra("BusinessName", businessCommissionAndDiscountViewModel.getBusinessName());
+                ShowCommissionDetailsIntent.putExtra("Percents", ViewModelList.get(position).getPercents());
                 Context.startActivity(ShowCommissionDetailsIntent);
             }
         });

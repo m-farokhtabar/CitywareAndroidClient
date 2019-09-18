@@ -65,4 +65,9 @@ public class DefaultConstant {
     public static int MinPayment = 1000;
 
 
+    // RefreshUserCredit = 0 حالت نرمال
+    // RefreshUserCredit = 1  تب پیکیج و پوستر آپدیت شود
+    public static int RefreshUserCredit = 0;
+
+
 }

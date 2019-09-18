@@ -8,7 +8,9 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +57,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private RecyclerView BusinessPosterInfoBookmarkRecyclerViewMainActivity = null;
     private FrameLayout Line = null;
     private SwipeRefreshLayout RefreshSwipeRefreshLayoutMainActivity = null;
+    private ProgressBar LoadMoreProgressBarMainActivity = null;
 
     private IsTopPosterRecyclerViewAdapter isTopPosterRecyclerViewAdapter = null;
     private BusinessPosterInfoRecyclerViewAdapter businessPosterInfoRecyclerViewAdapter = null;
@@ -83,6 +86,14 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     // SelectTab = 3 Show
     // SelectTab = 4 Bookmark
     private int SelectTab = 0;
+    private int PageItems = 5;
+
+
+    boolean isScrolling = false;
+    boolean isScrollingBookmark = false;
+    int currentItems, totalItems, scrollOutItems;
+    int currentItemsBookmark, totalItemsBookmark, scrollOutItemsBookmark;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +136,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         userSettingViewModel = AccountViewModel.getUserSetting();
 
         // Recycler View Poster Top, Poster, Bookmark Start------------------------------------------------------------------
+        LoadMoreProgressBarMainActivity = findViewById(R.id.LoadMoreProgressBarMainActivity);
         Line = findViewById(R.id.Line);
         RefreshSwipeRefreshLayoutMainActivity = findViewById(R.id.RefreshSwipeRefreshLayoutMainActivity);
 
@@ -136,11 +148,13 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewMainActivity.setAdapter(isTopPosterRecyclerViewAdapter);
 
         businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
-        businessPosterInfoRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
+        final LinearLayoutManager manager = new LinearLayoutManager(this);
+        businessPosterInfoRecyclerViewMainActivity.setLayoutManager(manager);
         businessPosterInfoRecyclerViewMainActivity.setHasFixedSize(true);
         businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         businessPosterInfoRecyclerViewAdapter = new BusinessPosterInfoRecyclerViewAdapter(MainActivity.this, null, businessPosterInfoRecyclerViewMainActivity);
         businessPosterInfoRecyclerViewMainActivity.setAdapter(businessPosterInfoRecyclerViewAdapter);
+
 
         BusinessPosterInfoBookmarkRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoBookmarkRecyclerViewMainActivity);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
@@ -148,6 +162,67 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         businessPosterInfoBookmarkRecyclerViewAdapter = new BusinessPosterInfoBookmarkRecyclerViewAdapter(MainActivity.this, null, BusinessPosterInfoBookmarkRecyclerViewMainActivity);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
+
+        LoadMoreProgressBarMainActivity.setVisibility(View.GONE);
+
+
+        businessPosterInfoRecyclerViewMainActivity.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true;
+                }
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                // تعداد ایتم های نمایش داده شده در صفحه
+                currentItems = manager.getChildCount();
+                // تعداد ایتم های نمایش داده شده در یک پیج
+                totalItems = PageItems;
+                // تعداد ایتم هایی که از صفحه قسمت بالا و پایین خارج می شود
+                scrollOutItems = manager.findFirstVisibleItemPosition();
+
+                if (isScrolling && (currentItems + scrollOutItems == totalItems)) {
+                    // data fetch
+                    isScrolling = false;
+                    PageNumberPoster = PageNumberPoster + 1;
+                    LoadMoreProgressBarMainActivity.setVisibility(View.VISIBLE);
+                    LoadDataInfo();
+                }
+            }
+        });
+
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrollingBookmark = true;
+                }
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                // تعداد ایتم های نمایش داده شده در صفحه
+                currentItemsBookmark = manager.getChildCount();
+                // تعداد ایتم های نمایش داده شده در یک پیج
+                totalItemsBookmark = PageItems;
+                // تعداد ایتم هایی که از صفحه قسمت بالا و پایین خارج می شود
+                scrollOutItemsBookmark = manager.findFirstVisibleItemPosition();
+
+                if (isScrollingBookmark && (currentItemsBookmark + scrollOutItemsBookmark == totalItemsBookmark)) {
+                    // data fetch
+                    isScrollingBookmark = false;
+                    PageNumberPoster = PageNumberPoster + 1;
+                    LoadMoreProgressBarMainActivity.setVisibility(View.VISIBLE);
+                    LoadDataBookmarkPoster();
+                }
+            }
+        });
         //End (Recycler View Poster Top, Poster, Bookmark)-----------------------------------------------------------------------------
 
 
@@ -160,12 +235,12 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                 businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
                 businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
 
+                PageNumberPoster = 1;
 
                 if (SelectTab == 4) {
-                    PageNumberPosterTop = 1;
                     LoadDataBookmarkPoster();
                 } else {
-                    PageNumberPoster = 1;
+                    PageNumberPosterTop = 1;
                     LoadData();
                 }
             }
@@ -229,28 +304,28 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                 GetMyLocation();
 
         HomeService homeService = new HomeService(MainActivity.this);
-        homeService.GetAllTop(QueryType.Top.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumberPosterTop);
+        homeService.GetAllTop(QueryType.Top.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumberPosterTop, PageItems);
 
-        homeService.GetAll(queryType, BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumberPoster);
+        homeService.GetAll(queryType, BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumberPoster, PageItems);
 
     }
 
     private void LoadDataTop() {
 
         HomeService homeService = new HomeService(MainActivity.this);
-        homeService.GetAllTop(QueryType.Top.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumberPosterTop);
+        homeService.GetAllTop(QueryType.Top.GetQueryType(), BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumberPosterTop, PageItems);
     }
 
     private void LoadDataInfo() {
 
         HomeService homeService = new HomeService(MainActivity.this);
-        homeService.GetAll(queryType, BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumberPoster);
+        homeService.GetAll(queryType, BusinessCategoryId, RegionId, GpsRangeInKm, latitude, longitude, PageNumberPoster, PageItems);
     }
 
     //سرویس مربوط به لیست علاقه مندی ها
     private void LoadDataBookmarkPoster() {
         HomeService homeService = new HomeService(MainActivity.this);
-        homeService.GetAllBookmark(PageNumberPoster);
+        homeService.GetAllBookmark(PageNumberPoster, PageItems);
     }
 
     private void GetSetting() {
@@ -287,6 +362,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         RefreshSwipeRefreshLayoutMainActivity.setRefreshing(false);
+        LoadMoreProgressBarMainActivity.setVisibility(View.GONE);
         IsFirst = false;
         HideLoading();
         try {
@@ -345,21 +421,21 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                     final List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         if (PageNumberPoster == 1) {
-                            if (ViewModelList.size() > 1) {
+                            if (ViewModelList.size() > 0) {
                                 businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
-                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
-                                    PageNumberPoster = PageNumberPoster + 1;
-                                    LoadDataInfo();
-                                }
+//                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+//                                    PageNumberPoster = PageNumberPoster + 1;
+//                                    LoadDataInfo();
+//                                }
                             }
                         } else {
                             businessPosterInfoRecyclerViewAdapter.AddViewModelList(ViewModelList);
 
-                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
-                                PageNumberPoster = PageNumberPoster + 1;
-                                LoadDataInfo();
-                            }
+//                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+//                                PageNumberPoster = PageNumberPoster + 1;
+//                                LoadDataInfo();
+//                            }
                         }
                     }
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
@@ -382,21 +458,21 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                     final List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
                         if (PageNumberPoster == 1) {
-                            if (ViewModelList.size() > 1) {
+                            if (ViewModelList.size() > 0) {
                                 businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
-                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
-                                    PageNumberPoster = PageNumberPoster + 1;
-                                    LoadDataBookmarkPoster();
-                                }
+//                                if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+//                                    PageNumberPoster = PageNumberPoster + 1;
+//                                    LoadDataBookmarkPoster();
+//                                }
                             }
                         } else {
                             businessPosterInfoBookmarkRecyclerViewAdapter.AddViewModelList(ViewModelList);
 
-                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
-                                PageNumberPoster = PageNumberPoster + 1;
-                                LoadDataBookmarkPoster();
-                            }
+//                            if (DefaultConstant.PageNumberSize == ViewModelList.size()) {
+//                                PageNumberPoster = PageNumberPoster + 1;
+//                                LoadDataBookmarkPoster();
+//                            }
                         }
                     }
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
@@ -646,4 +722,5 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             PageNumberPoster = 1;
         }
     }
+
 }

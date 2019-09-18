@@ -159,6 +159,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                     Item.setCreate(ViewModel.getCreate());
                     Item.setBusinessName(ViewModel.getBusinessName());
                     Item.setLastExtendOrBuyDate(ViewModel.getLastExtendOrBuyDate());
+                    Item.setOrder(ViewModel.getOrder());
 
                 }
             }
@@ -323,7 +324,7 @@ public class PosterValidRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                         Context.ShowToast(Context.getResources().getString(R.string.extend_poster_successful), Toast.LENGTH_LONG,MessageType.Info);
                         PurchasedPosterViewModel ViewModel=  FeedBack.getValue();
                         ViewModel.setBusinessName(BusinessName);
-                        Context.SetViewUserCredit(TotalPrice,ViewModel,true);
+                        Context.SetViewUserCredit();
                         TotalPrice = 0;
                         BusinessName = "";
                     }

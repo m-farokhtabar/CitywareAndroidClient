@@ -66,7 +66,7 @@ public class MFirebaseMessagingService extends FirebaseMessagingService {
     private void showNotification(RemoteMessage remoteMessage) {
         String channelId = "Default";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.logo)
+                .setSmallIcon(R.drawable.logotheme)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(remoteMessage.getNotification().getBody()).setAutoCancel(true);//.setContentIntent(pendingIntent);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.Adapter.RecyclerView.DiscountProductRecyclerViewAdapter;
@@ -26,7 +31,7 @@ import ir.rayas.app.citywareclient.View.IRetryButtonOnClick;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.ProductCommissionAndDiscountViewModel;
 
-public class ShowDiscountDetailsActivity extends BaseActivity implements IResponseService {
+public class ShowDiscountDetailsActivity extends BaseActivity {
 
 
     private RecyclerView ShowProductListRecyclerViewShowDiscountDetailsActivity = null;
@@ -35,6 +40,7 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
 
     private int BusinessId = 0;
     private String BusinessName = "";
+    private String Percents = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,23 +53,27 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
         InitView(R.id.MasterContentLinearLayout, new IRetryButtonOnClick() {
             @Override
             public void call() {
-                LoadData();
+
             }
         }, R.string.discount_details);
 
         BusinessId = getIntent().getExtras().getInt("BusinessId");
         BusinessName = getIntent().getExtras().getString("BusinessName");
+        Percents = getIntent().getExtras().getString("Percents");
 
         CreateLayout();
         //دریافت اطلاعات از سرور
-        LoadData();
+        //  LoadData();
     }
 
     private void CreateLayout() {
 
+        TextViewPersian ShowEmptyDiscountTextViewShowDiscountDetailsActivity = findViewById(R.id.ShowEmptyDiscountTextViewShowDiscountDetailsActivity);
         TextViewPersian TitleBusinessTextViewShowDiscountDetailsActivity = findViewById(R.id.TitleBusinessTextViewShowDiscountDetailsActivity);
         CustomerPercentTextViewShowDiscountDetailsActivity = findViewById(R.id.CustomerPercentTextViewShowDiscountDetailsActivity);
         AddressTextViewShowDiscountDetailsActivity = findViewById(R.id.AddressTextViewShowDiscountDetailsActivity);
+
+        ShowEmptyDiscountTextViewShowDiscountDetailsActivity.setVisibility(View.GONE);
 
 
         ShowProductListRecyclerViewShowDiscountDetailsActivity = findViewById(R.id.ShowProductListRecyclerViewShowDiscountDetailsActivity);
@@ -74,55 +84,74 @@ public class ShowDiscountDetailsActivity extends BaseActivity implements IRespon
 
         TitleBusinessTextViewShowDiscountDetailsActivity.setText(BusinessName);
 
-    }
 
-    public void LoadData() {
-        ShowLoadingProgressBar();
+        Gson gson = new Gson();
+        Type listType = new TypeToken<BusinessCommissionAndDiscountViewModel>() {
+        }.getType();
+        BusinessCommissionAndDiscountViewModel ViewModel = gson.fromJson(Percents, listType);
 
-        MarketingService marketingService = new MarketingService(this);
-        marketingService.Get(BusinessId);
-    }
-
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        HideLoading();
-        try {
-            if (ServiceMethod == ServiceMethodType.BusinessCommissionAndDiscountGet) {
-
-                Feedback<BusinessCommissionAndDiscountViewModel> FeedBack = (Feedback<BusinessCommissionAndDiscountViewModel>) Data;
-
-                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
-
-                    final BusinessCommissionAndDiscountViewModel ViewModel = FeedBack.getValue();
-                    if (ViewModel != null) {
-                        if (ViewModel.getProductList() != null) {
-                            List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
+        if (ViewModel != null) {
+            if (ViewModel.getProductList() != null && ViewModel.getProductList().size() > 0) {
+                List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
 
 
-                            DiscountProductRecyclerViewAdapter discountProductRecyclerViewAdapter = new DiscountProductRecyclerViewAdapter(ShowDiscountDetailsActivity.this, ViewModelList);
-                            ShowProductListRecyclerViewShowDiscountDetailsActivity.setAdapter(discountProductRecyclerViewAdapter);
-                        }
+                DiscountProductRecyclerViewAdapter discountProductRecyclerViewAdapter = new DiscountProductRecyclerViewAdapter(ShowDiscountDetailsActivity.this, ViewModelList);
+                ShowProductListRecyclerViewShowDiscountDetailsActivity.setAdapter(discountProductRecyclerViewAdapter);
+            } else {
 
-                        CustomerPercentTextViewShowDiscountDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
-
-                        RegionRepository regionRepository = new RegionRepository();
-                        AddressTextViewShowDiscountDetailsActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId()));
-                    }
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        ShowErrorInConnectDialog();
-                    }
-                }
             }
-        } catch (Exception e) {
-            HideLoading();
-            ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
+            CustomerPercentTextViewShowDiscountDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
         }
+
     }
+
+//    public void LoadData() {
+//        ShowLoadingProgressBar();
+//
+//        MarketingService marketingService = new MarketingService(this);
+//        marketingService.Get(BusinessId);
+//    }
+
+
+//    @SuppressLint("SetTextI18n")
+//    @Override
+//    public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
+//        HideLoading();
+//        try {
+//            if (ServiceMethod == ServiceMethodType.BusinessCommissionAndDiscountGet) {
+//
+//                Feedback<BusinessCommissionAndDiscountViewModel> FeedBack = (Feedback<BusinessCommissionAndDiscountViewModel>) Data;
+//
+//                if (FeedBack.getStatus() == FeedbackType.FetchSuccessful.getId()) {
+//
+//                    final BusinessCommissionAndDiscountViewModel ViewModel = FeedBack.getValue();
+//                    if (ViewModel != null) {
+//                        if (ViewModel.getProductList() != null) {
+//                            List<ProductCommissionAndDiscountViewModel> ViewModelList = ViewModel.getProductList();
+//
+//
+//                            DiscountProductRecyclerViewAdapter discountProductRecyclerViewAdapter = new DiscountProductRecyclerViewAdapter(ShowDiscountDetailsActivity.this, ViewModelList);
+//                            ShowProductListRecyclerViewShowDiscountDetailsActivity.setAdapter(discountProductRecyclerViewAdapter);
+//                        }
+//
+//                        CustomerPercentTextViewShowDiscountDetailsActivity.setText(String.valueOf(ViewModel.getCustomerPercent()) + " " + getResources().getString(R.string.percent));
+//
+//                        RegionRepository regionRepository = new RegionRepository();
+//                        AddressTextViewShowDiscountDetailsActivity.setText(regionRepository.GetFullName(ViewModel.getRegionId())+" " + ViewModel.getBusinessAddress());
+//                    }
+//                } else {
+//                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
+//                        ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
+//                    } else {
+//                        ShowErrorInConnectDialog();
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            HideLoading();
+//            ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
+//        }
+//    }
 
 
     @Override

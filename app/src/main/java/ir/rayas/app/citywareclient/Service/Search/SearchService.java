@@ -13,6 +13,8 @@ import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Enum.ServiceMethodType;
 import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
+import ir.rayas.app.citywareclient.ViewModel.Search.SearchBusinessResultViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Search.SearchProductResultViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Search.SearchResultViewModel;
 
 
@@ -37,11 +39,28 @@ public class SearchService implements IService {
         BaseService Current = new BaseService();
         String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + BusinessCategoryId + "/" + ControllerRegion + "/" +
                 RegionId + "/" + ControllerLocation + "/" + GpsRangeInKm + "/" + latitude + "/" + longitude + "/" + ControllerLimitOn + "/" +
-                SearchType + "/" + DelivaryType + "/" + ControllerPage + "/" + Page + "/" +ControllerText+ TextSearch;
+                SearchType + "/" + DelivaryType + "/" + ControllerPage + "/" + Page + "/" + ControllerText + TextSearch;
         Current.GetService(this, Url, ServiceMethodType.SearchResultGet, SearchResultViewModel.class, new TypeToken<Feedback<List<SearchResultViewModel>>>() {
         }.getType());
     }
 
+    public void GetAllBusinessSearch(Integer BusinessCategoryId, Integer RegionId, Integer GpsRangeInKm, Double latitude, Double longitude, int DelivaryType, int Page, int PageItems, String TextSearch) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + "Home/BusinessSearch/Category" + "/" + BusinessCategoryId + "/" + ControllerRegion + "/" +
+                RegionId + "/" + ControllerLocation + "/" + GpsRangeInKm + "/" + latitude + "/" + longitude + "/" + ControllerLimitOn + "/" +
+                DelivaryType + "/" + ControllerPage + "/" + Page + "/" + PageItems + "/" + ControllerText + TextSearch;
+        Current.GetService(this, Url, ServiceMethodType.SearchResultBusinessGet, SearchBusinessResultViewModel.class, new TypeToken<Feedback<List<SearchBusinessResultViewModel>>>() {
+        }.getType());
+    }
+
+    public void GetAllProductSearch(Integer BusinessCategoryId, Integer RegionId, Integer GpsRangeInKm, Double latitude, Double longitude, int DelivaryType, int Page, int PageItems, String TextSearch) {
+        BaseService Current = new BaseService();
+        String Url = DefaultConstant.BaseUrlWebService + "/" + "Home/ProductSearch/Category" + "/" + BusinessCategoryId + "/" + ControllerRegion + "/" +
+                RegionId + "/" + ControllerLocation + "/" + GpsRangeInKm + "/" + latitude + "/" + longitude + "/" + ControllerLimitOn + "/" +
+                DelivaryType + "/" + ControllerPage + "/" + Page + "/" + PageItems + "/"+ ControllerText + TextSearch;
+        Current.GetService(this, Url, ServiceMethodType.SearchResultProductGet, SearchProductResultViewModel.class, new TypeToken<Feedback<List<SearchProductResultViewModel>>>() {
+        }.getType());
+    }
 
     @Override
     public <T> void OnSuccess(String Response, ServiceMethodType ServiceMethod, Class<T> OutputClass, Type OutputClassType) {

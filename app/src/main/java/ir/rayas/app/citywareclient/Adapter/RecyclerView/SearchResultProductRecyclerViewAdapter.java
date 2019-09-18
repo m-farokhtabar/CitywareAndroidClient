@@ -23,6 +23,8 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Master.SearchActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessInfoActivity;
+import ir.rayas.app.citywareclient.View.MasterChildren.ShowProductDetailsActivity;
+import ir.rayas.app.citywareclient.ViewModel.Search.SearchProductResultViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Search.SearchResultViewModel;
 
 
@@ -30,10 +32,10 @@ public class SearchResultProductRecyclerViewAdapter extends RecyclerView.Adapter
 
     private SearchActivity Context;
     private RecyclerView Container = null;
-    private List<SearchResultViewModel> ViewModelList = null;
+    private List<SearchProductResultViewModel> ViewModelList = null;
 
 
-    public SearchResultProductRecyclerViewAdapter(SearchActivity Context, List<SearchResultViewModel> ViewModel, RecyclerView Container) {
+    public SearchResultProductRecyclerViewAdapter(SearchActivity Context, List<SearchProductResultViewModel> ViewModel, RecyclerView Container) {
         this.ViewModelList = ViewModel;
         this.Context = Context;
         this.Container = Container;
@@ -53,7 +55,7 @@ public class SearchResultProductRecyclerViewAdapter extends RecyclerView.Adapter
      *
      * @param ViewModel
      */
-    public void AddViewModelList(List<SearchResultViewModel> ViewModel) {
+    public void AddViewModelList(List<SearchProductResultViewModel> ViewModel) {
         if (ViewModel != null) {
             if (ViewModelList == null)
                 ViewModelList = new ArrayList<>();
@@ -68,7 +70,7 @@ public class SearchResultProductRecyclerViewAdapter extends RecyclerView.Adapter
      *
      * @param ViewModel
      */
-    public void SetViewModelList(List<SearchResultViewModel> ViewModel) {
+    public void SetViewModelList(List<SearchProductResultViewModel> ViewModel) {
         ViewModelList = new ArrayList<>();
         ViewModelList.addAll(ViewModel);
         notifyDataSetChanged();
@@ -92,8 +94,8 @@ public class SearchResultProductRecyclerViewAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final SearchViewHolder viewHolder = (SearchViewHolder) holder;
 
-        viewHolder.BusinessTitleTextView.setText(ViewModelList.get(position).BusinessTitle);
-        viewHolder.BusinessJobTitleTextView.setText(ViewModelList.get(position).BusinessJobTitle);
+        viewHolder.BusinessTitleTextView.setText(ViewModelList.get(position).getProductTitle());
+        viewHolder.BusinessJobTitleTextView.setText(ViewModelList.get(position).getBusinessTitle());
 
         int ScreenWidth = LayoutUtility.GetWidthAccordingToScreen(Context, 5)-40;
 
@@ -105,12 +107,12 @@ public class SearchResultProductRecyclerViewAdapter extends RecyclerView.Adapter
 
 
         String ProductImage = "";
-        if (ViewModelList.get(position).getNewestPurchasedPosterUrl() != null) {
-            if (!ViewModelList.get(position).getNewestPurchasedPosterUrl().equals("")) {
-                if (ViewModelList.get(position).getNewestPurchasedPosterUrl().contains("~")) {
-                    ProductImage = ViewModelList.get(position).getNewestPurchasedPosterUrl().replace("~", DefaultConstant.BaseUrlWebService);
+        if (ViewModelList.get(position).getProductImageUrl() != null) {
+            if (!ViewModelList.get(position).getProductImageUrl().equals("")) {
+                if (ViewModelList.get(position).getProductImageUrl().contains("~")) {
+                    ProductImage = ViewModelList.get(position).getProductImageUrl().replace("~", DefaultConstant.BaseUrlWebService);
                 } else {
-                    ProductImage = ViewModelList.get(position).getNewestPurchasedPosterUrl();
+                    ProductImage = ViewModelList.get(position).getProductImageUrl();
                 }
             }
         } else {
@@ -127,9 +129,9 @@ public class SearchResultProductRecyclerViewAdapter extends RecyclerView.Adapter
         viewHolder.BusinessLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent ShowBusinessInfoActivityIntent = Context.NewIntent(ShowBusinessInfoActivity.class);
-                ShowBusinessInfoActivityIntent.putExtra("BusinessId", ViewModelList.get(position).getBusinessId());
-                Context.startActivity(ShowBusinessInfoActivityIntent);
+                Intent ShowProductDetailsIntent = Context.NewIntent(ShowProductDetailsActivity.class);
+                ShowProductDetailsIntent.putExtra("ProductId", ViewModelList.get(position).getProductId());
+                Context.startActivity(ShowProductDetailsIntent);
             }
         });
     }

@@ -237,7 +237,7 @@ public class PosterExpiredRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                         PurchasedPosterViewModel ViewModel=  FeedBack.getValue();
                         ViewModel.setBusinessName(BusinessName);
 
-                        Context.SetViewUserCredit(TotalPrice,ViewModel,false);
+                        Context.SetViewUserCredit();
                         TotalPrice = 0;
                         BusinessName = "";
                     }

@@ -24,7 +24,6 @@ import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Master.UserProfileActivity;
 import ir.rayas.app.citywareclient.ViewModel.Package.OutputPackageTransactionViewModel;
-import ir.rayas.app.citywareclient.ViewModel.Poster.PurchasedPosterViewModel;
 
 
 public class PackageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

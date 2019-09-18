@@ -33,27 +33,27 @@ public class HomeService implements IService {
     }
 
 
-    public void GetAll(int QueryType, Integer BusinessCategoryId, Integer RegionId, Integer GpsRangeInKm,Double latitude, Double longitude,  int Page) {
+    public void GetAll(int QueryType, Integer BusinessCategoryId, Integer RegionId, Integer GpsRangeInKm, Double latitude, Double longitude, int Page, int PageItems) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName  + "/" + QueryType + "/" + ControllerCategory + "/" +
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + QueryType + "/" + ControllerCategory + "/" +
                 BusinessCategoryId + "/" + ControllerRegion + "/" + RegionId + "/" + ControllerLocation
-                + "/" + GpsRangeInKm + "/" + latitude + "/" + longitude + "/" + ControllerPage + "/" + Page;
+                + "/" + GpsRangeInKm + "/" + latitude + "/" + longitude + "/" + ControllerPage + "/" + Page + "/" + PageItems;
         Current.GetService(this, Url, ServiceMethodType.BusinessPosterInfoGetAll, BusinessPosterInfoViewModel.class, new TypeToken<Feedback<List<BusinessPosterInfoViewModel>>>() {
         }.getType());
     }
 
-    public void GetAllTop(int QueryType, Integer BusinessCategoryId, Integer RegionId, Integer GpsRangeInKm,Double latitude, Double longitude,  int Page) {
+    public void GetAllTop(int QueryType, Integer BusinessCategoryId, Integer RegionId, Integer GpsRangeInKm, Double latitude, Double longitude, int Page , int PageItems) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName  + "/" + QueryType + "/" + ControllerCategory + "/" +
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + QueryType + "/" + ControllerCategory + "/" +
                 BusinessCategoryId + "/" + ControllerRegion + "/" + RegionId + "/" + ControllerLocation
-                + "/" + GpsRangeInKm + "/" + latitude + "/" + longitude + "/" + ControllerPage + "/" + Page;
+                + "/" + GpsRangeInKm + "/" + latitude + "/" + longitude + "/" + ControllerPage + "/" + Page + "/" + PageItems;
         Current.GetService(this, Url, ServiceMethodType.BusinessPosterInfoTopGetAll, BusinessPosterInfoViewModel.class, new TypeToken<Feedback<List<BusinessPosterInfoViewModel>>>() {
         }.getType());
     }
 
-    public void GetAllBookmark(int Page) {
+    public void GetAllBookmark(int Page , int PageItems) {
         BaseService Current = new BaseService();
-        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName  + "/" + ControllerBookmark + "/" + ControllerPage + "/" + Page;
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + ControllerBookmark + "/" + ControllerPage + "/" + Page + "/" + PageItems;
         Current.GetService(this, Url, ServiceMethodType.BookmarkPosterInfoGetAll, BusinessPosterInfoViewModel.class, new TypeToken<Feedback<List<BusinessPosterInfoViewModel>>>() {
         }.getType());
     }
