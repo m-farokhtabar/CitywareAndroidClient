@@ -89,11 +89,11 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private int PageItems = 5;
 
 
-//    boolean isScrolling = false;
-//    boolean isScrollingBookmark = false;
-//    int currentItems, totalItems, scrollOutItems;
-//    int currentItemsBookmark, totalItemsBookmark, scrollOutItemsBookmark;
-//    LinearLayoutManager manager;
+    boolean isScrolling = false;
+    boolean isScrollingBookmark = false;
+    int currentItems, totalItems, scrollOutItems;
+    int currentItemsBookmark, totalItemsBookmark, scrollOutItemsBookmark;
+    LinearLayoutManager manager;
 
 
     @Override
@@ -165,6 +165,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
 
         LoadMoreProgressBarMainActivity.setVisibility(View.GONE);
+        
 //        businessPosterInfoRecyclerViewMainActivity.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //            @Override
 //            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

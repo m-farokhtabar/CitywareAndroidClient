@@ -81,6 +81,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
     // SelectTab = 2 Product
     private int SelectTab = 0;
     private boolean IsFirstClickTab = false;
+    private boolean IsFirstClickTabProduct = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +178,6 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     String Search = s.toString();
                     TextSearch = EditTextPersian.ConvertNumber(Search);
 
-                    IsFirstClickTab = true;
 
                     try {
                         String Temp = URLEncoder.encode(TextSearch, "utf-8");
@@ -186,11 +186,14 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                         e.printStackTrace();
                     }
                     PageNumber = 1;
+                    IsFirstClickTabProduct = true;
+                    IsFirstClickTab = true;
 
-                    if (SelectTab == 1)
+                    if (SelectTab == 1) {
                         LoadDataBusinessSearch();
-                    else
+                    } else {
                         LoadDataProductSearch();
+                    }
 
                 } else {
                     TextSearch = "";
@@ -226,18 +229,17 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                     }
 
                     PageNumber = 1;
+                    IsFirstClickTabProduct = true;
                     IsFirstClickTab = true;
 
-                    if (SelectTab == 1)
+                    if (SelectTab == 1) {
                         LoadDataBusinessSearch();
-                    else
+                    } else {
                         LoadDataProductSearch();
-
+                    }
                 } else {
                     ShowToast(getResources().getString(R.string.please_enter_word), Toast.LENGTH_LONG, MessageType.Warning);
                 }
-
-
             }
         });
 
@@ -246,11 +248,19 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
             @Override
             public void onRefresh() {
                 PageNumber = 1;
-                IsFirstClickTab = false;
-                SearchEditTextSearchActivity.setText("");
-//                SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
-                searchResultProductRecyclerViewAdapter.ClearViewModelList();
-                searchResultBusinessRecyclerViewAdapter.ClearViewModelList();
+
+                if (SelectTab == 1) {
+                    IsFirstClickTab = true;
+                    ShowBusinessSearch();
+
+                } else if (SelectTab == 2) {
+                    IsFirstClickTabProduct = true;
+                    ShowProductSearch();
+                }
+//                SearchEditTextSearchActivity.setText("");
+////              SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
+//                searchResultProductRecyclerViewAdapter.ClearViewModelList();
+//                searchResultBusinessRecyclerViewAdapter.ClearViewModelList();
             }
         });
 
@@ -289,10 +299,12 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         SearchResultProductRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
         SearchResultBusinessRecyclerViewSearchActivity.setVisibility(View.GONE);
 
-        if (IsFirstClickTab) {
+
+        if (IsFirstClickTabProduct) {
             PageNumber = 1;
-            IsFirstClickTab = false;
+            IsFirstClickTabProduct = false;
             if (!TextSearch.equals("")) {
+                ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                 RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(true);
                 LoadDataProductSearch();
             }
@@ -311,10 +323,12 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         SearchResultBusinessRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
         SearchResultProductRecyclerViewSearchActivity.setVisibility(View.GONE);
 
+
         if (IsFirstClickTab) {
             PageNumber = 1;
             IsFirstClickTab = false;
             if (!TextSearch.equals("")) {
+                ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                 RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(true);
                 LoadDataBusinessSearch();
             }
@@ -773,10 +787,10 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
             RegionId = null;
 
         }
-        PageNumber = 1;
-        SearchEditTextSearchActivity.setText("");
-        searchResultProductRecyclerViewAdapter.ClearViewModelList();
-        searchResultBusinessRecyclerViewAdapter.ClearViewModelList();
+//        PageNumber = 1;
+//        SearchEditTextSearchActivity.setText("");
+//        searchResultProductRecyclerViewAdapter.ClearViewModelList();
+//        searchResultBusinessRecyclerViewAdapter.ClearViewModelList();
 
         GetSetting();
 
