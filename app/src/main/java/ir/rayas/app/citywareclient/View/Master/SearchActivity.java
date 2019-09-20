@@ -51,7 +51,7 @@ import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 public class SearchActivity extends BaseActivity implements IResponseService, IResponseTurnOnGpsDialog {
 
     private SwipeRefreshLayout RefreshSearchSwipeRefreshLayoutSearchActivity = null;
-//    private RecyclerView SearchRecyclerViewSearchActivity = null;
+    //    private RecyclerView SearchRecyclerViewSearchActivity = null;
     private RecyclerView SearchResultBusinessRecyclerViewSearchActivity = null;
     private RecyclerView SearchResultProductRecyclerViewSearchActivity = null;
     private TextViewPersian ShowEmptySearchTextViewSearchActivity = null;
@@ -193,8 +193,11 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                         LoadDataProductSearch();
 
                 } else {
+                    TextSearch = "";
                     RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(false);
                     ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
+                    searchResultBusinessRecyclerViewAdapter.ClearViewModelList();
+                    searchResultProductRecyclerViewAdapter.ClearViewModelList();
 //                    SearchRecyclerViewSearchActivity.setVisibility(View.VISIBLE);
                 }
             }
@@ -233,7 +236,6 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                 } else {
                     ShowToast(getResources().getString(R.string.please_enter_word), Toast.LENGTH_LONG, MessageType.Warning);
                 }
-
 
 
             }
@@ -288,10 +290,12 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         SearchResultBusinessRecyclerViewSearchActivity.setVisibility(View.GONE);
 
         if (IsFirstClickTab) {
-            RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(true);
             PageNumber = 1;
             IsFirstClickTab = false;
-            LoadDataProductSearch();
+            if (!TextSearch.equals("")) {
+                RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(true);
+                LoadDataProductSearch();
+            }
         }
     }
 
@@ -308,10 +312,12 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
         SearchResultProductRecyclerViewSearchActivity.setVisibility(View.GONE);
 
         if (IsFirstClickTab) {
-            RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(true);
             PageNumber = 1;
             IsFirstClickTab = false;
-            LoadDataBusinessSearch();
+            if (!TextSearch.equals("")) {
+                RefreshSearchSwipeRefreshLayoutSearchActivity.setRefreshing(true);
+                LoadDataBusinessSearch();
+            }
         }
     }
 
