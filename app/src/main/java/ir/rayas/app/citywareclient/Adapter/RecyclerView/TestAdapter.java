@@ -1,7 +1,6 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -31,6 +30,7 @@ import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
+import ir.rayas.app.citywareclient.View.Master.TestActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessPosterDetailsActivity;
 import ir.rayas.app.citywareclient.View.Share.CommissionActivity;
 import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkOutViewModel;
@@ -38,11 +38,14 @@ import ir.rayas.app.citywareclient.ViewModel.Business.BookmarkViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
+/**
+ * Created by Hajar on 9/27/2019.
+ */
 
-public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
+public class TestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
 
     private List<BusinessPosterInfoViewModel> ViewModelList = null;
-    private MainActivity Context;
+    private TestActivity Context;
     private RecyclerView Container = null;
 
 
@@ -53,7 +56,7 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
     private ImageView imageView;
 
 
-    public BusinessPosterInfoRecyclerViewAdapter(MainActivity Context, List<BusinessPosterInfoViewModel> ViewModel, RecyclerView Container) {
+    public TestAdapter(TestActivity Context, List<BusinessPosterInfoViewModel> ViewModel, RecyclerView Container) {
         this.ViewModelList = ViewModel;
         this.Context = Context;
         this.Container = Container;
@@ -96,7 +99,7 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
 
     public void ClearViewModelList() {
         if (ViewModelList != null) {
-            if (ViewModelList.size() >0) {
+            if (ViewModelList.size() > 0) {
                 ViewModelList.clear();
                 notifyDataSetChanged();
                 Container.invalidate();
@@ -168,29 +171,6 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
             viewHolder.BookmarkImageView.setImageResource(R.drawable.ic_favorite_border_24dp);
 
 
-
-        viewHolder.BookmarkImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                imageView = viewHolder.BookmarkImageView;
-                Position = position;
-                BookmarkService BookmarkService = new BookmarkService(BusinessPosterInfoRecyclerViewAdapter.this);
-
-                if (ViewModelList.get(position).isBookmark()) {
-                    BookmarkService.Delete(ViewModelList.get(position).getBusinessId());
-                } else {
-                    AccountRepository AccountRepository = new AccountRepository(null);
-                    AccountViewModel AccountModel = AccountRepository.getAccount();
-                    BookmarkOutViewModel BookmarkOutViewModel = new BookmarkOutViewModel();
-                    BookmarkOutViewModel.setUserId(AccountModel.getUser().getId());
-                    BookmarkOutViewModel.setBusinessId(ViewModelList.get(position).getBusinessId());
-                    BookmarkService.Add(BookmarkOutViewModel);
-                }
-            }
-        });
-
-
         String ProductImage = "";
         if (!ViewModelList.get(position).getPosterImagePathUrl().equals("")) {
             if (ViewModelList.get(position).getPosterImagePathUrl().contains("~")) {
@@ -201,37 +181,17 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
         }
 
         if (!ProductImage.equals("")) {
-            LayoutUtility.LoadImageWithGlide(Context, ProductImage, viewHolder.ImagePosterInfoImageView,LayoutUtility.GetWidthAccordingToScreen(Context, 1),LayoutUtility.GetWidthAccordingToScreen(Context, 2));
-//            LayoutUtility.LoadImageWithGlide(Context, ProductImage, viewHolder.ImagePosterInfoImageView);
+//            LayoutUtility.LoadImageWithGlide(Context, ProductImage, viewHolder.ImagePosterInfoImageView,LayoutUtility.GetWidthAccordingToScreen(Context, 1),LayoutUtility.GetWidthAccordingToScreen(Context, 2));
+            LayoutUtility.LoadImageWithGlide(Context, ProductImage, viewHolder.ImagePosterInfoImageView);
         } else {
             viewHolder.ImagePosterInfoImageView.setImageResource(R.drawable.image_default);
         }
 
-
-        viewHolder.BusinessPosterInfoContainerLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent ShowBusinessPosterDetailsIntent = Context.NewIntent(ShowBusinessPosterDetailsActivity.class);
-                ShowBusinessPosterDetailsIntent.putExtra("PosterId", ViewModelList.get(position).getPosterId());
-                Context.startActivity(ShowBusinessPosterDetailsIntent);
-            }
-        });
-
-        viewHolder.IntroducingBusinessButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent CommissionIntent = Context.NewIntent(CommissionActivity.class);
-                CommissionIntent.putExtra("BusinessId", ViewModelList.get(position).getBusinessId());
-                CommissionIntent.putExtra("BusinessName", ViewModelList.get(position).getBusinessTitle());
-                Context.startActivity(CommissionIntent);
-            }
-        });
     }
 
 
     @Override
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
-        Context.HideLoading();
         try {
             if (ServiceMethod == ServiceMethodType.BookmarkDelete) {
                 Feedback<BookmarkViewModel> FeedBack = (Feedback<BookmarkViewModel>) Data;
@@ -246,43 +206,13 @@ public class BusinessPosterInfoRecyclerViewAdapter extends RecyclerView.Adapter<
                         BusinessId = ViewModel.getBusinessId();
                         SetViewModel();
 
-                    } else {
-                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    }
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        Context.ShowErrorInConnectDialog();
-                    }
-                }
-            } else if (ServiceMethod == ServiceMethodType.BookmarkAdd) {
-                Feedback<BookmarkViewModel> FeedBack = (Feedback<BookmarkViewModel>) Data;
-
-                if (FeedBack.getStatus() == FeedbackType.RegisteredSuccessful.getId()) {
-                    Static.IsRefreshBookmark = true;
-                    BookmarkViewModel ViewModel = FeedBack.getValue();
-                    if (ViewModel != null) {
-
-                        IsBookmark = true;
-                        ViewModelList.get(Position).setBookmark(IsBookmark);
-                        BusinessId = ViewModel.getBusinessId();
-                        SetViewModel();
 
                     } else {
-                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    }
-                } else {
-                    if (FeedBack.getStatus() != FeedbackType.ThereIsNoInternet.getId()) {
-                        Context.ShowToast(FeedBack.getMessage(), Toast.LENGTH_LONG, MessageType.values()[FeedBack.getMessageType()]);
-                    } else {
-                        Context.ShowErrorInConnectDialog();
+
                     }
                 }
             }
         } catch (Exception e) {
-            Context.HideLoading();
-            Context.ShowToast(FeedbackType.ThereIsSomeProblemInApp.getMessage(), Toast.LENGTH_LONG, MessageType.Error);
         }
     }
 

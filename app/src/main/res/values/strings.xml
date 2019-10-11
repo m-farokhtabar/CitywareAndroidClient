@@ -438,6 +438,7 @@
     <string name="business_does_not_have_a_delivery_service">کسب و کار مورد نظر فاقد سرویس پیک می باشد</string>
     <string name="basket_description">توضیحات سفارش</string>
     <string name="basket_submit">ثبت سفارش</string>
+    <string name="basket_submit_quick">ثبت سفارش سریع</string>
     <string name="price_delivery">هزینه پیک </string>
     <string name="in_your_basket_there_are_products_that_are_not_priced">در سبد خرید شما محصولاتی وجود دارد که قیمت آن مشخص نمی باشد.</string>
     <string name="unknown">نامشخص</string>
@@ -469,7 +470,8 @@
     <string name="no_change_description_status_factor" tools:ignore="TypographyEllipsis">شما تغییری ایجاد نکرده اید...</string>
     <string name="contact_us">اطلاعات تماس</string>
     <string name="zero">0</string>
-    <string name="zero_double">0.0</string>  S
+    <string name="zero_double">0.0</string>
+    S
     <string name="customer_order_will_be_delivered_to_the_business_address">سفارش مشتری در آدرس کسب و کار تحویل گرفته خواهد شد</string>
     <string name="cancel_by_user">کنسل شده توسط کاربر</string>
     <string name="cancel_by_business">کنسل شده توسط کسب و کار</string>
@@ -666,6 +668,10 @@
     <string name="due_to_bank_ports_limitations_payment_is_not_possible">به علت محدودیت پرداخت الکترونیکی امکان پرداخت وجود ندارد. لطفا با پشتیبانی تماس بگیرید.</string>
     <string name="package_submit_due_to_bank_ports_limitations_payment_is_not_possible">پکیج شما ثبت شد. \n اما به علت محدودیت پرداخت الکترونیکی امکان پرداخت هزینه وجود ندارد. لطفا با پشتیبانی تماس بگیرید.</string>
     <string name="not_valid_request">درخواست شما نامعتبر است.</string>
+
+
+    <string name="message_fast_order">در حالت سفارش سریع فاکتور مشتری ثبت نخواهد شد و تنها پورسانت توسط شما مشخص خواهد شد.</string>
+    <string name="please_enter_commission_total">لطفا مبلغ پورسانت کل را مشخص کنید</string>
 
 </resources>
 

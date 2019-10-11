@@ -24,6 +24,7 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingCustomerViewMode
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessManViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.Marketing_CustomerFactorViewModel;
+import ir.rayas.app.citywareclient.ViewModel.Marketing.Marketing_FastCustomerFactorViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.SuggestionInfoViewModel;
 
 
@@ -191,6 +192,18 @@ public class MarketingService implements IService {
         Current.GetService(this, Url, ServiceMethodType.IsCommissionPayedGet, MarketingBusinessViewModel.class, new TypeToken<Feedback<Boolean>>() {
         }.getType());
     }
+
+    public void AddFastCustomerFactor(Marketing_FastCustomerFactorViewModel ViewModel) {
+
+        BaseService Current = new BaseService();
+        String actionAddFastCustomerFactor = "AddFastCustomerFactor";
+        String Url = DefaultConstant.BaseUrlWebService + "/" + ControllerName + "/" + actionAddFastCustomerFactor;
+        Gson gson = new Gson();
+        String JsonViewModel = gson.toJson(ViewModel);
+        Current.PostService(this, Url, JsonViewModel, ServiceMethodType.AddCustomerFastFactorAdd, Marketing_FastCustomerFactorViewModel.class, new TypeToken<Feedback<Boolean>>() {
+        }.getType());
+    }
+
 
     @Override
     public <T> void OnSuccess(String Response, ServiceMethodType ServiceMethod, Class<T> OutputClass, Type OutputClassType) {

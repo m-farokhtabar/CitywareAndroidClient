@@ -21,6 +21,7 @@ import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Share.Constant.DefaultConstant;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
+import ir.rayas.app.citywareclient.View.Master.TestActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessPosterDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Home.BusinessPosterInfoViewModel;
 
@@ -122,6 +123,7 @@ public class IsTopPosterRecyclerViewAdapter  extends RecyclerView.Adapter<Recycl
         viewHolder.IsTopBusinessPosterInfoContainerLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Intent ShowBusinessPosterDetailsIntent = Context.NewIntent(TestActivity.class);
                 Intent ShowBusinessPosterDetailsIntent = Context.NewIntent(ShowBusinessPosterDetailsActivity.class);
                 ShowBusinessPosterDetailsIntent.putExtra("PosterId", ViewModelList.get(position).getPosterId());
                 Context.startActivity(ShowBusinessPosterDetailsIntent);

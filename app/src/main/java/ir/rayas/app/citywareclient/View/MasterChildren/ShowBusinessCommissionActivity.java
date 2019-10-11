@@ -194,6 +194,15 @@ public class ShowBusinessCommissionActivity extends BaseActivity {
         ((CustomerSearchFragment) Pager.getFragmentByIndex(3)).ShowViewMessageEmpty(SizeViewModel);
     }
 
+    public void SetFastOrder( int Position ){
+
+        ((CustomerSearchFragment) Pager.getFragmentByIndex(3)).getNewSuggestionBusinessCommissionRecyclerViewAdapter().DeleteViewModeList(Position);
+
+        if (((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).isLoad())
+            ((BusinessNoCommissionReceivedFragment) Pager.getFragmentByIndex(2)).LoadDataRefresh();
+
+    }
+
 
     @Override
     protected void onDestroy() {

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/HeaderColorDialog"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:background="@color/BackgroundThemeColor" />
+
+
+        <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+            android:id="@+id/DialogTitleRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/HeaderColorDialog"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/message_fast_order"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/FontBlackColor" />
+
+
+        <RelativeLayout
+            android:id="@+id/DialogCommissionPriceRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/DialogTitleRelativeLayout"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+
+            <EditText
+                android:id="@+id/CommissionPriceTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@+id/CommissionPriceTitleTextView"
+                android:layout_toStartOf="@+id/CommissionPriceTitleTextView"
+                android:gravity="right|bottom"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontBlackColor"
+                tools:ignore="RtlHardcoded" />
+
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                android:id="@+id/CommissionPriceTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="right|bottom"
+                android:gravity="right|bottom"
+                android:text="@string/commission_price"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/FontSemiBlackColor"
+                tools:ignore="RtlHardcoded" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/DialogCommissionPriceRelativeLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@color/BackgroundColorHeaderAddressLayout"
+            android:orientation="horizontal">
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/DialogFastOrderCancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginBottom="13dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/view_button_normal_theme_style"
+                android:gravity="center"
+                android:text="@string/back"
+                android:textColor="@color/FontWhiteColor" />
+
+            <ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView
+                android:id="@+id/DialogFastOrderOkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginEnd="13dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/view_button_normal_green_style"
+                android:text="@string/submit"
+                android:textColor="@color/FontWhiteColor" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

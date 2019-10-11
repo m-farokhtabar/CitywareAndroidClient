@@ -26,14 +26,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="citywaresplash"  />
+                <data android:scheme="citywaresplash" />
             </intent-filter>
         </activity>
         <activity
@@ -371,38 +370,35 @@
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="citywarepurchasepackage"/>
+                <data android:scheme="citywarepurchasepackage" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".View.MasterChildren.PaymentCommissionActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-
-            <data android:scheme="citywarenotpayedbusinesscommission"/>
-
-        </intent-filter>
+                <data android:scheme="citywarenotpayedbusinesscommission" />
+            </intent-filter>
         </activity>
-
-        <activity android:name=".View.Share.BasketListActivity"
+        <activity
+            android:name=".View.Share.BasketListActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".View.Master.TestActivity"></activity>
     </application>
 
 </manifest>

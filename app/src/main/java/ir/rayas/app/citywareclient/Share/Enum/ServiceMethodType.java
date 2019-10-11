@@ -133,6 +133,7 @@ public enum ServiceMethodType {
     SearchResultProductGet,
     SearchResultBusinessGet,
     AddCustomerFactorAdd,
+    AddCustomerFastFactorAdd,
     GetAllCustomerValidDiscounts,
     GetAllCustomerExpiredDiscounts,
     GetAllCustomerUsedDiscounts,

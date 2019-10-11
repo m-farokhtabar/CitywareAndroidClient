@@ -4,11 +4,11 @@ package ir.rayas.app.citywareclient.View.Master;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -44,7 +44,6 @@ import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 public class MainActivity extends BaseActivity implements IResponseService, IResponseTurnOnGpsDialog {
 
-
     private TextViewPersian StarredTextViewMainActivity = null;
     private TextViewPersian NewestTextViewMainActivity = null;
     private TextViewPersian BookmarkTextViewMainActivity = null;
@@ -63,7 +62,6 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private BusinessPosterInfoRecyclerViewAdapter businessPosterInfoRecyclerViewAdapter = null;
     private BusinessPosterInfoBookmarkRecyclerViewAdapter businessPosterInfoBookmarkRecyclerViewAdapter = null;
 
-
     private UserSettingViewModel userSettingViewModel = null;
 
     private int queryType = 0;
@@ -80,21 +78,20 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     private boolean IsFirst = false;
     private Gps CurrentGps = null;
 
-
     // SelectTab = 1 newPoster
     // SelectTab = 2 Star
     // SelectTab = 3 Show
     // SelectTab = 4 Bookmark
     private int SelectTab = 0;
-    private int PageItems = 5;
+    private int PageItems = 10;
 
-
-    boolean isScrolling = false;
-    boolean isScrollingBookmark = false;
-    int currentItems, totalItems, scrollOutItems;
-    int currentItemsBookmark, totalItemsBookmark, scrollOutItemsBookmark;
-    LinearLayoutManager manager;
-
+    private GridLayoutManager layoutManagerPoster;
+    private GridLayoutManager layoutManagerBookmark;
+    private boolean isLoadingPoster = true;
+    private boolean isLoadingBookmark = true;
+    private int pastVisibleItemsPoster, visibleItemCountPoster, totalItemCountPoster, previous_totalPoster = 0;
+    private int pastVisibleItemsBookmark, visibleItemCountBookmark, totalItemCountBookmark, previous_totalBookmark = 0;
+    private int view_threshold = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +138,8 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         Line = findViewById(R.id.Line);
         RefreshSwipeRefreshLayoutMainActivity = findViewById(R.id.RefreshSwipeRefreshLayoutMainActivity);
 
+        LoadMoreProgressBarMainActivity.setVisibility(View.GONE);
+
         RecyclerView isTopPosterRecyclerViewMainActivity = findViewById(R.id.IsTopPosterRecyclerViewMainActivity);
         isTopPosterRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true));
         isTopPosterRecyclerViewMainActivity.setHasFixedSize(true);
@@ -149,81 +148,85 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewMainActivity.setAdapter(isTopPosterRecyclerViewAdapter);
 
         businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
-//        manager = new LinearLayoutManager(this);
-        businessPosterInfoRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
+        layoutManagerPoster = new GridLayoutManager(this, 1);
         businessPosterInfoRecyclerViewMainActivity.setHasFixedSize(true);
+        businessPosterInfoRecyclerViewMainActivity.setLayoutManager(layoutManagerPoster);
         businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         businessPosterInfoRecyclerViewAdapter = new BusinessPosterInfoRecyclerViewAdapter(MainActivity.this, null, businessPosterInfoRecyclerViewMainActivity);
         businessPosterInfoRecyclerViewMainActivity.setAdapter(businessPosterInfoRecyclerViewAdapter);
 
 
         BusinessPosterInfoBookmarkRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoBookmarkRecyclerViewMainActivity);
-        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setLayoutManager(new LinearLayoutManager(this));
+        layoutManagerBookmark = new GridLayoutManager(this, 1);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setHasFixedSize(true);
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setLayoutManager(layoutManagerBookmark);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         businessPosterInfoBookmarkRecyclerViewAdapter = new BusinessPosterInfoBookmarkRecyclerViewAdapter(MainActivity.this, null, BusinessPosterInfoBookmarkRecyclerViewMainActivity);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
 
-        LoadMoreProgressBarMainActivity.setVisibility(View.GONE);
-        
-//        businessPosterInfoRecyclerViewMainActivity.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-//                    isScrolling = true;
-//                }
-//            }
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//
-//                // تعداد ایتم های نمایش داده شده در صفحه
-//                currentItems = manager.getChildCount();
-//                // تعداد ایتم های نمایش داده شده در یک پیج
-//                totalItems = manager.getItemCount();
-//                // تعداد ایتم هایی که از صفحه قسمت بالا و پایین خارج می شود
-//                scrollOutItems = manager.findFirstVisibleItemPosition();
-//
-//                if (isScrolling && (currentItems + scrollOutItems == totalItems)) {
-//                    // data fetch
-//                    isScrolling = false;
-//                    PageNumberPoster = PageNumberPoster + 1;
-//                    LoadMoreProgressBarMainActivity.setVisibility(View.VISIBLE);
-//                    LoadDataInfo();
-//                }
-//            }
-//        });
 
+        businessPosterInfoRecyclerViewMainActivity.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-//        BusinessPosterInfoBookmarkRecyclerViewMainActivity.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-//                    isScrollingBookmark = true;
-//                }
-//            }
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//
-//                // تعداد ایتم های نمایش داده شده در صفحه
-//                currentItemsBookmark = manager.getChildCount();
-//                // تعداد ایتم های نمایش داده شده در یک پیج
-//                totalItemsBookmark = PageItems;
-//                // تعداد ایتم هایی که از صفحه قسمت بالا و پایین خارج می شود
-//                scrollOutItemsBookmark = manager.findFirstVisibleItemPosition();
-//
-//                if (isScrollingBookmark && (currentItemsBookmark + scrollOutItemsBookmark == totalItemsBookmark)) {
-//                    // data fetch
-//                    isScrollingBookmark = false;
-//                    PageNumberPoster = PageNumberPoster + 1;
-//                    LoadMoreProgressBarMainActivity.setVisibility(View.VISIBLE);
-//                    LoadDataBookmarkPoster();
-//                }
-//            }
-//        });
+                // تعداد ایتم های نمایش داده شده در صفحه
+                visibleItemCountPoster = layoutManagerPoster.getChildCount();
+                // تعداد ایتم های نمایش داده شده در یک پیج
+                totalItemCountPoster = layoutManagerPoster.getItemCount();
+                // تعداد ایتم هایی که از صفحه قسمت بالا و پایین خارج می شود
+                pastVisibleItemsPoster = layoutManagerPoster.findFirstVisibleItemPosition();
+
+                if (dy > 0) {
+                    if (isLoadingPoster) {
+                        if (totalItemCountPoster > previous_totalPoster) {
+                            isLoadingPoster = false;
+                            previous_totalPoster = totalItemCountPoster;
+                        }
+                    }
+
+                    if (!isLoadingPoster && (totalItemCountPoster - visibleItemCountPoster) <= (pastVisibleItemsPoster + view_threshold)) {
+
+                        PageNumberPoster = PageNumberPoster + 1;
+                        LoadMoreProgressBarMainActivity.setVisibility(View.VISIBLE);
+//                        LoadMoreSwipeMainActivity.setRefreshing(true);
+                        LoadDataInfo();
+                        isLoadingPoster = true;
+                    }
+                }
+            }
+        });
+
+        BusinessPosterInfoBookmarkRecyclerViewMainActivity.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                // تعداد ایتم های نمایش داده شده در صفحه
+                visibleItemCountBookmark = layoutManagerBookmark.getChildCount();
+                // تعداد ایتم های نمایش داده شده در یک پیج
+                totalItemCountBookmark = layoutManagerBookmark.getItemCount();
+                // تعداد ایتم هایی که از صفحه قسمت بالا و پایین خارج می شود
+                pastVisibleItemsBookmark = layoutManagerBookmark.findFirstVisibleItemPosition();
+
+                if (dy > 0) {
+                    if (isLoadingBookmark) {
+                        if (totalItemCountBookmark > previous_totalBookmark) {
+                            isLoadingBookmark = false;
+                            previous_totalBookmark = totalItemCountBookmark;
+                        }
+                    }
+
+                    if (!isLoadingBookmark && (totalItemCountBookmark - visibleItemCountBookmark) <= (pastVisibleItemsBookmark + view_threshold)) {
+                        PageNumberPoster = PageNumberPoster + 1;
+                        LoadMoreProgressBarMainActivity.setVisibility(View.VISIBLE);
+//                        LoadMoreSwipeMainActivity.setRefreshing(true);
+                        LoadDataBookmarkPoster();
+                        isLoadingBookmark = true;
+                    }
+                }
+            }
+        });
         //End (Recycler View Poster Top, Poster, Bookmark)-----------------------------------------------------------------------------
 
 
@@ -231,6 +234,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
             @Override
             public void onRefresh() {
 
+                LoadMoreProgressBarMainActivity.setVisibility(View.GONE);
                 RefreshSwipeRefreshLayoutMainActivity.setRefreshing(true);
                 isTopPosterRecyclerViewAdapter.ClearViewModelList();
                 businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
@@ -238,10 +242,19 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
                 PageNumberPoster = 1;
 
+
                 if (SelectTab == 4) {
+                    pastVisibleItemsBookmark = 0;
+                    visibleItemCountBookmark = 0;
+                    totalItemCountBookmark = 0;
+                    previous_totalBookmark = 0;
                     LoadDataBookmarkPoster();
                 } else {
                     PageNumberPosterTop = 1;
+                    pastVisibleItemsPoster = 0;
+                    visibleItemCountPoster = 0;
+                    totalItemCountPoster = 0;
+                    previous_totalPoster = 0;
                     LoadData();
                 }
             }
@@ -364,6 +377,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
     public <T> void OnResponse(T Data, ServiceMethodType ServiceMethod) {
         RefreshSwipeRefreshLayoutMainActivity.setRefreshing(false);
         LoadMoreProgressBarMainActivity.setVisibility(View.GONE);
+//        LoadMoreSwipeMainActivity.setRefreshing(false);
         IsFirst = false;
         HideLoading();
         try {
@@ -421,22 +435,24 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
                     final List<BusinessPosterInfoViewModel> ViewModelList = FeedBack.getValue();
                     if (ViewModelList != null) {
+
+
                         if (PageNumberPoster == 1) {
                             if (ViewModelList.size() > 0) {
                                 businessPosterInfoRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
-                                if (PageItems == ViewModelList.size()) {
-                                    PageNumberPoster = PageNumberPoster + 1;
-                                    LoadDataInfo();
-                                }
+//                                if (PageItems == ViewModelList.size()) {
+//                                    PageNumberPoster = PageNumberPoster + 1;
+//                                    LoadDataInfo();
+//                                }
                             }
                         } else {
                             businessPosterInfoRecyclerViewAdapter.AddViewModelList(ViewModelList);
 
-                            if (PageItems == ViewModelList.size()) {
-                                PageNumberPoster = PageNumberPoster + 1;
-                                LoadDataInfo();
-                            }
+//                            if (PageItems == ViewModelList.size()) {
+//                                PageNumberPoster = PageNumberPoster + 1;
+//                                LoadDataInfo();
+//                            }
                         }
                     }
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
@@ -462,18 +478,18 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
                             if (ViewModelList.size() > 0) {
                                 businessPosterInfoBookmarkRecyclerViewAdapter.SetViewModelList(ViewModelList);
 
-                                if (PageItems == ViewModelList.size()) {
-                                    PageNumberPoster = PageNumberPoster + 1;
-                                    LoadDataBookmarkPoster();
-                                }
+//                                if (PageItems == ViewModelList.size()) {
+//                                    PageNumberPoster = PageNumberPoster + 1;
+//                                    LoadDataBookmarkPoster();
+//                                }
                             }
                         } else {
                             businessPosterInfoBookmarkRecyclerViewAdapter.AddViewModelList(ViewModelList);
 
-                            if (PageItems == ViewModelList.size()) {
-                                PageNumberPoster = PageNumberPoster + 1;
-                                LoadDataBookmarkPoster();
-                            }
+//                            if (PageItems == ViewModelList.size()) {
+//                                PageNumberPoster = PageNumberPoster + 1;
+//                                LoadDataBookmarkPoster();
+//                            }
                         }
                     }
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
@@ -513,6 +529,11 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
 
+        pastVisibleItemsPoster = 0;
+        visibleItemCountPoster = 0;
+        totalItemCountPoster = 0;
+        previous_totalPoster = 0;
+
         businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
         isTopPosterRecyclerViewAdapter.ClearViewModelList();
         businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
@@ -540,6 +561,11 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
+
+        pastVisibleItemsPoster = 0;
+        visibleItemCountPoster = 0;
+        totalItemCountPoster = 0;
+        previous_totalPoster = 0;
 
         businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
         isTopPosterRecyclerViewAdapter.ClearViewModelList();
@@ -570,6 +596,11 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
 
+        pastVisibleItemsPoster = 0;
+        visibleItemCountPoster = 0;
+        totalItemCountPoster = 0;
+        previous_totalPoster = 0;
+
         businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
         isTopPosterRecyclerViewAdapter.ClearViewModelList();
         businessPosterInfoBookmarkRecyclerViewAdapter.ClearViewModelList();
@@ -599,6 +630,11 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
 
         PageNumberPosterTop = 1;
         PageNumberPoster = 1;
+
+        pastVisibleItemsBookmark = 0;
+        visibleItemCountBookmark = 0;
+        totalItemCountBookmark = 0;
+        previous_totalBookmark = 0;
 
         businessPosterInfoRecyclerViewAdapter.ClearViewModelList();
         isTopPosterRecyclerViewAdapter.ClearViewModelList();
@@ -718,10 +754,10 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         super.onResume();
 
         // برای اینکه بفهمیم چه زمانی نیاز به رفرش صفحه داریم
-     //   if (Static.IsRefreshBookmark) {
-            PageNumberPosterTop = 1;
-            PageNumberPoster = 1;
-      //  }
+        //   if (Static.IsRefreshBookmark) {
+        PageNumberPosterTop = 1;
+        PageNumberPoster = 1;
+        //  }
     }
 
 }

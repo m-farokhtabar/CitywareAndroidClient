@@ -76,7 +76,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
 
     private String TextSearch = "";
     private int PageNumber = 1;
-    private int PageItems = 10;
+    private int PageItems = 50;
     // SelectTab = 1 Business
     // SelectTab = 2 Product
     private int SelectTab = 0;
@@ -418,15 +418,15 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                                 ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
                                 searchResultBusinessRecyclerViewAdapter.SetViewModelList(ViewModel);
 
-                                if (PageItems == ViewModel.size()) {
-                                    PageNumber = PageNumber + 1;
-                                    //    LoadData();
-                                }
+//                                if (PageItems == ViewModel.size()) {
+//                                    PageNumber = PageNumber + 1;
+//                                    //    LoadData();
+//                                }
                             } else {
                                 ShowEmptySearchTextViewSearchActivity.setVisibility(View.VISIBLE);
                             }
 
-                        } else {
+                        }/* else {
                             ShowEmptySearchTextViewSearchActivity.setVisibility(View.GONE);
 
                             searchResultBusinessRecyclerViewAdapter.AddViewModelList(ViewModel);
@@ -435,7 +435,7 @@ public class SearchActivity extends BaseActivity implements IResponseService, IR
                                 PageNumber = PageNumber + 1;
                                 //  LoadData();
                             }
-                        }
+                        }*/
                     }
 
                 } else if (FeedBack.getStatus() == FeedbackType.DataIsNotFound.getId()) {
