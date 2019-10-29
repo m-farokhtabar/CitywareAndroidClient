@@ -98,7 +98,7 @@ public class BasketDetailsFragment extends Fragment implements IResponseService,
             @Override
             public void onClick(View view) {
 
-                Context.ShowLoadingProgressBar();
+               // Context.ShowLoadingProgressBar();
                 BasketService basketService = new BasketService(BasketDetailsFragment.this);
                 Context.setRetryType(1);
                 basketService.EditUserDescriptionAndDelivery(MadeViewModel(), Context.basketSummeryViewModel.getBasketId());

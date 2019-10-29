@@ -679,6 +679,7 @@
     <string name="description_business_factor_delete">آیا مطمئن هستید که سفارش دریافتی این کسب و کار حذف شود؟</string>
     <string name="description_user_factor_delete">آیا مطمئن هستید که این فاکتور خرید حذف شود؟</string>
     <string name="description_notification_delete">آیا مطمئن هستید که این پیام حذف شود؟</string>
+    <string name="poster_length_to_width_ratio">بهترین حالت نمایش پوستر : طول تصویر 2 برابر عرض تصویر می باشد. به طور مثال 300*600</string>
 
 </resources>
 

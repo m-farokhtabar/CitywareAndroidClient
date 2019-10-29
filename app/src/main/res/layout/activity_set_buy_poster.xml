@@ -199,6 +199,16 @@
 
                 </LinearLayout>
 
+                <ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/poster_length_to_width_ratio"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
                 <ImageView
                     android:id="@+id/ShowImageViewBuyPosterSetActivity"
                     android:layout_width="wrap_content"

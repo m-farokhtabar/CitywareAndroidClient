@@ -52,10 +52,8 @@ public class BasketDeliveryFragment extends Fragment implements IResponseService
 
         //دریافت اکتیوتی والد این فرگمین
         Context = (BasketActivity) getActivity();
-
         // Inflate the layout for this fragment
         View CurrentView = inflater.inflate(R.layout.fragment_basket_delivery, container, false);
-
 
         //ایجاد طرحبندی صفحه
         CreateLayout(CurrentView);
