@@ -72,27 +72,36 @@ public class FactorDetailsActivity extends BaseActivity {
         }.getType();
         marketing_customerFactorViewModel = gson.fromJson(FactorDetails, listType);
 
-        FactorDetailsRecyclerViewAdapter factorDetailsRecyclerViewAdapter = new FactorDetailsRecyclerViewAdapter(marketing_customerFactorViewModel.getDetails());
-        ProductListRecyclerViewFactorDetailsActivity.setAdapter(factorDetailsRecyclerViewAdapter);
-
         double FactorOfIncome = 0;
         double DiscountCustomer = 0;
         double TotalPrice = 0;
 
-        if (marketing_customerFactorViewModel.getDetails()!= null) {
-            List<Marketing_CustomerFactorDetailsViewModel> ViewModelList = marketing_customerFactorViewModel.getDetails();
+        if (marketing_customerFactorViewModel != null) {
+            if (marketing_customerFactorViewModel.getDetails() != null) {
+                FactorDetailsRecyclerViewAdapter factorDetailsRecyclerViewAdapter = new FactorDetailsRecyclerViewAdapter(marketing_customerFactorViewModel.getDetails());
+                ProductListRecyclerViewFactorDetailsActivity.setAdapter(factorDetailsRecyclerViewAdapter);
 
-            for (int i = 0; i < ViewModelList.size(); i++) {
-                FactorOfIncome = FactorOfIncome + ViewModelList.get(i).getCommissionPrice();
-                DiscountCustomer = DiscountCustomer + ViewModelList.get(i).getDiscountPrice();
-                TotalPrice = TotalPrice + ViewModelList.get(i).getPrice();
+
+                List<Marketing_CustomerFactorDetailsViewModel> ViewModelList = marketing_customerFactorViewModel.getDetails();
+
+                for (int i = 0; i < ViewModelList.size(); i++) {
+                    FactorOfIncome = FactorOfIncome + ViewModelList.get(i).getCommissionPrice();
+                    DiscountCustomer = DiscountCustomer + ViewModelList.get(i).getDiscountPrice();
+                    TotalPrice = TotalPrice + ViewModelList.get(i).getPrice();
+                }
+
+
+            } else {
+
             }
+        } else {
+
         }
 
         FactorOfIncomeTextViewFactorDetailsActivity.setText(Utility.GetIntegerNumberWithComma(FactorOfIncome) + " " + getResources().getString(R.string.toman));
         DiscountCustomerTextViewFactorDetailsActivity.setText(Utility.GetIntegerNumberWithComma(DiscountCustomer) + " " + getResources().getString(R.string.toman));
         TotalPriceFactorTextViewFactorDetailsActivity.setText(Utility.GetIntegerNumberWithComma(TotalPrice) + " " + getResources().getString(R.string.toman));
-        PayDiscountCustomerTextViewFactorDetailsActivity.setText(Utility.GetIntegerNumberWithComma(TotalPrice-DiscountCustomer) + " " + getResources().getString(R.string.toman));
+        PayDiscountCustomerTextViewFactorDetailsActivity.setText(Utility.GetIntegerNumberWithComma(TotalPrice - DiscountCustomer) + " " + getResources().getString(R.string.toman));
 
 
     }

@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Service.Business.BusinessService;
 import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.FactorStatus;
@@ -25,6 +28,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Share.BusinessFactorDetailsActivity;
@@ -140,9 +144,7 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
             @Override
             public void onClick(View view) {
                 Position = position;
-                Context.ShowLoadingProgressBar();
-                BusinessFactorService businessFactorService = new BusinessFactorService(BusinessFactorListRecyclerViewAdapter.this);
-                businessFactorService.Delete(ViewModelList.get(position).getId());
+                ShowBusinessFactorDeleteDialog(position);
             }
         });
 
@@ -295,5 +297,42 @@ public class BusinessFactorListRecyclerViewAdapter extends RecyclerView.Adapter<
         }
     }
 
+    private void ShowBusinessFactorDeleteDialog(final int Position) {
 
+        final Dialog BusinessFactorDeleteDialog = new Dialog(Context);
+        BusinessFactorDeleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        BusinessFactorDeleteDialog.setContentView(R.layout.dialog_yes_no_question);
+
+        ButtonPersianView DialogBusinessDeleteOkButton = BusinessFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionOkButton);
+        ButtonPersianView DialogBusinessDeleteCancelButton = BusinessFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionCancelButton);
+        TextViewPersian DialogYesNoQuestionTitleTextView = BusinessFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionTitleTextView);
+        TextViewPersian DialogYesNoQuestionDescriptionTextView = BusinessFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionDescriptionTextView);
+        TextViewPersian DialogYesNoQuestionWarningTextView = BusinessFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionWarningTextView);
+
+        DialogYesNoQuestionTitleTextView.setText(Context.getResources().getString(R.string.factor_delete));
+        DialogYesNoQuestionDescriptionTextView.setText(Context.getResources().getString(R.string.description_business_factor_delete));
+        DialogYesNoQuestionWarningTextView.setText("");
+
+        DialogBusinessDeleteOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BusinessFactorDeleteDialog.dismiss();
+
+                Context.ShowLoadingProgressBar();
+                BusinessFactorService businessFactorService = new BusinessFactorService(BusinessFactorListRecyclerViewAdapter.this);
+                businessFactorService.Delete(ViewModelList.get(Position).getId());
+
+            }
+        });
+
+        DialogBusinessDeleteCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BusinessFactorDeleteDialog.dismiss();
+            }
+        });
+
+        BusinessFactorDeleteDialog.show();
+
+    }
 }

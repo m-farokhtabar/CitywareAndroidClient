@@ -260,12 +260,12 @@ public class OrderActivity extends BaseActivity implements IResponseService, ILo
             for (int i = 0; i < productCommissionAndDiscountModels.size(); i++) {
 
                 int TotalPrice = (int) (productCommissionAndDiscountModels.get(i).getPrice() * productCommissionAndDiscountModels.get(i).getNumberOfOrder());
-                double discount = (TotalPrice * productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100;
+                double discount = ((float)TotalPrice * (float)productCommissionAndDiscountModels.get(i).getCustomerPercent()) / 100;
                 CustomerDiscount = CustomerDiscount + (int) (discount);
 
 
-                int MarketerPercent = (int) ((TotalPrice * productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100);
-                int ApplicationPercent = (int) ((TotalPrice * productCommissionAndDiscountModels.get(i).getApplicationPercent()) / 100);
+                int MarketerPercent = (int) (((float)TotalPrice * (float)productCommissionAndDiscountModels.get(i).getMarketerPercent()) / 100);
+                int ApplicationPercent = (int) (((float)TotalPrice * (float)productCommissionAndDiscountModels.get(i).getApplicationPercent()) / 100);
 
                 int Commission = MarketerPercent + ApplicationPercent;
                 MarketingCommission = MarketingCommission + Commission;

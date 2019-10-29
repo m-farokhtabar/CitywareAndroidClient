@@ -44,13 +44,23 @@ public class NotificationViewModel {
      */
     private String ExpireDate;
 
-    private List<Integer> UserIdList;
+    private String UserIdList;
+//    private List<Integer> UserIdList;
 
-    public List<Integer> getUserIdList() {
+//    public List<Integer> getUserIdList() {
+//        return UserIdList;
+//    }
+//
+//    public void setUserIdList(List<Integer> userIdList) {
+//        UserIdList = userIdList;
+//    }
+
+
+    public String getUserIdList() {
         return UserIdList;
     }
 
-    public void setUserIdList(List<Integer> userIdList) {
+    public void setUserIdList(String userIdList) {
         UserIdList = userIdList;
     }
 

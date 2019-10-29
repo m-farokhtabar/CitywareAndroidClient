@@ -71,18 +71,23 @@ public class CustomerFactorDetailsActivity extends BaseActivity {
         }.getType();
         marketing_customerFactorViewModel = gson.fromJson(FactorDetails, listType);
 
-        CustomerFactorDetailsRecyclerViewAdapter customerFactorDetailsRecyclerViewAdapter = new CustomerFactorDetailsRecyclerViewAdapter(marketing_customerFactorViewModel.getDetails());
-        ProductListRecyclerViewCustomerFactorDetailsActivity.setAdapter(customerFactorDetailsRecyclerViewAdapter);
 
         double FactorDiscount = 0;
         double TotalPrice = 0;
 
-        if (marketing_customerFactorViewModel.getDetails()!= null) {
-            List<Marketing_CustomerFactorDetailsViewModel> ViewModelList = marketing_customerFactorViewModel.getDetails();
+        if (marketing_customerFactorViewModel != null) {
+            if (marketing_customerFactorViewModel.getDetails() != null) {
 
-            for (int i = 0; i < ViewModelList.size(); i++) {
-                FactorDiscount = FactorDiscount + ViewModelList.get(i).getDiscountPrice();
-                TotalPrice = TotalPrice + ViewModelList.get(i).getPrice();
+                CustomerFactorDetailsRecyclerViewAdapter customerFactorDetailsRecyclerViewAdapter = new CustomerFactorDetailsRecyclerViewAdapter(marketing_customerFactorViewModel.getDetails());
+                ProductListRecyclerViewCustomerFactorDetailsActivity.setAdapter(customerFactorDetailsRecyclerViewAdapter);
+
+                List<Marketing_CustomerFactorDetailsViewModel> ViewModelList = marketing_customerFactorViewModel.getDetails();
+
+                for (int i = 0; i < ViewModelList.size(); i++) {
+                    FactorDiscount = FactorDiscount + ViewModelList.get(i).getDiscountPrice();
+                    TotalPrice = TotalPrice + ViewModelList.get(i).getPrice();
+                }
+
             }
         }
 

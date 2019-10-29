@@ -69,11 +69,12 @@ public class ProductListOrderRecyclerViewAdapter extends RecyclerView.Adapter<Pr
 
         int TotalPrice = (int) (ViewModelList.get(position).getPrice() * ViewModelList.get(position).getNumberOfOrder());
 
-        int DiscountPrice = (int) ((TotalPrice * ViewModelList.get(position).getCustomerPercent()) / 100);
+        int DiscountPrice = (int) (((float)TotalPrice * (float)ViewModelList.get(position).getCustomerPercent()) / 100);
         holder.CustomerPercentTextView.setText(Utility.GetIntegerNumberWithComma(DiscountPrice));
 
-        int MarketerPercent = (int) ((TotalPrice * ViewModelList.get(position).getMarketerPercent()) / 100);
-        int ApplicationPercent = (int) ((TotalPrice * ViewModelList.get(position).getApplicationPercent()) / 100);
+        
+        int MarketerPercent = (int) (((float)TotalPrice * (float)ViewModelList.get(position).getMarketerPercent()) / 100);
+        int ApplicationPercent = (int) (((float)TotalPrice * (float)ViewModelList.get(position).getApplicationPercent()) / 100);
 
         holder.MarketingCommissionTextView.setText(Utility.GetIntegerNumberWithComma(MarketerPercent + ApplicationPercent));
 

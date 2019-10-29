@@ -29,7 +29,6 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
-import ir.rayas.app.citywareclient.Share.Layout.View.EditMoney;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.LayoutUtility;
 import ir.rayas.app.citywareclient.View.MasterChildren.OrderActivity;

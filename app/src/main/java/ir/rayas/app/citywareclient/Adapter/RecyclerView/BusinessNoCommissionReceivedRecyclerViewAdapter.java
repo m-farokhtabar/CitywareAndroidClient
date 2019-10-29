@@ -26,10 +26,10 @@ import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessVie
 
 public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapter<BusinessNoCommissionReceivedRecyclerViewAdapter.ViewHolder> {
 
-    private List<MarketingPayedBusinessViewModel> ViewModelList = null;
+    private List<MarketingPayedBusinessViewModel> ViewModelList ;
     private List<MarketingPayedBusinessAdapterViewModel> ViewModel = new ArrayList<>();
     private ShowBusinessCommissionActivity Context;
-    private RecyclerView Container = null;
+    private RecyclerView Container ;
 
     public BusinessNoCommissionReceivedRecyclerViewAdapter(ShowBusinessCommissionActivity context, List<MarketingPayedBusinessViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
@@ -91,18 +91,27 @@ public class BusinessNoCommissionReceivedRecyclerViewAdapter extends RecyclerVie
             holder.PaymentDeadlineTextView.setText(ViewModelList.get(position).getBusinessPayOffDeadLine());
         }
 
+        if (ViewModelList.get(position).getFactor() == null || ViewModelList.get(position).getFactor().equals("")){
+            holder.DetailsBusinessButton.setEnabled(false);
+            holder.DetailsBusinessButton.setClickable(false);
+            holder.DetailsBusinessButton.setText(Context.getResources().getString(R.string.not_submit_factor));
 
-        holder.DetailsBusinessButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        }  else {
+            holder.DetailsBusinessButton.setEnabled(true);
+            holder.DetailsBusinessButton.setClickable(true);
+            holder.DetailsBusinessButton.setText(Context.getResources().getString(R.string.details_factor));
+            holder.DetailsBusinessButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                Intent FactureDetailsIntent = Context.NewIntent(FactorDetailsActivity.class);
-                FactureDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
-                Context.startActivity(FactureDetailsIntent);
+                    Intent FactureDetailsIntent = Context.NewIntent(FactorDetailsActivity.class);
+                    FactureDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
+                    Context.startActivity(FactureDetailsIntent);
 
 
-            }
-        });
+                }
+            });
+        }
 
         MarketingPayedBusinessAdapterViewModel marketingPayedBusinessAdapterViewModel = new MarketingPayedBusinessAdapterViewModel();
         marketingPayedBusinessAdapterViewModel.setSelected(false);

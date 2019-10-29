@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.Adapter.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.rayas.app.citywareclient.R;
+import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
 import ir.rayas.app.citywareclient.Service.Factor.UserFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Share.Enum.FactorStatus;
@@ -23,6 +26,7 @@ import ir.rayas.app.citywareclient.Share.Feedback.Feedback;
 import ir.rayas.app.citywareclient.Share.Feedback.FeedbackType;
 import ir.rayas.app.citywareclient.Share.Feedback.MessageType;
 import ir.rayas.app.citywareclient.Share.Layout.Font.Font;
+import ir.rayas.app.citywareclient.Share.Layout.View.ButtonPersianView;
 import ir.rayas.app.citywareclient.Share.Layout.View.TextViewPersian;
 import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.Share.UserFactorDetailActivity;
@@ -30,7 +34,6 @@ import ir.rayas.app.citywareclient.View.Share.UserFactorListActivity;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorItemViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorStatusViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Factor.FactorViewModel;
-
 
 
 public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IResponseService {
@@ -50,7 +53,6 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         this.Container = Container;
         this.FactorStatusViewModel = FactorStatusViewModel;
     }
-
 
 
     @Override
@@ -83,9 +85,9 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             }
         }
 
-            List<FactorItemViewModel> ItemList =   ViewModelList.get(position).getItemList();
-        for (int i = 0; i<ItemList.size(); i++){
-            if (ItemList.get(i).getPrice() == 0){
+        List<FactorItemViewModel> ItemList = ViewModelList.get(position).getItemList();
+        for (int i = 0; i < ItemList.size(); i++) {
+            if (ItemList.get(i).getPrice() == 0) {
                 IsZeroPrice = true;
             }
         }
@@ -96,13 +98,13 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
             double DeliveryCost = ViewModelList.get(position).getDeliveryCost();
             Double PayablePrice;
-            if (DeliveryCost <= 0){
-                PayablePrice =   ViewModelList.get(position).getTotalPrice();
-            }  else {
+            if (DeliveryCost <= 0) {
+                PayablePrice = ViewModelList.get(position).getTotalPrice();
+            } else {
                 PayablePrice = ViewModelList.get(position).getTotalPrice() + DeliveryCost;
             }
 
-            if (ViewModelList.get(position).isHasQuickOrder()){
+            if (ViewModelList.get(position).isHasQuickOrder()) {
 
                 viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman));
                 viewHolder.DescriptionPricePayableUserFactorTextView.setVisibility(View.VISIBLE);
@@ -110,19 +112,19 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
                 viewHolder.DescriptionUserFactorTextView.setVisibility(View.VISIBLE);
                 viewHolder.DescriptionUserFactorTextView.setText(Context.getResources().getString(R.string.in_your_factor_there_are_products_that_are_not_priced));
-            }else {
-               if (IsZeroPrice) {
-                   viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman) );
-                   viewHolder.DescriptionPricePayableUserFactorTextView.setVisibility(View.VISIBLE);
-                   viewHolder.DescriptionPricePayableUserFactorTextView.setText(Context.getResources().getString(R.string.price_is_not_definitive));
+            } else {
+                if (IsZeroPrice) {
+                    viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman));
+                    viewHolder.DescriptionPricePayableUserFactorTextView.setVisibility(View.VISIBLE);
+                    viewHolder.DescriptionPricePayableUserFactorTextView.setText(Context.getResources().getString(R.string.price_is_not_definitive));
 
-                   viewHolder.DescriptionUserFactorTextView.setVisibility(View.VISIBLE);
-                   viewHolder.DescriptionUserFactorTextView.setText(Context.getResources().getString(R.string.in_your_factor_there_are_products_that_are_not_priced));
-               }else {
-                   viewHolder.DescriptionUserFactorTextView.setVisibility(View.GONE);
-                   viewHolder.DescriptionPricePayableUserFactorTextView.setVisibility(View.GONE);
-                   viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman));
-               }
+                    viewHolder.DescriptionUserFactorTextView.setVisibility(View.VISIBLE);
+                    viewHolder.DescriptionUserFactorTextView.setText(Context.getResources().getString(R.string.in_your_factor_there_are_products_that_are_not_priced));
+                } else {
+                    viewHolder.DescriptionUserFactorTextView.setVisibility(View.GONE);
+                    viewHolder.DescriptionPricePayableUserFactorTextView.setVisibility(View.GONE);
+                    viewHolder.PricePayableUserFactorTextView.setText(Utility.GetIntegerNumberWithComma(PayablePrice) + " " + Context.getResources().getString(R.string.toman));
+                }
             }
         }
         viewHolder.UserFactorDeleteIconTextView.setTypeface(Font.MasterIcon);
@@ -133,9 +135,7 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             @Override
             public void onClick(View view) {
                 Position = position;
-                Context.ShowLoadingProgressBar();
-                UserFactorService userFactorService = new UserFactorService(UserFactorListRecyclerViewAdapter.this);
-                userFactorService.Delete(ViewModelList.get(position).getId());
+                ShowUserFactorDeleteDialog(position);
             }
         });
 
@@ -149,7 +149,7 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         });
 
 
-        if (IdFactorStatus == FactorStatus.Received.getId() || IdFactorStatus == FactorStatus.CanceledByBusiness.getId() || IdFactorStatus == FactorStatus.CanceledByUser.getId() || IdFactorStatus == FactorStatus.Delivered.getId()){
+        if (IdFactorStatus == FactorStatus.Received.getId() || IdFactorStatus == FactorStatus.CanceledByBusiness.getId() || IdFactorStatus == FactorStatus.CanceledByUser.getId() || IdFactorStatus == FactorStatus.Delivered.getId()) {
             viewHolder.UserFactorDeleteIconTextView.setVisibility(View.VISIBLE);
         } else {
             viewHolder.UserFactorDeleteIconTextView.setVisibility(View.GONE);
@@ -221,18 +221,18 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
     private class FactorListViewHolder extends RecyclerView.ViewHolder {
 
-         TextViewPersian UserFactorDeleteIconTextView;
-         TextViewPersian BusinessTitleTextView;
-         TextViewPersian CreateDateUserFactorTextView;
-         TextViewPersian PricePayableUserFactorTextView;
-         TextViewPersian DescriptionUserFactorTextView;
-         TextViewPersian NumberOfOrderItemsUserFactorTextView;
-         TextViewPersian UserFactorCodeTextView;
-         TextViewPersian StatusUserFactorTextView;
-         TextViewPersian DescriptionPricePayableUserFactorTextView;
-         LinearLayout UserFactorListLinearLayout;
+        TextViewPersian UserFactorDeleteIconTextView;
+        TextViewPersian BusinessTitleTextView;
+        TextViewPersian CreateDateUserFactorTextView;
+        TextViewPersian PricePayableUserFactorTextView;
+        TextViewPersian DescriptionUserFactorTextView;
+        TextViewPersian NumberOfOrderItemsUserFactorTextView;
+        TextViewPersian UserFactorCodeTextView;
+        TextViewPersian StatusUserFactorTextView;
+        TextViewPersian DescriptionPricePayableUserFactorTextView;
+        LinearLayout UserFactorListLinearLayout;
 
-         FactorListViewHolder(View v) {
+        FactorListViewHolder(View v) {
             super(v);
 
             UserFactorDeleteIconTextView = v.findViewById(R.id.UserFactorDeleteIconTextView);
@@ -244,13 +244,49 @@ public class UserFactorListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             UserFactorCodeTextView = v.findViewById(R.id.UserFactorCodeTextView);
             UserFactorListLinearLayout = v.findViewById(R.id.UserFactorListLinearLayout);
             StatusUserFactorTextView = v.findViewById(R.id.StatusUserFactorTextView);
-             DescriptionPricePayableUserFactorTextView = v.findViewById(R.id.DescriptionPricePayableUserFactorTextView);
+            DescriptionPricePayableUserFactorTextView = v.findViewById(R.id.DescriptionPricePayableUserFactorTextView);
 
         }
     }
 
 
+    private void ShowUserFactorDeleteDialog(final int Position) {
 
+        final Dialog UserFactorDeleteDialog = new Dialog(Context);
+        UserFactorDeleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        UserFactorDeleteDialog.setContentView(R.layout.dialog_yes_no_question);
+
+        ButtonPersianView DialogBusinessDeleteOkButton = UserFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionOkButton);
+        ButtonPersianView DialogBusinessDeleteCancelButton = UserFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionCancelButton);
+        TextViewPersian DialogYesNoQuestionTitleTextView = UserFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionTitleTextView);
+        TextViewPersian DialogYesNoQuestionDescriptionTextView = UserFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionDescriptionTextView);
+        TextViewPersian DialogYesNoQuestionWarningTextView = UserFactorDeleteDialog.findViewById(R.id.DialogYesNoQuestionWarningTextView);
+
+        DialogYesNoQuestionTitleTextView.setText(Context.getResources().getString(R.string.factor_delete));
+        DialogYesNoQuestionDescriptionTextView.setText(Context.getResources().getString(R.string.description_user_factor_delete));
+        DialogYesNoQuestionWarningTextView.setText("");
+
+        DialogBusinessDeleteOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserFactorDeleteDialog.dismiss();
+
+                Context.ShowLoadingProgressBar();
+                UserFactorService userFactorService = new UserFactorService(UserFactorListRecyclerViewAdapter.this);
+                userFactorService.Delete(ViewModelList.get(Position).getId());
+
+            }
+        });
+
+        DialogBusinessDeleteCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserFactorDeleteDialog.dismiss();
+            }
+        });
+        UserFactorDeleteDialog.show();
+
+    }
 
 
 }

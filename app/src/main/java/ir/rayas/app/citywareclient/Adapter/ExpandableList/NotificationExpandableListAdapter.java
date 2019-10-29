@@ -1,6 +1,7 @@
 package ir.rayas.app.citywareclient.Adapter.ExpandableList;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -36,9 +38,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import ir.rayas.app.citywareclient.Adapter.RecyclerView.BusinessFactorListRecyclerViewAdapter;
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.Repository.NotificationRepository;
+import ir.rayas.app.citywareclient.Service.Factor.BusinessFactorService;
 import ir.rayas.app.citywareclient.Service.IResponseService;
 import ir.rayas.app.citywareclient.Service.Notification.NotificationService;
 import ir.rayas.app.citywareclient.Share.Enum.FileType;
@@ -464,7 +468,8 @@ public class NotificationExpandableListAdapter extends BaseExpandableListAdapter
         DeleteIconNotificationTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChangeNotificationStatus(ViewModelList.get(groupPosition), NotificationStatus.Deleted.getId(), true);
+                ShowNotificationDeleteDialog(groupPosition);
+
             }
         });
 
@@ -550,5 +555,40 @@ public class NotificationExpandableListAdapter extends BaseExpandableListAdapter
         }
     };
 
+    private void ShowNotificationDeleteDialog(final int GroupPosition) {
 
+        final Dialog NotificationDeleteDialog = new Dialog(Context);
+        NotificationDeleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        NotificationDeleteDialog.setContentView(R.layout.dialog_yes_no_question);
+
+        ButtonPersianView DialogBusinessDeleteOkButton = NotificationDeleteDialog.findViewById(R.id.DialogYesNoQuestionOkButton);
+        ButtonPersianView DialogBusinessDeleteCancelButton = NotificationDeleteDialog.findViewById(R.id.DialogYesNoQuestionCancelButton);
+        TextViewPersian DialogYesNoQuestionTitleTextView = NotificationDeleteDialog.findViewById(R.id.DialogYesNoQuestionTitleTextView);
+        TextViewPersian DialogYesNoQuestionDescriptionTextView = NotificationDeleteDialog.findViewById(R.id.DialogYesNoQuestionDescriptionTextView);
+        TextViewPersian DialogYesNoQuestionWarningTextView = NotificationDeleteDialog.findViewById(R.id.DialogYesNoQuestionWarningTextView);
+
+        DialogYesNoQuestionTitleTextView.setText(Context.getResources().getString(R.string.notification_delete));
+        DialogYesNoQuestionDescriptionTextView.setText(Context.getResources().getString(R.string.description_notification_delete));
+        DialogYesNoQuestionWarningTextView.setText("");
+
+        DialogBusinessDeleteOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotificationDeleteDialog.dismiss();
+
+                ChangeNotificationStatus(ViewModelList.get(GroupPosition), NotificationStatus.Deleted.getId(), true);
+
+            }
+        });
+
+        DialogBusinessDeleteCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NotificationDeleteDialog.dismiss();
+            }
+        });
+
+        NotificationDeleteDialog.show();
+
+    }
 }

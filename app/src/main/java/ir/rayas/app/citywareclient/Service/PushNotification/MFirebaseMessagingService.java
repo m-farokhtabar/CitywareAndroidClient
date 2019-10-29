@@ -17,16 +17,15 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import ir.rayas.app.citywareclient.R;
 import ir.rayas.app.citywareclient.Repository.AccountRepository;
 import ir.rayas.app.citywareclient.View.Master.MainActivity;
+import ir.rayas.app.citywareclient.ViewModel.Notification.NotificationViewModel;
 import ir.rayas.app.citywareclient.ViewModel.User.AccountViewModel;
 
 
@@ -44,23 +43,29 @@ public class MFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-            handleNotification(remoteMessage.getNotification().getBody());
 
-            showNotification(remoteMessage);
-        }
+            // Check if message contains a data payload.
+            if (remoteMessage.getData().size() > 0) {
+                Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
 
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+                try {
+                    //JSONObject json = new JSONObject(remoteMessage.getData().toString());
 
-            try {
-                JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                handleDataMessage(json);
-            } catch (Exception e) {
-                Log.e(TAG, "Exception: " + e.getMessage());
+                    Gson gson = new Gson();
+                    Map<String, String> data = remoteMessage.getData();
+                    String json = gson.toJson(data);
+                    handleDataMessage(json);
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception: " + e.getMessage());
+                }
+            } else {
+                Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
+                handleNotification(remoteMessage.getNotification().getBody());
+                showNotification(remoteMessage);
             }
         }
+
+
     }
 
     private void showNotification(RemoteMessage remoteMessage) {
@@ -92,28 +97,30 @@ public class MFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void handleDataMessage(JSONObject json) {
+    //    private void handleDataMessage(JSONObject json) {
+    private void handleDataMessage(String json) {
         Log.e(TAG, "push json: " + json.toString());
 
         try {
-            JSONObject data = json.getJSONObject("data");
+            Gson gson = new Gson();
+            Type CollectionType = new TypeToken<NotificationViewModel>() {
+            }.getType();
+            NotificationViewModel Fb = gson.fromJson(json, CollectionType);
 
-            String title = data.getString("Title");
-            String message = data.getString("Message");
-            String Users = data.getString("UserIdList");
+            String title = Fb.getTitle();
+            String message = Fb.getMessage();
+            String Users = Fb.getUserIdList();
 
             Log.e(TAG, "title: " + title);
             Log.e(TAG, "message: " + message);
 
-            Gson gson = new Gson();
+            Gson UserId = new Gson();
             Type listType = new TypeToken<List<Integer>>() {
             }.getType();
-            List<Integer> UserIdList = gson.fromJson(Users, listType);
-
+            List<Integer> UserIdList = UserId.fromJson(Users, listType);
 
             AccountRepository ARepository = new AccountRepository(null);
             AccountViewModel AccountViewModel = ARepository.getAccount();
-
 
             if (UserIdList == null) {
                 Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -130,14 +137,9 @@ public class MFirebaseMessagingService extends FirebaseMessagingService {
 
                         // check for image attachment
                         showNotificationMessage(getApplicationContext(), title, message, resultIntent);
-
                     }
                 }
             }
-
-
-        } catch (JSONException e) {
-            Log.e(TAG, "Json Exception: " + e.getMessage());
         } catch (Exception e) {
             Log.e(TAG, "Exception: " + e.getMessage());
         }

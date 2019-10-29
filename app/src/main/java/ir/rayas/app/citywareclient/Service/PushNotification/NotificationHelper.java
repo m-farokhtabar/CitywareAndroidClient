@@ -2,6 +2,7 @@ package ir.rayas.app.citywareclient.Service.PushNotification;
 
 import android.app.ActivityManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -18,6 +19,8 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Patterns;
+
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,8 +43,8 @@ public class NotificationHelper {
         this.mContext = mContext;
     }
 
-    public void showNotificationMessage(String title, String message,  Intent intent) {
-        showNotificationMessage(title, message,  intent, null);
+    public void showNotificationMessage(String title, String message, Intent intent) {
+        showNotificationMessage(title, message, intent, null);
     }
 
     public void showNotificationMessage(final String title, final String message, Intent intent, String imageUrl) {
@@ -65,8 +68,9 @@ public class NotificationHelper {
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 mContext);
 
-        final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
-                + "://" + mContext.getPackageName() + "/raw/notification");
+//        final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
+//                + "://" + mContext.getPackageName() + "/raw/notification");
+        final Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         if (!TextUtils.isEmpty(imageUrl)) {
 
@@ -90,12 +94,11 @@ public class NotificationHelper {
     private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String message, PendingIntent resultPendingIntent, Uri alarmSound) {
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-
         inboxStyle.addLine(message);
 
         Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
-                .setAutoCancel(true)
+//        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+        notification = mBuilder.setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
@@ -107,16 +110,21 @@ public class NotificationHelper {
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(100, notification);
+
+
     }
 
     private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, PendingIntent resultPendingIntent, Uri alarmSound) {
+
         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
         bigPictureStyle.setBigContentTitle(title);
         bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
         bigPictureStyle.bigPicture(bitmap);
+
+
         Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
-                .setAutoCancel(true)
+//        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+        notification = mBuilder.setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)

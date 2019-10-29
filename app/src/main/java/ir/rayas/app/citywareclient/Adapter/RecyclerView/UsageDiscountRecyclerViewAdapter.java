@@ -93,19 +93,30 @@ public class UsageDiscountRecyclerViewAdapter extends RecyclerView.Adapter<Usage
         holder.UseDateLinearLayout.setVisibility(View.VISIBLE);
         holder.ExpireDateLinearLayout.setVisibility(View.GONE);
 
-        holder.DetailsBusinessButton.setText(Context.getResources().getString(R.string.details_factor));
 
-        holder.DetailsBusinessButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if (ViewModelList.get(position).getFactor() == null || ViewModelList.get(position).getFactor().equals("")){
+            holder.DetailsBusinessButton.setEnabled(false);
+            holder.DetailsBusinessButton.setClickable(false);
+            holder.DetailsBusinessButton.setText(Context.getResources().getString(R.string.not_submit_factor));
 
-                Intent FactorDetailsIntent = Context.NewIntent(CustomerFactorDetailsActivity.class);
-                FactorDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
-                Context.startActivity(FactorDetailsIntent);
+        }  else {
+            holder.DetailsBusinessButton.setEnabled(true);
+            holder.DetailsBusinessButton.setClickable(true);
+            holder.DetailsBusinessButton.setText(Context.getResources().getString(R.string.details_factor));
 
 
-            }
-        });
+            holder.DetailsBusinessButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent FactorDetailsIntent = Context.NewIntent(CustomerFactorDetailsActivity.class);
+                    FactorDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
+                    Context.startActivity(FactorDetailsIntent);
+
+
+                }
+            });
+        }
 
         holder.DetailsDiscountButton.setOnClickListener(new View.OnClickListener() {
             @Override

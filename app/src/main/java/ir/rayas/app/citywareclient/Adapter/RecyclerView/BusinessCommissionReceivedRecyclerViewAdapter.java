@@ -23,16 +23,15 @@ import ir.rayas.app.citywareclient.Share.Utility.Utility;
 import ir.rayas.app.citywareclient.View.MarketerChildren.FactorDetailsActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessCommissionActivity;
 import ir.rayas.app.citywareclient.View.MasterChildren.ShowBusinessDetailsActivity;
-import ir.rayas.app.citywareclient.View.MasterChildren.ShowCommissionDetailsActivity;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.BusinessCommissionAndDiscountViewModel;
 import ir.rayas.app.citywareclient.ViewModel.Marketing.MarketingPayedBusinessViewModel;
 
 
 public class BusinessCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapter<BusinessCommissionReceivedRecyclerViewAdapter.ViewHolder> {
 
-    private List<MarketingPayedBusinessViewModel> ViewModelList = null;
+    private List<MarketingPayedBusinessViewModel> ViewModelList;
     private ShowBusinessCommissionActivity Context;
-    private RecyclerView Container = null;
+    private RecyclerView Container ;
 
     public BusinessCommissionReceivedRecyclerViewAdapter(ShowBusinessCommissionActivity context, List<MarketingPayedBusinessViewModel> ViewModel, RecyclerView Container) {
         this.Context = context;
@@ -128,19 +127,30 @@ public class BusinessCommissionReceivedRecyclerViewAdapter extends RecyclerView.
             }
         });
 
-        holder.DetailsNoCommissionReceivedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if (ViewModelList.get(position).getFactor() == null || ViewModelList.get(position).getFactor().equals("")){
+            holder.DetailsNoCommissionReceivedButton.setEnabled(false);
+            holder.DetailsNoCommissionReceivedButton.setClickable(false);
+            holder.DetailsNoCommissionReceivedButton.setText(Context.getResources().getString(R.string.not_submit_factor));
+
+        }  else {
+            holder.DetailsNoCommissionReceivedButton.setEnabled(true);
+            holder.DetailsNoCommissionReceivedButton.setClickable(true);
+            holder.DetailsNoCommissionReceivedButton.setText(Context.getResources().getString(R.string.details_factor));
+
+            holder.DetailsNoCommissionReceivedButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 //                Intent ShowCommissionDetailsIntent = Context.NewIntent(ShowCommissionDetailsActivity.class);
 //                ShowCommissionDetailsIntent.putExtra("BusinessId", businessCommissionAndDiscountViewModel.getBusinessId());
 //                ShowCommissionDetailsIntent.putExtra("BusinessName", businessCommissionAndDiscountViewModel.getBusinessName());
 //                Context.startActivity(ShowCommissionDetailsIntent);
 
-                Intent FacturDetailsIntent = Context.NewIntent(FactorDetailsActivity.class);
-                FacturDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
-                Context.startActivity(FacturDetailsIntent);
-            }
-        });
+                    Intent FacturDetailsIntent = Context.NewIntent(FactorDetailsActivity.class);
+                    FacturDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
+                    Context.startActivity(FacturDetailsIntent);
+                }
+            });
+        }
 
 
     }

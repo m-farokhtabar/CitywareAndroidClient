@@ -105,16 +105,26 @@ public class NoCommissionReceivedRecyclerViewAdapter extends RecyclerView.Adapte
             holder.UseDateTextView.setText(ViewModelList.get(position).getUseTicketDate());
         }
 
+        if (ViewModelList.get(position).getFactor() == null || ViewModelList.get(position).getFactor().equals("")){
+            holder.DetailsFactoreButton.setEnabled(false);
+            holder.DetailsFactoreButton.setClickable(false);
+            holder.DetailsFactoreButton.setText(Context.getResources().getString(R.string.not_submit_factor));
 
-        holder.DetailsFactoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent FactorDetailsIntent = Context.NewIntent(MarketerFactorDetailsActivity.class);
-                FactorDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
-                Context.startActivity(FactorDetailsIntent);
+        }  else {
+            holder.DetailsFactoreButton.setEnabled(true);
+            holder.DetailsFactoreButton.setClickable(true);
+            holder.DetailsFactoreButton.setText(Context.getResources().getString(R.string.details_factor));
 
-            }
-        });
+            holder.DetailsFactoreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent FactorDetailsIntent = Context.NewIntent(MarketerFactorDetailsActivity.class);
+                    FactorDetailsIntent.putExtra("FactureDetails", ViewModelList.get(position).getFactor());
+                    Context.startActivity(FactorDetailsIntent);
+
+                }
+            });
+        }
 
         holder.DetailsNoCommissionReceivedButton.setOnClickListener(new View.OnClickListener() {
             @Override

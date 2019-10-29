@@ -70,18 +70,21 @@ public class MarketerFactorDetailsActivity extends BaseActivity {
         }.getType();
         marketing_customerFactorViewModel = gson.fromJson(FactorDetails, listType);
 
-        MarketerFactorDetailsRecyclerViewAdapter factorDetailsRecyclerViewAdapter = new MarketerFactorDetailsRecyclerViewAdapter(marketing_customerFactorViewModel.getDetails());
-        ProductListRecyclerViewFactorDetailsActivity.setAdapter(factorDetailsRecyclerViewAdapter);
 
         double FactorOfIncome = 0;
         double TotalPrice = 0;
 
-        if (marketing_customerFactorViewModel.getDetails()!= null) {
-            List<Marketing_CustomerFactorDetailsViewModel> ViewModelList = marketing_customerFactorViewModel.getDetails();
+        if (marketing_customerFactorViewModel != null) {
+            if (marketing_customerFactorViewModel.getDetails() != null) {
+                MarketerFactorDetailsRecyclerViewAdapter factorDetailsRecyclerViewAdapter = new MarketerFactorDetailsRecyclerViewAdapter(marketing_customerFactorViewModel.getDetails());
+                ProductListRecyclerViewFactorDetailsActivity.setAdapter(factorDetailsRecyclerViewAdapter);
 
-            for (int i = 0; i < ViewModelList.size(); i++) {
-                FactorOfIncome = FactorOfIncome + ViewModelList.get(i).getMarketerCommissionPrice();
-                TotalPrice = TotalPrice + ViewModelList.get(i).getPrice();
+                List<Marketing_CustomerFactorDetailsViewModel> ViewModelList = marketing_customerFactorViewModel.getDetails();
+
+                for (int i = 0; i < ViewModelList.size(); i++) {
+                    FactorOfIncome = FactorOfIncome + ViewModelList.get(i).getMarketerCommissionPrice();
+                    TotalPrice = TotalPrice + ViewModelList.get(i).getPrice();
+                }
             }
         }
 

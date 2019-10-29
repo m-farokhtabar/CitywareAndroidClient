@@ -626,6 +626,7 @@
     <string name="customer_search">جستجوی مشتری</string>
     <string name="customer_or_ticket_search">جستجوی تیکت یا مشخصات کاربر</string>
     <string name="details_factor">جزئیات فاکتور</string>
+    <string name="not_submit_factor">فاکتوری ثبت نشده</string>
     <string name="discount_commission">تخفیف و پورسانت</string>
     <string name="commission_un_paid">پورسانت پرداخت نشده</string>
     <string name="commission_paid">پورسانت پرداخت شده</string>
@@ -672,6 +673,12 @@
 
     <string name="message_fast_order">در حالت سفارش سریع فاکتور مشتری ثبت نخواهد شد و تنها پورسانت توسط شما مشخص خواهد شد.</string>
     <string name="please_enter_commission_total">لطفا مبلغ پورسانت کل را مشخص کنید</string>
+
+    <string name="factor_delete">حذف فاکتور</string>
+    <string name="notification_delete">حذف پیام</string>
+    <string name="description_business_factor_delete">آیا مطمئن هستید که سفارش دریافتی این کسب و کار حذف شود؟</string>
+    <string name="description_user_factor_delete">آیا مطمئن هستید که این فاکتور خرید حذف شود؟</string>
+    <string name="description_notification_delete">آیا مطمئن هستید که این پیام حذف شود؟</string>
 
 </resources>
 
