@@ -148,11 +148,10 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewMainActivity.setAdapter(isTopPosterRecyclerViewAdapter);
 
         businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
-//        businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         layoutManagerPoster = new GridLayoutManager(this, 1);
         businessPosterInfoRecyclerViewMainActivity.setHasFixedSize(true);
         businessPosterInfoRecyclerViewMainActivity.setLayoutManager(layoutManagerPoster);
-        businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
+//        businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         businessPosterInfoRecyclerViewAdapter = new BusinessPosterInfoRecyclerViewAdapter(MainActivity.this, null, businessPosterInfoRecyclerViewMainActivity);
         businessPosterInfoRecyclerViewMainActivity.setAdapter(businessPosterInfoRecyclerViewAdapter);
 
@@ -161,7 +160,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         layoutManagerBookmark = new GridLayoutManager(this, 1);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setHasFixedSize(true);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setLayoutManager(layoutManagerBookmark);
-        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setNestedScrollingEnabled(false);
+//        BusinessPosterInfoBookmarkRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         businessPosterInfoBookmarkRecyclerViewAdapter = new BusinessPosterInfoBookmarkRecyclerViewAdapter(MainActivity.this, null, BusinessPosterInfoBookmarkRecyclerViewMainActivity);
         BusinessPosterInfoBookmarkRecyclerViewMainActivity.setAdapter(businessPosterInfoBookmarkRecyclerViewAdapter);
 
