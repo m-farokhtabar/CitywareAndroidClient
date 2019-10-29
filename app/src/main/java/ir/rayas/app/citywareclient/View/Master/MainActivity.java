@@ -148,6 +148,7 @@ public class MainActivity extends BaseActivity implements IResponseService, IRes
         isTopPosterRecyclerViewMainActivity.setAdapter(isTopPosterRecyclerViewAdapter);
 
         businessPosterInfoRecyclerViewMainActivity = findViewById(R.id.BusinessPosterInfoRecyclerViewMainActivity);
+//        businessPosterInfoRecyclerViewMainActivity.setNestedScrollingEnabled(false);
         layoutManagerPoster = new GridLayoutManager(this, 1);
         businessPosterInfoRecyclerViewMainActivity.setHasFixedSize(true);
         businessPosterInfoRecyclerViewMainActivity.setLayoutManager(layoutManagerPoster);
